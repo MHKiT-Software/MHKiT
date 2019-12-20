@@ -33,6 +33,6 @@ MHKiT-Python users that are new to Pandas are encouraged to review the
 
 .. include:: mhkit-python/tidal.inc
 
-#.. include:: apidoc/api.inc
+.. include:: apidoc/api.inc
 
 #.. include:: mhkit-python/examples.inc   

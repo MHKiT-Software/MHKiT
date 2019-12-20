@@ -5,7 +5,7 @@
    :scale: 100 %
    :alt: Logo
    
-      
+
 .. toctree::
    :maxdepth: 4
    :hidden:
