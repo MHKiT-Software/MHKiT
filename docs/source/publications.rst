@@ -4,4 +4,4 @@ Publications
 ============
 
 .. Note:: 
-   Add content
+   Add publications

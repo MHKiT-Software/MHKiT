@@ -1,7 +1,7 @@
 .. _matlab:
 
-Matlab
-========
+MHKiT-Matlab
+========================
 
 .. Note:: 
-   Add content
+   Add matlab documentation from Rebecca
