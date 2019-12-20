@@ -60,8 +60,8 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'MHKiT'
-copyright = '2019, NREL, PNNL and SNL'
-author = 'Authors'
+copyright = '2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories'
+author = 'MHKiT Developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -89,7 +89,8 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['.inc','.nblink']
+#exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
+exclude_patterns = ['.inc']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -123,7 +124,6 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-# html_theme = 'alabaster'
 html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -237,7 +237,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'MHKiT.tex', 'MHKiT', 'manual'),
+    (master_doc, 'MHKiT.tex', 'MHKiT Documentation',
+     'MHKiT Developers', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -266,8 +267,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'MHKiT', u'MHKiT Documentation',
-     [author], 1)
+    (master_doc, 'MHKiT', 'MHKiT Documentation',
+     'MHKiT Developers', 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -281,7 +282,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'MHKiT', 'MHKiT Documentation',
-   author, 'MHKiT'),
+   'MHKiT Developers', 'MHKiT'),
 ]
 
 # Documents to append as an appendix to all manuals.
