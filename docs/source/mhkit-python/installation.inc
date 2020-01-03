@@ -21,7 +21,7 @@ MHKiT-Python can be installed using pip, git, or a downloaded zip file.
 	
 **git**: To install MHKiT-Python using git::
 
-	git clone https://code.primre.org/mhkit/mhkit-python 
+	git clone https://github.com/mhkit-code-hub/mhkit-python
 	cd mhkit-python
 	python setup.py install
 
