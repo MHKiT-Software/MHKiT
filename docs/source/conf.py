@@ -119,6 +119,9 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+# True to use the :rtype: role for the return type. False to output the return type inline with the description. Defaults to True.
+napoleon_use_rtype = False
+
 
 # -- Options for HTML output ----------------------------------------------
 
