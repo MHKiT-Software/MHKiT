@@ -243,6 +243,8 @@
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">data_url</span><span class="o">+</span><span class="n">api_query</span><span class="p">,</span><span class="n">proxies</span><span class="o">=</span><span class="n">proxy</span><span class="p">)</span>
         <span class="c1"># Connvert to DataFrame and save in Dictionary</span>
         <span class="n">dataFrames</span><span class="p">[</span><span class="n">date_list</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">_xml_to_dataframe</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="c1"># Future TODO: Add option to request data as json</span>
+        <span class="c1">#dataFrames[date_list[i]], metadata = _json_to_dataframe (response)</span>
     <span class="c1"># Get first DataFrame</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">dataFrames</span><span class="p">[</span><span class="n">date_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="c1"># Append all remaining DataFrames</span>
@@ -265,6 +267,32 @@
     <span class="c1">#import ipdb; ipdb.set_trace()        </span>
     <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">metadata</span></div>
 
+
+<span class="k">def</span> <span class="nf">_json_to_dataframe</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns a dataframe  and metadata from a NOAA</span>
+<span class="sd">    response.</span>
+<span class="sd">    TODO: This function currently does not return the </span>
+<span class="sd">      full dataset requested.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span>
+    <span class="c1">#import ipdb; ipdb.set_trace()        </span>
+    <span class="c1"># Initialize DataFrame</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;t&#39;</span><span class="p">]])</span>
+    <span class="c1"># Append all times to DataFrame</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])):</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> 
+                                  <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;t&#39;</span><span class="p">]]))</span>
+    <span class="c1"># Convert index to DataFram</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># Remove &#39;t&#39; becuase it is the index</span>
+    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span>
+    <span class="c1"># List of columns which are string</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)]</span> 
+    <span class="c1"># Convert columns to float</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">metadata</span>
 
 <span class="k">def</span> <span class="nf">_xml_to_dataframe</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
