@@ -49,7 +49,7 @@ Pacific Northwest National Laboratory, and
 Sandia National Laboratories.
 
 .. Note:: 
-   Add Authors and refer to 'Contributors page'
+   Add Authors and refer to 'Contributors page' on GitHub (https://github.com/MHKiT-Code-Hub/mhkit-python/graphs/contributors)
 
 
 Funding

@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mhkit.tidal.resource &mdash; MHKiT 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> MHKiT
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python.html">MHKiT-Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab.html">MHKiT-Matlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>mhkit.tidal.resource</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mhkit.tidal.resource</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span>  <span class="nn">mhkit.river.resource</span> <span class="k">import</span> <span class="n">exceedance_probability</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">linregress</span>
+<span class="c1">#from mhkit.utils import _assert_data_type</span>
+<span class="k">def</span> <span class="nf">_assert_data_type</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+
+<span class="k">def</span> <span class="nf">_histogram</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">,</span> <span class="n">width_vel</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Wrapper around numpy histogram 2D. Used to find joint probability</span>
+<span class="sd">    between directions and velocities. Returns joint probability H as [%].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array like</span>
+<span class="sd">        Directions in degrees with 0 degrees specified as true north</span>
+<span class="sd">    velocities: array like</span>
+<span class="sd">        Velocities in m/s</span>
+<span class="sd">    width_dir: float </span>
+<span class="sd">        Width of directional bins for histogram in degrees</span>
+<span class="sd">    width_vel: float </span>
+<span class="sd">        Width of velocity bins for histogram in m/s</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    H: matrix</span>
+<span class="sd">        Joint probability as [%]</span>
+<span class="sd">    dir_edges: list</span>
+<span class="sd">        List of directional bin edges</span>
+<span class="sd">    vel_edges: list</span>
+<span class="sd">        List of velocity bin edges</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Number of directional bins </span>
+    <span class="n">N_dir</span><span class="o">=</span><span class="mi">360</span><span class="o">/</span><span class="n">width_dir</span>
+    <span class="c1"># Max bin (round up to nearest integer) </span>
+    <span class="n">vel_max</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span> <span class="n">velocities</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="p">)</span>
+    <span class="c1"># Number of velocity bins</span>
+    <span class="n">N_vel</span> <span class="o">=</span> <span class="n">vel_max</span><span class="o">/</span> <span class="n">width_vel</span>
+    <span class="c1"># 2D Histogram of current speed and direction</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">dir_edges</span><span class="p">,</span> <span class="n">vel_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="n">N_dir</span><span class="p">,</span><span class="n">N_vel</span><span class="p">),</span>
+                                          <span class="nb">range</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">vel_max</span><span class="p">]],</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># density = true therefore bin value * bin area summed =1</span>
+    <span class="n">bin_area</span> <span class="o">=</span> <span class="n">width_dir</span> <span class="o">*</span> <span class="n">width_vel</span>
+    <span class="c1"># Convert H values to percent [%]</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span> <span class="n">bin_area</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">dir_edges</span><span class="p">,</span> <span class="n">vel_edges</span>
+
+
+<span class="k">def</span> <span class="nf">_normalize_angle</span><span class="p">(</span><span class="n">degree</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Normalizes degrees to be between 0 and 360</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    degree: int or float</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    new_degree: float</span>
+<span class="sd">        Normalized between 0 and 360 degrees</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Set new degree as remainder</span>
+    <span class="n">new_degree</span> <span class="o">=</span> <span class="n">degree</span><span class="o">%</span><span class="mi">360</span>
+    <span class="c1"># Ensure positive</span>
+    <span class="n">new_degree</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_degree</span> <span class="o">+</span> <span class="mi">360</span><span class="p">)</span> <span class="o">%</span> <span class="mi">360</span> 
+    <span class="k">return</span> <span class="n">new_degree</span>
+
+
+<div class="viewcode-block" id="principal_flow_direction"><a class="viewcode-back" href="../../../python.html#mhkit.tidal.resource.principal_flow_direction">[docs]</a><span class="k">def</span> <span class="nf">principal_flow_direction</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    The weighted average (over the working velocity range of the TEC) </span>
+<span class="sd">    should be considered to be the principal direction of the current, </span>
+<span class="sd">    and should be used for both the ebb and flood cycles to determine </span>
+<span class="sd">    the TEC optimum orientation. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ebb: float</span>
+<span class="sd">        Principal ebb direction in degrees</span>
+<span class="sd">    flood: float</span>
+<span class="sd">        Principal flood direction in degrees</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Number of directional bins </span>
+    <span class="n">N_dir</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">360</span><span class="o">/</span><span class="n">width_dir</span><span class="p">)</span>
+    <span class="c1"># Compute directional histogram</span>
+    <span class="n">H1</span><span class="p">,</span> <span class="n">dir_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">N_dir</span><span class="p">,</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">],</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    <span class="c1"># Convert to perecnt</span>
+    <span class="n">H1</span> <span class="o">=</span> <span class="n">H1</span> <span class="o">*</span> <span class="mi">100</span> <span class="c1"># [%]</span>
+    <span class="c1"># Determine if there are an even or odd number of bins</span>
+    <span class="n">odd</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span> <span class="n">N_dir</span> <span class="o">%</span> <span class="mi">2</span>  <span class="p">)</span>
+    <span class="c1"># Shift by 180 degrees and sum</span>
+    <span class="k">if</span> <span class="n">odd</span><span class="p">:</span>
+        <span class="c1"># Then split middle bin counts to left and right</span>
+        <span class="n">H0to180</span>    <span class="o">=</span> <span class="n">H1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span> 
+        <span class="n">H180to360</span>  <span class="o">=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">H0to180</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="o">+=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">H180to180</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+        <span class="c1">#Add the two</span>
+        <span class="n">H180</span> <span class="o">=</span> <span class="n">H0to180</span> <span class="o">+</span> <span class="n">H180to360</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">H180</span> <span class="o">=</span>  <span class="n">H1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">:</span><span class="n">N_dir</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Find the maximum value</span>
+    <span class="n">maxDegreeStacked</span> <span class="o">=</span> <span class="n">H180</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+    <span class="c1"># Shift by 90 to find angles normal to principal direction</span>
+    <span class="n">floodEbbNormalDegree1</span> <span class="o">=</span> <span class="n">_normalize_angle</span><span class="p">(</span><span class="n">maxDegreeStacked</span> <span class="o">+</span> <span class="mf">90.</span><span class="p">)</span>
+    <span class="c1"># Find the complimentary angle </span>
+    <span class="n">floodEbbNormalDegree2</span> <span class="o">=</span> <span class="n">_normalize_angle</span><span class="p">(</span><span class="n">floodEbbNormalDegree1</span><span class="o">+</span><span class="mf">180.</span><span class="p">)</span>
+    <span class="c1"># Reset values so that the Degree1 is the smaller angle, and Degree2 the large</span>
+    <span class="n">floodEbbNormalDegree1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">floodEbbNormalDegree1</span><span class="p">,</span> <span class="n">floodEbbNormalDegree2</span><span class="p">)</span>
+    <span class="n">floodEbbNormalDegree2</span> <span class="o">=</span> <span class="n">floodEbbNormalDegree1</span> <span class="o">+</span> <span class="mf">180.</span>
+    <span class="c1"># Slice directions on the 2 semi circles</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">directions</span><span class="p">[</span><span class="n">directions</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">floodEbbNormalDegree1</span><span class="p">,</span>
+                                       <span class="n">floodEbbNormalDegree2</span><span class="p">)]</span> 
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">directions</span><span class="p">[</span><span class="o">~</span><span class="n">directions</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">floodEbbNormalDegree1</span><span class="p">,</span>
+                                       <span class="n">floodEbbNormalDegree2</span><span class="p">)]</span> 
+    <span class="c1"># Shift second set of of directions to not break between 360 and 0</span>
+    <span class="n">d2</span> <span class="o">-=</span> <span class="mf">180.</span>
+    <span class="c1"># Renormalize the points (gets rid of negatives)</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">_normalize_angle</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+    <span class="c1"># Number of bins for semi-circle</span>
+    <span class="n">n_dir</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">180</span><span class="o">/</span><span class="n">width_dir</span><span class="p">)</span>
+    <span class="c1"># Compute 1D histograms on both semi circles</span>
+    <span class="n">Hd1</span><span class="p">,</span> <span class="n">dir1_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_dir</span><span class="p">,</span><span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Hd2</span><span class="p">,</span> <span class="n">dir2_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_dir</span><span class="p">,</span><span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Convert to perecnt</span>
+    <span class="n">Hd1</span> <span class="o">=</span> <span class="n">Hd1</span> <span class="o">*</span> <span class="mi">100</span> <span class="c1"># [%]</span>
+    <span class="n">Hd2</span> <span class="o">=</span> <span class="n">Hd2</span> <span class="o">*</span> <span class="mi">100</span> <span class="c1"># [%]</span>
+    <span class="c1"># Principal Directions average of the 2 bins</span>
+    <span class="n">PrincipalDirection1</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dir1_edges</span><span class="p">[</span><span class="n">Hd1</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span><span class="o">+</span> <span class="n">dir1_edges</span><span class="p">[</span><span class="n">Hd1</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">PrincipalDirection2</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dir2_edges</span><span class="p">[</span><span class="n">Hd2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span><span class="o">+</span> <span class="n">dir2_edges</span><span class="p">[</span><span class="n">Hd2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mf">180.</span>
+    <span class="k">return</span> <span class="n">PrincipalDirection1</span><span class="p">,</span> <span class="n">PrincipalDirection2</span> </div>
+    
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

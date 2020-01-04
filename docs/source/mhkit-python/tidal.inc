@@ -7,4 +7,4 @@ The :class:`~mhkit.tidal` module is in development and will contain a set of fun
 calculate relevant quantities of interest for tidal energy converters (TEC). 
 
 .. Note:: 
-   Add matlab documentation from Sterling
+   Add documentation from Sterling

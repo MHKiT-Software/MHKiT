@@ -135,12 +135,18 @@
 <li class="toctree-l4"><a class="reference internal" href="#id17">Graphics</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#tidal-api">Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tidal-api">Tidal Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">IO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Resource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">Graphics</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id20">QC Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">QC Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Wave Module</a></li>
 </ul>
 </li>
 </ul>
@@ -716,11 +722,11 @@ The functions are designed to work in parallel with the <a class="reference inte
 </div>
 <div class="section" id="tidal-module">
 <span id="tidal"></span><h2>Tidal module<a class="headerlink" href="#tidal-module" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">tidal</span></code> module is in development and will contain a set of functions to help the user
+<p>The <a class="reference internal" href="#module-mhkit.tidal" title="mhkit.tidal"><code class="xref py py-class docutils literal notranslate"><span class="pre">tidal</span></code></a> module is in development and will contain a set of functions to help the user
 calculate relevant quantities of interest for tidal energy converters (TEC).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Add matlab documentation from Sterling</p>
+<p>Add documentation from Sterling</p>
 </div>
 </div>
 <div class="section" id="api-documentation">
@@ -2028,25 +2034,123 @@ axes is used.</p></li>
 </div>
 <div class="section" id="tidal-api">
 <span id="id18"></span><h3>Tidal Module<a class="headerlink" href="#tidal-api" title="Permalink to this headline">¶</a></h3>
+<p>The tidal module contains a set of functions to
+calculate quantities of interest for tidal energy converters (TEC).</p>
+<span class="target" id="module-mhkit.tidal"></span><div class="section" id="id19">
+<h4>IO<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-mhkit.tidal.io"></span><dl class="function">
+<dt id="mhkit.tidal.io.read_noaa_json">
+<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">read_noaa_json</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mhkit/tidal/io.html#read_noaa_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns site DataFrame and metadata from a json saved from the
+request_noaa_data
+:param filename: filename with path of json file to load
+:type filename: string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>data</strong> (<em>DataFrame</em>) – Timeseries Site data of direction and speed</p></li>
+<li><p><strong>metadata</strong> (<em>dictionary</em>) – Site metadata</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.tidal.io.request_noaa_data">
+<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">write_json=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mhkit/tidal/io.html#request_noaa_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
+GET request into a pandas DataFrame. NOAA sets max of 31 days between start and end date.
+See <a class="reference external" href="https://co-ops.nos.noaa.gov/api/">https://co-ops.nos.noaa.gov/api/</a> for options. All times are reported as GMT and metric
+units are returned for data.</p>
+<p>The request URL prints to the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station</strong> (<em>str</em>) – NOAA current station number (e.g. ‘cp0101’)</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – NOAA paramter (e.g. ‘’ for Discharge, cubic feet per second)</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date in the format yyyyMMdd</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date in the format yyyyMMdd</p></li>
+<li><p><strong>proxy</strong> (<em>dict</em><em> or </em><em>None</em>) – To request data from behind a firewall, define a dictionary of proxy settings,
+for example {“http”: ‘localhost:8080’}</p></li>
+<li><p><strong>write_json</strong> (<em>str</em><em> or </em><em>None</em>) – Name of json file to write data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> – Data indexed by datetime with columns named according to the parameter’s
+variable description</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p># 10 years of daily discharge values at Tenana River near Nenana
+data = request_usgs_data(station=”15515500”, parameter=‘00065’,</p>
+<blockquote>
+<div><p>start_date=‘2009-08-01’,
+end_date=‘2019-08-01’,
+data_type=’Instantaneous’)</p>
+</div></blockquote>
+<p># 10 years of instaneous gage height measurements
+data = request_usgs_data(station=”15515500”, parameter=‘00065’,</p>
+<blockquote>
+<div><p>start_date=‘2009-08-01’,
+end_date=‘2019-08-01’,</p>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="id20">
+<h4>Resource<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-mhkit.tidal.resource"></span><dl class="function">
+<dt id="mhkit.tidal.resource.principal_flow_direction">
+<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">principal_flow_direction</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">width_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mhkit/tidal/resource.html#principal_flow_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.principal_flow_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weighted average (over the working velocity range of the TEC)
+should be considered to be the principal direction of the current,
+and should be used for both the ebb and flood cycles to determine
+the TEC optimum orientation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>ebb</strong> (<em>float</em>) – Principal ebb direction in degrees</p></li>
+<li><p><strong>flood</strong> (<em>float</em>) – Principal flood direction in degrees</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="id21">
+<h4>Device<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Add tidal API</p>
+</div>
+</div>
+<div class="section" id="id22">
+<h4>Graphics<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Add tidal API</p>
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="examples">
-<span id="id19"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <p>Jupyter notebook examples of MHKiT Python modules</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Get index to work for examples</p>
 </div>
-<div class="section" id="id20">
-<h3>QC Module<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>QC Module<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="mhkit-python/qc_example.html">Quality control analysis</a></p>
 </div>
-<div class="section" id="id22">
-<h3>Wave Module<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>Wave Module<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="mhkit-python/wave_example.html">Wave performance</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
