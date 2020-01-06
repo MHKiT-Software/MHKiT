@@ -12,8 +12,15 @@
 
    overview.rst
    terminology.rst
-   python.rst
-   matlab.rst
+   mhkit.rst
+   installation.rst
+   qc.rst
+   wave.rst
+   river.rst
+   tidal.rst
+   utils.rst
+   examples.rst   
+   apidoc.rst
    license.rst
    publications.rst
    release_notes.rst
