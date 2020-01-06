@@ -1,3 +1,7 @@
+.. raw:: html
+
+    <hr style="height:4px;border:none;color:#4682b4;background-color:#4682b4;" />
+
 .. _tidal:
 
 Tidal module

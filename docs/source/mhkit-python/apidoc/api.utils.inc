@@ -11,7 +11,3 @@ The utils module includes helper functions
     :show-inheritance:
     
 .. autofunction:: mhkit.utils.index_to_datetime
-
-
-.. Note:: 
-   Is `utils` part of QC?

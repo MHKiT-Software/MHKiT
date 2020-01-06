@@ -1,3 +1,7 @@
+.. raw:: html
+
+    <hr style="height:4px;border:none;color:#4682b4;background-color:#4682b4;" />
+
 .. _qc:
 
 QC Module
@@ -18,6 +22,8 @@ designed for quality control analysis of timeseries data.  Pecos was originally 
 
 Note, that the quality control functions require that the data has a datatime index.  
 Other functionality in MHKiT-Python can use data that has datatime or numeric indexes.  
+The mhkit-python utility function :class:`~mhkit.utils.index_to_datetime` can be used to 
+convert numeric indexes to datetime indexes.
 
 Quality control
 ^^^^^^^^^^^^^^^^^^^  
@@ -52,6 +58,3 @@ Possible strategies include:
 
 These strategies can be accomplished using the Pandas methods ``interpolate``, ``replace``, and ``fillna``.  
 See Pandas documentation for more details.
-
-The `quality control analysis <examples/qc_example.html>`_ example illustrates quality control analysis using MHK data.
-
