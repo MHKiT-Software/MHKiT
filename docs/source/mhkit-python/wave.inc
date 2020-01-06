@@ -38,6 +38,7 @@ The :class:`~mhkit.wave.io` submodule contains the following function to load Na
 data file into a pandas DataFrame, including real time and historical data.
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.wave.io.read_NDBC_file
    
@@ -48,12 +49,10 @@ Resource
 
 The :class:`~mhkit.wave.resource` submodule contains functions compute wave energy spectra and metrics.
 
-.. Note:: 
-   Are these tables helpful if they are in the API doc? Kelley things a general overview and then link to API doc would be more helpful
-
 The following functions can be used to compute wave energy spectra:
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.wave.resource.elevation_spectrum
    ~mhkit.wave.resource.pierson_moskowitz_spectrum
@@ -63,6 +62,7 @@ The following functions can be used to compute wave energy spectra:
 The following functions can be used to compute wave metrics from spectra:
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.wave.resource.surface_elevation
    ~mhkit.wave.resource.frequency_moment
@@ -87,6 +87,7 @@ The :class:`~mhkit.wave.performance` submodule contains functions to compute cap
 performance matrices, and mean annual energy production.
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.wave.performance.capture_length
    ~mhkit.wave.performance.statistics
@@ -105,6 +106,7 @@ Graphics
 The :class:`~mhkit.wave.graphics` submodule contains functions to plot wave data and related metrics.  
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.wave.graphics.plot_elevation_timeseries
    ~mhkit.wave.graphics.plot_spectrum

@@ -60,7 +60,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'MHKiT'
-copyright = '2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories'
+copyright = '2019-2020, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories'
 author = 'MHKiT Developers'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -156,6 +156,10 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+html_css_files = [
+    'css/mhkit.css',
+]
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

@@ -11,6 +11,7 @@ The :class:`~mhkit.utils` module contains helper functions.  Currently, the modu
 convert numeric indexes to datetime indexes.  Additional helper functions could be added at a later date.
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.utils.index_to_datetime
  

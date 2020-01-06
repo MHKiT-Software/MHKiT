@@ -65,7 +65,9 @@ If MHKiT-Python is not installed properly, the user will see the following Impor
     ImportError: No module named mhkit
     
 To test a simple function in MHKiT-Python, the user can compute the equivalent 
-diameter and projected capture area of a circular turbine by running the following
+diameter (ED) and projected capture area (AP) of a circular turbine by running the following
 code::
 
-    [ED, AP] = mhkit.river.circular(10)
+    [ED, AP] = mhkit.river.device.circular(30)
+    
+The results should be ED = 30 and AP = 11309.7.

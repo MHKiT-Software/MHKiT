@@ -31,7 +31,8 @@ The :class:`~mhkit.river.io` submodule contains the following functions to
 load USGS Discharge data into a pandas DataFrame.  
 
 .. autosummary::
-
+   :nosignatures:
+   
    ~mhkit.river.io.read_usgs_file
    ~mhkit.river.io.request_usgs_data
 
@@ -44,6 +45,7 @@ The polynomial is used to estimate the relationship between discharge and veloci
 or velocity and power at an individual turbine.
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.river.resource.Froude_number
    ~mhkit.river.resource.polynomial_fit
@@ -63,6 +65,7 @@ is an enclosed VAWT. A multiple-circular devices is a device with
 multiple VAWTs per device.
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.river.device.circular
    ~mhkit.river.device.ducted
@@ -75,6 +78,7 @@ The :class:`~mhkit.river.graphics` submodule contains functions to plot river da
 The functions are designed to work in parallel with the :class:`~mhkit.river.resource` submodule.
 
 .. autosummary::
+   :nosignatures:
 
    ~mhkit.river.graphics.plot_flow_duration_curve
    ~mhkit.river.graphics.plot_velocity_duration_curve

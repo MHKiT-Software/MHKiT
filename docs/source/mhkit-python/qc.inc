@@ -31,7 +31,8 @@ The following quality control functions are available in MHKiT-Python.
 Additional functionality, including graphics and reports, can be included in quality control analysis by using Pecos directly. More information on the quality control functions be found at https://pecos.readthedocs.io.
 
 .. autosummary::
-
+   :nosignatures:
+   
    ~mhkit.qc.check_timestamp
    ~mhkit.qc.check_missing
    ~mhkit.qc.check_corrupt
