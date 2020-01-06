@@ -2,6 +2,9 @@
 
 Installation
 --------------
+MHKiT-Matlab utilizes the MHKiT-Python functions, therefore MHKiT-Python needs to be installed. Follow the MHKiT-Python installation instructions 
+at https://mhkit-code-hub.github.io/mhkit/python.html#installation before proceeding to the MHKiT-Matlab installation instructions below. 
+
 Download mhkit.mltbx from https://github.com/MHKiT-Code-Hub/mhkit-matlab. 
 In Matlab, navigate to the folder where you downloaded mhkit.mltbx to, double click on it, and the toolbox will install automatically. 
 
