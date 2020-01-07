@@ -1,0 +1,36 @@
+
+testpages:
+  image: alpine
+  tags:
+    - primre
+  variables:
+    AWS_DEFAULT_REGION: us-west-2
+    BUCKET_NAME: testcodedocs.primre.org
+  script:
+  - apk --no-cache add py2-pip python-dev
+  - pip install sphinx awscli
+  - apk --no-cache add make
+  - cd docs
+  - make html
+  - mv _build/html/ public/
+  - aws s3 cp public s3://${BUCKET_NAME}/${CI_PROJECT_PATH}/${CI_COMMIT_REF_SLUG} --recursive
+
+
+pages:
+  image: alpine
+  tags:
+    - primre
+  variables:
+    AWS_DEFAULT_REGION: us-west-2
+    BUCKET_NAME: codedocs.primre.org
+  script:
+  - apk --no-cache add py2-pip python-dev
+  - pip install sphinx awscli
+  - apk --no-cache add make
+  - cd docs
+  - make html
+  - mv _build/html/ public/
+  - aws s3 cp public s3://${BUCKET_NAME}/${CI_PROJECT_PATH}/${CI_COMMIT_REF_SLUG} --recursive
+  only:
+  - master
+
