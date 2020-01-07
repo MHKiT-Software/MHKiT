@@ -3,7 +3,7 @@
 Terminology
 ===========
 
-The following terminology is used in MHKiT-Python
+The following terminology is used in MHKiT:
 
 ======================= ===================================================
 Term       	 	Definition [unit]
