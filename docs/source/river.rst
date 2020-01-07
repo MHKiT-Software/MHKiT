@@ -5,89 +5,13 @@ River Module
 
 The river module contains a set of functions to 
 calculate quantities of interest for river energy converters (REC). 
+
 The river module contains the following submodules:
 
-* :ref:`river_io`: Loads data from standard formats
-* :ref:`river_resource`: Computes resource metrics such as exceedance probability, velocity, and power
-* :ref:`river_device`: Computes device metrics such as equivalent diameter and capture area
-* :ref:`river_graphics`: Generates graphics
+* ``io``: Loads data from standard formats
+* ``resource``: Computes resource metrics such as exceedance probability, velocity, and power
+* ``device``: Computes device metrics such as equivalent diameter and capture area
+* ``graphics``: Generates graphics
 
-Data formats
---------------
-
-The river module uses discharge data.
-**Note, IEC/TS 62600-100 recommends that river resource calculations use 10 years of daily discharge data.**
-      
-* When using MHKiT-Python, discharge data is stored as a pandas DataFrame indexed by time.  
-  Time can be specified in datetime or in seconds.  The column names describe the type of data in each column. 
-* When using MHKiT-Matlab, discharge data is stored as ...
-  
-.. _river_io:
-
-IO
----------------
-The io submodule contains the following functions to 
-load USGS discharge data.  
-
-.. autosummary::
-   :nosignatures:
-   
-   ~mhkit.river.io.read_usgs_file
-   ~mhkit.river.io.request_usgs_data
-
-.. _river_resource:
-
-Resource
-------------
-The resource submodule uses discharge data to compute 
-exeedance probability, velocity, and power.  The module also contains functions
-to compute the Froude number and to fit a polynomial to a series of points.
-The polynomial is used to estimate the relationship between discharge and velocity 
-or velocity and power at an individual turbine.
-
-.. autosummary::
-   :nosignatures:
-
-   ~mhkit.river.resource.Froude_number
-   ~mhkit.river.resource.polynomial_fit
-   ~mhkit.river.resource.exceedance_probability
-   ~mhkit.river.resource.discharge_to_velocity
-   ~mhkit.river.resource.velocity_to_power
- 
-.. TODO Add Annual energy produced (AEP)
-
-.. _river_device:
-
-Device 
------------
-The device submodule contains functions to compute equivalent diameter 
-and capture area for circular, ducted, rectangular, adn multiple circular devices. 
-A circular device is a vertical axis water turbine (VAWT). A 
-rectangular device is a horizontal axis water turbine. A ducted device
-is an enclosed VAWT. A multiple-circular devices is a device with
-multiple VAWTs per device.
-
-.. autosummary::
-   :nosignatures:
-
-   ~mhkit.river.device.circular
-   ~mhkit.river.device.ducted
-   ~mhkit.river.device.rectangular
-   ~mhkit.river.device.multiple_circular
-
-.. _river_graphics:
-   
-Graphics
--------------
-The graphics submodule contains functions to plot river resource data and related metrics.  
-
-.. autosummary::
-   :nosignatures:
-
-   ~mhkit.river.graphics.plot_flow_duration_curve
-   ~mhkit.river.graphics.plot_velocity_duration_curve
-   ~mhkit.river.graphics.plot_power_duration_curve
-   ~mhkit.river.graphics.plot_discharge_timeseries
-   ~mhkit.river.graphics.plot_discharge_vs_velocity
-   ~mhkit.river.graphics.plot_velocity_vs_power
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the river module.
 

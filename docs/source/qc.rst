@@ -12,29 +12,20 @@ stagnant readings, unusual abrupt changes, or outliers.
 If data does not meet specified requirements, the data points that did not pass inspection should be 
 removed or replaced by various means (interpolation, data from a duplicate sensor, values from a model) before using the data in analysis.
 
-The qc module contains a set of functions to for basic quality control analysis.  
+The QC module contains a set of functions to for basic quality control analysis.  
 These functions are imported from `Pecos <https://pecos.readthedocs.io>`_, an open source Python package 
 designed for quality control analysis of timeseries data.  Pecos was originally developed to monitor solar photovoltaic systems, but is designed to be used for a wide range of applications.
 
-Note, that the quality control functions require that the data has a datatime index.  
-Other functionality in MHKiT can use data that has datatime or numeric indexes.  
-The MHKiT utility function :class:`~mhkit.utils.index_to_datetime` can be used to 
-convert numeric indexes to datetime indexes.
+The following quality control functionality are available in MHKiT:
 
-Quality control
-^^^^^^^^^^^^^^^^^^^  
-The following quality control functions are available in MHKiT.  
-Additional functionality, including graphics and reports, can be included in quality control analysis by using Pecos directly. More information on the quality control functions be found at https://pecos.readthedocs.io.
+* Check time series for missing, non-monotonic and duplicate timestamps
+* Check for missing data
+* Check for corrupt data
+* Check for data that is outside expected range
+* Check for stagant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window
+* Check for outliers using normalized data within a rolling window
 
-.. autosummary::
-   :nosignatures:
-   
-   ~mhkit.qc.check_timestamp
-   ~mhkit.qc.check_missing
-   ~mhkit.qc.check_corrupt
-   ~mhkit.qc.check_range
-   ~mhkit.qc.check_delta
-   ~mhkit.qc.check_outlier
+Additional functionality, including graphics and reports, can be included in quality control analysis by using Pecos directly. 
 
 Each function returns the following information:
 
@@ -55,3 +46,9 @@ Possible strategies include:
 
 These strategies can be accomplished using the Pandas methods ``interpolate``, ``replace``, and ``fillna``.  
 See Pandas documentation for more details.
+
+Note, that the quality control functions require that the data has a datatime index.  
+Other functionality in MHKiT can use data that has datatime or numeric indexes.  
+The :ref:`utils` can be used to convert numeric indexes to datetime indexes.
+
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the QC module.

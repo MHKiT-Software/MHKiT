@@ -86,18 +86,14 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mhkit.html">MHKiT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">QC Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#quality-control">Quality control</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">QC Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wave.html">Wave Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="river.html">River Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">MHKiT-Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab.html">MHKiT-MATLAB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
@@ -200,43 +196,19 @@ Additional analysis can include checking for
 stagnant readings, unusual abrupt changes, or outliers.
 If data does not meet specified requirements, the data points that did not pass inspection should be
 removed or replaced by various means (interpolation, data from a duplicate sensor, values from a model) before using the data in analysis.</p>
-<p>The qc module contains a set of functions to for basic quality control analysis.
+<p>The QC module contains a set of functions to for basic quality control analysis.
 These functions are imported from <a class="reference external" href="https://pecos.readthedocs.io">Pecos</a>, an open source Python package
 designed for quality control analysis of timeseries data.  Pecos was originally developed to monitor solar photovoltaic systems, but is designed to be used for a wide range of applications.</p>
-<p>Note, that the quality control functions require that the data has a datatime index.
-Other functionality in MHKiT can use data that has datatime or numeric indexes.
-The MHKiT utility function <a class="reference internal" href="apidoc.html#mhkit.utils.index_to_datetime" title="mhkit.utils.index_to_datetime"><code class="xref py py-class docutils literal notranslate"><span class="pre">index_to_datetime</span></code></a> can be used to
-convert numeric indexes to datetime indexes.</p>
-<div class="section" id="quality-control">
-<h2>Quality control<a class="headerlink" href="#quality-control" title="Permalink to this headline">¶</a></h2>
-<p>The following quality control functions are available in MHKiT.
-Additional functionality, including graphics and reports, can be included in quality control analysis by using Pecos directly. More information on the quality control functions be found at <a class="reference external" href="https://pecos.readthedocs.io">https://pecos.readthedocs.io</a>.</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="apidoc.html#mhkit.qc.check_timestamp" title="mhkit.qc.check_timestamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_timestamp</span></code></a></p></td>
-<td><p>Check time series for missing, non-monotonic and duplicate timestamps</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="apidoc.html#mhkit.qc.check_missing" title="mhkit.qc.check_missing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_missing</span></code></a></p></td>
-<td><p>Check for missing data</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="apidoc.html#mhkit.qc.check_corrupt" title="mhkit.qc.check_corrupt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_corrupt</span></code></a></p></td>
-<td><p>Check for corrupt data</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="apidoc.html#mhkit.qc.check_range" title="mhkit.qc.check_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_range</span></code></a></p></td>
-<td><p>Check for data that is outside expected range</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="apidoc.html#mhkit.qc.check_delta" title="mhkit.qc.check_delta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_delta</span></code></a></p></td>
-<td><p>Check for stagant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="apidoc.html#mhkit.qc.check_outlier" title="mhkit.qc.check_outlier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_outlier</span></code></a></p></td>
-<td><p>Check for outliers using normalized data within a rolling window</p></td>
-</tr>
-</tbody>
-</table>
+<p>The following quality control functionality are available in MHKiT:</p>
+<ul class="simple">
+<li><p>Check time series for missing, non-monotonic and duplicate timestamps</p></li>
+<li><p>Check for missing data</p></li>
+<li><p>Check for corrupt data</p></li>
+<li><p>Check for data that is outside expected range</p></li>
+<li><p>Check for stagant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window</p></li>
+<li><p>Check for outliers using normalized data within a rolling window</p></li>
+</ul>
+<p>Additional functionality, including graphics and reports, can be included in quality control analysis by using Pecos directly.</p>
 <p>Each function returns the following information:</p>
 <ul class="simple">
 <li><p>Cleaned data (data that failed a test is replaced by NaN)</p></li>
@@ -256,7 +228,10 @@ Possible strategies include:</p>
 </ul>
 <p>These strategies can be accomplished using the Pandas methods <code class="docutils literal notranslate"><span class="pre">interpolate</span></code>, <code class="docutils literal notranslate"><span class="pre">replace</span></code>, and <code class="docutils literal notranslate"><span class="pre">fillna</span></code>.
 See Pandas documentation for more details.</p>
-</div>
+<p>Note, that the quality control functions require that the data has a datatime index.
+Other functionality in MHKiT can use data that has datatime or numeric indexes.
+The <a class="reference internal" href="utils.html#utils"><span class="std std-ref">Utils Module</span></a> can be used to convert numeric indexes to datetime indexes.</p>
+<p>See <a class="reference internal" href="python.html#python"><span class="std std-ref">MHKiT-Python</span></a> or <a class="reference internal" href="matlab.html#matlab"><span class="std std-ref">MHKiT-Matlab</span></a> for more details on the QC module.</p>
 </div>
 
 
