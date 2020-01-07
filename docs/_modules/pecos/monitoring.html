@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/mhkit.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -166,10 +168,11 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pecos.utils</span> <span class="k">import</span> <span class="n">datetime_to_clocktime</span><span class="p">,</span> <span class="n">datetime_to_elapsedtime</span>
 
 <span class="n">none_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="s1">&#39;None&#39;</span><span class="p">,</span><span class="s1">&#39;NONE&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="p">{}]</span>
-<span class="n">NoneType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -280,15 +283,20 @@
 <span class="sd">        Compare DataFrame to bounds to generate a True/False mask where</span>
 <span class="sd">        True = passed, False = failed.  Append results to test_results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
+        <span class="c1"># Evaluate strings in bound values</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bound</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">none_list</span><span class="p">:</span>
+                <span class="n">bound</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="c1"># Lower Bound</span>
-        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">none_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span> <span class="o">&lt;</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">error_msg</span> <span class="o">=</span> <span class="n">error_prefix</span><span class="o">+</span><span class="s1">&#39; &lt; lower bound, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
 
         <span class="c1"># Upper Bound</span>
-        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">none_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">error_msg</span> <span class="o">=</span> <span class="n">error_prefix</span><span class="o">+</span><span class="s1">&#39; &gt; upper bound, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
@@ -369,7 +377,8 @@
                     <span class="n">length</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">],</span>
                     <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Variable Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Start Time&#39;</span><span class="p">,</span>
                     <span class="s1">&#39;End Time&#39;</span><span class="p">,</span> <span class="s1">&#39;Timesteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Error Flag&#39;</span><span class="p">])</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">frame_t</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame_t</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">add_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -380,8 +389,8 @@
 <span class="sd">        data : pandas DataFrame</span>
 <span class="sd">            Data to add to the PerformanceMonitoring object, indexed by datetime</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">),</span> <span class="s1">&#39;data must be of type pd.DataFrame&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">datetimes</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">),</span> <span class="s1">&#39;data.index must be a DatetimeIndex&#39;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">datetimes</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">)</span>
         
         <span class="n">temp</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
@@ -406,8 +415,6 @@
 <span class="sd">        trans : dictionary</span>
 <span class="sd">            Translation dictionary</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="s1">&#39;trans must be of type dictionary&#39;</span>
-        
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">trans</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trans</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
@@ -422,8 +429,6 @@
 <span class="sd">        time_filter : pandas DataFrame with a single column or pandas Series</span>
 <span class="sd">            Time filter containing boolean values for each time index</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_filter</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)),</span> <span class="s1">&#39;time_filter must be of type pd.Series or pd.DataFrame&#39;</span>
-        
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_filter</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time_filter</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -439,7 +444,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        frequency : int or float</span>
+<span class="sd">        frequency : int</span>
 <span class="sd">            Expected time series frequency, in seconds</span>
 
 <span class="sd">        expected_start_time : Timestamp (optional)</span>
@@ -463,12 +468,6 @@
 <span class="sd">            interval (specified in frequency) and the DataFrame is not</span>
 <span class="sd">            reindexed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)),</span> <span class="s1">&#39;frequency must be of type int or float&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected_start_time</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)),</span> <span class="s1">&#39;expected_start_time must be None or of type pd.Timestamp&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected_end_time</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">)),</span> <span class="s1">&#39;expected_end_time must be None or of type pd.Timestamp&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be of type int&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exact_times</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;exact_times must be of type bool&#39;</span>
-        
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check timestamp&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
@@ -558,11 +557,7 @@
 <span class="sd">            Minimum number of consecutive failures required for reporting,</span>
 <span class="sd">            default = 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;bound must be of type list&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be of type int&#39;</span>
-        
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for data outside expected range&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check data range&quot;</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -597,13 +592,7 @@
 <span class="sd">            Minimum number of consecutive failures required for reporting,</span>
 <span class="sd">            default = 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;bound must be of type list&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">increment</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;increment must be of type int&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">absolute_value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;absolute_value must be of type bool&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be of type int&#39;</span>
-        
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for data increment outside expected range&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check increment range&quot;</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -627,12 +616,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_generate_test_results</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">,</span> <span class="n">error_prefix</span><span class="p">)</span>
     
 
-    <span class="k">def</span> <span class="nf">check_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>  <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="k">def</span> <span class="nf">check_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">absolute_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                     <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check for stagant data and/or abrupt changes in the data using the </span>
-<span class="sd">        difference between max and min values (delta) within a rolling window</span>
-<span class="sd">        </span>
+<span class="sd">        difference between max and min values within a rolling window</span>
+<span class="sd">          </span>
+<span class="sd">        Note, this method is currently NOT efficient for large</span>
+<span class="sd">        data sets (&gt; 100000 pts) because it uses df.rolling().apply() to find</span>
+<span class="sd">        the position of the min and max). This method requires pandas 0.23 or greater.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        bound : list of floats</span>
@@ -643,31 +636,18 @@
 <span class="sd">            Data column name or translation dictionary key. If not specified, </span>
 <span class="sd">            all columns are used in the test.</span>
 
-<span class="sd">        window : int or float (optional)</span>
+<span class="sd">        window : int (optional)</span>
 <span class="sd">            Size of the rolling window (in seconds) used to compute delta,</span>
 <span class="sd">            default = 3600</span>
 
-<span class="sd">        direction : str (optional)</span>
-<span class="sd">            Options = &#39;positive&#39;, &#39;negative&#39;, or None</span>
-<span class="sd">            </span>
-<span class="sd">            * If direction is positive, then only identify positive deltas </span>
-<span class="sd">              (the min occurs before the max) </span>
-<span class="sd">            * If direction is negative, then only identify negative deltas </span>
-<span class="sd">              (the max occurs before the min)</span>
-<span class="sd">            * If direction is None, then identify both positive and negative </span>
-<span class="sd">              deltas</span>
-<span class="sd">            </span>
+<span class="sd">        absolute_value : boolean (optional)</span>
+<span class="sd">            Use the absolute value of delta, default = True</span>
+
 <span class="sd">        min_failures : int (optional)</span>
 <span class="sd">            Minimum number of consecutive failures required for reporting,</span>
 <span class="sd">            default = 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;bound must be of type list&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)),</span> <span class="s1">&#39;window must be of type int or float&#39;</span>
-        <span class="k">assert</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;positive&#39;</span><span class="p">,</span> <span class="s1">&#39;negative&#39;</span><span class="p">],</span> <span class="s2">&quot;direction must None or the string &#39;positive&#39; or &#39;negative&#39;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be of type int&#39;</span>
-        
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for stagant data and/or abrupt changes using delta (max-min) within a rolling window&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check delta (max-min) range&quot;</span><span class="p">)</span>
         
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -675,81 +655,83 @@
 
         <span class="n">window_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">window</span><span class="o">*</span><span class="mf">1e3</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;ms&#39;</span> <span class="c1"># milliseconds</span>
 
-        <span class="n">min_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
-        <span class="n">max_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span> <span class="c1"># there has to be at least two numbers</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;idxmin&#39;</span><span class="p">:</span>
+                    <span class="c1"># Can&#39;t return a timestamp, convert to num, then back to timestamp</span>
+                    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+                <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;idxmax&#39;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+                <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">tmin_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;idxmin&#39;</span><span class="p">),</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># raw = False passes a Series</span>
+        <span class="n">tmin_df</span> <span class="o">=</span> <span class="n">tmin_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">)</span>
+        <span class="c1"># Note, the next line should be replaced with df.rolling(window_str).min(),</span>
+        <span class="c1"># but the solution is not the same with pandas 0.23</span>
+        <span class="n">min_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">),</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">tmax_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;idxmax&#39;</span><span class="p">),</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">tmax_df</span> <span class="o">=</span> <span class="n">tmax_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">)</span>
+        <span class="c1"># Same note as above, for max</span>
+        <span class="n">max_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">),</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="n">diff_df</span> <span class="o">=</span> <span class="n">max_df</span> <span class="o">-</span> <span class="n">min_df</span>
-        <span class="n">diff_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">diff_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">diff_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">window_str</span><span class="p">),:]</span> <span class="o">=</span> <span class="kc">None</span>
-        
-        <span class="k">def</span> <span class="nf">update_mask</span><span class="p">(</span><span class="n">mask1</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">window_str</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
-            <span class="c1"># While the mask flags data at the time at which the failure occurs, </span>
-            <span class="c1"># the actual timespan betwen the min and max should be flagged so that </span>
-            <span class="c1"># the final results include actual data points that caused the failure.</span>
-            <span class="c1"># This function uses numpy arrays to improve performance and returns</span>
-            <span class="c1"># a mask DataFrame.</span>
-            <span class="n">mask2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">mask1</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">mask1</span><span class="o">.</span><span class="n">columns</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="n">mask1</span><span class="o">.</span><span class="n">index</span>
-            <span class="c1"># Loop over t, col in mask1 where condition is True</span>
-            <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">col</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mask1</span><span class="p">[</span><span class="n">mask1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-                <span class="n">icol</span> <span class="o">=</span> <span class="n">mask1</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-                <span class="n">it</span> <span class="o">=</span> <span class="n">mask1</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-                <span class="n">t1</span> <span class="o">=</span> <span class="n">t</span><span class="o">-</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">absolute_value</span><span class="p">:</span>
+            <span class="n">reverse_order</span> <span class="o">=</span> <span class="n">tmax_df</span> <span class="o">&lt;</span> <span class="n">tmin_df</span>
+            <span class="n">diff_df</span><span class="p">[</span><span class="n">reverse_order</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">diff_df</span><span class="p">[</span><span class="n">reverse_order</span><span class="p">]</span>
 
-                <span class="k">if</span> <span class="p">(</span><span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lower&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">direction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-                    <span class="c1"># set the entire time interval to True</span>
-                    <span class="n">mask2</span><span class="p">[(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">t1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">),</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                
-                <span class="k">else</span><span class="p">:</span> 
-                    <span class="c1"># extract the min and max time</span>
-                    <span class="n">min_time</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t1</span><span class="p">:</span><span class="n">t</span><span class="p">,</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
-                    <span class="n">max_time</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t1</span><span class="p">:</span><span class="n">t</span><span class="p">,</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
-                    
-                    <span class="k">if</span> <span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;lower&#39;</span><span class="p">:</span> <span class="c1"># bound = upper, direction = positive or negative</span>
-                        <span class="c1"># set the entire time interval to True</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;positive&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">min_time</span> <span class="o">&lt;=</span> <span class="n">max_time</span><span class="p">):</span>
-                            <span class="n">mask2</span><span class="p">[(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">t1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">),</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="k">elif</span> <span class="p">(</span><span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;negative&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">min_time</span> <span class="o">&gt;=</span> <span class="n">max_time</span><span class="p">):</span>
-                            <span class="n">mask2</span><span class="p">[(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">t1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">t</span><span class="p">),</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                    
-                    <span class="k">elif</span> <span class="n">bound</span> <span class="o">==</span> <span class="s1">&#39;upper&#39;</span><span class="p">:</span> <span class="c1"># bound = upper, direction = None, positive or negative</span>
-                        <span class="c1"># set the initially flaged location to False</span>
-                        <span class="n">mask2</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="c1"># set the time between max/min or min/max to true</span>
-                        <span class="k">if</span> <span class="n">min_time</span> <span class="o">&lt;</span> <span class="n">max_time</span> <span class="ow">and</span> <span class="p">(</span><span class="n">direction</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;positive&#39;</span><span class="p">):</span>
-                            <span class="n">mask2</span><span class="p">[(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">min_time</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">max_time</span><span class="p">),</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="k">elif</span> <span class="n">min_time</span> <span class="o">&gt;</span> <span class="n">max_time</span> <span class="ow">and</span> <span class="p">(</span><span class="n">direction</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;negative&#39;</span><span class="p">):</span>
-                            <span class="n">mask2</span><span class="p">[(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">max_time</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">min_time</span><span class="p">),</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="k">elif</span> <span class="n">min_time</span> <span class="o">==</span> <span class="n">max_time</span><span class="p">:</span>
-                            <span class="n">mask2</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">icol</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                        
-            <span class="n">mask2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mask2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mask1</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">mask1</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">mask2</span>
-        
-        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;positive&#39;</span><span class="p">:</span>
-            <span class="n">error_prefix</span> <span class="o">=</span> <span class="s1">&#39;Delta (+)&#39;</span>
-        <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;negative&#39;</span><span class="p">:</span>
-            <span class="n">error_prefix</span> <span class="o">=</span> <span class="s1">&#39;Delta (-)&#39;</span>
+        <span class="k">if</span> <span class="n">absolute_value</span><span class="p">:</span>
+            <span class="n">error_prefix</span> <span class="o">=</span> <span class="s1">&#39;|Delta|&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">error_prefix</span> <span class="o">=</span> <span class="s1">&#39;Delta&#39;</span>
-        
-        <span class="c1"># Lower Bound</span>
-        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">none_list</span><span class="p">:</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_df</span> <span class="o">&lt;</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">error_prefix</span><span class="o">+</span><span class="s1">&#39; &lt; lower bound, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-                <span class="n">mask</span><span class="p">[</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="n">update_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">window_str</span><span class="p">,</span> <span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span> 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
-        
-        <span class="c1"># Upper Bound</span>
-        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">none_list</span><span class="p">:</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_df</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">error_prefix</span><span class="o">+</span><span class="s1">&#39; &gt; upper bound, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-                <span class="n">mask</span><span class="p">[</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="n">update_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">window_str</span><span class="p">,</span> <span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span> 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
 
+        <span class="c1"># Evaluate strings for bound values</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bound</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">none_list</span><span class="p">:</span>
+                <span class="n">bound</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">def</span> <span class="nf">extract_exact_position</span><span class="p">(</span><span class="n">mask1</span><span class="p">,</span> <span class="n">tmin_df</span><span class="p">,</span> <span class="n">tmax_df</span><span class="p">):</span>
+            <span class="n">mask2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mask1</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">mask1</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="c1"># Loop over t, col in mask1 where condition is True</span>
+            <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">col</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mask1</span><span class="p">[</span><span class="n">mask1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+                <span class="c1"># set the initially flaged location to False</span>
+                <span class="n">mask2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="c1"># extract the start and end time</span>
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">tmin_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
+                <span class="n">end_time</span> <span class="o">=</span> <span class="n">tmax_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
+                <span class="c1"># update mask2</span>
+                <span class="k">if</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">end_time</span><span class="p">:</span>
+                    <span class="n">mask2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">start_time</span><span class="p">:</span><span class="n">end_time</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># set the time between max and min to true</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">mask2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">end_time</span><span class="p">:</span><span class="n">start_time</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># set the time between max and min to true</span>
+            <span class="k">return</span> <span class="n">mask2</span>
+
+        <span class="c1"># Lower Bound</span>
+        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_df</span> <span class="o">&lt;</span> <span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">mask</span><span class="p">[</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">extract_exact_position</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">tmin_df</span><span class="p">,</span> <span class="n">tmax_df</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_prefix</span><span class="o">+</span><span class="s1">&#39; &lt; lower bound, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                         <span class="n">min_failures</span><span class="o">=</span><span class="n">min_failures</span><span class="p">)</span>
+
+        <span class="c1"># Upper Bound</span>
+        <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_df</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">mask</span><span class="p">[</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">extract_exact_position</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">tmin_df</span><span class="p">,</span> <span class="n">tmax_df</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_prefix</span><span class="o">+</span><span class="s1">&#39; &gt; upper bound, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">bound</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                         <span class="n">min_failures</span><span class="o">=</span><span class="n">min_failures</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">check_outlier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">absolute_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                       <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -769,7 +751,7 @@
 <span class="sd">            Data column name or translation dictionary key. If not specified, </span>
 <span class="sd">            all columns are used in the test.</span>
 
-<span class="sd">        window : int or float (optional)</span>
+<span class="sd">        window : int or None (optional)</span>
 <span class="sd">            Size of the rolling window (in seconds) used to normalize data,</span>
 <span class="sd">            default = 3600.  If window is set to None, data is normalized using</span>
 <span class="sd">            the entire data sets mean and standard deviation (column by column).</span>
@@ -781,12 +763,6 @@
 <span class="sd">            Minimum number of consecutive failures required for reporting,</span>
 <span class="sd">            default = 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;bound must be of type list&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)),</span> <span class="s1">&#39;window must be None or of type int or float&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">absolute_value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;absolute_value must be of type bool&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be type int&#39;</span>
-        
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for outliers&quot;</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -796,9 +772,7 @@
         <span class="c1"># Compute normalized data</span>
         <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">window_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">window</span><span class="o">*</span><span class="mf">1e3</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;ms&#39;</span> <span class="c1"># milliseconds</span>
-            <span class="n">df_mean</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">df_std</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span> <span class="o">-</span> <span class="n">df_mean</span><span class="p">)</span><span class="o">/</span><span class="n">df_std</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window_str</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span> <span class="o">-</span> <span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">df</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">absolute_value</span><span class="p">:</span>
@@ -828,9 +802,6 @@
 <span class="sd">            Minimum number of consecutive failures required for reporting,</span>
 <span class="sd">            default = 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be type int&#39;</span>
-        
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for missing data&quot;</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -853,7 +824,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        corrupt_values : list of int or floats</span>
+<span class="sd">        corrupt_values : list of floats</span>
 <span class="sd">            List of corrupt data values</span>
 
 <span class="sd">        key : string (optional)</span>
@@ -864,10 +835,6 @@
 <span class="sd">            Minimum number of consecutive failures required for reporting,</span>
 <span class="sd">            default = 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">corrupt_values</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;corrupt_values must be of type list&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be type int&#39;</span>
-        
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for corrupt data&quot;</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_data</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -921,18 +888,19 @@
 
 
 <div class="viewcode-block" id="check_delta"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_delta">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_delta</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">check_delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">check_delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">absolute_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="n">pm</span> <span class="o">=</span> <span class="n">PerformanceMonitoring</span><span class="p">()</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">add_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">check_delta</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">check_delta</span><span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">absolute_value</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">mask</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="check_outlier"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_outlier">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_outlier</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">check_outlier</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">absolute_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+<span class="k">def</span> <span class="nf">check_outlier</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">absolute_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="n">pm</span> <span class="o">=</span> <span class="n">PerformanceMonitoring</span><span class="p">()</span>
@@ -992,26 +960,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
