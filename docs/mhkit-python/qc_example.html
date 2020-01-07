@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -384,10 +386,10 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Example:-Quality-Control-Module">
 <h1>Example: Quality Control Module<a class="headerlink" href="#Example:-Quality-Control-Module" title="Permalink to this headline">¶</a></h1>
-<p>The following example runs a simple quality control analysis on wave elevation data. The source code for MHKiT’s qc module is in the <cite>\MHKiT:nbsphinx-math:</cite>qc` &lt;<a class="reference external" href="https://code.primre.org/mhkit/mhkit-python/tree/master/mhkit/wave">https://code.primre.org/mhkit/mhkit-python/tree/master/mhkit/wave</a>&gt;`__ directory. The data file used in this example is stored in the <cite>\MHKiT:nbsphinx-math:</cite>examples`:nbsphinx-math:<cite>data</cite> &lt;<a class="reference external" href="https://code.primre.org/mhkit/mhkit-python/tree/master/examples/data">https://code.primre.org/mhkit/mhkit-python/tree/master/examples/data</a>&gt;`__ directory.</p>
+<p>The following example runs a simple quality control analysis on wave elevation data. The data file used in this example is stored in the <cite>\MHKiT:nbsphinx-math:</cite>examples`:nbsphinx-math:<cite>data</cite> &lt;<a class="reference external" href="https://github.com/MHKiT-Code-Hub/MHKiT-Python/tree/master/examples/data">https://github.com/MHKiT-Code-Hub/MHKiT-Python/tree/master/examples/data</a>&gt;`__ directory.</p>
 <p>Start by importing the necessary modules:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -398,13 +400,14 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Then load the data into a pandas DataFrame. The data includes several issues, including timestamps that are out of order, corrupt data with values of -999, data outside expected range, and stagant data. The first 5 rows of data are shown below, along with a plot.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/wave_elevation_data.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
-<span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/wave_elevation_data.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span> <span class="c1"># load data from the csv file into a DataFrame</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span> <span class="c1"># plot the data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> <span class="c1"># print the first 5 rows of data</span>
 </pre></div>
 </div>
 </div>
@@ -431,12 +434,13 @@ Time
 </div>
 <p>The data is indexed by time in seconds. To use the quality control functions, the data must be indexed by datetime. The index can be converted to datetime using the following utility function.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">index_to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;2019-05-20&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span></span><span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">index_to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;2019-05-20&#39;</span><span class="p">)</span> <span class="c1"># convert the index to datetime</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> <span class="c1"># print the first 5 rows of data</span>
 </pre></div>
 </div>
 </div>
@@ -456,7 +460,7 @@ Time
 </div>
 <div class="section" id="Quality-control-tests">
 <h2>Quality control tests<a class="headerlink" href="#Quality-control-tests" title="Permalink to this headline">¶</a></h2>
-<p>The following quality control tests are used to identify timestamp issues along with corrupt data, data outside expected range, and stagnant data.</p>
+<p>The following quality control tests are used to identify timestamp issues, corrupt data, data outside expected range, and stagnant data.</p>
 <p>Each quality control tests results in the following information:</p>
 <ul class="simple">
 <li><p>Cleaned data, which is a DataFrame that has <em>NaN</em> in place of data that did not pass the quality control test</p></li>
@@ -466,25 +470,27 @@ Time
 </div>
 <div class="section" id="Check-timestamp">
 <h2>Check timestamp<a class="headerlink" href="#Check-timestamp" title="Permalink to this headline">¶</a></h2>
-<p>Quality control analysis generally starts by checking to see if the data contains duplicate timestamps, timestamps that are not monotonically increasing, and timestamps that occur at irregular intervals (an interval of 0.002s is expected for this data).</p>
+<p>Quality control analysis generally starts by checking the timestamp index of the data.</p>
+<p>The follow test checks to see if 1) the data contains duplicate timestamps, 2) timestamps are not monotonically increasing, and 3) timestamps occur at irregular intervals (an interval of 0.002s is expected for this data).</p>
 <p>If duplicate timestamps are found, the resulting DataFrames (cleaned data and mask) keep the first occurrence. If timestamps are not monotonic, the timestamps in the resulting DataFrames are reordered.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+<span></span><span class="n">frequency</span> <span class="o">=</span> <span class="mf">0.002</span> <span class="c1"># define expected frequency of the data, in seconds</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span> <span class="c1"># run the timestamp quality control test</span>
 </pre></div>
 </div>
 </div>
-<p>The cleaned data, boolean mask, and test results summary are shown below. The summary is transposed (.T) so that it is easier to read.</p>
+<p>The cleaned data, boolean mask, and test results summary are shown below. The summary is transposed (using .T) so that it is easier to read.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span></span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span> <span class="c1"># plot cleaned data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> <span class="c1"># print the first 5 rows of the cleaned data</span>
 </pre></div>
 </div>
 </div>
@@ -509,11 +515,11 @@ Time
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> <span class="c1"># print the first 5 rows of the mask</span>
 </pre></div>
 </div>
 </div>
@@ -531,11 +537,11 @@ Time
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="c1"># print the test results summary</span>
 </pre></div>
 </div>
 </div>
@@ -564,16 +570,18 @@ Error Flag              Missing timestamp
 <h2>Check for corrupt data<a class="headerlink" href="#Check-for-corrupt-data" title="Permalink to this headline">¶</a></h2>
 <p>In the following qualtiy control tests, the cleaned data from the previous test is used as input to the subsequent test. For each quality control test, a plot of the cleaned data is shown along with the test results summary.</p>
 <p>Note, that if you want to run a series of quality control tests before extracting the cumulative cleaned data, boolean mask, and summary, we recomment using Pecos directly with the object-orieinted approach, see <a class="reference external" href="https://pecos.readthedocs.io/">https://pecos.readthedocs.io/</a> for more details.</p>
-<p>The quality control test below check for corrupt data, indicated by a value of -999.</p>
+<p>The quality control test below checks for corrupt data, indicated by a value of -999.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_corrupt</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">999</span><span class="p">])</span>
+<span></span><span class="n">corrupt_values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">999</span><span class="p">]</span> <span class="c1"># define corrupt values</span>
 
-<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_corrupt</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="n">corrupt_values</span><span class="p">)</span> <span class="c1"># run the corrupt data quality control test</span>
+
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span> <span class="c1"># plot cleaned data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="c1"># print test results summary</span>
 </pre></div>
 </div>
 </div>
@@ -602,14 +610,16 @@ Error Flag                   Corrupt data                Corrupt data
 <h2>Check for data outside expected range<a class="headerlink" href="#Check-for-data-outside-expected-range" title="Permalink to this headline">¶</a></h2>
 <p>The next quality control test checks for data that is greater than 50 or less than -50.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_range</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+<span></span><span class="n">expected_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span> <span class="c1"># define expected lower and upper bound ([lower bound, upper bound])</span>
 
-<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_range</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="n">expected_bounds</span><span class="p">)</span> <span class="c1"># run expected range quality control test</span>
+
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span> <span class="c1"># plot cleaned data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="c1"># print test results summary</span>
 </pre></div>
 </div>
 </div>
@@ -618,9 +628,19 @@ Error Flag                   Corrupt data                Corrupt data
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Empty DataFrame
-Columns: []
-Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
+                                        0                           1  \
+Variable Name                      probe3                      probe3
+Start Time     2019-05-20 00:00:10.240000  2019-05-20 00:00:10.468000
+End Time       2019-05-20 00:00:10.240000  2019-05-20 00:00:10.468000
+Timesteps                               1                           1
+Error Flag        Data &lt; lower bound, -50     Data &lt; lower bound, -50
+
+                                        2
+Variable Name                      probe3
+Start Time     2019-05-20 00:00:10.716000
+End Time       2019-05-20 00:00:10.716000
+Timesteps                               1
+Error Flag         Data &gt; upper bound, 50
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -635,14 +655,17 @@ Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
 <h2>Check for stagnant data<a class="headerlink" href="#Check-for-stagnant-data" title="Permalink to this headline">¶</a></h2>
 <p>The final quality control test checks for stagnant data by looking for data that changes by less than 0.001 within a 0.02 second moving window.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_delta</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">window</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span></span><span class="n">expected_bound</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1"># define expected lower bound (no upper bound is specified in this example)</span>
+<span class="n">window</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c1"># define the moving window, in seconds</span>
 
-<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mhkit</span><span class="o">.</span><span class="n">qc</span><span class="o">.</span><span class="n">check_delta</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="n">expected_bound</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span> <span class="c1"># run the delta quality control test</span>
+
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span> <span class="c1"># plot cleaned data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="c1"># print test results summary</span>
 </pre></div>
 </div>
 </div>
@@ -651,9 +674,12 @@ Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Empty DataFrame
-Columns: []
-Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
+                                        0
+Variable Name                      probe2
+Start Time     2019-05-20 00:00:10.400000
+End Time       2019-05-20 00:00:10.544000
+Timesteps                              73
+Error Flag     Delta &lt; lower bound, 0.001
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -665,26 +691,14 @@ Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
 </div>
 <p>The cleaned data can be used directly in MHKiT analysis, or the missing values can be replaced using various methods before analysis is run. Data replacement strategies are generally defined on a case by case basis. Pandas includes methods to interpolate, replace, and fill missing values.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">cleaned_data</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span>
+<span></span><span class="n">cleaned_data</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span> <span class="c1"># extract final cleaned data for MHKiT analysis</span>
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Kelley's-notes:">
-<h1>Kelley’s notes:<a class="headerlink" href="#Kelley's-notes:" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p>revised to make examples have similar structure and reference source code</p></li>
-<li><p>it would be nice to comment each line of code so that it is clear what the input parameters are doing.</p></li>
-</ul>
-<p>For example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">results</span> <span class="pre">=</span> <span class="pre">mhkit.qc.check_range(results['cleaned_data'],</span> <span class="pre">[-50,</span> <span class="pre">50])</span> <span class="pre">#applies</span> <span class="pre">check_range</span> <span class="pre">method</span> <span class="pre">to</span> <span class="pre">'cleaned</span> <span class="pre">data'</span> <span class="pre">column</span> <span class="pre">of</span> <span class="pre">results,</span> <span class="pre">looks</span> <span class="pre">for</span> <span class="pre">data</span> <span class="pre">outside</span> <span class="pre">of</span> <span class="pre">[-50,50]</span> <span class="pre">range</span></code></p>
-<p>Or:</p>
-<p><code class="docutils literal notranslate"><span class="pre">results</span> <span class="pre">=</span> <span class="pre">mhkit.qc.check_range(results['cleaned_data'],</span> <span class="pre">[-50,</span> <span class="pre">50])</span> <span class="pre">#dataframe</span> <span class="pre">=</span> <span class="pre">mhkit.qc.check_range(dataframe['column'],</span> <span class="pre">[min,</span> <span class="pre">max])</span></code></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -692,6 +706,7 @@ Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -724,26 +739,16 @@ Index: [Variable Name, Start Time, End Time, Timesteps, Error Flag]
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

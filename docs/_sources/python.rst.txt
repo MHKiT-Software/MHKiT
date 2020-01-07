@@ -28,6 +28,8 @@ Jupyter notebook examples of MHKiT-Python are included below:
 
 - `QC Example <mhkit-python/qc_example.html>`_
 - `Wave Example <mhkit-python/wave_example.html>`_
+- `River Example <mhkit-python/river_example.html>`_
+- `Tidal Example <mhkit-python/tidal_example.html>`_
 
 Online Forum
 --------------
