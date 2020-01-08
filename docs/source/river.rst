@@ -1,9 +1,9 @@
 .. _wave:
 
-Wave Module
+River Module
 ------------
 
-The wave module contains a set of functions to
+The river module contains a set of functions to
 calculate quantities of interest for wave energy converters (WEC). 
 
 The wave module contains the following submodules:
