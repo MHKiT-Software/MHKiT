@@ -2,18 +2,18 @@
 
 Online Forum
 ============
-Bug reports and feature requests can be submitted to the `Issues page <https://code.primre.org/mhkit/mhkit-python/issues>`_.
 
-.. Note:: 
-   Add content
-
+Questions, feature requests, and bug reports can be submitted to the 
+`MHKiT-Python Issues page <https://github.com/MHKiT-Code-Hub/MHKiT-Python/issues>`_ and the
+`MHKiT-MATLAB Issues page <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/issues>`_.
+These forums are managed by the core development team and users.
 
 Collaboration
 ----------------
-MHKiT-Python welcomes feedback and code contributions.  
+MHKiT-Python and MHKiT-MATLAB welcomes feedback and code contributions.  
 
 Software developers, within the core development team and external collaborators, 
 are expected to follow standard practices to document and test new code. 
 Software developers interested in contributing to the project are encouraged 
-to create a Fork of the repository and submit a Merge Request using GitLab. 
-The merge requests will be reviewed by the core development team.
+to create a Fork of the repository and submit a Pull Request using GitHub. 
+The Pull Request will be reviewed by the core development team.

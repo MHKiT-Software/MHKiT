@@ -1,4 +1,4 @@
-.. _wave:
+.. _river:
 
 River Module
 ------------

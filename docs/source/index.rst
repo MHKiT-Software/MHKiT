@@ -3,7 +3,7 @@
 .. figure:: figures/MHKiT_logo.png
    :target: https://github.com/MHKiT-Code-Hub
    :scale: 50 %
-   :alt: Logo
+   :alt: MHKiT logo
    
 
 .. toctree::
@@ -21,7 +21,6 @@
    python.rst
    matlab.rst
    license.rst
-   publications.rst
    release_notes.rst
    contact.rst
 
@@ -34,21 +33,21 @@ functionality includes power performance, power quality, mechanical loads, resou
 
 MHKiT-Python |python_image|
 =============================
-The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/mhkit-python.
+The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/MHKiT-Python.
 
 .. |python_image| image:: figures/python-logo-master-v3-TM.png
    :scale: 25 %
-   :alt: Logo
+   :alt: Python logo
 
 MHKiT-MATLAB |matlab_image|
 ========================================================================
-The MHKiT-MATLAB repository is located at https://github.com/MHKiT-Code-MHKiT/mhkit-MATLAB.
+The MHKiT-MATLAB repository is located at https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB.
 
 .. |matlab_image| image:: figures/mathworks-logo-full-color-rgb.png
-   :scale: 10 %
-   :alt: Logo
+   :scale: 8 %
+   :alt: Matlab logo
 
-MHKiT Authors
+Developers
 ================
 MHKiT was developed as part of a collaboration between the 
 National Renewable Energy Laboratory, 
@@ -56,9 +55,9 @@ Pacific Northwest National Laboratory, and
 Sandia National Laboratories.
 
 The core development team is listed below.  
-Additional contributors can be found on the contributors pages for 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python/graphs/contributors>`_ and
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/graphs/contributors>`_.
+Additional contributors can be found on the 
+`MHKiT-Python Contributors page <https://github.com/MHKiT-Code-Hub/MHKiT-Python/graphs/contributors>`_ and the
+`MHKiT-MATLAB Contributors page <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/graphs/contributors>`_.
 
 - Frederick Driscoll (NREL)
 - Budi Gunawan (Sandia)

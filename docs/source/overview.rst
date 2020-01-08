@@ -16,7 +16,7 @@ In order to reach a wide audience, the software was developed in both Python and
 MHKiT is intended to supplement analysis using existing software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. 
 MHKiT is sponsored by the US Energy Department's Water Power Technologies Office and is jointly developed by NREL, Sandia, and PNNL. 
 
-MHKiT-Python and MHKiT-MATLAB are organized into the following modules:
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ are organized into the following modules:
 
 * :ref:`qc`: Perform quality control analysis
 * :ref:`wave`: Calculate quantities of interest for wave energy converters (WEC)
@@ -40,7 +40,7 @@ MHKiT-MATLAB is tested by the core development team to ensure that the wrapped M
 
 MHKiT-Python
 ------------------
-MHKiT-Python is intended to be used by researchers and practitioners that prefer Python.
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ is intended to be used by researchers and practitioners that prefer Python.
 MHKiT-Python uses Pandas data objects to store data with labelled columns and rows.
 This allows the user to keep track timestamp indexes and the type of data that is in each column.
 Pandas includes many options to analyze data, including methods to slice, query, upscale, and plot data.
@@ -48,12 +48,12 @@ Additionally, Pandas includes many options to load data from a wide range of for
 MHKiT-Python users that are new to Pandas are encouraged to review the 
 `Pandas getting started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
 
-MHKiT-Matlab
+MHKiT-MATLAB
 --------------
-MHKiT-Matlab is located at https://github.com/MHKiT-Code-Hub/mhkit-matlab and 
-is intended to be used by researchers and practitioners that prefer Matlab. To ensure consistency between MHKiT-Matlab and MHKiT-Python,
-MHKiT-Matlab runs the MHKiT-Python functions by wrapping them in Matlab. Conversions to Python data types happen within the wrappers, 
-allowing Matlab users to only deal with Matlab data types. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  is intended to be used by researchers and practitioners that prefer MATLAB. 
+To ensure consistency between MHKiT-MATLAB and MHKiT-Python,
+MHKiT-MATLAB runs the MHKiT-Python functions by wrapping them in MATLAB. Conversions to Python data types happen within the wrappers, 
+allowing MATLAB users to only deal with MATLAB data types. 
 
 MHKiT-Matlab uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html.  
