@@ -48,11 +48,15 @@ Additionally, Pandas includes many options to load data from a wide range of for
 MHKiT-Python users that are new to Pandas are encouraged to review the 
 `Pandas getting started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
 
-MHKiT-MATLAB
-------------------
-MHKiT-MATLAB is intended to be used by researchers and practitioners that prefer Matlab.
-MHKiT-MATLAB uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
-For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html. 
+MHKiT-Matlab
+--------------
+MHKiT-Matlab is located at https://github.com/MHKiT-Code-Hub/mhkit-matlab and 
+is intended to be used by researchers and practitioners that prefer Matlab. To ensure consistancy between MHKiT-Matlab and MHKiT-Python,
+MHKiT-Matlab runs the MHKiT-Python functions by wrapping them in Matlab. Conversions to Python data types happen within the wrappers, 
+allowing Matlab users to only deal with Matlab data types. 
+
+MHKiT-Matlab uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
+For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html.  
 
 
 Uses
@@ -98,19 +102,4 @@ external contributions.
    
 
 
-MHKiT-Python uses Pandas data objects to store data with labelled columns and rows.
-This allows the user to keep track timestamp indexes and the type of data that is in each column.
-Pandas includes many options to analyze data, including methods to slice, query, upscale, and plot data.
-Additionally, Pandas includes many options to load data from a wide range of formats into Pandas data objects.
-MHKiT-Python users that are new to Pandas are encouraged to review the 
-`Pandas getting started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
 
-MHKiT-Matlab
---------------
-MHKiT-Matlab is located at https://github.com/MHKiT-Code-Hub/mhkit-matlab and 
-is intended to be used by researchers and practitioners that prefer Matlab. To ensure consistancy between MHKiT-Matlab and MHKiT-Python,
-MHKiT-Matlab runs the MHKiT-Python functions by wrapping them in Matlab. Conversions to Python data types happen within the wrappers, 
-allowing Matlab users to only deal with Matlab data types. 
-
-MHKiT-Matlab uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
-For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html. 
