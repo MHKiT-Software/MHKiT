@@ -5,6 +5,7 @@ Installation
 
 The following documentation includes installation instructions for MHKiT-Python and MHKiT-Matlab.
 
+
 MHKiT-Python
 -------------
 
@@ -74,8 +75,9 @@ code::
 The results should be ED = 30 and AP = 11309.7.
 
 
-MHKiT-Matlab
+MHKiT-MATLAB
 -------------
+<<<<<<< HEAD
 MHKit-Matlab relies on three components which need to be installed seperately. 
 First, MHKit-Matlab consists of Matlab code which runs the MHKit-Python functions. Therefore, installation of both packages is necessary. See the 
 MHKit-Python installation instructions above. 
@@ -146,3 +148,8 @@ The results should be:
 
 
 
+=======
+
+.. Note:: 
+   Rebecca, add MATLAB installation/requirements and user type guidance, e.g. user, developer, etc
+>>>>>>> 8419fff6a6f8b856ff8187f5b16e2bfd16b8be62

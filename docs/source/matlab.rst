@@ -6,12 +6,14 @@ MHKiT-MATLAB
 Installation
 --------------------
 
+Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for information on how to install MHKiT-MATLAB.
 
 .. _apidoc_matlab:
 
 API Documentation
 --------------------
 
+<<<<<<< HEAD
 .. toctree::
 
    mhkit-matlab/apidoc/api.qc
@@ -20,6 +22,11 @@ API Documentation
    mhkit-matlab/apidoc/api.tidal
    mhkit-matlab/apidoc/api.utils
 
+=======
+.. Note:: 
+   Rebecca, add MATLAB API Doc
+   
+>>>>>>> 8419fff6a6f8b856ff8187f5b16e2bfd16b8be62
 Examples
 --------------
 
@@ -30,3 +37,4 @@ Matlab Live examples of MHKiT-Matlab are included below:
 
 Online Forum
 --------------
+Please post questions about MHKiT-MATLAB on the `Issues Page <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/issues>`_. This forum is managed by the MHKiT-MATLAB code development team and users. The issues page is used to interact with the MHKiT-MATLAB community, ask questions, and report bugs.
