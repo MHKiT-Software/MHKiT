@@ -1,6 +1,5 @@
 
 # How to Update the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/)
-*Kelley: update this workflow*
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
@@ -32,7 +31,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
 
 ### Best Practices
   - Run spell check (not built into most text editors)
-  - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule update --remote``
+  - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
   - When compiling the website, ``make clean`` and then ``make html``
 
 ### Formatting Guidelines
@@ -55,6 +54,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   - MATLAB (not Matlab)
   - Python (no python)
   - MHKiT (not mhkit)
+  - open-source (not open source)
 
 
 ## Push updates to the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/) 
