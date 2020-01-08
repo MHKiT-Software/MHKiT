@@ -12,17 +12,17 @@ stagnant readings, unusual abrupt changes, or outliers.
 If data does not meet specified requirements, the data points that did not pass inspection should be 
 removed or replaced by various means (interpolation, data from a duplicate sensor, values from a model) before using the data in analysis.
 
-The QC module contains a set of functions to for basic quality control analysis.  
+The QC module contains a set of functions for basic quality control analysis.  
 These functions are imported from `Pecos <https://pecos.readthedocs.io>`_, an open source Python package 
 designed for quality control analysis of timeseries data.  Pecos was originally developed to monitor solar photovoltaic systems, but is designed to be used for a wide range of applications.
 
-The following quality control functionality are available in MHKiT:
+The following quality control functionality is available in MHKiT:
 
 * Check time series for missing, non-monotonic and duplicate timestamps
 * Check for missing data
 * Check for corrupt data
 * Check for data that is outside expected range
-* Check for stagant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window
+* Check for stagnant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window
 * Check for outliers using normalized data within a rolling window
 
 Additional functionality, including graphics and reports, can be included in quality control analysis by using Pecos directly. 

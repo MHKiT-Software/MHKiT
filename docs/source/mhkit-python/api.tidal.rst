@@ -40,7 +40,7 @@ of the tidal resource given a timeseries of directional data. The
 .. autosummary::
    :nosignatures:
 
-   ~mhkit.tidal.resource.principal_flow_direction
+   ~mhkit.tidal.resource.principal_flow_directions
    ~mhkit.tidal.resource.Froude_number
    ~mhkit.tidal.resource.exceedance_probability
 
