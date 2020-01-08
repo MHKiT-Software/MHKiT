@@ -13,7 +13,6 @@ Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for informati
 API Documentation
 --------------------
 
-<<<<<<< HEAD
 .. toctree::
 
    mhkit-matlab/apidoc/api.qc
@@ -22,11 +21,6 @@ API Documentation
    mhkit-matlab/apidoc/api.tidal
    mhkit-matlab/apidoc/api.utils
 
-=======
-.. Note:: 
-   Rebecca, add MATLAB API Doc
-   
->>>>>>> 8419fff6a6f8b856ff8187f5b16e2bfd16b8be62
 Examples
 --------------
 

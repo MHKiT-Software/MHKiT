@@ -77,8 +77,8 @@ The results should be ED = 30 and AP = 11309.7.
 
 MHKiT-MATLAB
 -------------
-<<<<<<< HEAD
 MHKit-Matlab relies on three components which need to be installed seperately. 
+
 First, MHKit-Matlab consists of Matlab code which runs the MHKit-Python functions. Therefore, installation of both packages is necessary. See the 
 MHKit-Python installation instructions above. 
 
@@ -99,6 +99,9 @@ MHKit Matlab Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Download mhkit.mltbx from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB. 
 In Matlab, navigate to the folder where you downloaded mhkit.mltbx to, double click on it, and the toolbox will install automatically. 
+
+If you would like to contribute to MHKiT-Matlab, you can fork the MHKiT-Matlab repository from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB 
+and submit a pull request for review. 
 
 Setup Matlab Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -148,8 +151,3 @@ The results should be:
 
 
 
-=======
-
-.. Note:: 
-   Rebecca, add MATLAB installation/requirements and user type guidance, e.g. user, developer, etc
->>>>>>> 8419fff6a6f8b856ff8187f5b16e2bfd16b8be62

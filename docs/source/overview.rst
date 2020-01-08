@@ -53,7 +53,6 @@ MHKiT-MATLAB
 MHKiT-MATLAB is intended to be used by researchers and practitioners that prefer Matlab.
 MHKiT-MATLAB uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html. 
-<<<<<<< HEAD
 
 
 Uses
@@ -115,5 +114,3 @@ allowing Matlab users to only deal with Matlab data types.
 
 MHKiT-Matlab uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html. 
-=======
->>>>>>> 55c3b45a58dbaaef7a7ba733a589774ad73a5fd1
