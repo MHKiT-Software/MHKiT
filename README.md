@@ -19,6 +19,7 @@
 
 ### Step 4. Download/Install Sphinx extensions
   - Install BibTex ``pip install -U sphinxcontrib-bibtex``
+  - Install MATLAB theme ``pip install -U sphinxcontrib-matlabdomain``
   - Install rtd theme ``pip install -U sphinx_rtd_theme``
   - Install Goggle Analytics ``pip install -U sphinxcontrib-googleanalytics``
   ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
