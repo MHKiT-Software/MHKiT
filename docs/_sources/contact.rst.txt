@@ -17,9 +17,3 @@ are expected to follow standard practices to document and test new code.
 Software developers interested in contributing to the project are encouraged 
 to create a Fork of the repository and submit a Merge Request using GitLab. 
 The merge requests will be reviewed by the core development team.
-
-
-Feature Requests
-----------------
-.. Note:: 
-   Add content

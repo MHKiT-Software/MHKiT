@@ -8,10 +8,11 @@ calculate quantities of interest for wave energy converters (WEC).
 
 The wave module contains the following submodules:
 
-* ``io``: Loads data from standard formats
-* ``resource``: Computes resource metrics such as spectra and significant wave height
-* ``performance``: Computes performance metrics such as capture length matrix and mean annual energy production
-* ``graphics``: Generates graphics
+* ``io``: Loads discharge data from standard formats.
+* ``resource``: Computes resource assessment, including exceedance probability, velocity, and power.  
+  Calculations are based on IEC TS 62600-201:2015 and IEC TS 62600-301 ED1.
+* ``device``: Computes device metrics such as equivalent diameter and capture area.
+  Calculations are based on IEC TS 62600-200:2013 and IEC TS 62600-300 ED1.
+* ``graphics``: Generates graphics, including flow duration curves and velocity duration curves.
 
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the wave module.
-
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the river module.

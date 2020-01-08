@@ -33,7 +33,7 @@ PM                 	Pierson-Moskowitz specturm
 :math:`Q`		Discharge [m^3/s] 
 :math:`\rho` 		Density [kg/m3]
 :math:`S` 		Spectral density [m^2/Hz]
-SWL	 		Still Water Line
+SWL	 		Still water line
 :math:`T_{e}` 		Energy period [s]
 :math:`T_{m}` 		Mean wave period [s] 
 :math:`T_{p}` 		Peak period [s]
