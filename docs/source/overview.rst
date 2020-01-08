@@ -85,7 +85,6 @@ external contributions.
    
 
 
-<<<<<<< HEAD
 MHKiT-Python uses Pandas data objects to store data with labelled columns and rows.
 This allows the user to keep track timestamp indexes and the type of data that is in each column.
 Pandas includes many options to analyze data, including methods to slice, query, upscale, and plot data.
@@ -102,5 +101,3 @@ allowing Matlab users to only deal with Matlab data types.
 
 MHKiT-Matlab uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html. 
-=======
->>>>>>> 8419fff6a6f8b856ff8187f5b16e2bfd16b8be62
