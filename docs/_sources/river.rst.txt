@@ -1,8 +1,7 @@
 .. _river:
 
 River Module
-------------
-
+====================
 The river module contains a set of functions to calculate quantities of interest for river energy converters (REC). 
 
 The river module contains the following submodules:

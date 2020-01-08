@@ -36,8 +36,8 @@ MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
 The `MHKiT Code Hub <https://github.com/MHKiT-Code-Hub>`_ is a collection of open-source marine renewable energy (MRE) software, including the MHKiT open-source code. The MHKiT code, developed in Python and MATLAB, includes modules for ingesting, quality controlling, processing, visualizing, and managing data. `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to IEC technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
 
-MHKiT-Python |python_image|
-=============================
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ |python_image|
+=========================================================================================
 The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/MHKiT-Python.
 
 .. |python_image| image:: figures/python-logo-master-v3-TM.png
@@ -45,8 +45,8 @@ The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/MHKi
    :scale: 30 %
    :alt: Python logo
 
-MHKiT-MATLAB |matlab_image|
-========================================================================
+`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ |matlab_image|
+==========================================================================================
 The MHKiT-MATLAB repository is located at https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB.
 
 .. |matlab_image| image:: figures/mathworks-logo-full-color-rgb.png

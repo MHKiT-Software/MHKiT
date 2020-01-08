@@ -9,18 +9,15 @@ The following documentation includes installation instructions for `MHKiT-Python
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires Python (tested on 3.6 and 3.7) along with several Python 
-package dependencies.  Information on installing and using Python can be found at 
-https://www.python.org/.  Python distributions, such as Anaconda,
-are recommended to manage the Python interface.  
-Anaconda Python distributions include the Python packages needed to run MHKiT-Python.
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires Python (3.6 or 3.7), and has several Python package dependencies.  Refer to the `Python website <https://www.python.org/>`_ for information on installing and using Python.  Python distributions, such as the `Anacaonda Python Distribution <https://www.anaconda.com/distribution/>`_, are recommended to manage the Python interface.  
 
 
 Requirements
 ^^^^^^^^^^^^^^^
 
-Required Python package dependencies include:
+Python requirements and Python package dependencies include:
 
+* `Python <https://www.python.org/>`_:  3.6 or 3.7 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `Numpy <http://www.numpy.org>`_: used for data storage and analysis
 * `Scipy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing
@@ -29,7 +26,7 @@ Required Python package dependencies include:
 * `Pecos <https://pecos.readthedocs.io/>`_: used for quality control analysis
 
 .. Note:: 
-    All packages except Pecos are included in `Anacaonda Python Distribution <https://www.anaconda.com/distribution/>`_. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.
+    All of MHKiT-Python's package dependencies are included in `Anacaonda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.
 
 
 PIP Install from Python (Recommended for Users)
@@ -51,7 +48,7 @@ Clone Repository from GitHub (Recommended for Developers)
 	
 
 .. Note:: 
-    If you plan to contribute to the MHKiT-Python open-source code, please `fork the MHKiT-Python repository <https://help.github.com/articles/fork-a-repo/>`_ into your GitHub user account. Please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ if you would like your code revisions included in the MHKiT-Python master code. Pull request will be reviewed and merged into `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_, and included in future releases of MHKiT-Python.
+    If you plan to contribute to the MHKiT-Python open-source code, please `fork the MHKiT-Python repository <https://help.github.com/articles/fork-a-repo/>`_ into your GitHub user account. Please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ to include your code revisions in the MHKiT-Python master code. Pull request will be reviewed and merged into `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_, and included in future releases of MHKiT-Python.
 
 	
 

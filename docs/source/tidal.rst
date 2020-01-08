@@ -1,8 +1,7 @@
 .. _tidal:
 
 Tidal Module
----------------
-
+====================
 The tidal module contains a set of functions to calculate relevant quantities of interest for tidal energy converters (TEC). 
 
 The tidal module contains the following submodules:

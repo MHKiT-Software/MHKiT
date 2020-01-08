@@ -1,8 +1,7 @@
 .. _qc:
 
 QC Module
-----------
-
+====================
 Before using the methods in the Wave, River, and Tidal modules, the input data provided by the user should undergo 
 proper quality control analysis to ensure that the data is of high quality and fit for the intended purpose.  
 Quality control analysis often includes steps to ensure that data is 
