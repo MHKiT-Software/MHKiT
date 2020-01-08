@@ -11,7 +11,7 @@ MHKiT is an open-source code that aims to provide the international marine renew
 * Simulation pre-processing
 * Simulation post-processing
 
-The software was developed for both measurements and modeling datasets, which include measurement datasets collected in field and laboratory environments and datasets produced by numerical simulations such as WEC-Sim. MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. 
+The software was developed for both measurements and modeling datasets, which include measurement datasets collected in field and laboratory environments and datasets produced by numerical simulations such as WECSim. MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. Calculations in MHKiT adhere to the `International Electrotechnical Committee's (IEC) Technical Committee (TC) 114's <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications (TS) and recommendations, as well as follow best practices within the MRE and other fields. 
 
 `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ are organized into the following modules:
 
@@ -21,12 +21,11 @@ The software was developed for both measurements and modeling datasets, which in
 * :ref:`tidal`: Calculate quantities of interest for tidal energy converters (TEC)
 * :ref:`utils`: Includes helper functions
 
-These modules provide functionality needed by the MRE community, such as power performance, resources, and mechanical loads.  
-Each module contains a set of functions that have been rigorously tested and well documented. 
-To ensure consistent results between MHKiT-Python and MHKiT-MATLAB and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB. 
+These modules provide functionality for calculating metrics needed by the MRE community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that maps directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented. 
+To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB. 
+
 As such, MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language. 
 
-Calculations in MHKiT adhere to the `International Electrotechnical Committee's (IEC) Technical Committee (TC) 114's <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications and recommendations, as well as follow best practices within the MRE and other fields. 
 MHKiT-Python is rigorously tested using a continuous integration framework that is applied every time files are uploaded to the repository. 
 These tests check functionality and accuracy. 
 MHKiT-MATLAB is tested by the core development team to ensure that the wrapped MHKiT-Python functions are performing as expected.
