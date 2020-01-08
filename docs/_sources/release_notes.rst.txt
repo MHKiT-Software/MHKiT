@@ -3,20 +3,32 @@
 Release Notes
 =============
 
-.. Note:: 
-   0.1.0 will be the current release, update 'master' to the release date and include more information below.
-   
-0.1.0 (master)
----------------
+MHKiT v0.1.0 (master)
+------------------------------
 
-This is the first official release of the MHKiT package. 
-The package includes methods for resource assessment and to compute 
-device performance using data collected in wave and river environments.   
+The first official release of MHKiT, developed in Python and MATLAB, includes the following modules:
+
+* :ref:`qc`: Perform quality control analysis
+* :ref:`wave`: Calculate quantities of interest for wave energy converters (WEC)
+* :ref:`river`: Calculate quantities of interest for river energy converters (REC)
+* :ref:`tidal`: Calculate quantities of interest for tidal energy converters (TEC)
+* :ref:`utils`: Includes helper functions
+
+The v0.1.0 release includes methods for resource assessment, device performance, graphics, io and and quality control.   
+
+`MHKiT-Python v0.1.0 <https://github.com/MHKiT-Code-Hub/MHKiT-Python/releases>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`MHKiT-MATLAB v0.1.0 <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/releases>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-Features Under Development
+
+Future Releases
 ---------------------------
 
-.. Note:: 
-   Add future features e.g. quality control
-   Are we including this section for the first release?
+The next release of MHKiT, planned for Summer 2020,  will include the following modules:
+
+* Mechanical Loads Module: Calculates quantities of interest for mechanical loads. 
+* Power Quality Module: Calculates quantities of interest for power qaulity. 
+
