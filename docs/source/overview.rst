@@ -25,13 +25,13 @@ MHKiT is intended to supplement analysis using existing software languages (e.g 
 
 These modules provide functionality needed by the MRE community, such as power performance, resources, and mechanical loads.  
 Each module contains a set of functions that have been rigorously tested and well documented. 
-To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ repository.  `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ then wraps these functions so they can be called from MATLAB. 
-As such, `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ provide identical functions in each language. 
+To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB. 
+As such, MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language. 
 
 Calculations in MHKiT adhere to the `International Electrotechnical Committee's (IEC) Technical Committee (TC) 114's <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications and recommendations, as well as follow best practices within the MRE and other fields. 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ is rigorously tested using a continuous integration framework that is applied every time files are uploaded to the repository. 
+MHKiT-Python is rigorously tested using a continuous integration framework that is applied every time files are uploaded to the repository. 
 These tests check functionality and accuracy. 
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ is tested by the core development team to ensure that the wrapped `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ functions are performing as expected.
+MHKiT-MATLAB is tested by the core development team to ensure that the wrapped MHKiT-Python functions are performing as expected.
 
 .. (removed for now) All codes are developed following a framework, format, and conventions that are defined in the Code Guildelines. 
    MHKiT Python/MATLAB use the HDF5 and JSON file formats to store data to ensure compatibility and usability by the broader MRE community and beyond. 

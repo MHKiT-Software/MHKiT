@@ -35,7 +35,7 @@ The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/MHKi
 
 .. |python_image| image:: figures/python-logo-master-v3-TM.png
    :target: https://github.com/MHKiT-Code-Hub/MHKiT-Python
-   :scale: 35 %
+   :scale: 30 %
    :alt: Python logo
 
 MHKiT-MATLAB |matlab_image|

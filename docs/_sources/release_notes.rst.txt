@@ -3,7 +3,7 @@
 Release Notes
 =============
 
-MHKiT v0.1.0 (master)
+MHKiT v0.1.0 
 ------------------------------
 
 The first official release of MHKiT, developed in Python and MATLAB, includes the following modules:
