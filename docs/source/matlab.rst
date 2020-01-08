@@ -15,11 +15,11 @@ API Documentation
 
 .. toctree::
 
-   mhkit-matlab/apidoc/api.qc
-   mhkit-matlab/apidoc/api.wave
-   mhkit-matlab/apidoc/api.river
-   mhkit-matlab/apidoc/api.tidal
-   mhkit-matlab/apidoc/api.utils
+   - `Wave <source/mhkit-matlab/apidoc/mhkit.wave.html>`_
+   - `River <source/mhkit-matlab/apidoc/mhkit.river.html>`_
+   - `Tidal <source/mhkit-matlab/apidoc/mhkit.tidal.html>`_
+   - `QC <source/mhkit-matlab/apidoc/mhkit.qc.html>`_
+   - `Utils <source/mhkit-matlab/apidoc/mhkit.utils.html>`_
 
 Examples
 --------------
