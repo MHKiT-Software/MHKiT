@@ -1,5 +1,12 @@
 .. MHKiT Documentation
 
+.. note:: 
+   Notes for people reviewing this site:
+  
+   1. For MHKiT-Python, ``pip install mhkit`` will not work until the repository is public
+   2. Travis CI link in the MHKiT-Python/Software Test section will be updated when the repository is public
+   3. MATLAB API docs are not ready at this time, the API docs currently link to Python docs as a placeholder
+
 .. figure:: figures/MHKiT_logo.png
    :target: https://github.com/MHKiT-Code-Hub
    :scale: 50 %
