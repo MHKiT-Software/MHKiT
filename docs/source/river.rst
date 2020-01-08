@@ -4,9 +4,9 @@ River Module
 ------------
 
 The river module contains a set of functions to
-calculate quantities of interest for wave energy converters (WEC). 
+calculate quantities of interest for river energy converters (REC). 
 
-The wave module contains the following submodules:
+The river module contains the following submodules:
 
 * ``io``: Loads discharge data from standard formats.
 * ``resource``: Computes resource assessment, including exceedance probability, velocity, and power.  
