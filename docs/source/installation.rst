@@ -107,11 +107,15 @@ Open Matlab and in the terminal type::
 
 You should see something similar to the following: 
 
-	 version: '3.7'
-    executable: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
-       library: '/Library/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7m.dylib'
-          home: '/Library/Frameworks/Python.framework/Versions/3.7'
-      isloaded: 1
+	version: '3.7'
+
+	executable: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
+
+	library: '/Library/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7m.dylib'
+	
+	home: '/Library/Frameworks/Python.framework/Versions/3.7'
+
+	isloaded: 1
 
 If the resulting Python version is 3.6 or 3.7 skip to the Test the Installation section. 
 If the resulting Python version is not 3.6, or 3.7 open a Window or Mac terminal window and type::
