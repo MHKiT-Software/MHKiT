@@ -3,7 +3,7 @@
 Overview
 ========
 
-MHKiT is an open-source code that aims to provide the international MRE community with tools for:
+MHKiT is an open-source code that aims to provide the international marine renewable energy (MRE) community with tools for:
 
 * Data processing and visualization
 * Data quality control
@@ -11,9 +11,7 @@ MHKiT is an open-source code that aims to provide the international MRE communit
 * Simulation pre-processing
 * Simulation post-processing
 
-The software was developed for field and laboratory data, and for data needed by and produced by numerical simulations such as WEC-Sim. 
-In order to reach a wide audience, the software was developed in both Python and MATLAB.
-MHKiT is intended to supplement analysis using existing software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. 
+The software was developed for both measurements and modeling datasets, which include measurement datasets collected in field and laboratory environments and datasets produced by numerical simulations such as WECSim. MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. 
 
 `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ are organized into the following modules:
 
