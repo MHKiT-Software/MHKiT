@@ -1,6 +1,6 @@
 .. MHKiT Documentation
 
-.. figure:: figures/logo.png
+.. figure:: figures/MHKiT_logo.png
    :target: https://github.com/MHKiT-Code-Hub
    :scale: 100 %
    :alt: Logo
@@ -36,15 +36,26 @@ toolboxes include power performance, power quality, mechanical loads, resource t
 ========================================================================
 The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/mhkit-python.
 
+.. figure:: figures/python-logo-master-v3-TM.png
+   :target: https://github.com/MHKiT-Code-Hub/MHKiT-Python
+   :scale: 100 %
+   :alt: Logo
+
 .. Note:: 
-   Add MHKiT-Python Logo
+   Refine MHKiT-Python Logo format
 
 `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/mhkit-matlab>`_
 ========================================================================
-The MHKiT-MATLAB repository is located at https://github.com/MHKiT-Code-Hub/mhkit-matlab.
+The MHKiT-MATLAB repository is located at https://github.com/MHKiT-Code-MHKiT/mhkit-MATLAB.
+
+.. figure:: figures/mathworks-logo-full-color-rgb.png
+   :target: https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB
+   :scale: 100 %
+   :alt: Logo
+
 
 .. Note:: 
-   Add MHKiT-MATLAB Logo
+   Refine MHKiT-MATLAB Logo format
 
 
 MHKiT Authors

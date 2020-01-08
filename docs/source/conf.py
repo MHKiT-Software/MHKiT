@@ -24,12 +24,15 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
+    'sphinx.ext.autosectionlabel',
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
     'nbsphinx',
     'nbsphinx_link',        
 ]
+
+autosectionlabel_prefix_document = True
 
 #    'sphinxcontrib.googleanalytics', 
 
