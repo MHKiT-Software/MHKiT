@@ -28,7 +28,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
     'nbsphinx',
-    'nbsphinx_link',        
+    'nbsphinx_link',
+    'sphinxcontrib.matlab',       
 ]
 
 #    'sphinxcontrib.googleanalytics', 
@@ -37,6 +38,7 @@ extensions = [
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+
 #
 #
 from mhkit import __version__ 
@@ -44,6 +46,9 @@ import sphinx_rtd_theme
 import os
 import sys
 #
+this_dir = os.path.dirname(os.path.abspath(__file__))
+matlab_src_dir = os.path.abspath( '../../MHKiT-MATLAB/')
+sys.path.insert(0, matlab_src_dir)
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

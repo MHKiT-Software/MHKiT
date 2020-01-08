@@ -7,9 +7,18 @@ Installation
 --------------------
 
 
+.. _apidoc_matlab:
+
 API Documentation
 --------------------
 
+.. toctree::
+
+   mhkit-matlab/apidoc/api.qc
+   mhkit-matlab/apidoc/api.wave
+   mhkit-matlab/apidoc/api.river
+   mhkit-matlab/apidoc/api.tidal
+   mhkit-matlab/apidoc/api.utils
 
 Examples
 --------------
