@@ -51,55 +51,9 @@ MHKiT-Python users that are new to Pandas are encouraged to review the
 MHKiT-Matlab
 --------------
 MHKiT-Matlab is located at https://github.com/MHKiT-Code-Hub/mhkit-matlab and 
-is intended to be used by researchers and practitioners that prefer Matlab. To ensure consistancy between MHKiT-Matlab and MHKiT-Python,
+is intended to be used by researchers and practitioners that prefer Matlab. To ensure consistency between MHKiT-Matlab and MHKiT-Python,
 MHKiT-Matlab runs the MHKiT-Python functions by wrapping them in Matlab. Conversions to Python data types happen within the wrappers, 
 allowing Matlab users to only deal with Matlab data types. 
 
 MHKiT-Matlab uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about Matlab structures, see  https://www.mathworks.com/help/matlab/structures.html.  
-
-
-Uses
----------   
-MHKiT-Python and MHKiT-MATLAB are open source codes designed to support a wide range of activities, including:
-
-* Data Processing and  Visulaization
-* Data Quality Control
-* Data Management
-* Simulation PreProcessing
-* Simulation PostProcessing
-
-Capabilities
-------------------
-In 2020, an alpha version of the following six toolboxes were developed:
-
-- Wave Power Performance: Functions that support wave power performance calculation. Calculations are based on IEC TS 62600-100:2012
-- Tidal and River Power Performance: Functions that support tidal and current power performance calculation. Calculations are based on IEC TS 62600-200:2013 and IEC TS 62600-300 ED1
-- Wave Resource Assessment: Functions that focus on the resource assessment for a wave energy site based on IEC TS 62600-101:2015
-- Tidal Resource Assessment: Functions that focus on the resource assessment for a tidal energy site based on IEC TS 62600-201:2015 and IEC TS 62600-301 ED1
-- Data Quality Control and Assurance: Functions that support data quality control and assurance. These function are based on those developed in ARM and Pecos.
-- File Utilities: Functions that provide general utilities that include loading data, converting data, and writing data from files produced by MRE specific instruments and from files commonly used by the MRE community
-
-
-Developers
----------------------------
-MHKiT is a collaboration between the National Renwable Energy Lab (NREL), Sandia National Laboratory (Sandia), and Pacific Northwest National Laboratory 
-(PNNL) funded by the U.S. Department of Energy's Water Power Technologies Office. Due to the open source nature of the code, MHKiT has also had many 
-external contributions.
-
-- Frederick Driscoll (NREL-PI)
-- Budi Gunawan (Sandia -PI)
-- Chitra Sivaraman (PNNL-PI)
-- Katherine Klise (Sandia)
-- Rebecca Pauly (NREL)
-- Timothy Shippert (PNNL)
-- Kelley Ruehl (Sandia)
-- Sterling Olson (Sandia)
-
-.. Note:: 
-   Merge with 'Authors' section on landing page and refer to 'Contributors page' on GitHub (https://github.com/MHKiT-Code-Hub/mhkit-python/graphs/contributors)
-
-   
-
-
-
