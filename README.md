@@ -31,7 +31,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
 
 ### Best Practices
   - Run spell check (not built into most text editors)
-  - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
+  - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule init`` ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
   - When compiling the website, ``make clean`` and then ``make html``
 
 ### Formatting Guidelines
