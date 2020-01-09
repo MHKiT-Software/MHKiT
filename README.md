@@ -56,7 +56,9 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   - Python (no python)
   - MHKiT (not mhkit)
   - open-source (not open source)
-
+  - time-series (not timeseries or time series)
+  - time-domain (not time domain)
+  - frequency-domain (not frequency domain)
 
 ## Push updates to the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/) 
 Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:
