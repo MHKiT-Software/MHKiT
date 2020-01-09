@@ -17,7 +17,7 @@ Copyright
    retains certain rights in this software.
 
 
-Revised BSD license
+Revised BSD License
 -------------------------
 .. code-block:: none 
 
