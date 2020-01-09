@@ -9,7 +9,7 @@ The following documentation includes installation instructions for `MHKiT-Python
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires Python (3.6 or 3.7), and has several Python package dependencies.  Refer to the `Python website <https://www.python.org/>`_ for information on installing and using Python.  Python distributions, such as the `Anacaonda Python Distribution <https://www.anaconda.com/distribution/>`_, are recommended to manage the Python interface.  
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires Python (3.6 or 3.7), and has several Python package dependencies.  Refer to the `Python website <https://www.python.org/>`_ for information on installing and using Python.  Python distributions, such as the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_, are recommended to manage the Python interface.  
 
 
 Requirements
@@ -26,7 +26,7 @@ Python requirements and Python package dependencies include:
 * `Pecos <https://pecos.readthedocs.io/>`_: used for quality control analysis
 
 .. Note:: 
-    All of MHKiT-Python's package dependencies are included in `Anacaonda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.
+    All of MHKiT-Python's package dependencies are included in `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.
 
 
 PIP Install from Python (Recommended for Users)
