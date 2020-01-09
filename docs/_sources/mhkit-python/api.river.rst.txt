@@ -2,8 +2,7 @@
 
 River Module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-The river module contains a set of functions to 
-calculate quantities of interest for river energy converters (REC). Flow discharge at the site is the primary input for the river module. IEC/TS 62600-100 recommends that river resource is calculated using historical discharge measurements, from at least 10 years daily discharge data, or flow discharge predicted by a regional hydrological model validated using at least one year discharge measurement. The latter approach is often suitable when only limited measurement data at the project site is available. Long-term discharge data from a river gauging stations located within the vicinity of the project site  can often be used for resource assessment. In the US, for example, historical flow discharge data from many gauging stations are publicly available, such as those collected by the US Geological Survey (USGS). The river module contains a functionality for reading historical discharge data published by USGS.  This functionality can be useful for users interested in using USGS data for river resource assessment.
+The river module contains a set of functions to calculate quantities of interest for river energy converters (REC). 
       
 **Discharge time series data** is stored as a pandas DataFrame indexed by time.  
   Time can be specified in datetime or in seconds.  The column names describe the type of data in each column.
