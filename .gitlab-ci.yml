@@ -1,15 +1,18 @@
 testpages:
-  image: alpine
+  image: python:3.6
   tags:
     - primre
   variables:
     AWS_DEFAULT_REGION: us-west-2
     BUCKET_NAME: testcodedocs.primre.org
   script:
-  - apk --no-cache add py2-pip python-dev git
+  - apt-get update -q -y
+  - apt-get install -q -y libblas3 liblapack3 liblapack-dev libblas-dev make git
   - pip install sphinx awscli
-  - apk --no-cache add make
   - git clone https://${MHKIT_PYTHON_USER}:${MHKIT_PYTHON_TOKEN}@code.primre.org/mhkit/mhkit-python.git
+  - pip install numpy
+  - pip install pandas
+  - pip install scipy
   - pip install -e mhkit-python
   - cd docs
   - make html
@@ -18,16 +21,21 @@ testpages:
 
 
 pages:
-  image: alpine
+  image: python:3.6
   tags:
     - primre
   variables:
     AWS_DEFAULT_REGION: us-west-2
     BUCKET_NAME: codedocs.primre.org
   script:
-  - apk --no-cache add py2-pip python-dev
+  - apt-get update -q -y
+  - apt-get install -q -y libblas3 liblapack3 liblapack-dev libblas-dev make git
   - pip install sphinx awscli
-  - apk --no-cache add make
+  - git clone https://${MHKIT_PYTHON_USER}:${MHKIT_PYTHON_TOKEN}@code.primre.org/mhkit/mhkit-python.git
+  - pip install numpy
+  - pip install pandas
+  - pip install scipy
+  - pip install -e mhkit-python
   - cd docs
   - make html
   - mv _build/html/ public/
