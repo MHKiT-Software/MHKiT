@@ -59,5 +59,5 @@ assume data is stored in SI units, for example:
 * Voltage = :math:`V`
 * Volume = :math:`m^3`
 
-.. Note:: 
-	How do we want to handle angles? Radians? Degrees?
+.. (removed for now) How do we want to handle angles? Radians? Degrees?
+	

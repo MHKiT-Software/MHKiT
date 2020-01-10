@@ -1,6 +1,5 @@
 
 # How to Update the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/)
-*Kelley: update this workflow*
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
@@ -20,6 +19,7 @@
 
 ### Step 4. Download/Install Sphinx extensions
   - Install BibTex ``pip install -U sphinxcontrib-bibtex``
+  - Install MATLAB theme ``pip install -U sphinxcontrib-matlabdomain``
   - Install rtd theme ``pip install -U sphinx_rtd_theme``
   - Install Goggle Analytics ``pip install -U sphinxcontrib-googleanalytics``
   ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
@@ -32,7 +32,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
 
 ### Best Practices
   - Run spell check (not built into most text editors)
-  - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule update --remote``
+  - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule init`` ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
   - When compiling the website, ``make clean`` and then ``make html``
 
 ### Formatting Guidelines
@@ -55,7 +55,10 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   - MATLAB (not Matlab)
   - Python (no python)
   - MHKiT (not mhkit)
-
+  - open-source (not open source)
+  - time-series (not timeseries or time series)
+  - time-domain (not time domain)
+  - frequency-domain (not frequency domain)
 
 ## Push updates to the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/) 
 Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:

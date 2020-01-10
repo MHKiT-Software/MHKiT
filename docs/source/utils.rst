@@ -1,8 +1,7 @@
 .. _utils:
 
 Utils Module
---------------------
-
+====================
 The utils module contains helper functions.   
 
 The MHKiT-Python utils module contains a single function to help users 

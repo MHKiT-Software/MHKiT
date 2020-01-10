@@ -24,10 +24,13 @@ API Documentation
 Examples
 --------------
 
-Matlab Live examples of MHKiT-Matlab are included below:
+MATLAB Live examples of MHKiT-MATLAB are included below:
 
 - `Wave Example <source/mhkit-matlab/wave_example.html>`_
 - `River Example <source/mhkit-matlab/river_example.html>`_
+
+.. Note:: 
+    MATLAB examples remove the indecx
 
 Online Forum
 --------------

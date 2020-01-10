@@ -2,13 +2,9 @@
 
 River Module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-The river module contains a set of functions to 
-calculate quantities of interest for river energy converters (REC).
-
-The river module uses discharge data.
-**Note, IEC/TS 62600-100 recommends that river resource calculations use 10 years of daily discharge data.**
+The river module contains a set of functions to calculate quantities of interest for river energy converters (REC). 
       
-* **Discharge time series data** is stored as a pandas DataFrame indexed by time.  
+**Discharge time series data** is stored as a pandas DataFrame indexed by time.  
   Time can be specified in datetime or in seconds.  The column names describe the type of data in each column.
   
 .. automodule:: mhkit.river

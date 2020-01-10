@@ -4,4 +4,4 @@ Publications
 ============
 
 .. Note:: 
-   Add publications
+    Add publications at later date and include in index
