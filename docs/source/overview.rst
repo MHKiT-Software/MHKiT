@@ -9,7 +9,7 @@
 Overview
 ========
 
-MHKiT is open-source code, developed in Python and MATLAB, that aims to provide the international marine renewable energy (MRE) community with tools for:
+MHKiT is open-source software, developed in Python and MATLAB, that aims to provide the international marine renewable energy (MRE) community with tools for:
 
 * Data processing and visualization
 * Data quality control
@@ -28,11 +28,11 @@ The software was developed for both measurements and modeling datasets, which in
 * :ref:`utils`: Includes helper functions
 
 These modules provide functionality for calculating metrics needed by the MRE community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that maps directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented. 
+
 To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB. 
+As such, **MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language**. 
 
-As such, MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language. 
-
-MHKiT-Python is rigorously tested using a continuous integration framework that is applied every time files are uploaded to the repository. 
+MHKiT-Python is rigorously tested using a continuous integration framework that is applied every time changes are made to the repository. 
 These tests check functionality and accuracy. 
 MHKiT-MATLAB is tested by the core development team to ensure that the wrapped MHKiT-Python functions are performing as expected.
 
