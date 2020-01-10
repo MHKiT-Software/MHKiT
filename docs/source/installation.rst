@@ -3,7 +3,7 @@
 Installation
 =============
 
-The following documentation includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_.
+The following section includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_.
 
 
 MHKiT-Python
@@ -20,19 +20,19 @@ Python requirements and Python package dependencies include:
 * `Python <https://www.python.org/>`_:  3.6 or 3.7 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `Numpy <http://www.numpy.org>`_: used for data storage and analysis
-* `Scipy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing
+* `Scipy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing 
 * `Matplotlib <http://matplotlib.org>`_: used to produce figures
 * `Requests <https://requests.readthedocs.io/>`_: used to get data from websites
-* `Pecos <https://pecos.readthedocs.io/>`_: used for quality control analysis
+* `Pecos <https://pecos.readthedocs.io/>`_: used for quality control analysis 
 
 .. Note:: 
-    All of MHKiT-Python's package dependencies are included in `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.
+    All of MHKiT-Python's package dependencies are included in `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.  Pecos version 0.1.8 is required for MHKiT-Python.  Currently, Numpy version 1.18 is not working with MHKiT-Python's graphics, version 1.17 is recommended.
 
 
 PIP Install from Python (Recommended for Users)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**pip:** To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
+To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
 
 	pip install mhkit
 	
@@ -40,7 +40,7 @@ PIP Install from Python (Recommended for Users)
 Clone Repository from GitHub (Recommended for Developers)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**git**: To install MHKiT-Python using `git <https://git-scm.com/>`_::
+To install MHKiT-Python using `git <https://git-scm.com/>`_::
 
 	git clone https://github.com/MHKiT-Code-Hub/MHKiT-Python
 	cd mhkit-python
@@ -48,7 +48,7 @@ Clone Repository from GitHub (Recommended for Developers)
 	
 
 .. Note:: 
-    If you plan to contribute to the MHKiT-Python open-source code, please `fork the MHKiT-Python repository <https://help.github.com/articles/fork-a-repo/>`_ into your GitHub user account. Please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ to include your code revisions in the MHKiT-Python master code. Pull request will be reviewed and merged into `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_, and included in future releases of MHKiT-Python.
+    If you plan to contribute to the MHKiT-Python open-source software, please `fork the MHKiT-Python repository <https://help.github.com/articles/fork-a-repo/>`_ into your GitHub user account. Please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ to include your code revisions in the MHKiT-Python master branch. After reviewed, the pull request will be merged into MHKiT-Python and included in future releases.
 
 	
 
@@ -77,7 +77,7 @@ The results should be ED = 30 and AP = 11309.7.
 
 MHKiT-MATLAB
 -------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ relies on three components which need to be installed seperately. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ relies on three components which need to be installed separately. 
 
 First, MHKiT-MATLAB consists of Matlab code which runs the MHKiT-Python functions. Therefore, installation of both packages is necessary. See the 
 MHKit-Python installation instructions above. 
