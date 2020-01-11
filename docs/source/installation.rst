@@ -77,30 +77,22 @@ The results should be ED = 30 and AP = 11309.7.
 
 MHKiT-MATLAB
 -------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ relies on three components which need to be installed separately. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ requires Matlab 2018 or later and relies on three components which need to be installed separately. 
 
 First, MHKiT-MATLAB consists of Matlab code which runs the MHKiT-Python functions. Therefore, installation of both packages is necessary. See the 
 MHKit-Python installation instructions above. 
 
-Second, MHKiT-MATLAB utilizes a helper package called mhkit_python_utils. Installation instructions are below. 
+Second, the mhkit.mltbx, which contains the MHKiT-Matlab functions, needs to be downloaded and installed. Instructions for installation and 
+setting up the Matlab/Python environment are below. 
 
-Lastly, the mhkit.mltbx, which contains the MHKiT-Matlab functions, needs to be downloaded and installed. Instructions for installation and 
-setting up the Matlab/Python environment are below.  
-
-mhkit_python_utils package
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-mhkit_python_utils is a helper package for running MHKiT- MATLAB. From https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB, download setup.py and mhkit_python_utils. 
-Run setup.py on your machine by running::
-
-	python3 setup.py install
-
+Lastly, MHKiT-MATLAB utilizes a helper package called mhkit_python_utils. Installation instructions are below.
 
 MHKiT-MATLAB Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Download mhkit.mltbx from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB. 
-In MATLAB, navigate to the folder where you downloaded mhkit.mltbx to, double click on it, and the toolbox will install automatically. 
+Clone or download the MHKiT-MATLAB repo from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB. 
+In MATLAB, navigate to the folder where you downloaded or cloned the repo which contains mhkit.mltbx, double click on mhkit.mltbx, and the toolbox will install automatically. 
 
-If you would like to contribute to MHKiT-Matlab, you can fork the MHKiT-Matlab repository from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB 
+If you would like to contribute to MHKiT-MATLAB, you can fork the MHKiT-MATLAB repository from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB 
 and submit a pull request for review. 
 
 Setup MATLAB Environment
@@ -123,13 +115,23 @@ If the resulting Python version is not 3.6, or 3.7 open a Window or Mac terminal
 
     python3 -c "import sys; print(sys.executable)"
 
-If the resulting path_to_exe indicates Python 3.6, or 3.7, copy the path and in the Matlab terminal run::
+If the resulting path to the python executable (path_to_exe) indicates Python 3.6, or 3.7, copy the path and in the Matlab terminal run::
 
     pyversion('<path_to_exe>')
 
 Note: Mac computers come with Python 2.7 pre-installed. MHKit does not work with Python 2.7.  A second version of 
 Python (3.6, or 3.7) will need to be installed on your machine. DO NOT DELETE Python 2.7. Use the above steps to assure 
 Matlab is running the proper version of Python. 
+
+mhkit_python_utils package
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+mhkit_python_utils is a helper package for running MHKiT-MATLAB. From within you cloned or downloaded MHKiT-Matlab folder  
+run setup.py on your machine by running::
+
+	python3 setup.py install
+
+
+
 
 Test the Installation
 ^^^^^^^^^^^^^^^^^^^^^^
