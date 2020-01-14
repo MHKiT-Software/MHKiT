@@ -30,5 +30,5 @@ Future Releases
 The next release of MHKiT, planned for Summer 2020,  will include the following modules:
 
 * Mechanical Loads Module: Calculates quantities of interest for mechanical loads. 
-* Power Quality Module: Calculates quantities of interest for power qaulity. 
+* Power Quality Module: Calculates quantities of interest for power quality. 
 

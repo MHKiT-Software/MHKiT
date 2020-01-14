@@ -1,12 +1,5 @@
 .. MHKiT Documentation
 
-.. note:: 
-   Notes for people reviewing this site:
-  
-   1. For MHKiT-Python, ``pip install mhkit`` will not work until the repository is public
-   2. Travis CI link in the MHKiT-Python/Software Test section will be updated when the repository is public
-   3. MATLAB API docs are not ready at this time, the API docs currently link to Python docs as a placeholder
-
 .. figure:: figures/MHKiT_logo.png
    :target: https://github.com/MHKiT-Code-Hub
    :scale: 50 %
@@ -34,7 +27,9 @@
 ######################################################
 MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
-The `MHKiT Code Hub <https://github.com/MHKiT-Code-Hub>`_ is a collection of open-source marine renewable energy (MRE) software hosted on GitHub, including the MHKiT open-source code. The MHKiT code, developed in Python and MATLAB, includes modules for ingesting, quality controlling, processing, visualizing, and managing data. `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to IEC technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
+The `MHKiT Code Hub <https://github.com/MHKiT-Code-Hub>`_ is a collection of open-source marine renewable energy (MRE) software hosted on GitHub, including the MHKiT open-source code. The MHKiT code, developed in Python and MATLAB, includes modules for ingesting, quality controlling, processing, visualizing, and managing data. 
+
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to IEC technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
 
 |python_image|   |matlab_image|
 
