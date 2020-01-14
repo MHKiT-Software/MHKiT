@@ -29,7 +29,7 @@ MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
 The `MHKiT Code Hub <https://github.com/MHKiT-Code-Hub>`_ is a collection of open-source marine renewable energy (MRE) software hosted on GitHub, including the MHKiT open-source code. The MHKiT code, developed in Python and MATLAB, includes modules for ingesting, quality controlling, processing, visualizing, and managing data. 
 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to IEC technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to International Electrotechnical Commission (IEC) technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
 
 |python_image|   |matlab_image|
 
@@ -61,9 +61,9 @@ MHKiT was developed as part of a collaboration between the National Renewable En
 Funding
 ================
 Development of MHKiT is funded by the U.S. Department of Energy's Water Power Technologies Office. 
-MHKiT is copyright through the National Renewable Energy Laboratory, 
+The copyright of MHKiT is held by the National Renewable Energy Laboratory, 
 Pacific Northwest National Laboratory, and Sandia National Laboratories.
-The software is distributed under the :ref:`License:Revised BSD License`.
+The software is distributed under the :ref:`License: Berkeley Software Distribution  (BSD) License`.
 
 The `National Renewable Energy Laboratory <https://www.nrel.gov/>`_ is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308. 
 
