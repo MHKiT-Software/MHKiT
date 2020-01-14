@@ -2,8 +2,7 @@
 
 QC Module
 ====================
-It is recommended that the input data be processed using the quality control (QC) module to check for data quality and potential issues prior to using the MHKiT modules. Before using the methods in the Wave, River, and Tidal modules, the input data provided by the user should undergo 
-proper quality control analysis to ensure that the data is of high quality and fit for the intended purpose.  
+It is recommended that input data be processed using the quality control (QC) module to check for data quality and potential issues prior to using the MHKiT Wave, River, and Tidal modules. 
 Quality control analysis often includes steps to ensure that data is 
 not missing, corrupt, or outside of the expected range.  
 Additional analysis can include checking for 
@@ -13,7 +12,7 @@ removed or replaced by various means (interpolation, data from a duplicate senso
 
 The QC module contains a set of functions for basic quality control analysis.  
 These functions are imported from `Pecos <https://pecos.readthedocs.io>`_, an open source Python package 
-designed for quality control analysis of timeseries data.  Pecos was originally developed to monitor solar photovoltaic systems, but is designed to be used for a wide range of applications.
+designed for quality control analysis of time-series data.  Pecos was originally developed to monitor solar photovoltaic systems, but is designed to be used for a wide range of applications.
 
 The following quality control functionality is available in MHKiT:
 
