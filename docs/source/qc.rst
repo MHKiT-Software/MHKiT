@@ -49,4 +49,4 @@ Note, that the quality control functions require that the data have a datatime i
 Other functionality in MHKiT can use data that has datatime or numeric indexes.  
 The :ref:`utils` can be used to convert numeric indexes to datetime indexes.
 
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the QC module.
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the QC module.

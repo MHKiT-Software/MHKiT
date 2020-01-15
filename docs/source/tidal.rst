@@ -13,5 +13,5 @@ The tidal module contains the following submodules:
   Calculations are based on `IEC TS 62600-200:2013 ED1 <https://webstore.iec.ch/publication/7242>`_.
 * ``graphics``: Generates graphics, including rose plots and joint probability distributions.
 
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the river module.
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the river module.
 
