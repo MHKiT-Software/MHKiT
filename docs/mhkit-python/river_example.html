@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>MHKit River &mdash; MHKiT 0.1.0 documentation</title>
+  <title>MHKiT River Module &mdash; MHKiT 0.1.0 documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>MHKit River</li>
+      <li>MHKiT River Module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -383,39 +383,40 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="MHKit-River">
-<h1>MHKit River<a class="headerlink" href="#MHKit-River" title="Permalink to this headline">¶</a></h1>
-<p>This jupyter notebook will familiarize the user with the mhkit river module by stepping through the calculation of annual energy produced for one turbine in the Tanana river near Nenana. First, let us load the River module. Below we import 3 standard python packages. Pandas, numpy, and matplotlib. With respect to MHKit, all of the river functions are imported with respect to each of the functional groupings.</p>
+<div class="section" id="MHKiT-River-Module">
+<h1>MHKiT River Module<a class="headerlink" href="#MHKiT-River-Module" title="Permalink to this headline">¶</a></h1>
+<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-code-hub.github.io/MHKiT/mhkit-python/api.river.html">MHKIT river module</a> by stepping through the calculation of annual energy produced for one turbine in the Tanana river near Nenana, Alaska. The data file used in this example is retrieved from the USGS website, additional data is stored in the
+<cite>\MHKiT:nbsphinx-math:</cite>examples`:nbsphinx-math:<cite>data</cite> &lt;<a class="reference external" href="https://github.com/MHKiT-Code-Hub/MHKiT-Python/tree/master/examples/data">https://github.com/MHKiT-Code-Hub/MHKiT-Python/tree/master/examples/data</a>&gt;`__ directory.</p>
+<p>Start by importing the necessary python packages and MHKiT module.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mhkit.river</span> <span class="k">import</span> <span class="n">device</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="k">import</span> <span class="n">river</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="Importing-Data-from-USGS">
 <h2>Importing Data from USGS<a class="headerlink" href="#Importing-Data-from-USGS" title="Permalink to this headline">¶</a></h2>
-<p>We will start by requesting daily discharge data from USGS for the Tanana River near Nenana. The function request_usgs_data in the MHKit river IO module returns a Pandas DataFrame. To use the request_usgs_data function we will need a station number, parameter number, time frame and type of data. The station ID can be found on the USGS website though this is more difficult than searching the web for “USGS Tanana near Nenana” which should return a link to
-<a class="reference external" href="https://waterdata.usgs.gov/nwis/inventory/?site_no=15515500">https://waterdata.usgs.gov/nwis/inventory/?site_no=15515500</a>. This page contains an overview of the available data of most interest in the daily discharge data. The IEC standard recommends 10 years of daily discharge data for calculations of annual energy produced (AEP). The timeframe shows that at least 10 years of data is available. Clicking on the “Daily Data” will bring up a page that would allow the user to request data from the site. Each of the “Available Parameters” has a 5 digit code in
-front of it which will depend on the data type and reported units. The user at this point could use the website to download the data, however, here the MHKit request function will be used.</p>
+<p>We will start by requesting daily discharge data from the USGS website for the Tanana River near Nenana, Alaska. The function <code class="docutils literal notranslate"><span class="pre">request_usgs_data</span></code> in the river IO module returns a Pandas DataFrame. The function requires the station number, parameter number, timeframe, and type of data.</p>
+<p>The station number can be found on the USGS website, though this is more difficult than searching the web for “USGS Tanana near Nenana” which should return a link to <a class="reference external" href="https://waterdata.usgs.gov/nwis/inventory/?site_no=15515500">https://waterdata.usgs.gov/nwis/inventory/?site_no=15515500</a>. This page contains an overview of the available data, including daily discharge data.</p>
+<p>The IEC standard recommends 10 years of daily discharge data for calculations of annual energy produced (AEP). The timeframe shows that at least 10 years of data is available. Clicking on the “Daily Data” will bring up a page that would allow the user to request data from the site. Each of the “Available Parameters” has a 5 digit code in front of it which will depend on the data type and reported units. The user at this point could use the website to download the data, however, the
+<code class="docutils literal notranslate"><span class="pre">request_usgs_data</span></code> function is used here.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Use the requests method to obtain 10 years of daily discharge data</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">request_usgs_data</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s2">&quot;15515500&quot;</span><span class="p">,</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">request_usgs_data</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s2">&quot;15515500&quot;</span><span class="p">,</span>
                             <span class="n">parameter</span><span class="o">=</span><span class="s1">&#39;00060&#39;</span><span class="p">,</span>
                             <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2009-08-01&#39;</span><span class="p">,</span>
                             <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2019-08-01&#39;</span><span class="p">,</span>
                             <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;Daily&#39;</span><span class="p">)</span>
-
-
 
 <span class="c1"># Print data</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -434,7 +435,57 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 2009-08-03 00:00:00+00:00                             56200
 2009-08-04 00:00:00+00:00                             51700
 2009-08-05 00:00:00+00:00                             52100
+2009-08-06 00:00:00+00:00                             54500
+2009-08-07 00:00:00+00:00                             57000
+2009-08-08 00:00:00+00:00                             57300
+2009-08-09 00:00:00+00:00                             54600
+2009-08-10 00:00:00+00:00                             53400
+2009-08-11 00:00:00+00:00                             52800
+2009-08-12 00:00:00+00:00                             49700
+2009-08-13 00:00:00+00:00                             46000
+2009-08-14 00:00:00+00:00                             42600
+2009-08-15 00:00:00+00:00                             41200
+2009-08-16 00:00:00+00:00                             42700
+2009-08-17 00:00:00+00:00                             45400
+2009-08-18 00:00:00+00:00                             48100
+2009-08-19 00:00:00+00:00                             49300
+2009-08-20 00:00:00+00:00                             47400
+2009-08-21 00:00:00+00:00                             45300
+2009-08-22 00:00:00+00:00                             42600
+2009-08-23 00:00:00+00:00                             40300
+2009-08-24 00:00:00+00:00                             38900
+2009-08-25 00:00:00+00:00                             38300
+2009-08-26 00:00:00+00:00                             37300
+2009-08-27 00:00:00+00:00                             35900
+2009-08-28 00:00:00+00:00                             36100
+2009-08-29 00:00:00+00:00                             37400
+2009-08-30 00:00:00+00:00                             39400
 ...                                                     ...
+2019-07-03 00:00:00+00:00                             65000
+2019-07-04 00:00:00+00:00                             62700
+2019-07-05 00:00:00+00:00                             61700
+2019-07-06 00:00:00+00:00                             64100
+2019-07-07 00:00:00+00:00                             65600
+2019-07-08 00:00:00+00:00                             65900
+2019-07-09 00:00:00+00:00                             66600
+2019-07-10 00:00:00+00:00                             67200
+2019-07-11 00:00:00+00:00                             66400
+2019-07-12 00:00:00+00:00                             67500
+2019-07-13 00:00:00+00:00                             68200
+2019-07-14 00:00:00+00:00                             66300
+2019-07-15 00:00:00+00:00                             63400
+2019-07-16 00:00:00+00:00                             64200
+2019-07-17 00:00:00+00:00                             65000
+2019-07-18 00:00:00+00:00                             62500
+2019-07-19 00:00:00+00:00                             61000
+2019-07-20 00:00:00+00:00                             61600
+2019-07-21 00:00:00+00:00                             61900
+2019-07-22 00:00:00+00:00                             60800
+2019-07-23 00:00:00+00:00                             60800
+2019-07-24 00:00:00+00:00                             62900
+2019-07-25 00:00:00+00:00                             66900
+2019-07-26 00:00:00+00:00                             68600
+2019-07-27 00:00:00+00:00                             67700
 2019-07-28 00:00:00+00:00                             66000
 2019-07-29 00:00:00+00:00                             63900
 2019-07-30 00:00:00+00:00                             63500
@@ -444,32 +495,23 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 [3653 rows x 1 columns]
 </pre></div></div>
 </div>
-<p>The request_usgs_data has returned a pandas DataFrame with 10 years of daily discharge indexed by time. The key name “Discharge, cubic feet per second” is long and therefore will be renamed to “Q”. Further, MHKit expects all units to be in SI so the discharge values will be converted to <img class="math" src="../_images/math/c2e557c37814c2f967a4d7103cc65ae4aaa4a0e4.png" alt="m^3/s"/>. Fianlly we can plot the discharge time series.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">request_usgs_data</span></code> function returned a pandas DataFrame indexed by time. For this example, the column name “Discharge, cubic feet per second” is long and therefore is renamed to “Q”. Furthermore, MHKiT expects all units to be in SI so the discharge values is converted to <img class="math" src="../_images/math/c2e557c37814c2f967a4d7103cc65ae4aaa4a0e4.png" alt="m^3/s"/>. Finally, we can plot the discharge time series.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Store the long DataFrame key name</span>
-<span class="n">key</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span></span><span class="c1"># Store the original DataFrame column name</span>
+<span class="n">column_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># Rename to a shorter key name e.g. &#39;Q&#39;</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s1">&#39;Q&#39;</span><span class="p">})</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">column_name</span><span class="p">:</span> <span class="s1">&#39;Q&#39;</span><span class="p">})</span>
 
 <span class="c1"># Convert to discharge data from ft3/s to m3/s</span>
 <span class="n">data</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">Q</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.28084</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span>
 
 <span class="c1"># Plot the daily discharge</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_discharge_timeseries</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f395d744e48&gt;
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_discharge_timeseries</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -477,31 +519,24 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_river_example_5_1.png" src="../_images/mhkit-python_river_example_5_1.png" />
+<img alt="../_images/mhkit-python_river_example_5_0.png" src="../_images/mhkit-python_river_example_5_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="The-Flow-Duration-Curve">
-<h2>The Flow Duration Curve<a class="headerlink" href="#The-Flow-Duration-Curve" title="Permalink to this headline">¶</a></h2>
-<p>The flow duration curve (FDC) quantifies the percentage of time that the discharge in a river exceeds a particular magnitude typically compiled on a monthly or annual basis. The FDC is a plot of discharge versus exceedance probability. The exceedance probability for the highest discharge is close to 0%, rarely being exceeded. Conversely, the lowest flowrates are found closer to 100% as they are most often exceeded.</p>
+<div class="section" id="Flow-Duration-Curve">
+<h2>Flow Duration Curve<a class="headerlink" href="#Flow-Duration-Curve" title="Permalink to this headline">¶</a></h2>
+<p>The flow duration curve (FDC) is a plot of discharge versus exceedance probability which quantifies the percentage of time that the discharge in a river exceeds a particular magnitude. The curve is typically compiled on a monthly or annual basis.</p>
+<p>The exceedance probability for the highest discharge is close to 0%, since that value is rarely exceeded. Conversely, the lowest discharge are found closer to 100% as they are most often exceeded.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Calculate &amp; plot the exceedence probability</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">exceedance_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
+<span></span><span class="c1"># Calculate exceedence probability</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">exceedance_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
+
 <span class="c1"># Plot the flow duration curve (FDC)</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_flow_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f39572fc7b8&gt;
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_flow_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -509,60 +544,61 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_river_example_7_1.png" src="../_images/mhkit-python_river_example_7_1.png" />
+<img alt="../_images/mhkit-python_river_example_7_0.png" src="../_images/mhkit-python_river_example_7_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="Velocity-Duration-Curve">
 <h2>Velocity Duration Curve<a class="headerlink" href="#Velocity-Duration-Curve" title="Permalink to this headline">¶</a></h2>
-<p>At each river energy converter location we must provide a curve that relates the velocity at the turbine location to the river discharge levels. IEC 301 recommends using at least 15 different discharges and that only velocities within the turbine operating conditions need to be included. Here we only provide 6 different discharge to velocities created using a hydrological model.</p>
+<p>At each river energy converter location we must provide a curve that relates the velocity at the turbine location to the river discharge levels. IEC 301 recommends using at least 15 different discharges and that only velocities within the turbine operating conditions need to be included.</p>
+<p>Here we only provide 6 different discharge to velocities relationships created using a hydrological model. The data is loaded into a pandas DataFrame using the pandas method <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Import discharge to velocity curve at turbine location</span>
-<span class="n">DV_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../mhkit/tests/data/tanana_DV_curve.csv&#39;</span><span class="p">)</span>
+<span></span><span class="c1"># Load discharge to velocity curve at turbine location</span>
+<span class="n">DV_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/tanana_DV_curve.csv&#39;</span><span class="p">)</span>
 
-<span class="c1"># Create a polynomial fit of order 2 from the DV_curve. The polynomial</span>
-<span class="c1">#  fit function will return a polynomial fit &amp; and R**2 value.</span>
-<span class="n">p</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">DV_curve</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">],</span> <span class="n">DV_curve</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Create a polynomial fit of order 2 from the discharge to velocity curve.</span>
+<span class="c1"># Return the polynomial fit and and R squared value</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">r_squared</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">DV_curve</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">DV_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># Plot the polynomial curve</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_discharge_vs_velocity</span><span class="p">(</span><span class="n">DV_curve</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">],</span>
-                                    <span class="n">DV_curve</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span>
-                                    <span class="n">polynomial_coeff</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_discharge_vs_velocity</span><span class="p">(</span><span class="n">DV_curve</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">DV_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Print R squared value</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r_squared</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9971199490337128
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_river_example_9_0.png" src="../_images/mhkit-python_river_example_9_0.png" />
+<img alt="../_images/mhkit-python_river_example_9_1.png" src="../_images/mhkit-python_river_example_9_1.png" />
 </div>
 </div>
-<p>The IEC standard recommends a polynomial fit of order 3. By changing the order above and replotting the polynomial fit to the curve data it can be seen this is not a good fit for the provided data. Therefore the order was set to 2. Next, we can calculate velocity for each discharge in the 10 years years of data using the polynomial ‘p’. Finally, we may plot the VDC.</p>
+<p>The IEC standard recommends a polynomial fit of order 3. By changing the order above and replotting the polynomial fit to the curve data it can be seen this is not a good fit for the provided data. Therefore the order was set to 2.</p>
+<p>Next, we calculate velocity for each discharge using the polynomial and plot the VDC.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Use polynomial fit from DV curve to calculate velocity(&#39;V&#39;) from</span>
-<span class="c1">#  discharge at turbine location</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">discharge_to_velocity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Q&#39;</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span>
+<span></span><span class="c1"># Use polynomial fit from DV curve to calculate velocity (&#39;V&#39;) from discharge at turbine location</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">discharge_to_velocity</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
 <span class="c1"># Plot the velocity duration curve (VDC)</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f394638cc50&gt;
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -570,36 +606,40 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_river_example_11_1.png" src="../_images/mhkit-python_river_example_11_1.png" />
+<img alt="../_images/mhkit-python_river_example_11_0.png" src="../_images/mhkit-python_river_example_11_0.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="Power-Duration-Curve">
 <h1>Power Duration Curve<a class="headerlink" href="#Power-Duration-Curve" title="Permalink to this headline">¶</a></h1>
-<p>The power duration curve is created in a nearly identical manner to the VDC. Here a velocity to power curve will be used to create a polynomial fit. The polynomial fit will be used to calculate the power produced between the turbine cut-in and cut-out velocities.</p>
+<p>The power duration curve is created in a nearly identical manner to the VDC. Here, a velocity to power curve is used to create a polynomial fit. The polynomial fit is used to calculate the power produced between the turbine cut-in and cut-out velocities. The velocity to power curve data is loaded into a pandas DataFrame using the pandas method <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Calculate the power produced from turbine velocity to power curve</span>
-<span class="n">VP_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../mhkit/tests/data/tanana_VP_curve.csv&#39;</span><span class="p">)</span>
+<span class="n">VP_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/tanana_VP_curve.csv&#39;</span><span class="p">)</span>
+
 <span class="c1"># Calculate the polynomial fit for the VP curve</span>
-<span class="n">p2</span><span class="p">,</span> <span class="n">r22</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">VP_curve</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> <span class="n">VP_curve</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">p2</span><span class="p">,</span> <span class="n">r_squared_2</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">VP_curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
 <span class="c1"># Plot the VP polynomial curve</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_vs_power</span><span class="p">(</span><span class="n">VP_curve</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> <span class="n">VP_curve</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_vs_power</span><span class="p">(</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">VP_curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
+
+<span class="c1"># Print the r_squared value</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r_squared_2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f39463808d0&gt;
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9994550455214494
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -608,28 +648,19 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <img alt="../_images/mhkit-python_river_example_13_1.png" src="../_images/mhkit-python_river_example_13_1.png" />
 </div>
 </div>
-<p>The second-order polynomial fits the data well. Therefore we will use the polynomial to calculate the power using the min and max of the curves velocities as the turbine operational limits.</p>
+<p>The second-order polynomial fits the data well. Therefore, the polynomial is used to calculate the power using the min and max of the curves velocities as the turbine operational limits.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Calculate power from velocity at the turbine location</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">resource</span><span class="o">.</span><span class="n">velocity_to_power</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">velocity_to_power</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">V</span><span class="p">,</span>
                                      <span class="n">polynomial_coefficients</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span>
                                      <span class="n">cut_in</span><span class="o">=</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
                                      <span class="n">cut_out</span><span class="o">=</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 <span class="c1"># Plot the power duration curve</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_power_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f3946358e48&gt;
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_power_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -637,19 +668,22 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_river_example_15_1.png" src="../_images/mhkit-python_river_example_15_1.png" />
+<img alt="../_images/mhkit-python_river_example_15_0.png" src="../_images/mhkit-python_river_example_15_0.png" />
 </div>
 </div>
+<div class="section" id="Annual-Energy-Produced">
+<h2>Annual Energy Produced<a class="headerlink" href="#Annual-Energy-Produced" title="Permalink to this headline">¶</a></h2>
+<p>Finally, annual energy produced is computed, as shown below.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Calculate the Annual Energy produced</span>
-<span class="n">s</span><span class="o">=</span> <span class="mf">365.</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span> <span class="c1"># Seconds in a year</span>
-<span class="n">AEP</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">energy_produced</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Annual Energy Produced: {AEP/1000000:.2f} MW&quot;</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mf">365.</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span> <span class="c1"># Seconds in a year</span>
+<span class="n">AEP</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_produced</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Annual Energy Produced: {AEP/1000000:.2f} MW&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -660,6 +694,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <div class="highlight"><pre>
 Annual Energy Produced: 100.75 MW
 </pre></div></div>
+</div>
 </div>
 </div>
 

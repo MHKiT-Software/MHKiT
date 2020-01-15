@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example: Wave Module &mdash; MHKiT 0.1.0 documentation</title>
+  <title>MHKiT Wave Module &mdash; MHKiT 0.1.0 documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Example: Wave Module</li>
+      <li>MHKiT Wave Module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -383,10 +383,10 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Example:-Wave-Module">
-<h1>Example: Wave Module<a class="headerlink" href="#Example:-Wave-Module" title="Permalink to this headline">¶</a></h1>
-<p>The following example runs an application of the wave module to: generate a capture length matrix, calculate MAEP, and plot the scatter diagrams. The wave module source code is in the <cite>\MHKiT:nbsphinx-math:</cite>wave` &lt;<a class="reference external" href="https://code.primre.org/mhkit/mhkit-python/tree/master/mhkit/wave">https://code.primre.org/mhkit/mhkit-python/tree/master/mhkit/wave</a>&gt;`__ directory.</p>
-<p>Start by importing the necessary modules:</p>
+<div class="section" id="MHKiT-Wave-Module">
+<h1>MHKiT Wave Module<a class="headerlink" href="#MHKiT-Wave-Module" title="Permalink to this headline">¶</a></h1>
+<p>The following example runs an application of the <a class="reference external" href="https://mhkit-code-hub.github.io/MHKiT/mhkit-python/api.wave.html">MHHKiT wave module</a> to 1) generate a capture length matrix, 2) calculate MAEP, and 3) plot the scatter diagrams.</p>
+<p>Start by importing the necessary python packages and MHKiT module.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -395,66 +395,53 @@ div.rendered_html tbody tr:hover {
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">mhkit.wave</span> <span class="k">import</span> <span class="n">performance</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="k">import</span> <span class="n">wave</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="Getting-Started-(Generating-Basic-Capture-Length-Matrices)">
-<h2>Getting Started (Generating Basic Capture Length Matrices)<a class="headerlink" href="#Getting-Started-(Generating-Basic-Capture-Length-Matrices)" title="Permalink to this headline">¶</a></h2>
-<p>Now we will generate a few matrices for example data. In a real application, the user would provide these values. These values are expected to be in a pandas series for several of the functions in the device module.</p>
+<div class="section" id="Generate-example-data">
+<h2>Generate example data<a class="headerlink" href="#Generate-example-data" title="Permalink to this headline">¶</a></h2>
+<p>For demonstration purposes, this example uses synthetic data generated from statistical distributions. The data includes significant wave height, peak period, power, and omnidirectional wave flux. In a real application, the user would provide these values. The data is stored in pandas Series, each containing 1,000,000 points.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#generating an array of 1,000,000 values to represent sig wave height</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#set random seed</span>
-<span class="n">Hm0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rayleigh</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span>
+<span></span><span class="c1"># Set the random seed, to reproduce results</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1">#generating 1,000,000 values to represent peak period values, assuming normal dist.</span>
-<span class="n">Te</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span>
-
-<span class="c1">#generating 1,000,000 random power values</span>
-<span class="n">Power</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span>
-
-<span class="c1">#generating 1,000,000 random omnidirectional wave flux values</span>
-<span class="n">J</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span>
+<span class="n">Hm0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rayleigh</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span> <span class="c1"># significant wave height values</span>
+<span class="n">Te</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span> <span class="c1"># peak period values</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span> <span class="c1"># power values</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span> <span class="c1"># omnidirectional wave flux values</span>
 </pre></div>
 </div>
 </div>
-<p>It is important that these matrices have the same size for data alignment purposes. The data can be in pandas Series as well for time series data, but the module will treat most data as numpy arrays.</p>
-<p>Soon, we can create our capture length matrices, as specified by the IEC/TS 62600-100. But first, we need to calculate our capture lengths and generate our bin values as an array indicate the centers of each bin.</p>
-<p>The following operations are how you generate the five matrices specified by the IEC/TS 62600-100. We also generate a frequency matrix for convenience.</p>
-<div class="nbinput nblast docutils container">
+</div>
+<div class="section" id="Capture-Length-Matrices">
+<h2>Capture Length Matrices<a class="headerlink" href="#Capture-Length-Matrices" title="Permalink to this headline">¶</a></h2>
+<p>The following operations create capture length matrices, as specified by the IEC/TS 62600-100. But first, we need to calculate capture length and define bin centers. The mean capture length matrix is printed below. Keep in mind that this data has been artificially generated, so it may not be representative of what a real-world scatter diagram would look like.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">L</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length</span><span class="p">(</span><span class="n">Power</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="c1">#calculating capture length with corresponding values in series data</span>
+<span></span><span class="c1"># Calculate capture length</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
 
-<span class="n">Hm0_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Hm0</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="c1">#arg1 is list to bin, arg2 is step size. returns list starting at 0.</span>
+<span class="c1"># Generate bins for Hm0 and Te</span>
+<span class="n">Hm0_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Hm0</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># input is start, stop, and step size</span>
 <span class="n">Te_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Te</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="c1">#the necessary clmats from the IEC/TS 62600-100</span>
-<span class="n">clmats</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
-<span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
-<span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
-<span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
-<span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span class="c1"># Create capture length matrices using mean, standard deviation, count, min and max statistics</span>
+<span class="n">LM_mean</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span class="n">LM_std</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span class="n">LM_count</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span class="n">LM_min</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span class="n">LM_max</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
 
-<span class="c1">#frequency matrix for convenience</span>
-<span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>Let’s see what the data in the mean matrix looks like. Keep in mind that this data has been artificially generated, so it may not be representative of what a real-world scatter diagram would look like.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<span class="c1"># Print capture length matrices using mean</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">LM_mean</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -514,116 +501,75 @@ div.rendered_html tbody tr:hover {
 11.0       NaN       NaN
 </pre></div></div>
 </div>
+<p>Additional capture length matrices can be computed, for example, the frequency matrix is computed below.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create capture length matrices using frequency</span>
+<span class="n">LM_freq</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="Power-Matrices">
 <h2>Power Matrices<a class="headerlink" href="#Power-Matrices" title="Permalink to this headline">¶</a></h2>
-<p>The IEC/TS 62600-100 specifies that the power matrix should be generated from the capture length matrix. The following is an example of how to do that. To generate the power matrix, you need to have a matrix of the wave energy flux, so we make one, then we generate the power matrices.</p>
+<p>As specified in IEC/TS 62600-100, the power matrix is generated from the capture length matrix and wave energy flux matrix, as shown below</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">jmat</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">wave_energy_flux_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span></span><span class="c1"># Create wave energy flux matrix using mean</span>
+<span class="n">JM</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">wave_energy_flux_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
 
-<span class="n">avgpowmat</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">power_matrix</span><span class="p">(</span><span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">jmat</span><span class="p">)</span>
-<span class="n">stdpowmat</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">power_matrix</span><span class="p">(</span><span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">],</span> <span class="n">jmat</span><span class="p">)</span>
+<span class="c1"># Create power matrix using mean</span>
+<span class="n">PM_mean</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">power_matrix</span><span class="p">(</span><span class="n">LM_mean</span><span class="p">,</span> <span class="n">JM</span><span class="p">)</span>
+
+<span class="c1"># Create power matrix using standard deviation</span>
+<span class="n">PM_std</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">power_matrix</span><span class="p">(</span><span class="n">LM_std</span><span class="p">,</span> <span class="n">JM</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">performance.capture_length_matrix</span></code> function can also be used as an arbitrary scatter plot generator. To do this, simply pass a different Series in the place of capture length (L). For example, while not specified by the IEC standards, if the user doesn’t have the omnidirectional wave flux, the average power matrix could hypothetically be generated in the following manner:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">capture_length_matrix</span></code> function can also be used as an arbitrary matrix generator. To do this, simply pass a different Series in the place of capture length (L). For example, while not specified by the IEC standards, if the user doesn’t have the omnidirectional wave flux, the average power matrix could hypothetically be generated in the following manner.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">avgpowmat_not_standard</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">Power</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
+<span></span><span class="c1"># Demonstration of arbitrary matrix generator</span>
+<span class="n">PM_mean_not_standard</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>A little bit more advanced use of the capture length matrix would be to pass a callable function into the statistic argument. That’s right, this is a higher order function! For example, suppose that we wanted to generate a matrix with the variance of the capture length. We could achieve this by passing the numpy.variance function into the <code class="docutils literal notranslate"><span class="pre">performance.capture_length_matrix</span></code> function we could also achieve this by the following method:</p>
-<div class="nbinput docutils container">
+<p>The <code class="docutils literal notranslate"><span class="pre">capture_length_matrix</span></code> function can also use a callable function as the statistic argument. For example, suppose that we wanted to generate a matrix with the variance of the capture length. We could achieve this by passing the numpy variance function <code class="docutils literal notranslate"><span class="pre">np.var</span></code> into the <code class="docutils literal notranslate"><span class="pre">capture_length_matrix</span></code> function, as shown below.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># demonstration of passing a callable function on a list to the matrix generator</span>
-<span class="n">variance_matrix</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">variance_matrix</span><span class="p">)</span>
+<span></span><span class="c1"># Demonstration of passing a callable function to the matrix generator</span>
+<span class="n">LM_variance</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length_matrix</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">Hm0_bins</span><span class="p">,</span> <span class="n">Te_bins</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-      0.0       1.0       2.0       3.0       4.0       5.0       6.0  \
-0.0   NaN       NaN  0.024437  0.018971  0.018376  0.017840  0.016689
-0.5   NaN       NaN  0.015523  0.017385  0.018224  0.017915  0.017719
-1.0   NaN       NaN  0.017966  0.018095  0.017995  0.018252  0.018260
-1.5   NaN  0.000000  0.017102  0.017878  0.018233  0.018122  0.018412
-2.0   NaN  0.005190  0.018875  0.018307  0.017959  0.018220  0.018412
-2.5   NaN  0.000000  0.017018  0.018358  0.018309  0.018094  0.018427
-3.0   NaN  0.007879  0.018596  0.017985  0.018174  0.018028  0.018209
-3.5   NaN  0.009713  0.020080  0.018357  0.017993  0.018269  0.018116
-4.0   NaN       NaN  0.017482  0.018770  0.018126  0.017923  0.018495
-4.5   NaN       NaN  0.021293  0.017733  0.018342  0.017982  0.017796
-5.0   NaN  0.000000  0.013005  0.017788  0.018219  0.018278  0.018115
-5.5   NaN       NaN  0.018289  0.017809  0.018210  0.018139  0.017777
-6.0   NaN       NaN  0.014543  0.016871  0.018684  0.018387  0.017936
-6.5   NaN       NaN  0.025169  0.018400  0.018580  0.018878  0.017349
-7.0   NaN       NaN  0.024166  0.017801  0.016408  0.019735  0.018113
-7.5   NaN       NaN  0.000998  0.016871  0.018768  0.015334  0.016213
-8.0   NaN  0.000000  0.028606  0.017493  0.021278  0.019670  0.023923
-8.5   NaN       NaN       NaN  0.019112  0.016535  0.016382  0.017174
-9.0   NaN       NaN       NaN  0.003567  0.017432  0.012236       NaN
-9.5   NaN       NaN  0.000000       NaN  0.024856  0.008963  0.000000
-10.0  NaN       NaN       NaN       NaN  0.001837  0.000000       NaN
-10.5  NaN       NaN       NaN       NaN  0.000000       NaN       NaN
-11.0  NaN       NaN       NaN       NaN  0.000000       NaN       NaN
-
-           7.0      8.0
-0.0   0.017055      NaN
-0.5   0.017247      NaN
-1.0   0.020508  0.00000
-1.5   0.017636  0.00000
-2.0   0.016646  0.00000
-2.5   0.018164  0.00019
-3.0   0.016970  0.00000
-3.5   0.018270      NaN
-4.0   0.021291      NaN
-4.5   0.011671  0.00000
-5.0   0.018712      NaN
-5.5   0.015514      NaN
-6.0   0.027602      NaN
-6.5   0.019184      NaN
-7.0   0.007400      NaN
-7.5   0.004410      NaN
-8.0        NaN      NaN
-8.5        NaN      NaN
-9.0        NaN      NaN
-9.5        NaN      NaN
-10.0       NaN      NaN
-10.5       NaN      NaN
-11.0       NaN      NaN
-</pre></div></div>
 </div>
 </div>
 <div class="section" id="MAEP">
 <h2>MAEP<a class="headerlink" href="#MAEP" title="Permalink to this headline">¶</a></h2>
-<p>There are two ways to calculate MAEP. One is from a scatter diagram, the other is from time-series data.</p>
+<p>There are two ways to calculate mean annual energy production (MEAP). One is from capture length and wave energy flux matrices, the other is from time-series data, as shown below.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">maep_timeseries</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">mean_annual_energy_production_timeseries</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MAEP from Timeseries =&quot;</span><span class="p">,</span> <span class="n">maep_timeseries</span><span class="p">)</span>
+<span></span><span class="c1"># Calcaulte maep from timeseries</span>
+<span class="n">maep_timeseries</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">mean_annual_energy_production_timeseries</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MAEP from timeseries = &quot;</span><span class="p">,</span> <span class="n">maep_timeseries</span><span class="p">)</span>
 
-<span class="n">maep_matrix</span> <span class="o">=</span> <span class="n">performance</span><span class="o">.</span><span class="n">mean_annual_energy_production_matrix</span><span class="p">(</span><span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">jmat</span><span class="p">,</span> <span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MAEP from Scatter Diagram =&quot;</span><span class="p">,</span><span class="n">maep_matrix</span><span class="p">)</span>
-
+<span class="c1"># Calcaulte maep from matrix</span>
+<span class="n">maep_matrix</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">mean_annual_energy_production_matrix</span><span class="p">(</span><span class="n">LM_mean</span><span class="p">,</span> <span class="n">JM</span><span class="p">,</span> <span class="n">LM_freq</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MAEP from matrices = &quot;</span><span class="p">,</span> <span class="n">maep_matrix</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -632,48 +578,51 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-MAEP from Timeseries = 1753073.5377000887
-MAEP from Scatter Diagram = 1754328.6997311334
+MAEP from timeseries =  1753073.5377000887
+MAEP from matrices =  1754328.6997311334
 </pre></div></div>
 </div>
 </div>
 <div class="section" id="Graphics">
 <h2>Graphics<a class="headerlink" href="#Graphics" title="Permalink to this headline">¶</a></h2>
-<p>Printing the results of these calculations to standard output can look a little bit messy. Let’s try graphing the outputs using the graphics module’s <code class="docutils literal notranslate"><span class="pre">plot_scatter_diagram</span></code> function. It is important to note that the plotting function expects the step size between bins to be linear.</p>
+<p>The graphics function <code class="docutils literal notranslate"><span class="pre">plot_matrix</span></code> can be used to visualize results. It is important to note that the plotting function assumes the step size between bins to be linear.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_matrix</span><span class="p">(</span><span class="n">clmats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<span></span><span class="c1"># Plot the capture length mean matrix</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_matrix</span><span class="p">(</span><span class="n">LM_mean</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/mhkit-python_wave_example_17_0.png" src="../_images/mhkit-python_wave_example_17_0.png" />
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1f0280ef390&gt;
-</pre></div>
-</div>
-</div>
-<p>The plotting function only requires the matrix being input to generate a plot, but it also takes several other arguements. The list of optional arguents are: <code class="docutils literal notranslate"><span class="pre">title,</span> <span class="pre">xlabel,</span> <span class="pre">ylabel,</span> <span class="pre">zlabel,</span> <span class="pre">size,</span> <span class="pre">and</span> <span class="pre">cmap</span></code>. The <code class="docutils literal notranslate"><span class="pre">cmap</span></code> argument can take any of the matplotlib colormap options. The default values for these are: <code class="docutils literal notranslate"><span class="pre">title='title',</span> <span class="pre">xlabel='te',</span> <span class="pre">ylabel='Hm0',</span> <span class="pre">zlabel='',</span> <span class="pre">size=(12,8),</span> <span class="pre">cmap='jet'</span></code>The following is an example with all of these options being used.</p>
+<p>The plotting function only requires the matrix as input, but the function can also take several other arguments. The list of optional arguments are: <code class="docutils literal notranslate"><span class="pre">xlabel,</span> <span class="pre">ylabel,</span> <span class="pre">zlabel,</span> <span class="pre">show_values,</span> <span class="pre">and</span> <span class="pre">ax</span></code>. The following uses these optional arguments. The matplotlib package is imported to define an axis with a larger figure size.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">basicplot</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_matrix</span><span class="p">(</span><span class="n">avgpowmat</span><span class="p">,</span> \
-                                          <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;xlabel&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;ylabel&#39;</span><span class="p">,</span> \
-                                          <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;zlabel&#39;</span><span class="p">)</span>
+<span></span><span class="c1"># Customize the matrix plot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_matrix</span><span class="p">(</span><span class="n">PM_mean</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;xlabel&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;ylabel&#39;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;zlabel&#39;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x21d02018400&gt;
 </pre></div>
 </div>
 </div>
@@ -681,22 +630,9 @@ MAEP from Scatter Diagram = 1754328.6997311334
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_wave_example_19_0.png" src="../_images/mhkit-python_wave_example_19_0.png" />
+<img alt="../_images/mhkit-python_wave_example_19_1.png" src="../_images/mhkit-python_wave_example_19_1.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Kelley's-notes:">
-<h1>Kelley’s notes:<a class="headerlink" href="#Kelley's-notes:" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p>Need to update example to refer to mhkit.wave.performance, etc to make sure it’s clear which module we are using</p></li>
-<li><p>Need device to make examples have similar structure and reference source code</p></li>
-<li><p>it would be nice to comment each line of code so that it is clear what the input parameters are doing.</p></li>
-</ul>
-<p>For example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">results</span> <span class="pre">=</span> <span class="pre">mhkit.qc.check_range(results['cleaned_data'],</span> <span class="pre">[-50,</span> <span class="pre">50])</span> <span class="pre">#applies</span> <span class="pre">check_range</span> <span class="pre">method</span> <span class="pre">to</span> <span class="pre">'cleaned</span> <span class="pre">data'</span> <span class="pre">column</span> <span class="pre">of</span> <span class="pre">results,</span> <span class="pre">looks</span> <span class="pre">for</span> <span class="pre">data</span> <span class="pre">outside</span> <span class="pre">of</span> <span class="pre">[-50,50]</span> <span class="pre">range</span></code></p>
-<p>Or:</p>
-<p><code class="docutils literal notranslate"><span class="pre">results</span> <span class="pre">=</span> <span class="pre">mhkit.qc.check_range(results['cleaned_data'],</span> <span class="pre">[-50,</span> <span class="pre">50])</span> <span class="pre">#dataframe</span> <span class="pre">=</span> <span class="pre">mhkit.qc.check_range(dataframe['column'],</span> <span class="pre">[min,</span> <span class="pre">max])</span></code></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -704,6 +640,7 @@ MAEP from Scatter Diagram = 1754328.6997311334
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
