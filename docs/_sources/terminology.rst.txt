@@ -31,7 +31,7 @@ JS                 	JONSWAP spectrum
 :math:`P` 		Power [W]
 PM                 	Pierson-Moskowitz specturm
 :math:`Q`		Discharge [m^3/s] 
-:math:`\rho` 		Density [kg/m3]
+:math:`\rho` 		Density [kg/m^3]
 :math:`S` 		Spectral density [m^2/Hz]
 SWL	 		Still water line
 :math:`T_{e}` 		Energy period [s]
