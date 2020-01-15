@@ -11,6 +11,6 @@ The wave module contains the following submodules:
   Calculations are based on `IEC TS 62600-101:2015 ED1 <https://webstore.iec.ch/publication/22593>`_. 
 * ``performance``: Computes performance metrics such as capture length matrix and mean annual energy production. 
   Calculations are based on `IEC TS 62600-100:2012 ED1 <https://webstore.iec.ch/publication/7241>`_.
-* ``graphics``: Generates graphics, including elevation timeseries, spectra, and scatter diagrams.
+* ``graphics``: Generates graphics, including elevation time-series, spectra, and scatter diagrams.
 
 See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the wave module.

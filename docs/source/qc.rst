@@ -3,7 +3,7 @@
 QC Module
 ====================
 It is recommended that input data be processed using the quality control (QC) module to check for data quality and potential issues prior to using the MHKiT Wave, River, and Tidal modules. 
-Quality control analysis often includes steps to ensure that data is 
+Quality control analysis often includes steps to ensure that data are 
 not missing, corrupt, or outside of the expected range.  
 Additional analysis can include checking for 
 stagnant readings, unusual abrupt changes, or outliers.
@@ -16,10 +16,10 @@ designed for quality control analysis of time-series data.  Pecos was originally
 
 The following quality control functionality is available in MHKiT:
 
-* Check time series for missing, non-monotonic and duplicate timestamps
+* Check time series for missing, non-monotonic and duplicate time stamps
 * Check for missing data
 * Check for corrupt data
-* Check for data that is outside expected range
+* Check for data that are outside the expected range
 * Check for stagnant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window
 * Check for outliers using normalized data within a rolling window
 
@@ -27,12 +27,12 @@ Additional functionality, including graphics and reports, can be included in qua
 
 Each function returns the following information:
 
-* Cleaned data (data that failed a test is replaced by NaN)
+* Cleaned data (data that failed a test are replaced by NaN)
 * Boolean mask (indicates if data failed a test)
 * Summary of the quality control test results
 
 The clean data can be used directly in MHKiT analysis, or the missing values can be replaced using various methods.  
-Data replacement strategies are generally defined on a case by case basis. If large sections of the data failed quality control tests, the data might not be suitable for use.
+Data replacement strategies are generally defined on a case-by-case basis. If large sections of the data failed quality control tests, the data might not be suitable for use.
 Replacement strategies can be applied to the entire data set, or vary by data column or by time.
 Possible strategies include:
 
@@ -45,7 +45,7 @@ Possible strategies include:
 These strategies can be accomplished using the Pandas methods ``interpolate``, ``replace``, and ``fillna``.  
 See Pandas documentation for more details.
 
-Note, that the quality control functions require that the data has a datatime index.  
+Note, that the quality control functions require that the data have a datatime index.  
 Other functionality in MHKiT can use data that has datatime or numeric indexes.  
 The :ref:`utils` can be used to convert numeric indexes to datetime indexes.
 

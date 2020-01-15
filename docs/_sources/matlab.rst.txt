@@ -12,14 +12,12 @@ Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for informati
 
 API Documentation
 --------------------
+    
+- `Wave <source/mhkit-matlab/mhkit.wave.html>`_
+- `River <source/mhkit-matlab/mhkit.river.html>`_
+- `Tidal <source/mhkit-matlab/mhkit.tidal.html>`_
+- `QC <source/mhkit-matlab/mhkit.qc.html>`_
 
-.. toctree::
-
-   mhkit-matlab/apidoc/api.qc
-   mhkit-matlab/apidoc/api.wave
-   mhkit-matlab/apidoc/api.river
-   mhkit-matlab/apidoc/api.tidal
-   mhkit-matlab/apidoc/api.utils
 
 Examples
 --------------
@@ -28,9 +26,10 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 
 - `Wave Example <source/mhkit-matlab/wave_example.html>`_
 - `River Example <source/mhkit-matlab/river_example.html>`_
+- `QC Example <source/mhkit-matlab/qc_example.html>`_
+- `Tidal Example <source/mhkit-matlab/tidal_example.html>`_
 
-.. Note:: 
-    MATLAB examples remove the indecx
+.. (removed for now) MATLAB examples remove the indecx
 
 Online Forum
 --------------

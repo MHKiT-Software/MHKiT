@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>MHKiT Tidal &mdash; MHKiT 0.1.0 documentation</title>
+  <title>MHKiT Tidal Module &mdash; MHKiT 0.1.0 documentation</title>
   
 
   
@@ -142,7 +142,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>MHKiT Tidal</li>
+      <li>MHKiT Tidal Module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -383,86 +383,155 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="MHKiT-Tidal">
-<h1>MHKiT Tidal<a class="headerlink" href="#MHKiT-Tidal" title="Permalink to this headline">¶</a></h1>
-<p>This jupyter notebook will familiarize the user with the mhkit tidal module by stepping through the calculation of the calculation of the velocity duration curve. First, let us load the Tidal module. Below we import 3 standard python packages. Pandas, numpy, and matplotlib. With respect to MHKit, all of the tidal functions are imported with respect to each of the functional groupings.</p>
+<div class="section" id="MHKiT-Tidal-Module">
+<h1>MHKiT Tidal Module<a class="headerlink" href="#MHKiT-Tidal-Module" title="Permalink to this headline">¶</a></h1>
+<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-code-hub.github.io/MHKiT/mhkit-python/api.tidal.html">MHKiT tidal module</a> by stepping through the calculation of the velocity duration curve. The data file used in this example is stored in the <cite>\MHKiT:nbsphinx-math:</cite>examples`:nbsphinx-math:<cite>data</cite> &lt;<a class="reference external" href="https://github.com/MHKiT-Code-Hub/MHKiT-Python/tree/master/examples/data">https://github.com/MHKiT-Code-Hub/MHKiT-Python/tree/master/examples/data</a>&gt;`__ directory.</p>
+<p>Start by importing the necessary python packages and MHKiT module.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">mhkit.tidal</span> <span class="k">import</span> <span class="n">device</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="k">import</span> <span class="n">tidal</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="Importing-Data-from-NOAA-Currents">
-<h2>Importing Data from NOAA-Currents<a class="headerlink" href="#Importing-Data-from-NOAA-Currents" title="Permalink to this headline">¶</a></h2>
-<p>THis example will pull 1 year of data frooooom the NOAA-Currents site available sites can be viewed on the map Check the map for available currents stations <a class="reference external" href="https://tidesandcurrents.noaa.gov/map/">https://tidesandcurrents.noaa.gov/map/</a>. We will start by requesting 1 year of 6 minute averaged data from the Southampton Shoal Channel LB 6 (Station Number: s08010) in San Francisco Bay. The function request_noaa_data in the MHKit tidal IO module returns a Pandas DataFrame. To use the request_noaa_data function we will need a station
-number, parameter type, a start date and an end date. The station ID can be found on the NOAA tides and currents website linked above. The IEC standard recommends 1 year of 10 minute direction and velocity data. The request_noaa_data function allows users to easily pull any timeframe of data although NOAA limits any one pull to 30 days.</p>
-<div class="nbinput nblast docutils container">
+<div class="section" id="Loading-Data-from-NOAA-Currents">
+<h2>Loading Data from NOAA-Currents<a class="headerlink" href="#Loading-Data-from-NOAA-Currents" title="Permalink to this headline">¶</a></h2>
+<p>This example uses 1 year of data from the NOAA-Currents sites. A map of available currents stations is available at <a class="reference external" href="https://tidesandcurrents.noaa.gov/map/">https://tidesandcurrents.noaa.gov/map/</a>. The tidal io module includes two functions to import data: <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code> which pulls data from the website, and <code class="docutils literal notranslate"><span class="pre">read_noaa_json</span></code> which loads a json file. The request function can save the json file for later use.</p>
+<p>For simplicity, this example loads data from a json file into a pandas DataFrame. This data contains 1 year of 6 minute averaged data from the Southampton Shoal Channel LB 6 (Station Number: s08010) in San Francisco Bay. The data includes 6 minute averaged direction [degrees] and speed [cm/s] indexed by time. The DataFrame key names returned by NOAA are ‘d’ for direction and ‘s’ for speed. Since MHKIT uses SI units, speed is converted to m/s.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Create a file name to save the requested data</span>
-<span class="n">currents_file</span> <span class="o">=</span> <span class="s1">&#39;data/s08010.json&#39;</span> <span class="c1">#South Hampton Shoal LB 6</span>
+<span></span><span class="c1"># Load tidal data, South Hampton Shoal LB 6</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_noaa_json</span><span class="p">(</span><span class="s1">&#39;data/s08010.json&#39;</span><span class="p">)</span>
 
-<span class="c1"># If the file exists load the data</span>
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">currents_file</span><span class="p">):</span>
-    <span class="n">data</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">read_noaa_json</span><span class="p">(</span><span class="n">currents_file</span><span class="p">)</span>
-<span class="c1"># If the file is not found request the data from NOAA and save it (write_json)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="c1"># Request data from NOAA,</span>
-    <span class="n">data</span><span class="p">,</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">request_noaa_data</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;s08010&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="s1">&#39;currents&#39;</span><span class="p">,</span>
-                               <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;20161101&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;20180401&#39;</span><span class="p">,</span>
-                               <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_json</span><span class="o">=</span><span class="n">currents_file</span><span class="p">)</span>
-<span class="c1"># Convert to discharge data from cm/s to m/s</span>
+<span class="c1"># Convert discharge data from cm/s to m/s</span>
 <span class="n">data</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="mi">100</span>
+
+<span class="c1"># Print data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>The request_noaa_data has returned a pandas DataFrame of time series data between November of 2016 and March of 2018. The time series data points are 6 minute averaged direction [degrees] and speed [cm/s] data indexed by time. The DataFrame key names returned by NOAA are ‘d’ for direction and ‘s’ for speed. The speed returned from NOAA is in cm/s so we will convert this to m/s. An initial data check may look at the timeseries data to identify how any missing data. To do this we will convert
-the speed data to velocity using the directional data. To choose a direction to calculate the velocity on we will use the <code class="docutils literal notranslate"><span class="pre">resource.principal_flow_direction</span></code> function. This function returns 2 directions in degrees corresponding to the flood and ebb directions of the tidal site. From these two direction we can choose either as our principal flow direction. The <code class="docutils literal notranslate"><span class="pre">graphics.plot_current_timeseries</span></code> function then calculates velocity to the chosen direction for all speeds in the passed timeseries.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+                         s    d  b
+2016-11-08 12:04:00  0.673  358  4
+2016-11-08 12:34:00  0.689  360  4
+2016-11-08 12:46:00  0.738  356  4
+2016-11-08 12:58:00  0.744  359  4
+2016-11-08 13:10:00  0.648  358  4
+2016-11-08 13:28:00  0.521  345  4
+2016-11-08 13:58:00  0.578  351  4
+2016-11-08 14:16:00  0.569  355  4
+2016-11-08 14:34:00  0.584  356  4
+2016-11-08 14:58:00  0.485  352  4
+2016-11-08 15:22:00  0.359  354  4
+2016-11-08 15:40:00  0.373  358  4
+2016-11-08 16:34:00  0.149  322  4
+2016-11-08 16:52:00  0.120  342  4
+2016-11-08 18:58:00  0.430  171  4
+2016-11-08 20:04:00  0.336  168  4
+2016-11-08 21:10:00  0.140  174  4
+2016-11-08 21:28:00  0.036  189  4
+2016-11-08 22:46:00  0.266    1  4
+2016-11-08 23:16:00  0.395   18  4
+2016-11-09 00:04:00  0.580    8  4
+2016-11-09 00:34:00  0.592  349  4
+2016-11-09 00:58:00  0.637  354  4
+2016-11-09 01:10:00  0.610  358  4
+2016-11-09 02:04:00  0.365    1  4
+2016-11-09 02:52:00  0.265    6  4
+2016-11-09 03:10:00  0.228   13  4
+2016-11-09 08:28:00  0.320  166  4
+2016-11-09 11:04:00  0.443    4  4
+2016-11-09 11:46:00  0.551   14  4
+...                    ...  ... ..
+2018-04-01 09:56:00  0.081  344  4
+2018-04-01 12:02:00  0.770  168  4
+2018-04-01 15:20:00  0.175  133  4
+2018-04-01 16:14:00  0.326   17  4
+2018-04-01 16:44:00  0.387   31  4
+2018-04-01 16:56:00  0.469   10  4
+2018-04-01 17:08:00  0.647   13  4
+2018-04-01 17:26:00  0.720   10  4
+2018-04-01 17:38:00  0.816    3  4
+2018-04-01 17:50:00  0.969    3  4
+2018-04-01 18:14:00  0.963    1  4
+2018-04-01 18:32:00  0.988    1  4
+2018-04-01 18:44:00  0.946  359  4
+2018-04-01 18:56:00  0.934  357  4
+2018-04-01 19:14:00  0.796  345  4
+2018-04-01 19:26:00  0.749  345  4
+2018-04-01 19:38:00  0.762  352  4
+2018-04-01 19:56:00  0.699  353  4
+2018-04-01 20:08:00  0.835  351  4
+2018-04-01 20:20:00  0.664  349  4
+2018-04-01 20:38:00  0.805  349  4
+2018-04-01 20:50:00  0.648  348  4
+2018-04-01 21:08:00  0.504  345  4
+2018-04-01 21:38:00  0.294  342  4
+2018-04-01 21:50:00  0.178  322  4
+2018-04-01 22:02:00  0.089  296  4
+2018-04-01 22:14:00  0.102  356  4
+2018-04-01 22:26:00  0.011    3  4
+2018-04-01 22:38:00  0.060  193  4
+2018-04-01 23:20:00  0.439  165  4
+
+[18890 rows x 3 columns]
+</pre></div></div>
+</div>
+<p>The data can also be obtained using the function <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code> in the tidal IO module. To use this function, we need a station number, parameter type, a start date and an end date. The station number can be found on the NOAA tides and currents website linked above. The IEC standard recommends 1 year of 10 minute direction and velocity data. The request function allows users to easily pull any timeframe of data although NOAA limits any one pull to 30 days.</p>
+<p>The following code, which has been commented out for this demonstration, can be used to pull data from the NOAA website. This function can be used to save data to a json for later use.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># We need to specify a histogram bin width for the directions to</span>
-<span class="c1">#    calculate the principal flow directions</span>
-<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1">#[degrees]</span>
-
-<span class="c1"># Two principal directions are caluculated nased on the highest frequency direction</span>
-<span class="c1">#    one direction is flood, and the other is tide. These directions are close to</span>
-<span class="c1">#    180 degrees apart but not required to be.</span>
-<span class="n">direction1</span><span class="p">,</span> <span class="n">direction2</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">principal_flow_direction</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">)</span>
-
-<span class="c1"># Set flood and ebb directions based on site knowledge</span>
-<span class="n">flood</span><span class="o">=</span> <span class="n">direction1</span> <span class="c1"># Flow into</span>
-<span class="n">ebb</span>  <span class="o">=</span> <span class="n">direction2</span> <span class="c1"># Flow out</span>
+<span></span><span class="c1">#data, metadata = tidal.io.request_noaa_data(station=&#39;s08010&#39;, parameter=&#39;currents&#39;,</span>
+<span class="c1">#                               start_date=&#39;20161101&#39;, end_date=&#39;20180401&#39;,</span>
+<span class="c1">#                               proxy=None, write_json=`data/s08010.json`)</span>
 </pre></div>
 </div>
 </div>
-<p>Using either of the calculated directions we can plot the time series of returned data using the `graphics.plot_current_timeseries’ function.</p>
-<div class="nbinput docutils container">
+</div>
+<div class="section" id="Principal-Flow-Directions">
+<h2>Principal Flow Directions<a class="headerlink" href="#Principal-Flow-Directions" title="Permalink to this headline">¶</a></h2>
+<p>As an initial check on the data, a velocity plot can be created to identify data gaps. To consider the velocity in one of the principal flow directions we apply the <code class="docutils literal notranslate"><span class="pre">principal_flow_directions</span></code> function. This function returns 2 directions (in degrees) corresponding to the flood and ebb directions of the tidal site. Principal flow directions are calculated based on the highest frequency directions. These directions are often close to 180 degrees apart, but are not required to be.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code> function plots velocity in either direction using the speed timeseries.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_current_timeseries</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
+<span></span><span class="c1"># Specify histogram bin width for directions to calculate the principal flow directions</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># in degrees</span>
+
+<span class="c1"># Compute two principal flow directions</span>
+<span class="n">direction1</span><span class="p">,</span> <span class="n">direction2</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">principal_flow_directions</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">)</span>
+
+<span class="c1"># Set flood and ebb directions based on site knowledge</span>
+<span class="n">flood</span> <span class="o">=</span> <span class="n">direction1</span> <span class="c1"># Flow into</span>
+<span class="n">ebb</span> <span class="o">=</span> <span class="n">direction2</span> <span class="c1"># Flow out</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<p>The time series of current data can be plotted using the <code class="docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code> function, which can include either the flood or ebb directions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f49efb91e48&gt;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_current_timeseries</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -470,28 +539,20 @@ the speed data to velocity using the directional data. To choose a direction to 
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_tidal_example_7_1.png" src="../_images/mhkit-python_tidal_example_7_1.png" />
+<img alt="../_images/mhkit-python_tidal_example_9_0.png" src="../_images/mhkit-python_tidal_example_9_0.png" />
 </div>
 </div>
-<p>The plot above shows that the NOAA site request did not return data for most of early and mid 2017. The IEC standard reccomends a minimum of 1 year of 10 minute averaged data (See IEC 201 for full description). For the purposes of demonstration this dataset is suffcient. To look at a speficic month we can slice the dataset before passing to the plotting function.</p>
+<p>The plot above shows missing data for most of early and mid 2017. The IEC standard recommends a minimum of 1 year of 10 minute averaged data (See IEC 201 for full description). For the purposes of demonstration, this dataset is sufficient. To look at a specific month we can slice the dataset before passing to the plotting function.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Slice December of 2017 out of the full dataset</span>
-<span class="n">data2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-12-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-12-31&#39;</span><span class="p">]</span>
-<span class="c1"># Then plot December of 2017 as current timeseries</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_current_timeseries</span><span class="p">(</span><span class="n">data2</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data2</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f49dc218ac8&gt;
+<span class="n">dec17_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-12-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-12-31&#39;</span><span class="p">]</span>
+
+<span class="c1"># Plot December of 2017 as current timeseries</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_current_timeseries</span><span class="p">(</span><span class="n">dec17_data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">dec17_data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -499,34 +560,25 @@ the speed data to velocity using the directional data. To choose a direction to 
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_tidal_example_9_1.png" src="../_images/mhkit-python_tidal_example_9_1.png" />
+<img alt="../_images/mhkit-python_tidal_example_11_0.png" src="../_images/mhkit-python_tidal_example_11_0.png" />
 </div>
 </div>
-<div class="section" id="Plot-the-data-as-a-joint-probability-distribution">
-<h3>Plot the data as a joint probability distribution<a class="headerlink" href="#Plot-the-data-as-a-joint-probability-distribution" title="Permalink to this headline">¶</a></h3>
-<p>The data points may also be viewed as a joint porbabilty distribution of direction and velocity on a polar plot. This plot will help visually show the flood and ebb directions and the frequency of particular directions/ velocities.</p>
+</div>
+<div class="section" id="Joint-Probability-Distribution">
+<h2>Joint Probability Distribution<a class="headerlink" href="#Joint-Probability-Distribution" title="Permalink to this headline">¶</a></h2>
+<p>Direction and velocity can be viewed as a joint probability distribution on a polar plot. This plot helps visually show the flood and ebb directions and the frequency of particular directional velocities.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Set the joint probabilty bin widths</span>
-<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1">#[degrees]</span>
-<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.1</span> <span class="c1">#[m/s]</span>
+<span></span><span class="c1"># Set the joint probability bin widths</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># in degrees</span>
+<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># in m/s</span>
 
 <span class="c1"># Plot the joint probability distribution</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_joint_probability_distribution</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
-                   <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
-                                            <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.PolarAxesSubplot at 0x7f49aee7bac8&gt;
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_joint_probability_distribution</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+                                                   <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -534,35 +586,24 @@ the speed data to velocity using the directional data. To choose a direction to 
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_tidal_example_11_1.png" src="../_images/mhkit-python_tidal_example_11_1.png" />
+<img alt="../_images/mhkit-python_tidal_example_13_0.png" src="../_images/mhkit-python_tidal_example_13_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="Plot-the-data-as-a-rose-plot">
-<h3>Plot the data as a rose plot<a class="headerlink" href="#Plot-the-data-as-a-rose-plot" title="Permalink to this headline">¶</a></h3>
-<p>One additional polar plot of interest maybe the rose plot. This plot shows the same information as the joint probability distribution but the probability is now the r-axis, and the velocity is the contour value.</p>
+<div class="section" id="Rose-plot">
+<h2>Rose plot<a class="headerlink" href="#Rose-plot" title="Permalink to this headline">¶</a></h2>
+<p>A rose plot shows the same information as the joint probability distribution but the probability is now the r-axis, and the velocity is the contour value. As compared to a joint probability distribution plot, a rose plot can be more readable when using larger bins sizes.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Rose plot is more readable using larger bins sizes the jpd plot</span>
-<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1">#[degrees]</span>
-<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.25</span> <span class="c1">#[m/s]</span>
+<span></span><span class="c1"># Define bin sizes</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1"># in degrees</span>
+<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.25</span> <span class="c1"># in m/s</span>
 
-<span class="c1"># Plot the joint probability distribution</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
-                   <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
-                  <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;BarContainer object of 36 artists&gt;
+<span class="c1"># Create a rose plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -570,33 +611,23 @@ the speed data to velocity using the directional data. To choose a direction to 
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_tidal_example_13_1.png" src="../_images/mhkit-python_tidal_example_13_1.png" />
-</div>
+<img alt="../_images/mhkit-python_tidal_example_15_0.png" src="../_images/mhkit-python_tidal_example_15_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="Velocity-Duration-Curve">
 <h2>Velocity Duration Curve<a class="headerlink" href="#Velocity-Duration-Curve" title="Permalink to this headline">¶</a></h2>
-<p>The velocity duration curve shows the probability of achiving a particular velocity value. This may be plotted by calculating the exceedance probability of the velocity (rank order velocity values).</p>
+<p>The velocity duration curve shows the probability of achieving a particular velocity value. After computing the exceedance probability, the rank order of velocity values can be plotted as follows.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Calculate Exceedance probability of data</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">exceedance_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span></span><span class="c1"># Calculate exceedance probability of data</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">exceedance_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
 
-<span class="c1"># Plot VDC</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span> <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f49b594fc18&gt;
+<span class="c1"># Plot the velocity duration curve (VDC)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -604,7 +635,16 @@ the speed data to velocity using the directional data. To choose a direction to 
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_tidal_example_15_1.png" src="../_images/mhkit-python_tidal_example_15_1.png" />
+<img alt="../_images/mhkit-python_tidal_example_17_0.png" src="../_images/mhkit-python_tidal_example_17_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
 </div>
 </div>
 </div>
