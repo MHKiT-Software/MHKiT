@@ -54,6 +54,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   - DataFrame (not dataframe)
   - MATLAB (not Matlab)
   - Python (no python)
+  - pandas (not Pandas)
   - MHKiT (not mhkit)
   - open-source (not open source)
   - time-series (not timeseries or time series)
