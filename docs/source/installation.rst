@@ -26,7 +26,7 @@ Python requirements and Python package dependencies include:
 * `Pecos <https://pecos.readthedocs.io/>`_: used for quality control analysis 
 
 .. Note:: 
-    All of MHKiT-Python's package dependencies are included in `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.  Pecos version 0.1.8 is required for MHKiT-Python.  Currently, Numpy version 1.18 is not working with MHKiT-Python's graphics, version 1.17 is recommended.
+    All of MHKiT-Python's package dependencies are included in `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_.  Pecos version 0.1.8 is required for MHKiT-Python.
 
 
 PIP Install from Python (Recommended for Users)
