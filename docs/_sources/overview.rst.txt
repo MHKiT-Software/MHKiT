@@ -50,7 +50,7 @@ Additionally, Pandas includes many options to load data from a wide range of for
 MHKiT-Python users that are new to Pandas are encouraged to review the 
 `Pandas getting started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
 
-The MHKiT-Python repository is located at https://github.com/MHKiT-Code-Hub/MHKiT-Python.
+The MHKiT-Python repository is located at: https://github.com/MHKiT-Code-Hub/MHKiT-Python.
 
 .. |python_image| image:: figures/python-logo-master-v3-TM.png
    :target: https://github.com/MHKiT-Code-Hub/MHKiT-Python
@@ -68,7 +68,7 @@ allowing MATLAB users to deal with MATLAB data types only.
 MHKiT-MATLAB uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about MATLAB structures, refer to the `MATLAB structures documentation  <https://www.mathworks.com/help/matlab/structures.html>`_.  
 
-The MHKiT-MATLAB repository is located at https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB.
+The MHKiT-MATLAB repository is located at: https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB.
 
 .. |matlab_image| image:: figures/mathworks-logo-full-color-rgb.png
    :target: https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB

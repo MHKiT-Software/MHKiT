@@ -44,6 +44,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   - Heading 2 `------`
   - Heading 3 `^^^^^^`
   - Heading 4 `""""""`
+  - Made sure header underline is for full length of header text
   - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
   - MHKiT-Python (or link to MHKiT-Python when refering to the repo)
   - MHKiT-MATLAB (MHKiT-MATLAB when refering to the repo)
@@ -60,6 +61,18 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   - time-series (not timeseries or time series)
   - time-domain (not time domain)
   - frequency-domain (not frequency domain)
+
+
+### Unresolved Doc Issues
+  - 134 warnings 
+  - MHKiT-MATLAB 
+  	- API doc amd toctree
+  	- Examples toctree
+  - MHKiT-Python
+  	- mhkit.tidal.io.request_noaa_data unexpected indentation
+  	- mhkit.river.io.request_usgs_data unexpected indentation
+  
+
 
 ## Push updates to the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/) 
 Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:

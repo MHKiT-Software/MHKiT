@@ -2,7 +2,7 @@
 
 Wave Module
 ====================
-The wave module contains a set of functions to calculate quantities of interest for wave energy converters (WEC). 
+The Wave module contains a set of functions to calculate quantities of interest for wave energy converters (WEC). 
 
 The wave module contains the following submodules:
 
@@ -13,4 +13,4 @@ The wave module contains the following submodules:
   Calculations are based on `IEC TS 62600-100:2012 ED1 <https://webstore.iec.ch/publication/7241>`_.
 * ``graphics``: Generates graphics, including elevation time-series, spectra, and scatter diagrams.
 
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the wave module.
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the wave module.

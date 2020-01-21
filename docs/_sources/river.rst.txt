@@ -15,5 +15,5 @@ The river module contains the following submodules:
   Calculations are based on `IEC TS 62600-300:2019 ED1 <https://webstore.iec.ch/publication/29478>`_.
 * ``graphics``: Generates graphics, including flow duration curves and velocity duration curves.
 
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-Matlab <matlab>` for more details on the river module.
+See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the river module.
 

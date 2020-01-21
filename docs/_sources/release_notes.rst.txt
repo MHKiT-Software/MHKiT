@@ -16,11 +16,11 @@ The first official release of MHKiT, developed in Python and MATLAB, includes th
 
 The v0.1.0 release includes methods for resource assessment, device performance, graphics, io and and quality control.   
 
-`MHKiT-Python v0.1.0 <https://github.com/MHKiT-Code-Hub/MHKiT-Python/releases>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`MHKiT-Python v0.1.0 <https://github.com/MHKiT-Code-Hub/MHKiT-Python/releases/tag/v0.1.0>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`MHKiT-MATLAB v0.1.0 <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/releases>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`MHKiT-MATLAB v0.1.0 <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/releases/tag/v0.1.0>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
