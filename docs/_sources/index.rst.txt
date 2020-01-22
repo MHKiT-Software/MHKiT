@@ -45,7 +45,7 @@ The `MHKiT Code Hub <https://github.com/MHKiT-Code-Hub>`_ is a collection of ope
 
 Developers
 ================
-MHKiT was developed as part of a collaboration between the National Renewable Energy Laboratory (NREL), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (SNL). The core development team is listed below.  Additional contributors can be found on the 
+MHKiT is developed as a collaboration between the National Renewable Energy Laboratory (NREL), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (SNL). The core development team is listed below.  Additional contributors can be found on the 
 `MHKiT-Python Contributors <https://github.com/MHKiT-Code-Hub/MHKiT-Python/graphs/contributors>`_ page and the
 `MHKiT-MATLAB Contributors <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/graphs/contributors>`_ page.
 

@@ -11,14 +11,18 @@ Overview
 
 MHKiT is open-source software, developed in Python and MATLAB, that aims to provide the international marine renewable energy (MRE) community with tools for:
 
-* Data processing and visualization
+* Data processing 
+* Data visualization
 * Data quality control
-* Data management
-* Simulation pre-processing
-* Simulation post-processing
+* Resource assessment
+* Device performance
 
-The software was developed for both measurements and modeling datasets, which include measurement datasets collected in field and laboratory environments and datasets produced by numerical simulations such as WECSim. MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. Calculations in MHKiT adhere to the `International Electrotechnical Committee's Technical Committee's, IEC TC 114 <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications (TS) and recommendations, as well as follow best practices within the MRE and other fields. 
 
+The software is developed for MRE data, including measurements from field and laboratory environments, and datasets produced by numerical simulations (e.g. WEC-Sim). 
+MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that are not otherwise available. Calculations in MHKiT adhere to the `International Electrotechnical Committee's Technical Committee's, IEC TC 114 <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications (TS) and recommendations, as well as follow best practices within the MRE and other fields. 
+
+MHKiT Modules
+--------------
 `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ are organized into the following modules:
 
 * :ref:`qc`: Perform quality control analysis
