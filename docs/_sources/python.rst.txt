@@ -40,7 +40,7 @@ This forum is managed by the MHKiT-Python code development team and users.
 Software Tests
 --------------------------
 
-MHKiT-Python includes continuous integration software tests that are run using `Travis CI <https://travis-ci.com/MHKiT-Code-Hub/mhkit-python>`_. 
+MHKiT-Python includes continuous integration software tests that are run using `Travis CI <https://travis-ci.org/MHKiT-Code-Hub/mhkit-python>`_. 
 The tests are run each time changes are made to the repository and are designed to ensure that the code is performing as expected. 
 New tests are developed each time new functions are added or modified.
 Testing status (passing/failed) and code coverage statistics are posted on the `README page <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_.
