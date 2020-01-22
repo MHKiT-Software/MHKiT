@@ -9,47 +9,53 @@ The following section includes installation instructions for `MHKiT-Python <http
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires Python (3.6 or 3.7), and has several Python package dependencies.  Refer to the `Python website <https://www.python.org/>`_ for information on installing and using Python.  Python distributions, such as the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_, are recommended to manage the Python interface.  
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires `Python (3.6 or 3.7) <https://www.python.org/>`_ , and has several Python package dependencies.  
+It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python, since it includes most of MHKiT-Python's package dependencies.
+Refer to the `Python website <https://www.python.org/>`_ for information on using Python.  
 
 
 Requirements
 ^^^^^^^^^^^^^^^
+`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires `Python (3.6 or 3.7) <https://www.python.org/>`_  and has the following Python packages dependencies:
 
-Python requirements and Python package dependencies include:
-
-* `Python <https://www.python.org/>`_:  3.6 or 3.7 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `NumPy <http://www.numpy.org>`_: used for data storage and analysis
 * `SciPy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing 
 * `Matplotlib <http://matplotlib.org>`_: used to produce figures
 * `Requests <https://requests.readthedocs.io/>`_: used to get data from websites
-* `Pecos <https://pecos.readthedocs.io/>`_: v0.1.8, used for quality control analysis 
+* `Pecos v0.1.8 <https://pecos.readthedocs.io/>`_: used for quality control analysis 
 
-.. Note:: 
-    All of MHKiT-Python's package dependencies are included in `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ except Pecos. Pecos can be installed by following `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_. 
+It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_, since it includes all of the MHKiT-Python package dependencies except Pecos. 
 
 
-PIP Install from Python (Recommended for Users)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Option 1: PIP Install from Python 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+This option is recommended for MHKiT-Python users. 
 To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
 
 	pip install mhkit
 	
+Using this option to install MHKiT-Python will automatically install Pecos.
+	
 
-Clone Repository from GitHub (Recommended for Developers)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Option 2: Clone Repository from GitHub 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+This option is recommended for MHKiT-Python developers. 
 To install MHKiT-Python using `git <https://git-scm.com/>`_::
 
 	git clone https://github.com/MHKiT-Code-Hub/MHKiT-Python
 	cd mhkit-python
 	python setup.py develop
-	
+
+
+Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency. 	
 
 .. Note:: 
-    If you plan to contribute to the MHKiT-Python open-source software, please `fork the MHKiT-Python repository <https://help.github.com/articles/fork-a-repo/>`_ into your GitHub user account. Please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ to include your code revisions in the MHKiT-Python master branch. After reviewed, the pull request will be merged into MHKiT-Python and included in future releases.
-
+	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://help.github.com/articles/fork-a-repo/>`_ the MHKiT-Python repository into your GitHub user account. 
+	To include your additions to the MHKiT-Python code, please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ in the MHKiT-Python master branch. 
+	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases of MHKiT-Python.
 	
 
 Test the installation
@@ -59,19 +65,19 @@ To test that MHKiT-Python is installed correctly, open a Python console and run:
 
     import mhkit
 
-If MHKiT-Python is installed properly, Python proceeds to the next line. 
-No other output is printed to the screen.
-If MHKiT-Python is not installed properly, the user will see the following ImportError::
+If MHKiT-Python is installed properly, Python proceeds to the next line and no other output is printed to the screen.
+If MHKiT-Python is not installed properly, the user will see the following error::
 
     ImportError: No module named mhkit
     
-To test a simple function in MHKiT-Python, the user can compute the equivalent 
-diameter (ED) and projected capture area (AP) of a circular turbine by running the following
-code::
+To test a simple function using MHKiT-Python, the user can compute the equivalent diameter (ED) and projected capture area (AP) of a circular turbine by running the following code::
 
     [ED, AP] = mhkit.river.device.circular(30)
     
-The results should be ED = 30 and AP = 11309.7.
+The results should be:: 
+
+	ED = 30
+	AP = 11309.7
 
 
 MHKiT-MATLAB
