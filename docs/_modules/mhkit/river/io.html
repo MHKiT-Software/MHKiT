@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mhkit.river.io &mdash; MHKiT 0.1.0 documentation</title>
+  <title>mhkit.river.io &mdash; MHKiT v0.1.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                v0.1.0
               </div>
             
           
@@ -239,21 +239,6 @@
 <span class="sd">    data : pandas DataFrame </span>
 <span class="sd">        Data indexed by datetime with columns named according to the parameter&#39;s </span>
 <span class="sd">        variable description</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    # 10 years of daily discharge values at Tenana River near Nenana</span>
-<span class="sd">    data = request_usgs_data(station=&quot;15515500&quot;, parameter=&#39;00065&#39;,</span>
-<span class="sd">                                            start_date=&#39;2009-08-01&#39;, </span>
-<span class="sd">                                            end_date=&#39;2019-08-01&#39;,</span>
-<span class="sd">                                            data_type=&#39;Instantaneous&#39;)</span>
-<span class="sd">    </span>
-<span class="sd">    # 10 years of instaneous gage height measurements</span>
-<span class="sd">    data = request_usgs_data(station=&quot;15515500&quot;, parameter=&#39;00065&#39;,</span>
-<span class="sd">                                            start_date=&#39;2009-08-01&#39;, </span>
-<span class="sd">                                            end_date=&#39;2019-08-01&#39;,</span>
-<span class="sd">                                            data_type=&#39;Instantaneous&#39;)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Daily&#39;</span><span class="p">,</span> <span class="s1">&#39;Instantaneous&#39;</span><span class="p">],</span> <span class="s1">&#39;data_type must be Daily or Instantaneous&#39;</span>
     
@@ -281,88 +266,6 @@
     <span class="n">data</span> <span class="o">=</span> <span class="n">_read_usgs_json</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">data</span> </div>
-
-
-<span class="k">def</span> <span class="nf">_load_usgs_data_using_climata</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> 
-                           <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;Daily&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Loads data directly from https://waterdata.usgs.gov/nwis using the </span>
-<span class="sd">    Python package &#39;climata&#39;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    station : string</span>
-<span class="sd">        USGS station number (e.g. &#39;08313000&#39;)</span>
-<span class="sd">        </span>
-<span class="sd">    parameter : str</span>
-<span class="sd">        USGS paramter ID (e.g. &#39;00060&#39; for Discharge, cubic feet per second)</span>
-<span class="sd">        </span>
-<span class="sd">    start_date : str</span>
-<span class="sd">        Start date in the format &#39;YYYY-MM-DD&#39; (e.g. &#39;2018-01-01&#39;)</span>
-<span class="sd">        </span>
-<span class="sd">    end_date : str</span>
-<span class="sd">        End date in the format &#39;YYYY-MM-DD&#39; (e.g. &#39;2018-12-31&#39;)</span>
-<span class="sd">        </span>
-<span class="sd">    data_type : str</span>
-<span class="sd">        Data type, options include &#39;Daily&#39; (return the mean daily value) and </span>
-<span class="sd">        &#39;Instantaneous&#39;.</span>
-<span class="sd">        </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    data : pandas DataFrame </span>
-<span class="sd">        Data indexed by datetime with columns named according to the parameter&#39;s </span>
-<span class="sd">        variable description</span>
-<span class="sd">        </span>
-<span class="sd">    metadata : dictionary</span>
-<span class="sd">        Metadata, including units and climata object attributes</span>
-<span class="sd">   </span>
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    # 10 years of daily discharge values at Tenana River near Nenana</span>
-<span class="sd">    data, meta = load_usgs_data_using_climata(&quot;15515500&quot;, &#39;00060&#39;,</span>
-<span class="sd">                                              start_date=&#39;2009-08-01&#39;, </span>
-<span class="sd">                                              end_date=&#39;2019-08-01&#39;)</span>
-<span class="sd">    #10 years of instaneous gage height measurements</span>
-<span class="sd">    data, meta = load_usgs_data_using_climata(&quot;15515500&quot;, &#39;00065&#39;,</span>
-<span class="sd">                                               start_date=&#39;2009-08-01&#39;,</span>
-<span class="sd">                                               end_date=&#39;2019-08-01&#39;,</span>
-<span class="sd">                                               data_type=&#39;Instantaneous&#39;)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">climata.usgs</span> <span class="k">import</span> <span class="n">DailyValueIO</span><span class="p">,</span> <span class="n">InstantValueIO</span>
-    
-    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;Daily&#39;</span><span class="p">:</span>
-        <span class="n">climata_data</span> <span class="o">=</span> <span class="n">DailyValueIO</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_date</span><span class="p">),</span> 
-            <span class="n">end_date</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_date</span><span class="p">),</span> <span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">parameter</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">climata_data</span> <span class="o">=</span> <span class="n">InstantValueIO</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_date</span><span class="p">),</span> 
-            <span class="n">end_date</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_date</span><span class="p">),</span> <span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">parameter</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">climata_data</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No climata data returned&#39;</span><span class="p">)</span>
-        
-    <span class="c1"># Create lists of date-data values from data object</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">climata_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
-    <span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">climata_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
-    
-    <span class="c1"># Create numpy array of time and data </span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-    
-    <span class="c1"># Convert time to datetimeIndex for pandas</span>
-    <span class="n">ix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
-        
-    <span class="c1"># Create pandas dataframe from 2 numpy arrays</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">climata_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">variable_name</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">T</span> <span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">ix</span> <span class="p">)</span>
-    
-    <span class="c1"># Extract metadata</span>
-    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">climata_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_fields</span><span class="p">,</span> <span class="n">climata_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span><span class="c1"># object attributes</span>
-      <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span>  <span class="p">:</span><span class="n">value</span><span class="p">})</span>
-
-    <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">metadata</span>
-    
 </pre></div>
 
            </div>

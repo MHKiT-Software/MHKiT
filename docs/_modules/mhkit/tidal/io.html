@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mhkit.tidal.io &mdash; MHKiT 0.1.0 documentation</title>
+  <title>mhkit.tidal.io &mdash; MHKiT v0.1.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                v0.1.0
               </div>
             
           
@@ -160,8 +160,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for mhkit.tidal.io</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">mhkit.river.io</span> <span class="k">as</span> <span class="nn">riverIO</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -172,9 +171,7 @@
                       <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_json</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads NOAA current data directly from https://tidesandcurrents.noaa.gov/api/ using a </span>
-<span class="sd">    GET request. </span>
-<span class="sd">    </span>
-<span class="sd">    NOAA sets max of 31 days between start and end date.</span>
+<span class="sd">    get request into a pandas DataFrame. NOAA sets max of 31 days between start and end date.</span>
 <span class="sd">    See https://co-ops.nos.noaa.gov/api/ for options. All times are reported as GMT and metric</span>
 <span class="sd">    units are returned for data.</span>
 <span class="sd">    </span>
@@ -202,18 +199,6 @@
 <span class="sd">        Data indexed by datetime with columns named according to the parameter&#39;s </span>
 <span class="sd">        variable description</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    # 10 years of daily discharge values at Tenana River near Nenana</span>
-<span class="sd">    data = request_usgs_data(station=&quot;15515500&quot;, parameter=&#39;00065&#39;,</span>
-<span class="sd">                                            start_date=&#39;2009-08-01&#39;, </span>
-<span class="sd">                                            end_date=&#39;2019-08-01&#39;,</span>
-<span class="sd">                                            data_type=&#39;Instantaneous&#39;)</span>
-<span class="sd">    </span>
-<span class="sd">    # 10 years of instaneous gage height measurements</span>
-<span class="sd">    data = request_usgs_data(station=&quot;15515500&quot;, parameter=&#39;00065&#39;,</span>
-<span class="sd">                                            start_date=&#39;2009-08-01&#39;, </span>
-<span class="sd">                                            end_date=&#39;2019-08-01&#39;,</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Parse start and end dates</span>
     <span class="n">year0</span><span class="p">,</span> <span class="n">month0</span><span class="p">,</span> <span class="n">day0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_date</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_date</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_date</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>

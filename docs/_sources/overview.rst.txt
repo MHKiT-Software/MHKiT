@@ -9,7 +9,7 @@
 Overview
 ========
 
-MHKiT is open-source software, developed in Python and MATLAB, that aims to provide the international marine renewable energy (MRE) community with tools for:
+MHKiT is open-source software, developed in Python and MATLAB, that provides the international marine renewable energy (MRE) community with tools for:
 
 * Data processing 
 * Data visualization

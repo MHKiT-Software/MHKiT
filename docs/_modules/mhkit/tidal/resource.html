@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mhkit.tidal.resource &mdash; MHKiT 0.1.0 documentation</title>
+  <title>mhkit.tidal.resource &mdash; MHKiT v0.1.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                v0.1.0
               </div>
             
           
@@ -160,17 +160,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for mhkit.tidal.resource</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span>  <span class="nn">mhkit.river.resource</span> <span class="k">import</span> <span class="n">exceedance_probability</span><span class="p">,</span> <span class="n">Froude_number</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">linregress</span>
-<span class="c1">#from mhkit.utils import _assert_data_type</span>
-<span class="k">def</span> <span class="nf">_assert_data_type</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
-    <span class="k">pass</span>
-
-
 
 <span class="k">def</span> <span class="nf">_histogram</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">,</span> <span class="n">width_vel</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
@@ -198,11 +191,11 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># Number of directional bins </span>
-    <span class="n">N_dir</span><span class="o">=</span><span class="mi">360</span><span class="o">/</span><span class="n">width_dir</span>
+    <span class="n">N_dir</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">360</span><span class="o">/</span><span class="n">width_dir</span><span class="p">)</span>
     <span class="c1"># Max bin (round up to nearest integer) </span>
-    <span class="n">vel_max</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span> <span class="n">velocities</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="p">)</span>
+    <span class="n">vel_max</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">velocities</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
     <span class="c1"># Number of velocity bins</span>
-    <span class="n">N_vel</span> <span class="o">=</span> <span class="n">vel_max</span><span class="o">/</span> <span class="n">width_vel</span>
+    <span class="n">N_vel</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">vel_max</span><span class="o">/</span><span class="n">width_vel</span><span class="p">)</span>
     <span class="c1"># 2D Histogram of current speed and direction</span>
     <span class="n">H</span><span class="p">,</span> <span class="n">dir_edges</span><span class="p">,</span> <span class="n">vel_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="n">N_dir</span><span class="p">,</span><span class="n">N_vel</span><span class="p">),</span>
                                           <span class="nb">range</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">vel_max</span><span class="p">]],</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -216,6 +209,7 @@
 <span class="k">def</span> <span class="nf">_normalize_angle</span><span class="p">(</span><span class="n">degree</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Normalizes degrees to be between 0 and 360</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    degree: int or float</span>
@@ -232,8 +226,10 @@
     <span class="k">return</span> <span class="n">new_degree</span>
 
 
-<div class="viewcode-block" id="principal_flow_direction"><a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.resource.principal_flow_direction">[docs]</a><span class="k">def</span> <span class="nf">principal_flow_direction</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">):</span>
+<div class="viewcode-block" id="principal_flow_directions"><a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.resource.principal_flow_directions">[docs]</a><span class="k">def</span> <span class="nf">principal_flow_directions</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Calculates principal flow directions for ebb and flood cycles</span>
+<span class="sd">    </span>
 <span class="sd">    The weighted average (over the working velocity range of the TEC) </span>
 <span class="sd">    should be considered to be the principal direction of the current, </span>
 <span class="sd">    and should be used for both the ebb and flood cycles to determine </span>
@@ -241,7 +237,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
+<span class="sd">    directions: pd.Series or numpy array</span>
+<span class="sd">        Directions in degrees with 0 degrees specified as true north</span>
+<span class="sd">    width_dir: float </span>
+<span class="sd">        Width of directional bins for histogram in degrees</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -250,8 +249,9 @@
 <span class="sd">    flood: float</span>
 <span class="sd">        Principal flood direction in degrees</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1">#for Matalb</span>
-        <span class="n">directions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">directions</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span> 
     <span class="c1"># Number of directional bins </span>
     <span class="n">N_dir</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">360</span><span class="o">/</span><span class="n">width_dir</span><span class="p">)</span>
     <span class="c1"># Compute directional histogram</span>

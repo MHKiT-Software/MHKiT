@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tidal Module &mdash; MHKiT 0.1.0 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.1.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.1.0
+                v0.1.0
               </div>
             
           
@@ -232,7 +232,7 @@ load NOAA velocity/ direction data</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.io.request_noaa_data" title="mhkit.tidal.io.request_noaa_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_noaa_data</span></code></a></p></td>
-<td><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a GET request.</p></td>
+<td><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a get request into a pandas DataFrame.</p></td>
 </tr>
 </tbody>
 </table>
@@ -258,8 +258,7 @@ request_noaa_data
 <dt id="mhkit.tidal.io.request_noaa_data">
 <code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">write_json=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/io.html#request_noaa_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
-GET request.</p>
-<p>NOAA sets max of 31 days between start and end date.
+get request into a pandas DataFrame. NOAA sets max of 31 days between start and end date.
 See <a class="reference external" href="https://co-ops.nos.noaa.gov/api/">https://co-ops.nos.noaa.gov/api/</a> for options. All times are reported as GMT and metric
 units are returned for data.</p>
 <p>The request URL prints to the screen.</p>
@@ -280,20 +279,6 @@ for example {“http”: ‘localhost:8080’}</p></li>
 variable description</p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p># 10 years of daily discharge values at Tenana River near Nenana
-data = request_usgs_data(station=”15515500”, parameter=‘00065’,</p>
-<blockquote>
-<div><p>start_date=‘2009-08-01’,
-end_date=‘2019-08-01’,
-data_type=’Instantaneous’)</p>
-</div></blockquote>
-<p># 10 years of instaneous gage height measurements
-data = request_usgs_data(station=”15515500”, parameter=‘00065’,</p>
-<blockquote>
-<div><p>start_date=‘2009-08-01’,
-end_date=‘2019-08-01’,</p>
-</div></blockquote>
 </dd></dl>
 
 </div>
@@ -307,8 +292,8 @@ of the tidal resource given a timeseries of directional data. The</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mhkit.tidal.resource.principal_flow_directions</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.resource.principal_flow_directions" title="mhkit.tidal.resource.principal_flow_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_flow_directions</span></code></a></p></td>
+<td><p>Calculates principal flow directions for ebb and flood cycles</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Froude_number</span></code></p></td>
 <td><p>Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr &lt;1).</p></td>
@@ -319,15 +304,22 @@ of the tidal resource given a timeseries of directional data. The</p>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.tidal.resource"></span><dl class="function">
-<dt id="mhkit.tidal.resource.principal_flow_direction">
-<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">principal_flow_direction</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">width_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/resource.html#principal_flow_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.principal_flow_direction" title="Permalink to this definition">¶</a></dt>
-<dd><p>The weighted average (over the working velocity range of the TEC)
+<dt id="mhkit.tidal.resource.principal_flow_directions">
+<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">principal_flow_directions</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">width_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/resource.html#principal_flow_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.principal_flow_directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates principal flow directions for ebb and flood cycles</p>
+<p>The weighted average (over the working velocity range of the TEC)
 should be considered to be the principal direction of the current,
 and should be used for both the ebb and flood cycles to determine
 the TEC optimum orientation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directions</strong> (<em>pd.Series</em><em> or </em><em>numpy array</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
+<li><p><strong>width_dir</strong> (<em>float</em>) – Width of directional bins for histogram in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
 <li><p><strong>ebb</strong> (<em>float</em>) – Principal ebb direction in degrees</p></li>
 <li><p><strong>flood</strong> (<em>float</em>) – Principal flood direction in degrees</p></li>
 </ul>
@@ -376,10 +368,10 @@ multiple VAWTs per device.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.graphics.plot_rose" title="mhkit.tidal.graphics.plot_rose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_rose</span></code></a></p></td>
-<td><p>Creates a polar histogram. Direction angles from binned histogram must</p></td>
+<td><p>Creates a polar histogram.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.graphics.plot_joint_probability_distribution" title="mhkit.tidal.graphics.plot_joint_probability_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_joint_probability_distribution</span></code></a></p></td>
-<td><p>Creates a polar histogram. Direction angles from binned histogram must</p></td>
+<td><p>Creates a polar histogram.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.graphics.plot_current_timeseries" title="mhkit.tidal.graphics.plot_current_timeseries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code></a></p></td>
 <td><p>Returns a plot of velocity from an array of direction and speed data in the direction of the supplied principal_direction.</p></td>
@@ -394,8 +386,8 @@ data in the direction of the supplied principal_direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>direction</strong> (<em>array like</em>) – time-series of directions [degrees]</p></li>
-<li><p><strong>speed</strong> (<em>array like</em>) – time-series of speeds [cm/s]</p></li>
+<li><p><strong>direction</strong> (<em>array like</em>) – Time-series of directions [degrees]</p></li>
+<li><p><strong>speed</strong> (<em>array like</em>) – Time-series of speeds [m/s]</p></li>
 <li><p><strong>principal_direction</strong> (<em>float</em>) – Direction to compute the velocity in [degrees]</p></li>
 <li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
@@ -403,7 +395,7 @@ axes is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – timeseries plot of current-speed velocity</p>
+<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Time-series plot of current-speed velocity</p>
 </dd>
 </dl>
 </dd></dl>
@@ -411,10 +403,8 @@ axes is used.</p></li>
 <dl class="function">
 <dt id="mhkit.tidal.graphics.plot_joint_probability_distribution">
 <code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_joint_probability_distribution</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">velocities</em>, <em class="sig-param">width_dir</em>, <em class="sig-param">width_vel</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">flood=None</em>, <em class="sig-param">ebb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_joint_probability_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_joint_probability_distribution" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Creates a polar histogram. Direction angles from binned histogram must</dt><dd><p>be specified such that 0 is north.</p>
-</dd>
-</dl>
+<dd><p>Creates a polar histogram. Direction angles from binned histogram must
+be specified such that 0 is north.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -429,7 +419,7 @@ and information box on plot</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Water current rose plot</p>
+<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Joint probability distribution</p>
 </dd>
 </dl>
 </dd></dl>
@@ -437,10 +427,8 @@ and information box on plot</p></li>
 <dl class="function">
 <dt id="mhkit.tidal.graphics.plot_rose">
 <code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_rose</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">velocities</em>, <em class="sig-param">width_dir</em>, <em class="sig-param">width_vel</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">flood=None</em>, <em class="sig-param">ebb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_rose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_rose" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Creates a polar histogram. Direction angles from binned histogram must</dt><dd><p>be specified such that 0  degrees is north.</p>
-</dd>
-</dl>
+<dd><p>Creates a polar histogram. Direction angles from binned histogram must
+be specified such that 0  degrees is north.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

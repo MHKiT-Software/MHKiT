@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tidal Module &mdash; MHKiT 0.1.0 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.1.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                v0.1.0
               </div>
             
           
@@ -213,8 +213,7 @@ request_noaa_data
 <dt id="mhkit.tidal.io.request_noaa_data">
 <code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">write_json=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mhkit/tidal/io.html#request_noaa_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
-GET request.</p>
-<p>NOAA sets max of 31 days between start and end date.
+get request into a pandas DataFrame. NOAA sets max of 31 days between start and end date.
 See <a class="reference external" href="https://co-ops.nos.noaa.gov/api/">https://co-ops.nos.noaa.gov/api/</a> for options. All times are reported as GMT and metric
 units are returned for data.</p>
 <p>The request URL prints to the screen.</p>
@@ -235,35 +234,28 @@ for example {“http”: ‘localhost:8080’}</p></li>
 variable description</p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p># 10 years of daily discharge values at Tenana River near Nenana
-data = request_usgs_data(station=”15515500”, parameter=‘00065’,</p>
-<blockquote>
-<div><p>start_date=‘2009-08-01’,
-end_date=‘2019-08-01’,
-data_type=’Instantaneous’)</p>
-</div></blockquote>
-<p># 10 years of instaneous gage height measurements
-data = request_usgs_data(station=”15515500”, parameter=‘00065’,</p>
-<blockquote>
-<div><p>start_date=‘2009-08-01’,
-end_date=‘2019-08-01’,</p>
-</div></blockquote>
 </dd></dl>
 
 </div>
 <div class="section" id="module-mhkit.tidal.resource">
 <span id="resource"></span><h2>Resource<a class="headerlink" href="#module-mhkit.tidal.resource" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="mhkit.tidal.resource.principal_flow_direction">
-<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">principal_flow_direction</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">width_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mhkit/tidal/resource.html#principal_flow_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.principal_flow_direction" title="Permalink to this definition">¶</a></dt>
-<dd><p>The weighted average (over the working velocity range of the TEC)
+<dt id="mhkit.tidal.resource.principal_flow_directions">
+<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">principal_flow_directions</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">width_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mhkit/tidal/resource.html#principal_flow_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.principal_flow_directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates principal flow directions for ebb and flood cycles</p>
+<p>The weighted average (over the working velocity range of the TEC)
 should be considered to be the principal direction of the current,
 and should be used for both the ebb and flood cycles to determine
 the TEC optimum orientation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directions</strong> (<em>pd.Series</em><em> or </em><em>numpy array</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
+<li><p><strong>width_dir</strong> (<em>float</em>) – Width of directional bins for histogram in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
 <li><p><strong>ebb</strong> (<em>float</em>) – Principal ebb direction in degrees</p></li>
 <li><p><strong>flood</strong> (<em>float</em>) – Principal flood direction in degrees</p></li>
 </ul>
