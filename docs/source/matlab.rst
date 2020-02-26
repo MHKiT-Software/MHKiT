@@ -13,19 +13,19 @@ Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for informati
 API Documentation
 --------------------
 
-.. points to pre-compliled documentation in the mhkit-matlab submodule
+.. (removed for now) points to pre-compliled documentation in the mhkit-matlab submodule, only worked locally
+	- `Wave <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.wave.html>`_    
+	- `River <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.river.html>`_
+	- `Tidal <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.tidal.html>`_
+	- `QC <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.qc.html>`_
 
-- `Wave <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.wave.html>`_    
-- `River <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.river.html>`_
-- `Tidal <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.tidal.html>`_
-- `QC <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.qc.html>`_
 
+..  this is the old copy/paste version of documentation
 
-.. (removed for now) this is the old copy/paste version of documentation
-	- `Wave <source/mhkit-matlab/mhkit.wave.html>`_
-	- `River <source/mhkit-matlab/mhkit.river.html>`_
-	- `Tidal <source/mhkit-matlab/mhkit.tidal.html>`_
-	- `QC <source/mhkit-matlab/mhkit.qc.html>`_
+- `Wave <source/mhkit-matlab/mhkit.wave.html>`_
+- `River <source/mhkit-matlab/mhkit.river.html>`_
+- `Tidal <source/mhkit-matlab/mhkit.tidal.html>`_
+- `QC <source/mhkit-matlab/mhkit.qc.html>`_
 
 
 Examples
