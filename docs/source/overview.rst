@@ -1,7 +1,7 @@
 .. _overview:
 
 .. figure:: figures/MHKiT_logo.png
-   :target: https://github.com/MHKiT-Code-Hub
+   :target: https://github.com/MHKiT-Software
    :scale: 50 %
    :alt: MHKiT logo
    
@@ -23,7 +23,7 @@ MHKiT is intended to supplement analysis using functions readily available withi
 
 MHKiT Modules
 --------------
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ are organized into the following modules:
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ are organized into the following modules:
 
 * :ref:`qc`: Perform quality control analysis
 * :ref:`wave`: Calculate quantities of interest for wave energy converters (WEC)
@@ -33,7 +33,7 @@ MHKiT Modules
 
 These modules provide functionality for calculating metrics needed by the MRE community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that maps directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented. 
 
-To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB. 
+To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB. 
 As such, **MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language**. 
 
 MHKiT-Python is rigorously tested using a continuous integration framework that is applied every time changes are made to the repository. 
@@ -44,9 +44,9 @@ MHKiT-MATLAB is tested by the core development team to ensure that the wrapped M
    MHKiT Python/MATLAB use the HDF5 and JSON file formats to store data to ensure compatibility and usability by the broader MRE community and beyond. 
    These formats also help ensure that adequate metadata is collected.
 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ |python_image|
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ |python_image|
 -----------------------------------------------------------------------------------
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ is intended to be used by researchers and practitioners who prefer Python.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ is intended to be used by researchers and practitioners who prefer Python.
 MHKiT-Python uses Pandas data objects to store data with labelled columns and rows.
 This allows the user to keep track timestamp indexes and the type of data that is in each column.
 Pandas includes many options to analyze data, including methods to slice, query, upscale, and plot data.
@@ -54,17 +54,17 @@ Additionally, Pandas includes many options to load data from a wide range of for
 MHKiT-Python users that are new to Pandas are encouraged to review the 
 `Pandas getting started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
 
-The MHKiT-Python repository is located at: https://github.com/MHKiT-Code-Hub/MHKiT-Python.
+The MHKiT-Python repository is located at: https://github.com/MHKiT-Software/MHKiT-Python.
 
 .. |python_image| image:: figures/python-logo-master-v3-TM.png
-   :target: https://github.com/MHKiT-Code-Hub/MHKiT-Python
+   :target: https://github.com/MHKiT-Software/MHKiT-Python
    :scale: 30 %
    :alt: Python logo
 
 
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ |matlab_image|
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ |matlab_image|
 --------------------------------------------------------------------------------------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  is intended to be used by researchers and practitioners that prefer MATLAB. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  is intended to be used by researchers and practitioners that prefer MATLAB. 
 To ensure consistency between MHKiT-MATLAB and MHKiT-Python,
 MHKiT-MATLAB runs the MHKiT-Python functions by wrapping them in MATLAB. Conversions to Python data types happen within the wrappers, 
 allowing MATLAB users to deal with MATLAB data types only. 
@@ -72,9 +72,9 @@ allowing MATLAB users to deal with MATLAB data types only.
 MHKiT-MATLAB uses structures to store data. A structure array is a data type that groups related data using data containers called fields.
 For more information about MATLAB structures, refer to the `MATLAB structures documentation  <https://www.mathworks.com/help/matlab/structures.html>`_.  
 
-The MHKiT-MATLAB repository is located at: https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB.
+The MHKiT-MATLAB repository is located at: https://github.com/MHKiT-Software/MHKiT-MATLAB.
 
 .. |matlab_image| image:: figures/mathworks-logo-full-color-rgb.png
-   :target: https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB
+   :target: https://github.com/MHKiT-Software/MHKiT-MATLAB
    :scale: 8 %
    :alt: Matlab logo

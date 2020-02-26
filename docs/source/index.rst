@@ -1,7 +1,7 @@
 .. MHKiT Documentation
 
 .. figure:: figures/MHKiT_logo.png
-   :target: https://github.com/MHKiT-Code-Hub
+   :target: https://github.com/MHKiT-Software
    :scale: 50 %
    :alt: MHKiT logo
    
@@ -28,7 +28,7 @@
 MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
 MHKiT is open-source marine renewable energy (MRE) software, developed in Python and MATLAB, that includes modules for ingesting, quality controlling, processing, visualizing, and managing data. 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to International Electrotechnical Commission (IEC) technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to International Electrotechnical Commission (IEC) technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications. 
 
 |python_image|   |matlab_image|
 
@@ -45,8 +45,8 @@ MHKiT is open-source marine renewable energy (MRE) software, developed in Python
 Developers
 ================
 MHKiT is developed as a collaboration between the National Renewable Energy Laboratory (NREL), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (SNL). The core development team is listed below.  Additional contributors can be found on the 
-`MHKiT-Python Contributors <https://github.com/MHKiT-Code-Hub/MHKiT-Python/graphs/contributors>`_ page and the
-`MHKiT-MATLAB Contributors <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/graphs/contributors>`_ page.
+`MHKiT-Python Contributors <https://github.com/MHKiT-Software/MHKiT-Python/graphs/contributors>`_ page and the
+`MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.
 
 - Frederick Driscoll (NREL - PI)
 - Budi Gunawan (Sandia - PI)

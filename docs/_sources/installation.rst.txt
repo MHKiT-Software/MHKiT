@@ -3,20 +3,20 @@
 Installation
 =============
 
-The following section includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_.
+The following section includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_.
 
 
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires `Python (3.6 or 3.7) <https://www.python.org/>`_ , and has several Python package dependencies.  
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.6 or 3.7) <https://www.python.org/>`_ , and has several Python package dependencies.  
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python, since it includes most of MHKiT-Python's package dependencies.
 Refer to the `Python website <https://www.python.org/>`_ for information on using Python.  
 
 
 Requirements
 ^^^^^^^^^^^^^^^
-`MHKiT-Python <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_ requires `Python (3.6 or 3.7) <https://www.python.org/>`_  and has the following Python packages dependencies:
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.6 or 3.7) <https://www.python.org/>`_  and has the following Python packages dependencies:
 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `NumPy <http://www.numpy.org>`_: used for data storage and analysis
@@ -45,7 +45,7 @@ Option 2: Clone Repository from GitHub
 This option is recommended for MHKiT-Python developers. 
 To install MHKiT-Python using `git <https://git-scm.com/>`_::
 
-	git clone https://github.com/MHKiT-Code-Hub/MHKiT-Python
+	git clone https://github.com/MHKiT-Software/MHKiT-Python
 	cd mhkit-python
 	python setup.py develop
 
@@ -54,7 +54,7 @@ Using this option to install MHKiT-Python will require following the `Pecos inst
 
 .. Note:: 
 	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://help.github.com/articles/fork-a-repo/>`_ the MHKiT-Python repository into your GitHub user account. 
-	To include your additions to the MHKiT-Python code, please submit a `pull request <https://github.com/MHKiT-Code-Hub/MHKiT-Python/pulls>`_ in the MHKiT-Python master branch. 
+	To include your additions to the MHKiT-Python code, please submit a `pull request <https://github.com/MHKiT-Software/MHKiT-Python/pulls>`_ in the MHKiT-Python master branch. 
 	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases of MHKiT-Python.
 	
 
@@ -82,7 +82,7 @@ The results should be::
 
 MHKiT-MATLAB
 -------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB>`_ requires MATLAB 2018 or later and relies on three components which need to be installed separately. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2018 or later and relies on three components which need to be installed separately. 
 
 First, MHKiT-MATLAB consists of MATLAB code which runs the MHKiT-Python functions. Therefore, installation of both packages is necessary. See the 
 MHKit-Python installation instructions above. 
@@ -94,10 +94,10 @@ Lastly, MHKiT-MATLAB utilizes a helper package called mhkit_python_utils. Instal
 
 MHKiT-MATLAB Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Clone or download the MHKiT-MATLAB repo from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB. 
+Clone or download the MHKiT-MATLAB repo from https://github.com/MHKiT-Software/MHKiT-MATLAB. 
 In MATLAB, navigate to the folder where you downloaded or cloned the repo which contains mhkit.mltbx, double-click mhkit.mltbx, and the toolbox will install automatically. 
 
-If you would like to contribute to MHKiT-MATLAB, you can fork the MHKiT-MATLAB repository from https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB 
+If you would like to contribute to MHKiT-MATLAB, you can fork the MHKiT-MATLAB repository from https://github.com/MHKiT-Software/MHKiT-MATLAB 
 and submit a pull request for review. 
 
 Set up the MATLAB Environment

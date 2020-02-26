@@ -34,16 +34,16 @@ Jupyter notebook examples of MHKiT-Python are included below:
 Online Forum
 --------------
 
-Please post questions, feature requests, and bug reports about MHKiT-Python to the `Issues Page <https://github.com/MHKiT-Code-Hub/MHKiT-Python/issues>`_. 
+Please post questions, feature requests, and bug reports about MHKiT-Python to the `Issues Page <https://github.com/MHKiT-Software/MHKiT-Python/issues>`_. 
 This forum is managed by the MHKiT-Python code development team and users. 
 
 Software Tests
 --------------------------
 
-MHKiT-Python includes continuous integration software tests that are run using `Travis CI <https://travis-ci.org/MHKiT-Code-Hub/mhkit-python>`_. 
+MHKiT-Python includes continuous integration software tests that are run using `Travis CI <https://travis-ci.org/MHKiT-Software/mhkit-python>`_. 
 The tests are run each time changes are made to the repository and are designed to ensure that the code is performing as expected. 
 New tests are developed each time new functions are added or modified.
-Testing status (passing/failed) and code coverage statistics are posted on the `README page <https://github.com/MHKiT-Code-Hub/MHKiT-Python>`_.
+Testing status (passing/failed) and code coverage statistics are posted on the `README page <https://github.com/MHKiT-Software/MHKiT-Python>`_.
 
 Tests can also be run locally using the Python package nose.  Developers should run software tests before 
 submitting a pull request, using the following command::

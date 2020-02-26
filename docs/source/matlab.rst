@@ -12,11 +12,20 @@ Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for informati
 
 API Documentation
 --------------------
-    
-- `Wave <source/mhkit-matlab/mhkit.wave.html>`_
-- `River <source/mhkit-matlab/mhkit.river.html>`_
-- `Tidal <source/mhkit-matlab/mhkit.tidal.html>`_
-- `QC <source/mhkit-matlab/mhkit.qc.html>`_
+
+.. points to pre-compliled documentation in the mhkit-matlab submodule
+
+- `Wave <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.wave.html>`_    
+- `River <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.river.html>`_
+- `Tidal <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.tidal.html>`_
+- `QC <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.qc.html>`_
+
+
+.. (removed for now) this is the old copy/paste version of documentation
+	- `Wave <source/mhkit-matlab/mhkit.wave.html>`_
+	- `River <source/mhkit-matlab/mhkit.river.html>`_
+	- `Tidal <source/mhkit-matlab/mhkit.tidal.html>`_
+	- `QC <source/mhkit-matlab/mhkit.qc.html>`_
 
 
 Examples
@@ -33,4 +42,4 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 
 Online Forum
 --------------
-Please post questions about MHKiT-MATLAB on the `Issues Page <https://github.com/MHKiT-Code-Hub/MHKiT-MATLAB/issues>`_. This forum is managed by the MHKiT-MATLAB code development team and users. The issues page is used to interact with the MHKiT-MATLAB community, ask questions, and report bugs.
+Please post questions about MHKiT-MATLAB on the `Issues Page <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_. This forum is managed by the MHKiT-MATLAB code development team and users. The issues page is used to interact with the MHKiT-MATLAB community, ask questions, and report bugs.
