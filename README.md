@@ -1,5 +1,5 @@
 
-# How to Update the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/)
+# How to Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
