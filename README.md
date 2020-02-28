@@ -27,7 +27,7 @@
   - **NOTE:** For Sphinx 1.8 you may need to modify googleanalytics.py according to ([this](https://jiangsheng.net/2019/01/05/fix-sphinxcontrib-googleanalytics-on-sphinx-1-8/))
 
 
-## Update the [MHKiT Website]()
+## Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 The MHKiT documentation located on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), refered to as ``$docs``. The documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the documentation, modify the source files located in the ``$docs/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$docs`` directory from cmd, clean the previous compile with ``make clean``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$docs/``. After compiling the updated website, you can view the local copy of the website by opening the ``$docs/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online). 
 
 ### Best Practices
@@ -74,7 +74,7 @@ The MHKiT documentation located on the [MHKiT Documetnation Repository](https://
   
 
 
-## Push updates to the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/) 
+## Push updates to the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/) 
 Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:
 
   ```Shell
