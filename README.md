@@ -7,7 +7,7 @@
   - **NOTE:** MAC/LINUX skip to Step 3, Python is already installed and added to path
  
 ### Step 2. Add Python to System Path
-  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON27;C:\PYTHON27\Scripts 
+  - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts 
   ([more info here](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7))
   - **NOTE:** Anaconda skip to Step 3,  Python is already added to path 
   - **NOTE:** MAC/LINUX skip to Step 3, Python is already added to path
