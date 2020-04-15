@@ -3,7 +3,7 @@
 
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python 
-  - Windows: Download and install [Python27](https://www.python.org/downloads/) or [Anaconda](https://www.anaconda.com/distribution/)
+  - Windows: Download and install Python using [Anaconda](https://www.anaconda.com/distribution/)
   - **NOTE:** MAC/LINUX skip to Step 3, Python is already installed and added to path
  
 ### Step 2. Add Python to System Path
