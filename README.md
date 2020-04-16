@@ -4,8 +4,7 @@
 ## Download/Install Required Packages
 ### Step 1. Download and Install Python
   - Windows: Download and install Python using [Anaconda](https://www.anaconda.com/distribution/)
-  - **NOTE:** LINUX: skip to Step 3, Python 3.7 is preinstalled and added to path for most distributions
-  - **NOTE:** MAC: Mac OS X comes preinstalled with Python 2.7, navigate to (https://www.python.org/downloads/mac-osx/) to  install Python 3.7.
+  - **NOTE:** MAC/LINUX skip to Step 3, Python is already installed and added to path
 
 ### Step 2. Add Python to System Path
   - Windows: Modify the PATH in environmental variables to include: C:\PYTHON;C:\PYTHON\Scripts
@@ -31,7 +30,7 @@
 
 
 ## Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
-The MHKiT documentation located on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), refered to as ``$docs``. The documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the documentation, modify the source files located in the ``$docs/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$docs`` directory from cmd, clean the previous compile with ``make clean``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$docs/``. After compiling the updated website, you can view the local copy of the website by opening the ``$docs/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online).
+The MHKiT documentation located on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), referred to as ``$docs``. The documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the documentation, first verify that the most recent versions of ```MHKiT-Python``` and ```MHKit-MATLAB``` are installed in the ```$MHKit-master/```. Then modify the source files located in the ``$docs/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$docs`` directory from cmd, clean the previous compile with ``make clean``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$docs/``. After compiling the updated website, you can view the local copy of the website by opening the ``$docs/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online).
 
 ### Best Practices
   - Run spell check (not built into most text editors)
