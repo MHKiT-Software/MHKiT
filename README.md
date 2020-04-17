@@ -10,7 +10,7 @@
   ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
 
   - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, NB Sphinx Link, Goggle Analytics
-  - ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics
+  - ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics``
   ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
 
   - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
