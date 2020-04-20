@@ -1,21 +1,22 @@
 
 # How to Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
+
 ## Requirements
   - ``https://mhkit-software.github.io/MHKiT/installation.html`` including the MHKiT-Python and Requirements headers.
 
-## Download/Install Required Packages
 
-### Step 1. Download/Install Sphinx and extensions (http://www.sphinx-doc.org/en/stable/index.html) package
-  - Install Sphinx from cmd ``pip install -U Sphinx``
-  ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
+## Download/Install Required Packages
+### Step 1. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
+  - Install Sphinx from cmd ``pip install -U Sphinx`` ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
 
   - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, NB Sphinx Link, Goggle Analytics
   - ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics``
   ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
 
   - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
-  - **NOTE:** You may have to manually move extensions to the ``/sphinx/`` or ``/sphinxcontrib/`` Python directories
-  - **NOTE:** For Sphinx 1.8 you may need to modify googleanalytics.py according to ([this](https://jiangsheng.net/2019/01/05/fix-sphinxcontrib-googleanalytics-on-sphinx-1-8/))
+### Step 2. Git Documents and submodules
+  - In order to update the documentation, fork the [MHKiT](https://github.com/MHKiT-Software/MHKiT) your own repository
+  - Update the MHKiT-Python and MHKiT-MATLAB submodules using ``git submodule init`` ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
 
 ## Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 The MHKiT documentation located on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), referred to as ``$docs``. The documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the documentation, first verify that the most recent versions of ``MHKiT-Python`` and ``MHKiT-MATLAB`` are in your local ``$MHKiT-master/``. Then modify the source files located in the ``$docs/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$docs`` directory from cmd, clean the previous compile with ``make clean``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$docs/``. After compiling the updated website, you can view the local copy of the website by opening the ``$docs/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online).
@@ -36,10 +37,6 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
   - Heading 4 `""""""`
   - Made sure header underline is for full length of header text
   - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
-  - MHKiT-Python (or link to MHKiT-Python when referring to the repo)
-  - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
-  - MHKiT (Marine and Hydrokinetic Toolkit)
-
 
 ### Terminology Guidelines
   - DataFrame (not dataframe)
@@ -51,7 +48,9 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
   - time-series (not timeseries or time series)
   - time-domain (not time domain)
   - frequency-domain (not frequency domain)
-
+  - MHKiT-Python (or link to MHKiT-Python when referring to the repo)
+  - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
+  - MHKiT (Marine and Hydrokinetic Toolkit)
 
 ### Unresolved Doc Issues
   - 134 warnings
@@ -61,8 +60,6 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
   - MHKiT-Python
     - mhkit.tidal.io.request_noaa_data unexpected indentation
     - mhkit.river.io.request_usgs_data unexpected indentation
-
-
 
 ## Push updates to the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:
@@ -81,6 +78,8 @@ Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repos
   git commit -m 'update to MHKiT documentation'
   git push
   ```
+
+
 
 
 
