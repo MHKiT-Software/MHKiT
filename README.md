@@ -9,14 +9,14 @@
 ### Step 1. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
   - Install Sphinx from cmd ``pip install -U Sphinx`` ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
 
-  - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, NB Sphinx Link, Goggle Analytics
-  - ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics``
+  - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, NB Sphinx Link, Goggle Analytics by running the following code
+   ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics``
   ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
 
   - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
 ### Step 2. Git Documents and submodules
   - In order to update the documentation, fork the [MHKiT](https://github.com/MHKiT-Software/MHKiT) your own repository
-  - Update the MHKiT-Python and MHKiT-MATLAB submodules using ``git submodule init`` ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
+  - Update the MHKiT-Python and MHKiT-MATLAB submodules using ``git submodule init`` and ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
 
 ## Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 The MHKiT documentation located on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), referred to as ``$docs``. The documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the documentation, first verify that the most recent versions of ``MHKiT-Python`` and ``MHKiT-MATLAB`` are in your local ``$MHKiT-master/``. Then modify the source files located in the ``$docs/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$docs`` directory from cmd, clean the previous compile with ``make clean``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$docs/``. After compiling the updated website, you can view the local copy of the website by opening the ``$docs/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online).
