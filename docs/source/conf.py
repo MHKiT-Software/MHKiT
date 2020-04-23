@@ -30,11 +30,12 @@ extensions = [
     'nbsphinx',
     'nbsphinx_link',
     'sphinxcontrib.matlab',       
+    'sphinxcontrib.googleanalytics', 
 ]
 
 autosectionlabel_prefix_document = True
 
-#    'sphinxcontrib.googleanalytics', 
+#    
 
 # -- Path setup --------------------------------------------------------------
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -316,4 +317,4 @@ texinfo_documents = [
 
 # -- Extension configuration -------------------------------------------------
 # google analytics
-
+googleanalytics_id = 'UA-164358105-1'
