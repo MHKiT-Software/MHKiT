@@ -9,9 +9,9 @@
 ### Step 1. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
   - Install Sphinx from cmd ``pip install -U Sphinx`` ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
 
-  - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, NB Sphinx Link, Goggle Analytics by running the following code
-   ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics``
-  ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
+  - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, and NB Sphinx Link by running the following code
+   ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link``
+
 
   - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
 ### Step 2. Git Documents and submodules
@@ -62,7 +62,7 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
     - mhkit.river.io.request_usgs_data unexpected indentation
 
 ## Push updates to the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
-Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:
+Using Sphinx, GitHub renders the documentation on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:
 
   ```Shell
   # Move to the local $docs directory in cmd
@@ -72,7 +72,7 @@ Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repos
   make clean
   make html
 
-  # Use Git-shell to check status of the MHKiT documentation respository, then commit and push changes.
+  # Use Git-shell to check status of the MHKiT documentation repository, then commit and push changes.
   git status
   git add --all
   git commit -m 'update to MHKiT documentation'
