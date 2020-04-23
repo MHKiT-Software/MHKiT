@@ -2,6 +2,7 @@
 
 API documentation
 --------------------
+NOTE: This is Kelley's demo
 
 The package contains the following modules:
 
