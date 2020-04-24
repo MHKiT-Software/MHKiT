@@ -46,7 +46,9 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tidal Module" href="api.tidal.html" />
+    <link rel="prev" title="Wave Module" href="api.wave.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -94,7 +96,7 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
@@ -104,7 +106,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python.html">MHKiT-Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../matlab.html">MHKiT-MATLAB</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../matlab.html#installation">Installation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../matlab.html#api-documentation">API Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="api.qc.html">QC Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">River Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#io">IO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resource">Resource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device">Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#graphics">Graphics</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.tidal.html">Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../matlab.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../matlab.html#online-forum">Online Forum</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contact.html">Online Forum</a></li>
@@ -152,6 +173,8 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../matlab.html">MHKiT-MATLAB</a> &raquo;</li>
         
       <li>River Module</li>
     
@@ -202,16 +225,500 @@
 calculate quantities of interest for river energy converters (REC).</p>
 <div class="section" id="io">
 <h2>IO<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../mhkit-python/api.river.html#module-mhkit.river.io" title="mhkit.river.io"><code class="xref py py-class docutils literal notranslate"><span class="pre">io</span></code></a> submodule contains the following functions to
+load USGS Discharge data into structures.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>read_usgs_file</p></td>
+<td><p>Reads a USGS JSON data file (from <a class="reference external" href="https://waterdata.usgs.gov/nwis">https://waterdata.usgs.gov/nwis</a>) into a structure</p></td>
+</tr>
+<tr class="row-odd"><td><p>request_usgs_file</p></td>
+<td><p>Loads USGS data directly from <a class="reference external" href="https://waterdata.usgs.gov/nwis">https://waterdata.usgs.gov/nwis</a> using a GET request into a structure</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.river.io"></span><dl class="function">
+<dt id="mhkit.river.io.read_usgs_file">
+<code class="sig-prename descclassname">mhkit.river.io.</code><code class="sig-name descname">read_usgs_file</code><span class="sig-paren">(</span><em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/io.html#read_usgs_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.io.read_usgs_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a USGS JSON data file (from <a class="reference external" href="https://waterdata.usgs.gov/nwis">https://waterdata.usgs.gov/nwis</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>str</em>) – Name of USGS JSON data file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns named according to the parameter’s
+variable description</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.io.request_usgs_data">
+<code class="sig-prename descclassname">mhkit.river.io.</code><code class="sig-name descname">request_usgs_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">data_type='Daily'</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">write_json=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/io.html#request_usgs_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.io.request_usgs_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads USGS data directly from <a class="reference external" href="https://waterdata.usgs.gov/nwis">https://waterdata.usgs.gov/nwis</a> using a
+GET request</p>
+<p>The request URL prints to the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station</strong> (<em>str</em>) – USGS station number (e.g. ‘08313000’)</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – USGS paramter ID (e.g. ‘00060’ for Discharge, cubic feet per second)</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date in the format ‘YYYY-MM-DD’ (e.g. ‘2018-01-01’)</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date in the format ‘YYYY-MM-DD’ (e.g. ‘2018-12-31’)</p></li>
+<li><p><strong>data_type</strong> (<em>str</em>) – Data type, options include ‘Daily’ (return the mean daily value) and
+‘Instantaneous’.</p></li>
+<li><p><strong>proxy</strong> (<em>dict</em><em> or </em><em>None</em>) – To request data from behind a firewall, define a dictionary of proxy settings,
+for example {“http”: ‘localhost:8080’}</p></li>
+<li><p><strong>write_json</strong> (<em>str</em><em> or </em><em>None</em>) – Name of json file to write data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns named according to the parameter’s
+variable description</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="resource">
 <h2>Resource<a class="headerlink" href="#resource" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../mhkit-python/api.river.html#module-mhkit.river.resource" title="mhkit.river.resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">resource</span></code></a> submodule uses discharge data to compute
+exeedance probability, velocity, and power.  The module also contains functions
+to compute the Froude number and to fit a polynomial to a series of points.
+The polynomial is used to estimate the relationship between discharge and velocity
+or velocity and power at an individual turbine.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Froude_number</p></td>
+<td><p>Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr &lt;1).</p></td>
+</tr>
+<tr class="row-odd"><td><p>polynomial_fit</p></td>
+<td><p>Returns a polynomial fit for y given x of order n with an R-squared score of the fit</p></td>
+</tr>
+<tr class="row-even"><td><p>exceedance_probability</p></td>
+<td><p>Calculates the exceedance probability</p></td>
+</tr>
+<tr class="row-odd"><td><p>discharge_to_velocity</p></td>
+<td><p>Calculates velocity given discharge data and the relationship between discharge and velocity at an individual turbine</p></td>
+</tr>
+<tr class="row-even"><td><p>velocity_to_power</p></td>
+<td><p>Calculates power given velocity data and the relationship between velocity and power from an individual turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p>energy_produced</p></td>
+<td><p>Returns the energy produced for a given time period provided exceedence probability and power.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.river.resource"></span><dl class="function">
+<dt id="mhkit.river.resource.Froude_number">
+<code class="sig-prename descclassname">mhkit.river.resource.</code><code class="sig-name descname">Froude_number</code><span class="sig-paren">(</span><em class="sig-param">v</em>, <em class="sig-param">h</em>, <em class="sig-param">g=9.80665</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#Froude_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.resource.Froude_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the Froude Number of the river, channel or duct flow,
+to check subcritical flow assumption (if Fr &lt;1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> (<em>int/float</em>) – Average velocity [m/s].</p></li>
+<li><p><strong>h</strong> (<em>int/float</em>) – Mean hydrolic depth float [m].</p></li>
+<li><p><strong>g</strong> (<em>int/float</em>) – Gravitational acceleration [m/s2].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Fr</strong> (<em>float</em>) – Froude Number of the river [unitless].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.resource.discharge_to_velocity">
+<code class="sig-prename descclassname">mhkit.river.resource.</code><code class="sig-name descname">discharge_to_velocity</code><span class="sig-paren">(</span><em class="sig-param">D</em>, <em class="sig-param">polynomial_coefficients</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#discharge_to_velocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.resource.discharge_to_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates velocity given discharge data and the relationship between
+discharge and velocity at an individual turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> (<em>pandas Series</em>) – Discharge data [m3/s] indexed by time [datetime or s]</p></li>
+<li><p><strong>polynomial_coefficients</strong> (<em>numpy polynomial</em>) – List of polynomial coefficients that discribe the relationship between
+discharge and velocity at an individual turbine</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>V</strong> (<em>pandas DataFrame</em>) – Velocity [m/s] indexed by time [datetime or s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.resource.energy_produced">
+<code class="sig-prename descclassname">mhkit.river.resource.</code><code class="sig-name descname">energy_produced</code><span class="sig-paren">(</span><em class="sig-param">P</em>, <em class="sig-param">seconds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#energy_produced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.resource.energy_produced" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the energy produced for a given time period provided
+exceedence probability and power.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> (<em>pandas Series</em>) – Power [W] indexed by time [datetime or s]</p></li>
+<li><p><strong>seconds</strong> (<em>int</em><em> or </em><em>float</em>) – Seconds in the time period of interest</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>E</strong> (<em>float</em>) – Energy [J] produced in the given time frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.resource.exceedance_probability">
+<code class="sig-prename descclassname">mhkit.river.resource.</code><code class="sig-name descname">exceedance_probability</code><span class="sig-paren">(</span><em class="sig-param">D</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#exceedance_probability"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.resource.exceedance_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the exceedance probability</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>D</strong> (<em>pandas Series</em>) – Data indexed by time [datetime or s].</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>F</strong> (<em>pandas DataFrame</em>) – Exceedance probability [unitless] indexed by time [datetime or s]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.resource.polynomial_fit">
+<code class="sig-prename descclassname">mhkit.river.resource.</code><code class="sig-name descname">polynomial_fit</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">n</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#polynomial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.resource.polynomial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a polynomial fit for y given x of order n
+with an R-squared score of the fit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – x data for polynomial fit.</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – y data for polynomial fit.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – order of the polynomial fit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>polynomial_coefficients</strong> (<em>numpy polynomial</em>) – List of polynomial coefficients</p></li>
+<li><p><strong>R2</strong> (<em>float</em>) – Polynomical fit coeffcient of determination</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.resource.velocity_to_power">
+<code class="sig-prename descclassname">mhkit.river.resource.</code><code class="sig-name descname">velocity_to_power</code><span class="sig-paren">(</span><em class="sig-param">V</em>, <em class="sig-param">polynomial_coefficients</em>, <em class="sig-param">cut_in</em>, <em class="sig-param">cut_out</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#velocity_to_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.resource.velocity_to_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates power given velocity data and the relationship
+between velocity and power from an individual turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>V</strong> (<em>pandas Series</em>) – Velocity [m/s] indexed by time [datetime or s]</p></li>
+<li><p><strong>polynomial_coefficients</strong> (<em>numpy polynomial</em>) – List of polynomial coefficients that discribe the relationship between
+velocity and power at an individual turbine</p></li>
+<li><p><strong>cut_in</strong> (<em>int/float</em>) – Velocity values below cut_in are not used to compute P</p></li>
+<li><p><strong>cut_out</strong> (<em>int/float</em>) – Velocity values above cut_out are not used to compute P</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>P</strong> (<em>pandas DataFrame</em>) – Power [W] indexed by time [datetime or s]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="device">
 <h2>Device<a class="headerlink" href="#device" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../mhkit-python/api.river.html#module-mhkit.river.device" title="mhkit.river.device"><code class="xref py py-class docutils literal notranslate"><span class="pre">device</span></code></a> submodule contains functions to compute equivalent diameter
+and capture area for circular, ducted, rectangular, adn multiple circular devices.
+A circular device is a vertical axis water turbine (VAWT). A
+rectangular device is a horizontal axis water turbine. A ducted device
+is an enclosed VAWT. A multiple-circular devices is a device with
+multiple VAWTs per device.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>circular</p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a circular turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p>ducted</p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a ducted turbine</p></td>
+</tr>
+<tr class="row-even"><td><p>multiple_circular</p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a multiple circular turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p>rectangular</p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a retangular turbine</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.river.device"></span><dl class="function">
+<dt id="mhkit.river.device.circular">
+<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">circular</code><span class="sig-paren">(</span><em class="sig-param">diameter</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/device.html#circular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.device.circular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+circular turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diameter</strong> (<em>int/float</em>) – Turbine diameter [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.device.ducted">
+<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">ducted</code><span class="sig-paren">(</span><em class="sig-param">duct_diameter</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/device.html#ducted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.device.ducted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+ducted turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>duct_diameter</strong> (<em>int/float</em>) – Duct diameter [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.device.multiple_circular">
+<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">multiple_circular</code><span class="sig-paren">(</span><em class="sig-param">diameters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/device.html#multiple_circular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.device.multiple_circular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+multiple circular turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diameters</strong> (<em>list</em>) – List of device diameters [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.device.rectangular">
+<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">rectangular</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">w</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/device.html#rectangular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.device.rectangular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+retangular turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h</strong> (<em>int/float</em>) – Turbine height [m]</p></li>
+<li><p><strong>w</strong> (<em>int/float</em>) – Turbine width [m]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="graphics">
 <h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../mhkit-python/api.river.html#module-mhkit.river.graphics" title="mhkit.river.graphics"><code class="xref py py-class docutils literal notranslate"><span class="pre">graphics</span></code></a> submodule contains functions to plot river data and related metrics.
+The functions are designed to work in parallel with the <a class="reference internal" href="../mhkit-python/api.river.html#module-mhkit.river.resource" title="mhkit.river.resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">resource</span></code></a> submodule.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>plot_discharge_timeseries</p></td>
+<td><p>Plots discharge vs time</p></td>
+</tr>
+<tr class="row-odd"><td><p>plot_discharge_vs_velocity</p></td>
+<td><p>Plots discharge vs velocity</p></td>
+</tr>
+<tr class="row-even"><td><p>plot_flow_duration_curve</p></td>
+<td><p>Plots discharge vs exceedance probability as a Flow Duration Curve (FDC)</p></td>
+</tr>
+<tr class="row-odd"><td><p>plot_power_duration_curve</p></td>
+<td><p>Plots power vs exceedance probability as a Flow Duration Curve (FDC)</p></td>
+</tr>
+<tr class="row-even"><td><p>plot_velocity_duration_curve</p></td>
+<td><p>Plots velocity vs exceedance probability as a Flow Duration Curve (FDC)</p></td>
+</tr>
+<tr class="row-odd"><td><p>plot_velocity_vs_power</p></td>
+<td><p>Plots velocity vs power along with a polynomial fit</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.river.graphics"></span><dl class="function">
+<dt id="mhkit.river.graphics.plot_discharge_timeseries">
+<code class="sig-prename descclassname">mhkit.river.graphics.</code><code class="sig-name descname">plot_discharge_timeseries</code><span class="sig-paren">(</span><em class="sig-param">Q</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_discharge_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.graphics.plot_discharge_timeseries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots discharge time-series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Q</strong> (<em>array-like</em>) – Discharge [m3/s] indexed by time</p></li>
+<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.graphics.plot_discharge_vs_velocity">
+<code class="sig-prename descclassname">mhkit.river.graphics.</code><code class="sig-name descname">plot_discharge_vs_velocity</code><span class="sig-paren">(</span><em class="sig-param">D</em>, <em class="sig-param">V</em>, <em class="sig-param">polynomial_coeff=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_discharge_vs_velocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.graphics.plot_discharge_vs_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots discharge vs velocity data along with the polynomial fit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> (<em>pandas Series</em>) – Discharge [m/s] indexed by time</p></li>
+<li><p><strong>V</strong> (<em>pandas Series</em>) – Velocity [m/s] indexed by time</p></li>
+<li><p><strong>polynomial_coeff</strong> (<em>numpy polynomial</em>) – Polynomial coefficients, which can be computed using
+<cite>river.resource.polynomial_fit</cite>.  If None, then the polynomial fit is
+not included int the plot.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.graphics.plot_flow_duration_curve">
+<code class="sig-prename descclassname">mhkit.river.graphics.</code><code class="sig-name descname">plot_flow_duration_curve</code><span class="sig-paren">(</span><em class="sig-param">D</em>, <em class="sig-param">F</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_flow_duration_curve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.graphics.plot_flow_duration_curve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots discharge vs exceedance probability as a Flow Duration Curve (FDC)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> (<em>array-like</em>) – Discharge [m/s] indexed by time</p></li>
+<li><p><strong>F</strong> (<em>array-like</em>) – Exceedance probability [unitless] indexed by time</p></li>
+<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.graphics.plot_power_duration_curve">
+<code class="sig-prename descclassname">mhkit.river.graphics.</code><code class="sig-name descname">plot_power_duration_curve</code><span class="sig-paren">(</span><em class="sig-param">P</em>, <em class="sig-param">F</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_power_duration_curve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.graphics.plot_power_duration_curve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots power vs exceedance probability as a Power Duration Curve (PDC)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> (<em>array-like</em>) – Power [W] indexed by time</p></li>
+<li><p><strong>F</strong> (<em>array-like</em>) – Exceedance probability [unitless] indexed by time</p></li>
+<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.graphics.plot_velocity_duration_curve">
+<code class="sig-prename descclassname">mhkit.river.graphics.</code><code class="sig-name descname">plot_velocity_duration_curve</code><span class="sig-paren">(</span><em class="sig-param">V</em>, <em class="sig-param">F</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_velocity_duration_curve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.graphics.plot_velocity_duration_curve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots velocity vs exceedance probability as a Velocity Duration Curve (VDC)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>V</strong> (<em>array-like</em>) – Velocity [m/s] indexed by time</p></li>
+<li><p><strong>F</strong> (<em>array-like</em>) – Exceedance probability [unitless] indexed by time</p></li>
+<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.river.graphics.plot_velocity_vs_power">
+<code class="sig-prename descclassname">mhkit.river.graphics.</code><code class="sig-name descname">plot_velocity_vs_power</code><span class="sig-paren">(</span><em class="sig-param">V</em>, <em class="sig-param">P</em>, <em class="sig-param">polynomial_coeff=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_velocity_vs_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.river.graphics.plot_velocity_vs_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots velocity vs power data along with the polynomial fit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>V</strong> (<em>pandas Series</em>) – Velocity [m/s] indexed by time</p></li>
+<li><p><strong>P</strong> (<em>pandas Series</em>) – Power [W] indexed by time</p></li>
+<li><p><strong>polynomial_coeff</strong> (<em>numpy polynomial</em>) – Polynomial coefficients, which can be computed using
+<cite>river.resource.polynomial_fit</cite>.  If None, then the polynomial fit is
+not included int the plot.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The names of the functions below are of the convention path.path.path.function. Only the function name is used when calling the function in MATLAB. For example, to call on “mhkit.river.io.request_usgs_data” simply
+use request_usgs_data().</p>
 </div>
+<span class="target" id="module-mhkit.river"></span></div>
 </div>
 
 
@@ -219,6 +726,15 @@ calculate quantities of interest for river energy converters (REC).</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.tidal.html" class="btn btn-neutral float-right" title="Tidal Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.wave.html" class="btn btn-neutral float-left" title="Wave Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
