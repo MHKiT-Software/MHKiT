@@ -17,9 +17,7 @@ read_usgs_file                               Reads a USGS JSON data file (from h
 request_usgs_file                            Loads USGS data directly from https://waterdata.usgs.gov/nwis using a GET request into a structure
 ===========================================  ========================= 
 
-.. automodule:: mhkit.river.io
-    :members:
-    :undoc-members:
+** Kelley add api **
     
     
 Resource
@@ -41,9 +39,8 @@ velocity_to_power                            Calculates power given velocity dat
 energy_produced                              Returns the energy produced for a given time period provided exceedence probability and power.
 ===========================================  ========================= 
 
-.. automodule:: mhkit.river.resource
-    :members:
-    :undoc-members:
+** Kelley add api **
+
     
 
 Device 
@@ -64,13 +61,11 @@ multiple_circular                            Calculates the equivalent diameter 
 rectangular                                  Calculates the equivalent diameter and projected capture area of a retangular turbine
 ===========================================  ========================= 
 
-.. automodule:: mhkit.river.device
-    :members:
-    :undoc-members:
-	
+** Kelley add api **
+
    
 Graphics
-""""""
+""""""""""""
 The :class:`~mhkit.river.graphics` submodule contains functions to plot river data and related metrics.  
 The functions are designed to work in parallel with the :class:`~mhkit.river.resource` submodule.
 
@@ -86,18 +81,12 @@ plot_velocity_vs_power                       Plots velocity vs power along with 
 ===========================================  ========================= 
 
 
-.. automodule:: mhkit.river.graphics
-    :members:
-    :undoc-members:
-    
-    
+** Kelley add api **
 
+    
+    
 .. Note::
     The names of the functions below are of the convention path.path.path.function. Only the function name is used when calling the function in MATLAB. For example, to call on "mhkit.river.io.request_usgs_data" simply 
     use request_usgs_data(). 
 
-.. automodule:: mhkit.river
-    :members:
-    :no-undoc-members:
-    
 

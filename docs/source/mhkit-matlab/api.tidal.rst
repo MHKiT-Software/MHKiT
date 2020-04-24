@@ -17,11 +17,8 @@ read_noaa_json                               Returns site structure from a json 
 request_noaa_data                            Loads NOAA current data directly from https://tidesandcurrents.noaa.gov/api/ using a GET request into a structure
 ===========================================  ========================= 
 
-.. automodule:: mhkit.tidal.io
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    
+** Kelley add api **
+
     
     
 Resource
@@ -40,11 +37,8 @@ Froude_number                                Calculate the Froude Number of the 
 exceedance_probability                       Calculates the exceedance probability
 ===========================================  ========================= 
 
-.. automodule:: mhkit.tidal.resource
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    
+** Kelley add api **
+
 
 Device 
 """"""""""""
@@ -64,10 +58,8 @@ multiple_circular                            Calculates the equivalent diameter 
 rectangular                                  Calculates the equivalent diameter and projected capture area of a retangular turbine
 ===========================================  ========================= 
 
-.. automodule:: mhkit.river.device
-    :members:
-    :undoc-members:
-    :show-inheritance:
+** Kelley add api **
+
       
 
 
@@ -90,20 +82,11 @@ plot_current_timeseries                      Returns a plot of velocity from an 
 ===========================================  ========================= 
 
 
-.. automodule:: mhkit.tidal.graphics
-    :members:
-    :undoc-members:
-    :show-inheritance:
+** Kelley add api **
+
     
     
 
 .. Note::
     The names of the functions below are of the convention path.path.path.function. Only the function name is used when calling the function in MATLAB. For example, to call on "mhkit.tidal.io.request_noaa_data" simply 
     use request_noaa_data(). 
-
-.. automodule:: mhkit.tidal
-    :members:
-    :no-undoc-members:
-    :show-inheritance:
-    
-

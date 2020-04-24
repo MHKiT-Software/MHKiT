@@ -16,11 +16,7 @@ Functions                                    Description
 read_NDBC_file                               Reads a NDBC wave buoy data file (from https://www.ndbc.noaa.gov) into a structure. 
 ===========================================  ========================= 
 
-
-.. automodule:: mhkit.wave.io
-    :members:
-    :undoc-members:
-    :show-inheritance:
+** Kelley add api **
 
 
 Resource
@@ -58,11 +54,7 @@ wave_celerity                                Calculates wave celerity (group vel
 wave_number                                  Calculates wave number
 ===========================================  ========================= 
                               
-
-.. automodule:: mhkit.wave.resource
-    :members:
-    :undoc-members:
-    :show-inheritance:
+** Kelley add api **
 
 
 
@@ -86,11 +78,8 @@ wave_energy_flux_matrix                      Generates a wave eneergy flux matri
 ===========================================  ========================= 
 
 
-.. automodule:: mhkit.wave.performance
-    :members:
-    :undoc-members:
-    :show-inheritance:
-	
+** Kelley add api **
+
 
 Graphics
 """"""""""""
@@ -105,12 +94,7 @@ plot_matrix                                  Plots the matrix with Hm0 and Te on
 plot_spectrum                                Plots wave amplitude spectrum
 ===========================================  ========================= 
    
-
-.. automodule:: mhkit.wave.graphics
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+** Kelley add api **
 
 
 
@@ -118,11 +102,7 @@ plot_spectrum                                Plots wave amplitude spectrum
     The names of the functions below are of the convention path.path.path.function. Only the function name is used when calling the function in MATLAB. For example, to call on "mhkit.wave.io.read_NDBC_file" simply 
     use read_NDBC_file(). 
 
-.. automodule:: mhkit.wave
-    :members:
-    :no-undoc-members:
-    :show-inheritance:
-    
+
 
     
 

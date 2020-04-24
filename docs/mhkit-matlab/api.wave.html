@@ -32,10 +32,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -200,13 +201,13 @@
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
@@ -243,36 +244,7 @@ data file into a pandas DataFrame, including real time and historical data.</p>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.wave.io"></span><dl class="function">
-<dt id="mhkit.wave.io.read_NDBC_file">
-<code class="sig-prename descclassname">mhkit.wave.io.</code><code class="sig-name descname">read_NDBC_file</code><span class="sig-paren">(</span><em class="sig-param">file_name, missing_values=['MM', 9999, 999, 99]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io.html#read_NDBC_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.read_NDBC_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads a NDBC wave buoy data file (from <a class="reference external" href="https://www.ndbc.noaa.gov">https://www.ndbc.noaa.gov</a>).</p>
-<p>Realtime and historical data files can be loaded with this function.</p>
-<p>Note: With realtime data, missing data is denoted by “MM”.  With historical
-data, missing data is denoted using a variable number of
-# 9’s, depending on the data type (for example: 9999.0 999.0 99.0).
-‘N/A’ is automatically converted to missing data.</p>
-<p>Data values are converted to float/int when possible. Column names are
-also converted to float/int when possible (this is useful when column
-names are frequency).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file_name</strong> (<em>string</em>) – Name of NDBC wave buoy data file</p></li>
-<li><p><strong>missing_value</strong> (<em>list of values</em>) – List of values that denote missing data</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns named according to header row</p></li>
-<li><p><strong>metadata</strong> (<em>dict or None</em>) – Dictionary with {column name: units} key value pairs when the NDBC file
-contains unit information, otherwise None is returned</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>** Kelley add api **</p>
 </div>
 <div class="section" id="resource">
 <h2>Resource<a class="headerlink" href="#resource" title="Permalink to this headline">¶</a></h2>
@@ -350,288 +322,7 @@ contains unit information, otherwise None is returned</p></li>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.wave.resource"></span><dl class="function">
-<dt id="mhkit.wave.resource.average_crest_period">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">average_crest_period</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#average_crest_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.average_crest_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave average crest period from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Tavg</strong> (<em>pandas DataFrame</em>) – Average wave period [s] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.average_wave_period">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">average_wave_period</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#average_wave_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.average_wave_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates mean wave period from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Tm</strong> (<em>pandas DataFrame</em>) – Mean wave period [s] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.average_zero_crossing_period">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">average_zero_crossing_period</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#average_zero_crossing_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.average_zero_crossing_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave average zero crossing period from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Tz</strong> (<em>pandas DataFrame</em>) – Average zero crossing period [s] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.bretschneider_spectrum">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">bretschneider_spectrum</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">Tp</em>, <em class="sig-param">Hs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#bretschneider_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.bretschneider_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates Bretschneider Sprectrum from Tucker and Pitt (2001)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> (<em>numpy array</em>) – Frequency [Hz]</p></li>
-<li><p><strong>Tp</strong> (<em>float/int</em>) – Peak period [s]</p></li>
-<li><p><strong>Hs</strong> (<em>float/int</em>) – Significant wave height [m]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.elevation_spectrum">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">elevation_spectrum</code><span class="sig-paren">(</span><em class="sig-param">eta</em>, <em class="sig-param">sample_rate</em>, <em class="sig-param">nnft</em>, <em class="sig-param">window='hamming'</em>, <em class="sig-param">detrend=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#elevation_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.elevation_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the wave energy spectrum from wave elevation time-series</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>eta</strong> (<em>pandas DataFrame</em>) – Wave surface elevation [m] indexed by time [datetime or s]</p></li>
-<li><p><strong>sample_rate</strong> (<em>float</em>) – Data frequency [Hz]</p></li>
-<li><p><strong>nnft</strong> (<em>integer</em>) – Number of bins in the Fast Fourier Transform</p></li>
-<li><p><strong>window</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Signal window type. ‘hamming’ is used by default given the broadband
-nature of waves. See scipy.signal.get_window for more options.</p></li>
-<li><p><strong>detrend</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Specifies if a linear trend is removed from the data before calculating
-the wave energy spectrum.  Data is detrended by default.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.energy_flux">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">energy_flux</code><span class="sig-paren">(</span><em class="sig-param">S</em>, <em class="sig-param">h</em>, <em class="sig-param">rho=1025</em>, <em class="sig-param">g=9.80665</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#energy_flux"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.energy_flux" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the omnidirectional wave energy flux of the spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p></li>
-<li><p><strong>h</strong> (<em>float</em>) – Water depth [m]</p></li>
-<li><p><strong>rho</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Water Density [kg/m3]</p></li>
-<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>J</strong> (<em>pandas DataFrame</em>) – Omni-directional wave energy flux [W/m] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.energy_period">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">energy_period</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#energy_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.energy_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave energy period from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Te</strong> (<em>pandas DataFrame</em>) – Wave energy period [s] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.frequency_moment">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">frequency_moment</code><span class="sig-paren">(</span><em class="sig-param">S</em>, <em class="sig-param">N</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#frequency_moment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.frequency_moment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the Nth frequency moment of the spectrum</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p></li>
-<li><p><strong>N</strong> (<em>int</em>) – Moment (0 for 0th, 1 for 1st ….)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>m</strong> (<em>pandas DataFrame</em>) – Nth Frequency Moment indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.jonswap_spectrum">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">jonswap_spectrum</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">Tp</em>, <em class="sig-param">Hs</em>, <em class="sig-param">gamma=3.3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#jonswap_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.jonswap_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates JONSWAP spectrum from Hasselmann et al (1973)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> (<em>numpy array</em>) – Frequency [Hz]</p></li>
-<li><p><strong>Tp</strong> (<em>float/int</em>) – Peak period [s]</p></li>
-<li><p><strong>Hs</strong> (<em>float/int</em>) – Significant wave height [m]</p></li>
-<li><p><strong>gamma</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gamma</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed frequency [Hz]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.peak_period">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">peak_period</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#peak_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.peak_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave energy period from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Tp</strong> (<em>pandas DataFrame</em>) – Wave peak period [s] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.pierson_moskowitz_spectrum">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">pierson_moskowitz_spectrum</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">Tp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#pierson_moskowitz_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.pierson_moskowitz_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> (<em>numpy array</em>) – Frequency [Hz]</p></li>
-<li><p><strong>Tp</strong> (<em>float/int</em>) – Peak period [s]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed frequency [Hz]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.significant_wave_height">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">significant_wave_height</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#significant_wave_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.significant_wave_height" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave height from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Hm0</strong> (<em>pandas DataFrame</em>) – Significant wave height [m] index by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.spectral_bandwidth">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">spectral_bandwidth</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#spectral_bandwidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.spectral_bandwidth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates bandwidth from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>e</strong> (<em>pandas DataFrame</em>) – Spectral bandwidth [s] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.spectral_width">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">spectral_width</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#spectral_width"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.spectral_width" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave spectral width from spectra</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>v</strong> (<em>pandas DataFrame</em>) – Spectral width [m] indexed by S.columns</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.surface_elevation">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">surface_elevation</code><span class="sig-paren">(</span><em class="sig-param">S</em>, <em class="sig-param">time_index</em>, <em class="sig-param">seed=123</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#surface_elevation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.surface_elevation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave elevation time-series from spectrum using a random phase</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p></li>
-<li><p><strong>time_index</strong> (<em>numpy array</em>) – Time used to create the wave elevation time-series [s],
-for example, time = np.arange(0,100,0.01)</p></li>
-<li><p><strong>seed</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – Random seed</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>eta</strong> (<em>pandas DataFrame</em>) – Wave surface elevation [m] indexed by time [s]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.wave_celerity">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_celerity</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">h</em>, <em class="sig-param">g=9.80665</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#wave_celerity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.wave_celerity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave celerity (group velocity)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<em>pandas DataFrame</em>) – Wave number [1/m] indexed by frequency [Hz]</p></li>
-<li><p><strong>h</strong> (<em>float</em>) – Water depth [m]</p></li>
-<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Cg</strong> (<em>pandas DataFrame</em>) – Water celerity [?] indexed by frequency [Hz]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.resource.wave_number">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_number</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">h</em>, <em class="sig-param">rho=1025</em>, <em class="sig-param">g=9.80665</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#wave_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.wave_number" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave number</p>
-<p>To compute wave number from angular frequency (w), convert w to f before
-using this function (f = w/2*pi)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> (<em>numpy array</em>) – Frequency [Hz]</p></li>
-<li><p><strong>h</strong> (<em>float</em>) – Water depth [m]</p></li>
-<li><p><strong>rho</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Water density [kg/m^3]</p></li>
-<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>k</strong> (<em>pandas DataFrame</em>) – Wave number [1/m] indexed by frequency [Hz]</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>** Kelley add api **</p>
 </div>
 <div class="section" id="performance">
 <h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
@@ -674,180 +365,7 @@ performance matrices, and mean annual energy production.</p>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.wave.performance"></span><dl class="function">
-<dt id="mhkit.wave.performance.ac_power_three_phase">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">ac_power_three_phase</code><span class="sig-paren">(</span><em class="sig-param">voltage</em>, <em class="sig-param">current</em>, <em class="sig-param">power_factor</em>, <em class="sig-param">line_to_line=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#ac_power_three_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.ac_power_three_phase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates real power from line to neutral voltage and current</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>voltage</strong> (<em>pandas DataFrame</em>) – Time series of all three measured voltage phases [V] indexed by time</p></li>
-<li><p><strong>current</strong> (<em>pandas DataFrame</em>) – Time series of all three measured current phases [A] indexed by time</p></li>
-<li><p><strong>power_factor</strong> (<em>float</em>) – Power factor for the system</p></li>
-<li><p><strong>line_to_line</strong> (<em>bool</em>) – Set to true if the given voltage measurements are line_to_line</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>P</strong> (<em>pandas DataFrame</em>) – Total power [W] indexed by time</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.capture_length">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">capture_length</code><span class="sig-paren">(</span><em class="sig-param">P</em>, <em class="sig-param">J</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#capture_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.capture_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the capture length (often called capture width).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>P</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Power [W]</p></li>
-<li><p><strong>J</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Omnidirectional wave energy flux [W/m]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>L</strong> (<em>numpy array or pandas Series</em>) – Capture length [m]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.capture_length_matrix">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">capture_length_matrix</code><span class="sig-paren">(</span><em class="sig-param">Hm0</em>, <em class="sig-param">Te</em>, <em class="sig-param">L</em>, <em class="sig-param">statistic</em>, <em class="sig-param">Hm0_bins</em>, <em class="sig-param">Te_bins</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#capture_length_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.capture_length_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a capture length matrix for a given statistic</p>
-<p>Note that IEC/TS 62600-100 requires capture length matrices for
-the mean, std, count, min, and max.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>Hm0</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Significant wave height from spectra [m]</p></li>
-<li><p><strong>Te</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Energy period from spectra [s]</p></li>
-<li><p><strong>L</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Capture length [m]</p></li>
-<li><p><strong>statistic</strong> (<em>string</em>) – Statistic for each bin, options include: ‘mean’, ‘std’, ‘median’,
-‘count’, ‘sum’, ‘min’, ‘max’, and ‘frequency’.  Note that ‘std’ uses
-a degree of freedom of 1 in accordance with IEC/TS 62600-100.</p></li>
-<li><p><strong>Hm0_bins</strong> (<em>numpy array</em>) – Bin centers for Hm0 [m]</p></li>
-<li><p><strong>Te_bins</strong> (<em>numpy array</em>) – Bin centers for Te [s]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>LM</strong> (<em>pandas DataFrames</em>) – Capture length matrix with index equal to Hm0_bins and columns
-equal to Te_bins</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.dc_power">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">dc_power</code><span class="sig-paren">(</span><em class="sig-param">voltage</em>, <em class="sig-param">current</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#dc_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.dc_power" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates DC power from voltage and current</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>voltage</strong> (<em>pandas Series</em><em> or </em><em>DataFrame</em>) – Measured DC voltage [V] indexed by time</p></li>
-<li><p><strong>current</strong> (<em>pandas Series</em><em> or </em><em>DataFrame</em>) – Measured three phase current [A] indexed by time</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>P</strong> (<em>pandas DataFrame</em>) – DC power [W] from each channel and gross power indexed by time</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.mean_annual_energy_production_matrix">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">mean_annual_energy_production_matrix</code><span class="sig-paren">(</span><em class="sig-param">LM</em>, <em class="sig-param">JM</em>, <em class="sig-param">frequency</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#mean_annual_energy_production_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.mean_annual_energy_production_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates mean annual energy production (MAEP) from matrix data
-along with data frequency in each bin</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>LM</strong> (<em>pandas DataFrame</em>) – Capture length</p></li>
-<li><p><strong>JM</strong> (<em>pandas DataFrame</em>) – Wave energy flux</p></li>
-<li><p><strong>frequency</strong> (<em>pandas DataFrame</em>) – Data frequency for each bin</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>maep</strong> (<em>float</em>) – Mean annual energy production</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.mean_annual_energy_production_timeseries">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">mean_annual_energy_production_timeseries</code><span class="sig-paren">(</span><em class="sig-param">L</em>, <em class="sig-param">J</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#mean_annual_energy_production_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.mean_annual_energy_production_timeseries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates mean annual energy production (MAEP) from time-series</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Capture length</p></li>
-<li><p><strong>J</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave energy flux</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>maep</strong> (<em>float</em>) – Mean annual energy production</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.power_matrix">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">power_matrix</code><span class="sig-paren">(</span><em class="sig-param">LM</em>, <em class="sig-param">JM</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#power_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.power_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a power matrix from a capture length matrix and wave energy
-flux matrix</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>LM</strong> (<em>pandas DataFrame</em>) – Capture length matrix</p></li>
-<li><p><strong>JM</strong> (<em>pandas DataFrame</em>) – Wave energy flux matrix</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>PM</strong> (<em>pandas DataFrames</em>) – Power matrix</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.statistics">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">statistics</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.statistics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates statistics, including count, mean, standard
-deviation (std), min, percentiles (25%, 50%, 75%), and max.</p>
-<p>Note that std uses a degree of freedom of 1 in accordance with
-IEC/TS 62600-100.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Data</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>stats</strong> (<em>pandas Series</em>) – Statistics</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.performance.wave_energy_flux_matrix">
-<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">wave_energy_flux_matrix</code><span class="sig-paren">(</span><em class="sig-param">Hm0</em>, <em class="sig-param">Te</em>, <em class="sig-param">J</em>, <em class="sig-param">statistic</em>, <em class="sig-param">Hm0_bins</em>, <em class="sig-param">Te_bins</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#wave_energy_flux_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.wave_energy_flux_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a wave energy flux matrix for a given statistic</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>Hm0</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Significant wave height from spectra [m]</p></li>
-<li><p><strong>Te</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Energy period from spectra [s]</p></li>
-<li><p><strong>J</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave energy flux from spectra [W/m]</p></li>
-<li><p><strong>statistic</strong> (<em>string</em>) – Statistic for each bin, options include: ‘mean’, ‘std’, ‘median’,
-‘count’, ‘sum’, ‘min’, ‘max’, and ‘frequency’.  Note that ‘std’ uses a degree of freedom
-of 1 in accordance of IEC/TS 62600-100.</p></li>
-<li><p><strong>Hm0_bins</strong> (<em>numpy array</em>) – Bin centers for Hm0 [m]</p></li>
-<li><p><strong>Te_bins</strong> (<em>numpy array</em>) – Bin centers for Te [s]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>JM</strong> (<em>pandas DataFrames</em>) – Wave energy flux matrix with index equal to Hm0_bins and columns
-equal to Te_bins</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>** Kelley add api **</p>
 </div>
 <div class="section" id="graphics">
 <h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
@@ -874,69 +392,13 @@ equal to Te_bins</p>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.wave.graphics"></span><dl class="function">
-<dt id="mhkit.wave.graphics.plot_elevation_timeseries">
-<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_elevation_timeseries</code><span class="sig-paren">(</span><em class="sig-param">eta</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_elevation_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_elevation_timeseries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot wave surface elevation time-series</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>eta</strong> (<em>pandas DataFrame</em>) – Wave surface elevation [m] indexed by time [datetime or s]</p></li>
-<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.graphics.plot_matrix">
-<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_matrix</code><span class="sig-paren">(</span><em class="sig-param">M</em>, <em class="sig-param">xlabel='Te'</em>, <em class="sig-param">ylabel='Hm0'</em>, <em class="sig-param">zlabel=None</em>, <em class="sig-param">show_values=True</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots values in the matrix as a scatter diagram</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>M</strong> (<em>pandas DataFrame</em>) – Matrix with numeric labels for x and y axis, and numeric entries.
-An example would be the average capture length matrix generated by
-mhkit.device.wave, or something similar.</p></li>
-<li><p><strong>xlabel</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Title of the x-axis</p></li>
-<li><p><strong>ylabel</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Title of the y-axis</p></li>
-<li><p><strong>zlabel</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Colorbar label</p></li>
-<li><p><strong>show_values</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Show values on the scatter diagram</p></li>
-<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="mhkit.wave.graphics.plot_spectrum">
-<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_spectrum</code><span class="sig-paren">(</span><em class="sig-param">S</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots wave amplitude spectrum versus omega</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed frequency [Hz]</p></li>
-<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p>** Kelley add api **</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The names of the functions below are of the convention path.path.path.function. Only the function name is used when calling the function in MATLAB. For example, to call on “mhkit.wave.io.read_NDBC_file” simply
 use read_NDBC_file().</p>
 </div>
-<span class="target" id="module-mhkit.wave"></span></div>
+</div>
 </div>
 
 

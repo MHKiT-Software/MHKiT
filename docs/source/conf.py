@@ -17,7 +17,6 @@
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinxcontrib.bibtex',
     'sphinx.ext.imgmath',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
@@ -29,8 +28,9 @@ extensions = [
     'sphinx_rtd_theme',
     'nbsphinx',
     'nbsphinx_link',
+    'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',       
-    'sphinxcontrib.googleanalytics', 
+    'sphinxcontrib.googleanalytics'
 ]
 
 autosectionlabel_prefix_document = True
@@ -44,14 +44,30 @@ autosectionlabel_prefix_document = True
 
 #
 #
-from mhkit import __version__ 
 import sphinx_rtd_theme
 import os
 import sys
 #
+# this_dir = os.path.dirname(os.path.abspath(__file__))
+# matlab_src_dir = os.path.abspath(os.path.join(this_dir, '../..'))
+# primary_domain = 'mat'
+
+#Kelley previous
 this_dir = os.path.dirname(os.path.abspath(__file__))
 matlab_src_dir = os.path.abspath( '../../MHKiT-MATLAB/')
 sys.path.insert(0, matlab_src_dir)
+# Kelely probably don't need
+#python_src_dir = os.path.abspath( '../../MHKiT-Python/')
+#sys.path.insert(0, python_src_dir)
+
+# from rebeccca
+# this_dir = os.path.dirname(os.path.abspath(__file__))
+# matlab_src_dir = os.path.abspath(os.path.join(this_dir, '..'))
+# primary_domain = 'mat'
+
+#
+from mhkit import __version__ 
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
