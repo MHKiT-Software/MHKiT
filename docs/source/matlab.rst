@@ -19,8 +19,6 @@ API Documentation
    mhkit-matlab/api.wave
    mhkit-matlab/api.river
    mhkit-matlab/api.tidal
-   mhkit-matlab/api.utils
-
 
 Examples
 --------------
