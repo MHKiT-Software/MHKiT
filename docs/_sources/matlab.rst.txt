@@ -25,12 +25,13 @@ Examples
 
 MATLAB Live examples of MHKiT-MATLAB are included below:
 
-- `Wave Example <source/mhkit-matlab/wave_example.html>`_
-- `River Example <source/mhkit-matlab/river_example.html>`_
-- `QC Example <source/mhkit-matlab/qc_example.html>`_
-- `Tidal Example <source/mhkit-matlab/tidal_example.html>`_
+- `Wave Example <../mhkit-matlab/examples/wave_example.html>`_
+- `River Example <../mhkit-matlab/examples/river_example.html>`_
+- `QC Example <../mhkit-matlab/examples/qc_example.html>`_
+- `Tidal Example <../mhkit-matlab/examples/tidal_example.html>`_
 
-.. (removed for now) MATLAB examples remove the indecx
+.. MATLAB live examples remove the index, and must be manually saved as html
+
 
 Online Forum
 --------------
