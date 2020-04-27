@@ -4,13 +4,6 @@ Wave Module
 ^^^^^^^^^^^^^^^^^^^^
 The wave module contains a set of functions to calculate quantities of interest for wave energy converters (WEC).
 
-.. This isn't generating anything
-.. mat:automodule:: mhkit.wave
-    :members:
-    :no-undoc-members:
-    :show-inheritance:
-    
-
 .. Note::
     The names of the functions below are of the convention ``path.path.function``. Only the function name is used when calling the function in MATLAB. For example, to call on ``mhkit.wave.io.read_NDBC_file`` simply use ``read_NDBC_file``. 
 

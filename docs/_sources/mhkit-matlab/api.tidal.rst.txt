@@ -5,12 +5,6 @@ Tidal Module
 The tidal module contains a set of functions to 
 calculate quantities of interest for tidal energy converters.
 
-.. This doesn't generate anything
-.. mat:automodule:: mhkit.tidal
-    :members:
-    :no-undoc-members:
-    :show-inheritance:
-
 .. Note::
     The names of the functions below are of the convention ``path.path.function``. Only the function name is used when calling the function in MATLAB. For example, to call on ``mhkit.tidal.io.request_noaa_data`` simply use ``request_noaa_data``. 
     

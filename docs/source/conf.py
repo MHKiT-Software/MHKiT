@@ -48,22 +48,10 @@ import sphinx_rtd_theme
 import os
 import sys
 #
-# this_dir = os.path.dirname(os.path.abspath(__file__))
-# matlab_src_dir = os.path.abspath(os.path.join(this_dir, '../..'))
-# primary_domain = 'mat'
-
-#Kelley previous
+#Specify MHKiT-MATLAB path for API documentation by pointing to MHKiT-MATLAB submodule
 this_dir = os.path.dirname(os.path.abspath(__file__))
 matlab_src_dir = os.path.abspath( '../../MHKiT-MATLAB/')
 sys.path.insert(0, matlab_src_dir)
-# Kelely probably don't need
-#python_src_dir = os.path.abspath( '../../MHKiT-Python/')
-#sys.path.insert(0, python_src_dir)
-
-# from rebeccca
-# this_dir = os.path.dirname(os.path.abspath(__file__))
-# matlab_src_dir = os.path.abspath(os.path.join(this_dir, '..'))
-# primary_domain = 'mat'
 
 #
 from mhkit import __version__ 

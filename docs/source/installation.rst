@@ -49,8 +49,6 @@ To install MHKiT-Python using `git <https://git-scm.com/>`_::
 	cd mhkit-python
 	python setup.py develop
 
-.. python setup.py install
-
 Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency. 	
 
 .. Note:: 

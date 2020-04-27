@@ -3,11 +3,6 @@
 River Module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 The river module contains a set of functions to calculate quantities of interest for river energy converters (REC).
-
-.. This doesn't generate anything
-.. mat:automodule:: mhkit.river
-    :members:
-    :no-undoc-members:
     
 .. Note::
     The names of the functions below are of the convention ``path.path.function``. Only the function name is used when calling the function in MATLAB. For example, to call on ``mhkit.river.io.request_usgs_data`` simply use ``request_usgs_data``. 
