@@ -2,7 +2,7 @@
 # How to Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 
 ## Requirements
-  - ``https://mhkit-software.github.io/MHKiT/installation.html`` including the MHKiT-Python and Requirements headers.
+  - [Follow MHKiT Installation](https://mhkit-software.github.io/MHKiT/installation.html) steps, including the MHKiT-Python and Requirements headers.
 
 
 ## Download/Install Required Packages
@@ -53,13 +53,16 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
   - MHKiT (Marine and Hydrokinetic Toolkit)
 
 ### Unresolved Doc Issues
-  - 134 warnings
+  - 16 warnings
+    - 4 .nblink: WARNING: document isn't included in any toctree
+    - duplicate object warnings
+    - 2 MHKiT-MATLAB formating warnings (listed below)
   - MHKiT-MATLAB
-    - API doc amd toctree
-    - Examples toctree
+    - MATLAB Live examples remove index, and must be exorted as HTML manually
+    - mhkit.wave.graphics.plot_spectrum:1: WARNING: Unexpected section title or transition.
+    - mhkit.wave.graphics.plot_spectrum:13: WARNING: Unexpected section title or transition
   - MHKiT-Python
-    - mhkit.tidal.io.request_noaa_data unexpected indentation
-    - mhkit.river.io.request_usgs_data unexpected indentation
+    - Jupyter Notebooks examples change the index
 
 ## Push updates to the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
 Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:

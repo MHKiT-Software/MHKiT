@@ -13,32 +13,25 @@ Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for informati
 API Documentation
 --------------------
 
-.. (removed for now) points to pre-compliled documentation in the mhkit-matlab submodule, only worked locally
-	- `Wave <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.wave.html>`_    
-	- `River <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.river.html>`_
-	- `Tidal <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.tidal.html>`_
-	- `QC <../MHKiT-MATLAB/docs/_build/html/apidoc/mhkit.qc.html>`_
-
-
-..  this is the old copy/paste version of documentation
-
-- `Wave <source/mhkit-matlab/mhkit.wave.html>`_
-- `River <source/mhkit-matlab/mhkit.river.html>`_
-- `Tidal <source/mhkit-matlab/mhkit.tidal.html>`_
-- `QC <source/mhkit-matlab/mhkit.qc.html>`_
-
+.. toctree::
+   
+   mhkit-matlab/api.qc
+   mhkit-matlab/api.wave
+   mhkit-matlab/api.river
+   mhkit-matlab/api.tidal
 
 Examples
 --------------
 
 MATLAB Live examples of MHKiT-MATLAB are included below:
 
-- `Wave Example <source/mhkit-matlab/wave_example.html>`_
-- `River Example <source/mhkit-matlab/river_example.html>`_
-- `QC Example <source/mhkit-matlab/qc_example.html>`_
-- `Tidal Example <source/mhkit-matlab/tidal_example.html>`_
+- `Wave Example <../mhkit-matlab/examples/wave_example.html>`_
+- `River Example <../mhkit-matlab/examples/river_example.html>`_
+- `QC Example <../mhkit-matlab/examples/qc_example.html>`_
+- `Tidal Example <../mhkit-matlab/examples/tidal_example.html>`_
 
-.. (removed for now) MATLAB examples remove the indecx
+.. MATLAB live examples remove the index, and must be manually saved as html
+
 
 Online Forum
 --------------

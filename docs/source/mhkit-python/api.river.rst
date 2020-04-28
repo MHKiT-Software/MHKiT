@@ -7,6 +7,7 @@ The river module contains a set of functions to calculate quantities of interest
 **Discharge time series data** is stored as a pandas DataFrame indexed by time.  
   Time can be specified in datetime or in seconds.  The column names describe the type of data in each column.
   
+.. This doesn't generate anything
 .. automodule:: mhkit.river
     :members:
     :no-undoc-members:
