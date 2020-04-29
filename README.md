@@ -1,51 +1,51 @@
 
 # How to Update the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
-The MHKiT documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files and then uploaded to the [MHKiT Documentation Repository](https://github.com/MHKiT-Software/MHKiT). Using Sphinx, GitHub renders the documentation on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). This guide will help the user download the documentation, build the documentation locally, modifying the documentation, and push changes back up to the repository.
+The MHKiT documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files and then uploaded to the [MHKiT Documentation Repository](https://github.com/MHKiT-Software/MHKiT). Using Sphinx, GitHub renders the documentation on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). This guide will help the user to download the documentation, modify the documentation, build the documentation locally, and push changes back up to the repository.
 
 
 ## Requirements
-To update the MHKiT documentation you will need Python 3.6+, Sphinx, and a clone of this repository. This documentation assumes the user has a working version of Python installed. We reccomend Anaconda python. Please follow the installation instructions of your Python distribution prior to starting Step 1.
+To update the MHKiT documentation you will need Python 3.6+, Sphinx, and a clone of this repository. This documentation assumes the user has a working version of Python installed. We recommend Anaconda Python. Please follow the installation instructions of your Python distribution before starting Step 1.
 
 
 ### Step 1. Git Documents and submodules
-  - In order to update the documentation, fork the [MHKiT](https://github.com/MHKiT-Software/MHKiT) your own repository. We reccomend using Git. 
-  -Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation.
+  - To update the documentation, fork the [MHKiT](https://github.com/MHKiT-Software/MHKiT) your repository. We recommend using Git.
+  - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation.
   ```git clone https://github.com/MHKiT-Software/MHKiT.git```
-  
-  - Once cloned change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules]( for more information).
+
+  - Once cloned change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules].
   ```bash
      cd MHKiT
      git submodule init
      submodule update --remote
   ```
   The ``MHKiT-Python`` and ``MHKiT-MATLAB`` folders should now contain source code.
-  
+
 ### Step 2. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
-  - [Sphinx]((http://www.sphinx-doc.org/en/master/usage/installation.html))) is a python package used to create the MHKiT documentation.
-  
-  - To install Sphinx from the command line 
-  ```pip install -U Sphinx``` 
-  - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
-  
+  - [Sphinx]((http://www.sphinx-doc.org/en/master/usage/installation.html)) is a python package used to create the MHKiT documentation.
+
+  - To install Sphinx from the command line
+  ```pip install -U Sphinx```
+   **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
+
   - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and NB Sphinx Lin)
    ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link``
 
 You are now ready to begin modifying and building the MHKiT documentation.
 
-## Step 3. Build the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
+## Step 3. Modify the Documentation
+
+- The restructured text files used to build the documentation are located in the ``/MHKiT/docs/source`` directory (Check the [Sphinx Website](http://www.sphinx-doc.org/en/master/) for information about the folder structure).
+- Use a text editor to modify any restructured text file (files with `.rst` extension, e.g. `index.rst`).
+- Once you are done editing, move to Step 4
+
+## Step 4. Build the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
 - To locally build the documentation use the command line to move into the ``/MHKiT/docs`` folder then `make html`
 ```
     cd docs
-    make clean 
+    make clean
     make html
 ```
-Using the file explorer navigate to MHKiT/docs use an internet browser (i.e. Chrome, Safari, Edge, etc. ) and open `index.html`
-
-## Step 4. Modify the Documentation
-
-- The restrucured text files used to build the documentation are located in the ``/MHKiT/docs/source`` directory (Check the [Sphinx Website](http://www.sphinx-doc.org/en/master/) for information about the folder structure). 
-- Use a text editor to modify any restructured text file (files with `.rst` extension, e.g. `index.rst`).
-- Once you are done editing, Repeat Step 3 
+Using the file explorer navigate to MHKiT/docs use an Internet browser (i.e. Chrome, Safari, Edge, etc. ) and open `index.html` to view changes.
 
 
 ## Step 5. Update to the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
@@ -55,12 +55,12 @@ Using the file explorer navigate to MHKiT/docs use an internet browser (i.e. Chr
   ```Shell
   git status
   ```
-  - The status will return a list of files which have been modified. If you want to commit all of the changed files you can use `git add --all` otherwise use `git add fileName` where `fileName` is either the file or a list of space sperated files the user wishes to add.  Add the files to the list to be pushed to the 
-  - Add a commit message documentating what has been changed
+  - The status will return a list of files that have been modified. If you want to commit all of the changed files you can use `git add --all` otherwise use `git add fileName` where `fileName` is either the file or a list of space-separated files the user wishes to add.  Add the files to the list to be pushed to the
+  - Add a commit message documenting what has been changed
   ```
-  git commit -m 'A descriptive message here decribing why or what was changed in the documentation'
+  git commit -m 'A descriptive message here describing why or what was changed in the documentation'
   ```
-  - Finally push the changes to your fork
+  - Finally, push the changes to your fork
   ```
   git push origin
   ```
@@ -100,7 +100,7 @@ Using the file explorer navigate to MHKiT/docs use an internet browser (i.e. Chr
 ## Unresolved Doc Issues
   - 134 warnings
   - MHKiT-MATLAB
-    - API doc amd toctree
+    - API doc and toctree
     - Examples toctree
   - MHKiT-Python
     - mhkit.tidal.io.request_noaa_data unexpected indentation
