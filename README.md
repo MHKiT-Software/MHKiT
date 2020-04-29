@@ -4,6 +4,7 @@ The MHKiT documentation is developed as restructured text files that are compile
 
 
 ## Requirements
+
 To update the MHKiT documentation you will need Python 3.6+, Sphinx, and a clone of this repository. This documentation assumes the user has a working version of Python installed. We recommend Anaconda Python. Please follow the installation instructions of your Python distribution before starting Step 1.
 
 
@@ -29,6 +30,7 @@ To update the MHKiT documentation you will need Python 3.6+, Sphinx, and a clone
 
   - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and NB Sphinx Lin)
    ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link``
+
 
 You are now ready to begin modifying and building the MHKiT documentation.
 
@@ -97,12 +99,17 @@ Using the file explorer navigate to MHKiT/docs use an Internet browser (i.e. Chr
   - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
   - MHKiT (Marine and Hydrokinetic Toolkit)
 
-## Unresolved Doc Issues
-  - 134 warnings
+
+### Unresolved Doc Issues
+  - 16 warnings
+    - 4 .nblink: WARNING: document isn't included in any toctree
+    - duplicate object warnings
+    - 2 MHKiT-MATLAB formating warnings (listed below)
   - MHKiT-MATLAB
-    - API doc and toctree
-    - Examples toctree
+    - MATLAB Live examples remove index, and must be exorted as HTML manually
+    - mhkit.wave.graphics.plot_spectrum:1: WARNING: Unexpected section title or transition.
+    - mhkit.wave.graphics.plot_spectrum:13: WARNING: Unexpected section title or transition
+
   - MHKiT-Python
-    - mhkit.tidal.io.request_noaa_data unexpected indentation
-    - mhkit.river.io.request_usgs_data unexpected indentation
+    - Jupyter Notebooks examples change the index
 
