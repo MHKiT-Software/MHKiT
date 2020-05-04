@@ -4,7 +4,7 @@ This page summarizes papers and reports related to the `WDRT`.
 
 Citation
 --------
-If you desire to cite `WDRT` in a publication, please use the following bibtex key:
+If you desire to cite `MHKiT` in a publication, please use the following bibtex key:
 
 .. code-block:: none
 
