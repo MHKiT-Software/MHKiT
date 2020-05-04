@@ -18,6 +18,7 @@ Note that spectra data is sometimes stored in time series format (data indexed b
 column for each frequency).  To convert time series format to the spectra data format, 
 use the pandas method ``transpose``.
 
+.. This doesn't generate anything
 .. automodule:: mhkit.wave
     :members:
     :no-undoc-members:

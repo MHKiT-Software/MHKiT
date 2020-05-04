@@ -49,8 +49,12 @@ To install MHKiT-Python using `git <https://git-scm.com/>`_::
 	cd mhkit-python
 	python setup.py develop
 
+<<<<<<< HEAD
 
 Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency.
+=======
+Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency. 	
+>>>>>>> master
 
 .. Note::
 	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://help.github.com/articles/fork-a-repo/>`_ the MHKiT-Python repository into your GitHub user account.
@@ -58,8 +62,8 @@ Using this option to install MHKiT-Python will require following the `Pecos inst
 	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases of MHKiT-Python.
 
 
-Test the installation
-^^^^^^^^^^^^^^^^^^^^^^
+Test MHKiT-Python installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To test that MHKiT-Python is installed correctly, open a Python console and run::
 
@@ -138,8 +142,8 @@ run setup.py on your machine by running::
 
 
 
-Test the Installation
-^^^^^^^^^^^^^^^^^^^^^^
+Test MHKiT-MATLAB Installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To test that your install of MHKiT worked correctly, run the following in your MATLAB terminal::
 
 	[x,y]=circular(30)

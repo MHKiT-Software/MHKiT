@@ -24,6 +24,9 @@
    release_notes.rst
    contact.rst
 
+
+   
+
 ######################################################
 MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
@@ -62,7 +65,7 @@ Funding
 The development of MHKiT is funded by the U.S. Department of Energy's Water Power Technologies Office.
 The copyright of MHKiT is held by the National Renewable Energy Laboratory,
 Pacific Northwest National Laboratory, and Sandia National Laboratories.
-The software is distributed under the :ref:`License: Revised Berkeley Software Distribution (BSD) License`.
+The software is distributed under the :ref:`License:Revised BSD License`.
 
 The `National Renewable Energy Laboratory <https://www.nrel.gov/>`_ is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.
 
