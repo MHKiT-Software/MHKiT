@@ -5,7 +5,18 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-164358105-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>mhkit.tidal.graphics &mdash; MHKiT v0.1.0 documentation</title>
@@ -21,10 +32,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -164,10 +176,10 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">bisect</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">interpn</span> <span class="k">as</span> <span class="n">_interpn</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interpn</span> <span class="k">as</span> <span class="n">_interpn</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
-<span class="kn">from</span> <span class="nn">mhkit.tidal.resource</span> <span class="k">import</span> <span class="n">_histogram</span>
-<span class="kn">from</span> <span class="nn">mhkit.river.graphics</span> <span class="k">import</span> <span class="n">plot_velocity_duration_curve</span><span class="p">,</span> <span class="n">_xy_plot</span>
+<span class="kn">from</span> <span class="nn">mhkit.tidal.resource</span> <span class="kn">import</span> <span class="n">_histogram</span>
+<span class="kn">from</span> <span class="nn">mhkit.river.graphics</span> <span class="kn">import</span> <span class="n">plot_velocity_duration_curve</span><span class="p">,</span> <span class="n">_xy_plot</span>
 
 
 <span class="k">def</span> <span class="nf">_initialize_polar</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -198,8 +210,8 @@
         <span class="c1"># Set the Title</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
         <span class="c1"># List of strings for metadata box</span>
-        <span class="n">bouy_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;Lat = {float(metadata[&quot;lat&quot;]):0.2f}$\degree$&#39;</span><span class="p">,</span> 
-                    <span class="n">f</span><span class="s1">&#39;Lon = {float(metadata[&quot;lon&quot;]):0.2f}$\degree$&#39;</span><span class="p">]</span>
+        <span class="n">bouy_str</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Lat = {float(metadata[&quot;lat&quot;]):0.2f}$\degree$&#39;</span><span class="p">,</span> 
+                    <span class="sa">f</span><span class="s1">&#39;Lon = {float(metadata[&quot;lon&quot;]):0.2f}$\degree$&#39;</span><span class="p">]</span>
         <span class="c1"># Create string for text box</span>
         <span class="n">bouy_data</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bouy_str</span><span class="p">)</span>
         <span class="c1"># Set the text box</span>
@@ -273,7 +285,7 @@
     <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">vel_bins</span><span class="p">))</span>
     <span class="c1"># Set the current speed bin label names</span>
     <span class="c1"># Calculate the 2D histogram</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{i:.1f}</span><span class="s1">-</span><span class="si">{j:.1f}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{i:.1f}</span><span class="s1">-</span><span class="si">{j:.1f}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
     <span class="c1"># Initialize the vertical-offset (polar radius) for the stacked bar chart.</span>
     <span class="n">r_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dir_bins</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">vel_bin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vel_bins</span><span class="p">):</span>
@@ -287,7 +299,7 @@
     <span class="c1"># Get the r-ticks (polar y-ticks)</span>
     <span class="n">yticks</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">()</span>
     <span class="c1"># Format y-ticks with  units for clarity </span>
-    <span class="n">rticks</span> <span class="o">=</span>  <span class="p">[</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{y:.1f}</span><span class="s1">%&#39;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">rticks</span> <span class="o">=</span>  <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{y:.1f}</span><span class="s1">%&#39;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="c1"># Set the y-ticks</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">rticks</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ax</span></div>
@@ -327,7 +339,7 @@
     <span class="c1"># Initialize the polar polt</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">_initialize_polar</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
     <span class="c1"># Set the current speed bin label names</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{i:.1f}</span><span class="s1">-</span><span class="si">{j:.1f}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{i:.1f}</span><span class="s1">-</span><span class="si">{j:.1f}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
     <span class="c1"># Set vel &amp; dir bins to middle of bin except at ends</span>
     <span class="n">dir_bins</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">dir_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">dir_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># set all bins to middle</span>
     <span class="n">vel_bins</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -351,7 +363,7 @@
     <span class="c1"># Get the r-ticks (polar y-ticks)</span>
     <span class="n">yticks</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">()</span>
     <span class="c1"># Format y-ticks with  units for clarity </span>
-    <span class="n">yticks</span> <span class="o">=</span>  <span class="p">[</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{y:.1f}</span><span class="s1"> $m/s$&#39;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">yticks</span> <span class="o">=</span>  <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{y:.1f}</span><span class="s1"> $m/s$&#39;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="c1"># Set the y-ticks</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">yticks</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ax</span></div>
