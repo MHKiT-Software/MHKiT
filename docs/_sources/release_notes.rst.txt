@@ -3,7 +3,7 @@
 Release Notes
 =============
 
-MHKiT v0.1.0 
+MHKiT v0.1.0
 ------------------------------
 
 The first official release of MHKiT, developed in Python and MATLAB, includes the following modules:
@@ -14,7 +14,7 @@ The first official release of MHKiT, developed in Python and MATLAB, includes th
 * :ref:`tidal`: Calculate quantities of interest for tidal energy converters (TEC)
 * :ref:`utils`: Includes helper functions
 
-The v0.1.0 release includes methods for resource assessment, device performance, graphics, io and and quality control.   
+The v0.1.0 release includes methods for resource assessment, device performance, graphics, io and quality control.
 
 `MHKiT-Python v0.1.0 <https://github.com/MHKiT-Software/MHKiT-Python/releases/tag/v0.1.0>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -29,6 +29,6 @@ Future Releases
 
 The next release of MHKiT, planned for Summer 2020,  will include the following modules:
 
-* Mechanical Loads Module: Calculates quantities of interest for mechanical loads. 
-* Power Quality Module: Calculates quantities of interest for power quality. 
+* Mechanical Loads Module: Calculates quantities of interest for mechanical loads.
+* Power Quality Module: Calculates quantities of interest for power quality.
 

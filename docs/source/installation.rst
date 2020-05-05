@@ -13,6 +13,10 @@ MHKiT-Python
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
 Refer to the `Python website <https://www.python.org/>`_ for information on using Python.
 
+.. Note::
+    Anaconda3 no longer adds python to the Windows Environment Variables by default.There is a check box in the advanced options of the installation to add it to the system path, but the GUI advises against so.
+
+    Make sure to add Python to the path. Click `here <https://www.datacamp.com/community/tutorials/installing-anaconda-windows>`_ for more information.
 
 Requirements
 ^^^^^^^^^^^^^^^
@@ -49,7 +53,7 @@ To install MHKiT-Python using `git <https://git-scm.com/>`_::
 	cd mhkit-python
 	python setup.py develop
 
-Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency. 	
+Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency.
 
 .. Note::
 	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://help.github.com/articles/fork-a-repo/>`_ the MHKiT-Python repository into your GitHub user account.
@@ -82,7 +86,7 @@ The results should be::
 MHKiT-MATLAB
 -------------
 
-`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2019b or later and relies on three components which need to be installed separately. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2019b or later and relies on three components which need to be installed separately.
 
 First, MHKiT-MATLAB consists of MATLAB code which runs the MHKiT-Python functions. Therefore, the installation of both packages is necessary. See the
 MHKit-Python installation instructions above.
