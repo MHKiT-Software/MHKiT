@@ -49,12 +49,7 @@ To install MHKiT-Python using `git <https://git-scm.com/>`_::
 	cd mhkit-python
 	python setup.py develop
 
-<<<<<<< HEAD
-
-Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency.
-=======
 Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency. 	
->>>>>>> master
 
 .. Note::
 	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://help.github.com/articles/fork-a-repo/>`_ the MHKiT-Python repository into your GitHub user account.
@@ -86,7 +81,8 @@ The results should be::
 
 MHKiT-MATLAB
 -------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2018 or later and relies on three components that need to be installed separately.
+
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2019b or later and relies on three components which need to be installed separately. 
 
 First, MHKiT-MATLAB consists of MATLAB code which runs the MHKiT-Python functions. Therefore, the installation of both packages is necessary. See the
 MHKit-Python installation instructions above.
