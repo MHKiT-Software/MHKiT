@@ -8,9 +8,9 @@ The MHKiT documentation is developed as restructured text files that are compile
 To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a GitHub account. This documentation assumes the user has a working version of Python installed (We recommend Anaconda Python, during installation check the add Python to Path) and a GitHub account but will cover the needed Python Sphinx package installation.
 
 ### Step 1. Fork the Repository & Clone to local machine
-  - To update the documentation a user will need to "fork" this repository. This simply mean that you are creating your own copy of this repository that you can edit. 
+  - To update the documentation a user will need to "fork" this repository. This simply means that you are creating your own copy of this repository that you can edit.
   - Once forked you can "clone" (this will download your fork to your machine) the repository to your local machine using the command line.
-  - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation. Replacing the username and repositry name to the correct values for you. This link can be automatically generated on your fork by copying the link visible after clicking clone on your repository page. Repository name will be assumed to be MHKiT in the remaining commands.
+  - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation. Replacing the username and repository name to the correct values for you. This link can be automatically generated on your fork by copying the link visible after clicking clone on your repository page. The repository name will be assumed to be MHKiT in the remaining commands.
   ```git clone''' *https://github.com/USERNAME/REPOSITORYNAME.git*
 
   - Once cloned use the command line to change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules].
@@ -29,7 +29,7 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
    **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
 
   - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and NB Sphinx Lin)
-  
+
    ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link```
 
 
@@ -38,7 +38,7 @@ You are now ready to begin modifying and building the MHKiT documentation.
 ## Step 3. Modify the Documentation
 
 - The restructured text files used to build the documentation are located in the ``/MHKiT/docs/source`` directory (Check the [Sphinx Website](http://www.sphinx-doc.org/en/master/) for information about the folder structure).
-- Before modifying the documentation we reccomend creatting a feature branch and not modifying your fork's master branch. A feature branch can be created using the commands
+- Before modifying the documentation we recommend creating a feature branch and not modifying your fork's master branch. A feature branch can be created using the commands
 ```bash
 git branch featureBranchName
 git checkout featureBranchName
@@ -53,7 +53,7 @@ git checkout featureBranchName
     make clean
     make html
 ```
-Using your machine's file explorer navigate to MHKiT/docs and use an Internet browser (i.e. Chrome, Safari, Edge, etc. ) to open `index.html` to modifications to the documentation source made above.
+Using your machine's file explorer navigate to MHKiT/docs and use an Internet browser (i.e. Chrome, Safari, Edge, etc. ) to open `index.html` to view modifications to the documentation source made above.
 
 
 ## Step 5. Update to the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
