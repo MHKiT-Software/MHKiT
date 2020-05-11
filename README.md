@@ -1,32 +1,85 @@
 
-# How to Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
+# How to Update the [MHKiT Documentation Website](https://MHKiT-Software.github.io/MHKiT/)
+The MHKiT documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files and then uploaded to the [MHKiT Documentation Repository](https://github.com/MHKiT-Software/MHKiT). Using Sphinx, GitHub renders the documentation on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Documentation Website](https://mhkit-code-hub.github.io/MHKiT/). This guide will help the user to download the documentation, modify the documentation, build the documentation locally, and push changes back up to the repository.
+
 
 ## Requirements
-  - [Follow MHKiT Installation](https://mhkit-software.github.io/MHKiT/installation.html) steps, including the MHKiT-Python and Requirements headers.
+
+To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a GitHub account. This documentation assumes the user has a working version of Python installed (We recommend Anaconda Python, during installation check the add Python to Path) and a GitHub account but will cover the needed Python Sphinx package installation.
+
+### Step 1. Fork the Repository & Clone to local machine
+  - To update the documentation a user will need to "fork" this repository. This simply means that you are creating your own copy of this repository that you can edit.
+  - Once forked you can "clone" (this will download your fork to your machine) the repository to your local machine using the command line.
+  - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation. Replacing the username and repository name to the correct values for you. This link can be automatically generated on your fork by copying the link visible after clicking clone on your repository page. The repository name will be assumed to be MHKiT in the remaining commands.
+  ```git clone''' *https://github.com/USERNAME/REPOSITORYNAME.git*
+
+  - Once cloned use the command line to change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules].
+  ```bash
+     cd MHKiT
+     git submodule init
+     submodule update --remote
+  ```
+  The ``MHKiT-Python`` and ``MHKiT-MATLAB`` folders should now contain source code.
+
+### Step 2. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
+  - [Sphinx]((http://www.sphinx-doc.org/en/master/usage/installation.html)) is a python package used to create the MHKiT documentation.
+
+  - To install Sphinx from the command line
+  ```pip install -U Sphinx```
+   **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
+
+  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and NB Sphinx Lin)
+
+   ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link```
 
 
-## Download/Install Required Packages
-### Step 1. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
-  - Install Sphinx from cmd ``pip install -U Sphinx`` ([more info here](http://www.sphinx-doc.org/en/master/usage/installation.html))
+You are now ready to begin modifying and building the MHKiT documentation.
 
-  - Install BibTex, MATLAB theme, rtd theme, NB Sphinx, NB Sphinx Link, Goggle Analytics by running the following code
-   ``pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx nbsphinx_link googleanalytics``
-  ([more info on Google Analytics here](https://pypi.org/project/sphinxcontrib-googleanalytics/))
+## Step 3. Modify the Documentation
 
-  - **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
-### Step 2. Git Documents and submodules
-  - In order to update the documentation, fork the [MHKiT](https://github.com/MHKiT-Software/MHKiT) your own repository
-  - Update the MHKiT-Python and MHKiT-MATLAB submodules using ``git submodule init`` and ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
+- The restructured text files used to build the documentation are located in the ``/MHKiT/docs/source`` directory (Check the [Sphinx Website](http://www.sphinx-doc.org/en/master/) for information about the folder structure).
+- Before modifying the documentation we recommend creating a feature branch and not modifying your fork's master branch. A feature branch can be created using the commands
+```bash
+git branch featureBranchName
+git checkout featureBranchName
+```
+- Now you can use a text editor to modify any restructured text file (files with `.rst` extension, e.g. `index.rst`).
+- Once you are done editing, move to Step 4
 
-## Update the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
-The MHKiT documentation located on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), referred to as ``$docs``. The documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files. To edit the documentation, first verify that the most recent versions of ``MHKiT-Python`` and ``MHKiT-MATLAB`` are in your local ``$MHKiT-master/``. Then modify the source files located in the ``$docs/source`` directory using the syntax described on the [Sphinx Website](http://www.sphinx-doc.org/en/master/). Once you are done editing, cd to your local ``$docs`` directory from cmd, clean the previous compile with ``make clean``, and compile the updated the documentation with``make html``. This compiles an html version of the website in ``$docs/``. After compiling the updated website, you can view the local copy of the website by opening the ``$docs/index.html`` file from your local directory, and viewing it in a web browser (before pushing it online).
+## Step 4. Build the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
+- To locally build the documentation use the command line to move into the ``/MHKiT/docs`` folder then `make html`
+```bash
+    cd docs
+    make clean
+    make html
+```
+Using your machine's file explorer navigate to MHKiT/docs and use an Internet browser (i.e. Chrome, Safari, Edge, etc. ) to open `index.html` to view modifications to the documentation source made above.
 
-### Best Practices
+
+## Step 5. Update to the [MHKiT Documentation](https://MHKiT-Software.github.io/MHKiT/)
+- Once changes have been made the user can push the changes back up to their fork
+
+
+  ```Shell
+  git status
+  ```
+  - The status will return a list of files that have been modified. If you want to commit all of the changed files you can use `git add --all` otherwise use `git add fileName` where `fileName` is either the file or a list of space-separated files the user wishes to add.
+  - Commit the changes with a message documenting what has been changed
+  ```
+  git commit -m 'A descriptive message here describing why or what was changed in the documentation'
+  ```
+  - Finally, push the changes to your fork. If you did not create a feture branch simply type `git push` if you created a feture branch type
+  ```
+  git push -u origin featureBranchName
+  ```
+
+
+# Best Practices
   - Run spell check (not built into most text editors)
   - Update the MHKiT-Python and MHKiT-MATLAB submodules ``git submodule init`` ``git submodule update --remote``, refer to https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information
   - When compiling the website, ``make clean`` and then ``make html``
 
-### Formatting Guidelines
+## Formatting Guidelines
   - `*.m` or `*.py` syntax to refer to file extension
   - use ``insert code`` to reference code
   - use API documentation from source code
@@ -38,7 +91,7 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
   - Made sure header underline is for full length of header text
   - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
 
-### Terminology Guidelines
+## Terminology Guidelines
   - DataFrame (not dataframe)
   - MATLAB (not Matlab)
   - Python (no python)
@@ -52,6 +105,7 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
   - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
   - MHKiT (Marine and Hydrokinetic Toolkit)
 
+
 ### Unresolved Doc Issues
   - 16 warnings
     - 4 .nblink: WARNING: document isn't included in any toctree
@@ -61,28 +115,7 @@ The MHKiT documentation located on the [MHKiT Documentation Repository](https://
     - MATLAB Live examples remove index, and must be exorted as HTML manually
     - mhkit.wave.graphics.plot_spectrum:1: WARNING: Unexpected section title or transition.
     - mhkit.wave.graphics.plot_spectrum:13: WARNING: Unexpected section title or transition
+
   - MHKiT-Python
     - Jupyter Notebooks examples change the index
-
-## Push updates to the [MHKiT Website](https://MHKiT-Software.github.io/MHKiT/)
-Using Sphinx, GitHub renders the documentation on the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Website](https://mhkit-code-hub.github.io/MHKiT/). The user then pushes changes in the html documentation directly to the [MHKiT Documetnation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/), by doing the following:
-
-  ```Shell
-  # Move to the local $docs directory in cmd
-  cd $docs
-
-  # Clean and build the html documentation in cmd
-  make clean
-  make html
-
-  # Use Git-shell to check status of the MHKiT documentation respository, then commit and push changes.
-  git status
-  git add --all
-  git commit -m 'update to MHKiT documentation'
-  git push
-  ```
-
-
-
-
 
