@@ -81,7 +81,7 @@ The results should be::
 
 MHKiT-MATLAB
 -------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2018 or later and relies on three components which need to be installed separately. 
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires MATLAB 2019b or later and relies on three components which need to be installed separately. 
 
 First, MHKiT-MATLAB consists of MATLAB code which runs the MHKiT-Python functions. Therefore, installation of both packages is necessary. See the 
 MHKit-Python installation instructions above. 
