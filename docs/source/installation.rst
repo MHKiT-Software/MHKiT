@@ -14,7 +14,7 @@ It is recommended to use the `Anaconda Python Distribution <https://www.anaconda
 Refer to the `Python website <https://www.python.org/>`_ for information on using Python.
 
 .. Note::
-The installation of Anaconda3 no longer adds python to the Windows Environment Variables by default. During installation, there is a checkbox in the advanced options of the installation to add it to the system path. The installation wizard advises against doing so in case a user has multiple python installations. Either check this box or setup your environmental variables so that python is accessible through your system path.
+    The installation of Anaconda3 no longer adds python to the Windows Environment Variables by default. During installation, there is a checkbox in the advanced options of the installation to add it to the system path. The installation wizard advises against doing so in case a user has multiple python installations. Either check this box or setup your environmental variables so that python is accessible through your system path.
 
     Click `here <https://www.datacamp.com/community/tutorials/installing-anaconda-windows>`_ for more information.
 
