@@ -11,9 +11,11 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
   - To update the documentation a user will need to "fork" this repository. This simply means that you are creating your own copy of this repository that you can edit.
   - Once forked you can "clone" (this will download your fork to your machine) the repository to your local machine using the command line.
   - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation. Replacing the username and repository name to the correct values for you. This link can be automatically generated on your fork by copying the link visible after clicking clone on your repository page. The repository name will be assumed to be MHKiT in the remaining commands.
-  ```git clone''' *https://github.com/USERNAME/REPOSITORYNAME.git*
-
+  ```bash
+    git clone''' *https://github.com/USERNAME/REPOSITORYNAME.git*
+  ```
   - Once cloned use the command line to change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules].
+  
   ```bash
      cd MHKiT
      git submodule init
@@ -68,11 +70,14 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
   ```
   git commit -m 'A descriptive message here describing why or what was changed in the documentation'
   ```
-  - Finally, push the changes to your fork. If you did not create a feture branch simply type `git push` if you created a feture branch type
+  - Finally, push the changes to your fork's (``yourFork``) feature branch (``featureBranchName``).
   ```
-  git push -u origin featureBranchName
+  git push -u yourFork featureBranchName
   ```
+  - If you did not create a feature branch simply type `git push` 
 
+## Step 6. Submit a Pull Request
+- submit a pull request to merge the revisions on your fork with master, https://github.com/MHKiT-Software/MHKiT/pulls
 
 # Best Practices
   - Run spell check (not built into most text editors)
@@ -104,18 +109,4 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
   - MHKiT-Python (or link to MHKiT-Python when referring to the repo)
   - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
   - MHKiT (Marine and Hydrokinetic Toolkit)
-
-
-### Unresolved Doc Issues
-  - 16 warnings
-    - 4 .nblink: WARNING: document isn't included in any toctree
-    - duplicate object warnings
-    - 2 MHKiT-MATLAB formating warnings (listed below)
-  - MHKiT-MATLAB
-    - MATLAB Live examples remove index, and must be exorted as HTML manually
-    - mhkit.wave.graphics.plot_spectrum:1: WARNING: Unexpected section title or transition.
-    - mhkit.wave.graphics.plot_spectrum:13: WARNING: Unexpected section title or transition
-
-  - MHKiT-Python
-    - Jupyter Notebooks examples change the index
 
