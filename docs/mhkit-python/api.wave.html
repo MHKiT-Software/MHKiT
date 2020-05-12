@@ -438,8 +438,6 @@ contains unit information, otherwise None is returned</p></li>
 nature of waves. See scipy.signal.get_window for more options.</p></li>
 <li><p><strong>detrend</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Specifies if a linear trend is removed from the data before calculating
 the wave energy spectrum.  Data is detrended by default.</p></li>
-<li><p><strong>noverlap</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of points to overlap between segments. If None,
-<code class="docutils literal notranslate"><span class="pre">noverlap</span> <span class="pre">=</span> <span class="pre">nperseg</span> <span class="pre">/</span> <span class="pre">2</span></code>.  Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -900,54 +898,6 @@ equal to Te_bins</p>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.wave.graphics"></span><dl class="py function">
-<dt id="mhkit.wave.graphics.plot_chakrabarti">
-<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_chakrabarti</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em>, <em class="sig-param"><span class="n">lambda_w</span></em>, <em class="sig-param"><span class="n">D</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_chakrabarti"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_chakrabarti" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots, in the style of Chakrabart (2005), relative importance of viscous,
-inertia, and diffraction phemonena</p>
-<p>Chakrabarti, Subrata. Handbook of Offshore Engineering (2-volume set).
-Elsevier, 2005.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>H</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave height [m]</p></li>
-<li><p><strong>lambda_w</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave length [m]</p></li>
-<li><p><strong>D</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Characteristic length [m]</p></li>
-<li><p><strong>ax</strong> (<em>matplotlib axes object</em><em> (</em><em>optional</em><em>)</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<p><strong>Using floats</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lambda_w</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_chakrabarti</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">lambda_w</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Using numpy array</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lambda_w</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_chakrabarti</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">lambda_w</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Using pandas DataFrame</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lambda_w</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">H</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">lambda_w</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">D</span><span class="o">.</span><span class="n">flatten</span><span class="p">()],</span>                               <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">,</span><span class="s1">&#39;lambda_w&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_chakrabarti</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">lambda_w</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
 <dt id="mhkit.wave.graphics.plot_elevation_timeseries">
 <code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_elevation_timeseries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eta</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_elevation_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_elevation_timeseries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot wave surface elevation time-series</p>
