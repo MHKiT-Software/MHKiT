@@ -1,0 +1,39 @@
+Cite Us
+============
+MHKiT-Python
+--------
+| MHKiT-Python DOI: `10.11578/dc.20200113.1 <https://www.osti.gov/doecode/biblio/33583>`_
+| If you desire to cite `MHKiT-Python` in a publication, please use the following bibtex key:
+
+.. code-block:: none
+
+    @misc{ doecode_33583,
+        title = {MHKiT (Marine and Hydrokinetic Toolkit) - Python},
+        author = {Klise, Katherine and Pauly, Rebecca and Ruehl, Kelley M. and Olson, Sterling and Shippert, Timothy and Morrell, Zachary and Bredin, Sarah and Lansing, Carina and Macduff, Matt and Martin, Tonya and Sivaraman, Chitra and Gunawan, Budi and Driscoll, Frederick},
+        abstractNote = {The MHKiT Code Hub is a collection of open-source marine renewable energy (MRE) software. The MHKiT code, developed in Python and MATLAB, includes modules for ingesting, quality controlling, processing, visualizing, and managing data. MHKiT-Python and MHKiT-MATLAB provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to IEC technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications.},
+        url = {https://doi.org/10.11578/dc.20200113.1},
+        howpublished = {[Computer Software] \url{https://doi.org/10.11578/dc.20200113.1}},
+        year = {2020},
+        month = {jan}
+    }
+
+.. _pubs:
+
+MHKiT-MATLAB
+--------
+| MHKiT-Python DOI: `10.11578/dc.20200110.1 <https://www.osti.gov/doecode/biblio/33549>`_
+| If you desire to cite `MHKiT-MATLAB` in a publication, please use the following bibtex key:
+
+.. code-block:: none
+
+    @misc{ doecode_33549,
+        title = {MHKiT (Marine and Hydrokinetic Toolkit) - MATLAB},
+        author = {Pauly, Rebecca and Klise, Katherine and Ruehl, Kelley M. and Olson, Sterling and Shippert, Timothy and Morrell, Zachary and Bredin, Sarah and Lansing, Carina and Macduff, Matt and Martin, Tonya and Sivaraman, Chitra and Gunawan, Budi and Driscoll, Frederick},
+        abstractNote = {The MHKiT Code Hub is a collection of open-source marine renewable energy (MRE) software. The MHKiT code, developed in Python and MATLAB, includes modules for ingesting, quality controlling, processing, visualizing, and managing data. MHKiT-Python and MHKiT-MATLAB provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to IEC technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications.},
+        url = {https://doi.org/10.11578/dc.20200110.1},
+        howpublished = {[Computer Software] \url{https://doi.org/10.11578/dc.20200110.1}},
+        year = {2020},
+        month = {jan}
+    }
+
+.. _pubs:
