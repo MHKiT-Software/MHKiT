@@ -12,14 +12,14 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
   - Once forked you can "clone" (this will download your fork to your machine) the repository to your local machine using the command line.
   - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation. Replacing the username and repository name to the correct values for you. This link can be automatically generated on your fork by copying the link visible after clicking clone on your repository page. The repository name will be assumed to be MHKiT in the remaining commands.
   ```bash
-    git clone''' *https://github.com/USERNAME/REPOSITORYNAME.git*
+    git clone https://github.com/USERNAME/REPOSITORYNAME.git
   ```
   - Once cloned use the command line to change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules].
   
   ```bash
      cd MHKiT
      git submodule init
-     submodule update --remote
+     git submodule update --remote
   ```
   The ``MHKiT-Python`` and ``MHKiT-MATLAB`` folders should now contain source code.
 
