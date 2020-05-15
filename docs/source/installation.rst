@@ -51,7 +51,7 @@ To install MHKiT-Python using `git <https://git-scm.com/>`_::
 
 	git clone https://github.com/MHKiT-Software/MHKiT-Python
 	cd mhkit-python
-	python setup.py develop
+	pip install -e .
 
 Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency.
 
@@ -134,10 +134,10 @@ MATLAB is running the proper version of Python.
 
 mhkit_python_utils package
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-mhkit_python_utils is a helper package for running MHKiT-MATLAB. From within you cloned or downloaded MHKiT-Matlab folder
+mhkit_python_utils is a helper package for running MHKiT-MATLAB. From within your cloned or downloaded MHKiT-Matlab folder
 run setup.py on your machine by running::
 
-	python3 setup.py install
+	pip3 install -e .
 
 
 
