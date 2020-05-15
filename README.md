@@ -23,7 +23,7 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
   ```
   The ``MHKiT-Python`` and ``MHKiT-MATLAB`` folders should now contain source code.
   
-  To build the Python API documentation for submitting a pull request you will want to use this version of MHKiT-Python. To do so first uninstall and MHKiT you may have and then use the python package manager to intall this MHKiT submodule.
+  To build the Python API documentation for submitting a pull request you will want to use the submodule MHKiT-Python included here. To do so first uninstall any MHKiT you may have and then use the python package manager to install this MHKiT submodule.
   
   ```bash
   pip uninstall mhkit
