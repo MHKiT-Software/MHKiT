@@ -137,7 +137,7 @@ mhkit_python_utils package
 mhkit_python_utils is a helper package for running MHKiT-MATLAB. From within your cloned or downloaded MHKiT-Matlab folder
 run setup.py on your machine by running::
 
-	python3 setup.py install 
+	pip3 install -e .
 
 
 
