@@ -1,7 +1,7 @@
 Cite Us
 ============
 MHKiT-Python
---------
+----------------
 | MHKiT-Python DOI: `10.11578/dc.20200113.1 <https://www.osti.gov/doecode/biblio/33583>`_
 | If you desire to cite `MHKiT-Python` in a publication, please use the following bibtex key:
 
@@ -14,13 +14,13 @@ MHKiT-Python
         url = {https://doi.org/10.11578/dc.20200113.1},
         howpublished = {[Computer Software] \url{https://doi.org/10.11578/dc.20200113.1}},
         year = {2020},
-        month = {jan}
+        month = {jan},
+        doi       = {10.11578/dc.20200113.1}
     }
 
-.. _pubs:
 
 MHKiT-MATLAB
---------
+----------------
 | MHKiT-Python DOI: `10.11578/dc.20200110.1 <https://www.osti.gov/doecode/biblio/33549>`_
 | If you desire to cite `MHKiT-MATLAB` in a publication, please use the following bibtex key:
 
@@ -33,7 +33,7 @@ MHKiT-MATLAB
         url = {https://doi.org/10.11578/dc.20200110.1},
         howpublished = {[Computer Software] \url{https://doi.org/10.11578/dc.20200110.1}},
         year = {2020},
-        month = {jan}
+        month = {jan},
+        doi       = {10.11578/dc.20200110.1}
     }
 
-.. _pubs:
