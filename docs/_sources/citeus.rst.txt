@@ -1,9 +1,10 @@
+.. _citation:
+
 Cite Us
 ============
 MHKiT-Python
 ----------------
-| MHKiT-Python DOI: `10.11578/dc.20200113.1 <https://www.osti.gov/doecode/biblio/33583>`_
-| If you desire to cite `MHKiT-Python` in a publication, please use the following bibtex key:
+To cite MHKiT-Python, reference the MHKiT-Python DOI: `10.11578/dc.20200113.1 <https://www.osti.gov/doecode/biblio/33583>`_, and please use the following BibTeX key:
 
 .. code-block:: none
 
@@ -21,8 +22,7 @@ MHKiT-Python
 
 MHKiT-MATLAB
 ----------------
-| MHKiT-Python DOI: `10.11578/dc.20200110.1 <https://www.osti.gov/doecode/biblio/33549>`_
-| If you desire to cite `MHKiT-MATLAB` in a publication, please use the following bibtex key:
+To cite MHKiT-MATLAB, reference the MHKiT-MATLAB DOI: `10.11578/dc.20200110.1 <https://www.osti.gov/doecode/biblio/33549>`_, and please use the following BibTeX key:
 
 .. code-block:: none
 
