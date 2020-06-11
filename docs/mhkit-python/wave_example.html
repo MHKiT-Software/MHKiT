@@ -410,7 +410,7 @@ div.rendered_html tbody tr:hover {
 <p>The following example runs an application of the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html">MHKiT wave module</a> to 1) read in NDBC data, 2) compute metrics from spectral data, 3) generate a capture length matrix, 4) calculate MAEP, and 5) plot the matrices.</p>
 <p>Start by importing the necessary python packages and MHKiT module.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -424,22 +424,22 @@ div.rendered_html tbody tr:hover {
 <h2>Load NDBC Data<a class="headerlink" href="#Load-NDBC-Data" title="Permalink to this headline">¶</a></h2>
 <p>We can use MHKiT to load data downloaded from <a class="reference external" href="https://www.ndbc.noaa.gov">https://www.ndbc.noaa.gov</a>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">ndbc_data_file</span> <span class="o">=</span> <span class="s1">&#39;../mhkit/tests/data/data.txt&#39;</span>
 
-<span class="p">[</span><span class="n">raw_ndbc_data</span><span class="p">,</span> <span class="n">meta</span><span class="p">]</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_NDBC_file</span><span class="p">(</span><span class="n">ndbc_data_file</span><span class="p">)</span> <span class="c1"># read_NDBC_file outputs the NDBC file data into two variables.</span>
-                                            <span class="c1"># data is a pandas DataFrame containing the file data.</span>
-                                            <span class="c1"># meta contains the meta data, if available.</span>
-
+<span class="c1"># read_NDBC_file outputs the NDBC file data into two variables.</span>
+    <span class="c1"># raw_ndbc_data is a pandas DataFrame containing the file data.</span>
+    <span class="c1"># meta contains the meta data, if available.</span>
+<span class="p">[</span><span class="n">raw_ndbc_data</span><span class="p">,</span> <span class="n">meta</span><span class="p">]</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_NDBC_file</span><span class="p">(</span><span class="n">ndbc_data_file</span><span class="p">)</span>
 <span class="n">raw_ndbc_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -612,17 +612,18 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>The resulting DataFrame is spectra indexed (rows) by datetime with frequency as the columns. To use this data in MHKiT functions we must first transpose the DataFrame</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">ndbc_data</span> <span class="o">=</span> <span class="n">raw_ndbc_data</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Transpose raw NDBC data</span>
+<span></span><span class="c1"># Transpose raw NDBC data</span>
+<span class="n">ndbc_data</span> <span class="o">=</span> <span class="n">raw_ndbc_data</span><span class="o">.</span><span class="n">T</span>
 <span class="n">ndbc_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -798,17 +799,18 @@ div.rendered_html tbody tr:hover {
 <h2>Compute Wave Metrics<a class="headerlink" href="#Compute-Wave-Metrics" title="Permalink to this headline">¶</a></h2>
 <p>We will now use MHKiT to compute the significant wave height, energy period, and energy flux.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Te</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_period</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span> <span class="c1"># Compute the enegy periods from the NDBC spectra data</span>
+<span></span><span class="c1"># Compute the enegy periods from the NDBC spectra data</span>
+<span class="n">Te</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_period</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span>
 <span class="n">Te</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -859,17 +861,172 @@ div.rendered_html tbody tr:hover {
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">h</span> <span class="o">=</span> <span class="mi">60</span>                                                  <span class="c1"># Set water depth to 60 m</span>
-<span class="n">J</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_flux</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>              <span class="c1"># Compute the energy flux from spectra and water depth</span>
+<span></span><span class="c1"># Compute the significant wave height from the NDBC spectra data</span>
+<span class="n">Hm0</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">significant_wave_height</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span>
+<span class="n">Hm0</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="n">Hm0</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">significant_wave_height</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span> <span class="c1"># Compute significant wave height from spectra and</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nb">print</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Hm0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-01-01 00:40:00</th>
+      <td>0.939574</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 01:40:00</th>
+      <td>1.001399</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 02:40:00</th>
+      <td>0.924770</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 03:40:00</th>
+      <td>0.962497</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 04:40:00</th>
+      <td>0.989949</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set water depth to 60 m</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mi">60</span>
+
+<span class="c1"># Compute the energy flux  from the NDBC spectra data and water depth</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_flux</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+<span class="n">J</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>J</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-01-01 00:40:00</th>
+      <td>3354.825613</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 01:40:00</th>
+      <td>3916.541523</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 02:40:00</th>
+      <td>3278.298930</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 03:40:00</th>
+      <td>3664.246679</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 04:40:00</th>
+      <td>3867.014933</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="section" id="Conversion-from-DataFrames-to-Series">
+<h3>Conversion from DataFrames to Series<a class="headerlink" href="#Conversion-from-DataFrames-to-Series" title="Permalink to this headline">¶</a></h3>
+<p>MHKiT functions typically take in Pandas Series so that the function knows exactly which column to use. Pandas Series are one-dimensional ndarrays with axis labels which are most commonly encountered when a single column is requested from a DataFrame (e.g. <code class="docutils literal notranslate"><span class="pre">ndbc_data['2018-01-01</span> <span class="pre">01:40:00']</span></code> returns a Pandas Series from the Pandas DataFrame of all frequencies at the specified time).</p>
+<p>To the above results (energy Period, energy flux, and significant wave height) were returned as DataFrames. For DataFrames which only have one column the conversion from DataFrame to Series can accomplished using the <code class="docutils literal notranslate"><span class="pre">squeeze</span></code> method. Alternatively we can call on the column header. Both methods are demonstrated below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Convert the energy period DataFrame to a Series.</span>
+<span class="n">Te</span> <span class="o">=</span> <span class="n">Te</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">Te</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2018-01-01 00:40:00    7.458731
+2018-01-01 01:40:00    7.682413
+2018-01-01 02:40:00    7.498263
+2018-01-01 03:40:00    7.676198
+2018-01-01 04:40:00    7.669476
+Name: Te, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Alternatively, convert to Series by calling a specific column in the DataFrame</span>
+<span class="n">Hm0</span><span class="o">=</span> <span class="n">Hm0</span><span class="p">[</span><span class="s1">&#39;Hm0&#39;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Hm0</span><span class="p">)</span>
+
+<span class="n">J</span>  <span class="o">=</span> <span class="n">J</span><span class="p">[</span><span class="s1">&#39;J&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -878,50 +1035,31 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-                                J
-2018-01-01 00:40:00   3354.825613
-2018-01-01 01:40:00   3916.541523
-2018-01-01 02:40:00   3278.298930
-2018-01-01 03:40:00   3664.246679
-2018-01-01 04:40:00   3867.014933
-...                           ...
-2018-01-31 19:40:00  37596.750775
-2018-01-31 20:40:00  52532.427635
-2018-01-31 21:40:00  38153.227517
-2018-01-31 22:40:00  50501.872907
-2018-01-31 23:40:00  47070.874952
-
-[743 rows x 1 columns]
-                          Hm0
-2018-01-01 00:40:00  0.939574
-2018-01-01 01:40:00  1.001399
-2018-01-01 02:40:00  0.924770
-2018-01-01 03:40:00  0.962497
-2018-01-01 04:40:00  0.989949
-...                       ...
-2018-01-31 19:40:00  2.650811
-2018-01-31 20:40:00  3.086746
-2018-01-31 21:40:00  2.650358
-2018-01-31 22:40:00  2.941428
-2018-01-31 23:40:00  2.895928
-
-[743 rows x 1 columns]
+2018-01-01 00:40:00    0.939574
+2018-01-01 01:40:00    1.001399
+2018-01-01 02:40:00    0.924770
+2018-01-01 03:40:00    0.962497
+2018-01-01 04:40:00    0.989949
+                         ...
+2018-01-31 19:40:00    2.650811
+2018-01-31 20:40:00    3.086746
+2018-01-31 21:40:00    2.650358
+2018-01-31 22:40:00    2.941428
+2018-01-31 23:40:00    2.895928
+Name: Hm0, Length: 743, dtype: float64
+2018-01-01 00:40:00     3354.825613
+2018-01-01 01:40:00     3916.541523
+2018-01-01 02:40:00     3278.298930
+2018-01-01 03:40:00     3664.246679
+2018-01-01 04:40:00     3867.014933
+                           ...
+2018-01-31 19:40:00    37596.750775
+2018-01-31 20:40:00    52532.427635
+2018-01-31 21:40:00    38153.227517
+2018-01-31 22:40:00    50501.872907
+2018-01-31 23:40:00    47070.874952
+Name: J, Length: 743, dtype: float64
 </pre></div></div>
-</div>
-<div class="section" id="Conversion-from-DataFrames-to-Series">
-<h3>Conversion from DataFrames to Series<a class="headerlink" href="#Conversion-from-DataFrames-to-Series" title="Permalink to this headline">¶</a></h3>
-<p>MHKiT functions typically take in Pandas Series so that the function knows exactly which column to use. Pandas Series are one-dimensional ndarrays with axis labels which are most commonly encountered when a single column is requested from a DataFrame (e.g. <code class="docutils literal notranslate"><span class="pre">ndbc_data['2018-01-01</span> <span class="pre">01:40:00']</span></code> returns a Pandas Series from the Pandas DataFrame of all frequencies at the specified time).</p>
-<p>To the above results (energy Period, energy flux, and significant wave height) were returned as DataFrames. For DataFrames which only have one column the conversion from DataFrame to Series can accomplished using the <code class="docutils literal notranslate"><span class="pre">squeeze</span></code> method alternatively we can call on the column header. Each method is demonstrated below:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Te</span> <span class="o">=</span> <span class="n">Te</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>          <span class="c1"># Convert the energy period DataFrame to a Series.</span>
-<span class="n">J</span>  <span class="o">=</span> <span class="n">J</span><span class="p">[</span><span class="s1">&#39;J&#39;</span><span class="p">]</span>                <span class="c1"># Can also convert to Series by calling a specific column in the DataFrame</span>
-<span class="n">Hm0</span><span class="o">=</span> <span class="n">Hm0</span><span class="p">[</span><span class="s1">&#39;Hm0&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -929,12 +1067,14 @@ div.rendered_html tbody tr:hover {
 <h2>Generate Random Power Data<a class="headerlink" href="#Generate-Random-Power-Data" title="Permalink to this headline">¶</a></h2>
 <p>For demonstration purposes, this example uses synthetic power data generated from statistical distributions. In a real application, the user would provide power values from a WEC. The data is stored in pandas Series, containing 743 points.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                                               <span class="c1"># Set the random seed, to reproduce results</span>
-<span class="n">P</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">743</span><span class="p">),</span><span class="n">index</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>   <span class="c1"># Generate random power values</span>
+<span></span><span class="c1"># Set the random seed, to reproduce results</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Generate random power values</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">743</span><span class="p">),</span><span class="n">index</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -943,15 +1083,15 @@ div.rendered_html tbody tr:hover {
 <h2>Capture Length Matrices<a class="headerlink" href="#Capture-Length-Matrices" title="Permalink to this headline">¶</a></h2>
 <p>The following operations create capture length matrices, as specified by the IEC/TS 62600-100. But first, we need to calculate capture length and define bin centers. The mean capture length matrix is printed below. Keep in mind that this data has been artificially generated, so it may not be representative of what a real-world scatter diagram would look like.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Calculate capture length</span>
 <span class="n">L</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">capture_length</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>
 
-<span class="c1"># Generate bins for Hm0 and Te</span>
-<span class="n">Hm0_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Hm0</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span>              <span class="c1"># Input format: (start, stop, step_size)</span>
+<span class="c1"># Generate bins for Hm0 and Te, input format (start, stop, step_size)</span>
+<span class="n">Hm0_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Hm0</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">Te_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Te</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Create capture length matrices using mean, standard deviation, count, min and max statistics</span>
@@ -967,7 +1107,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1455,7 +1595,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>Additional capture length matrices can be computed, for example, the frequency matrix is computed below.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1468,7 +1608,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1956,7 +2096,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">capture_length_matrix</span></code> function can also be used as an arbitrary matrix generator. To do this, simply pass a different Series in the place of capture length (L). For example, while not specified by the IEC standards, if the user doesn’t have the omnidirectional wave flux, the average power matrix could hypothetically be generated in the following manner.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1967,7 +2107,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">capture_length_matrix</span></code> function can also use a callable function as the statistic argument. For example, suppose that we wanted to generate a matrix with the variance of the capture length. We could achieve this by passing the NumPy variance function <code class="docutils literal notranslate"><span class="pre">np.var</span></code> into the <code class="docutils literal notranslate"><span class="pre">capture_length_matrix</span></code> function, as shown below.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1981,7 +2121,7 @@ div.rendered_html tbody tr:hover {
 <h2>Power Matrices<a class="headerlink" href="#Power-Matrices" title="Permalink to this headline">¶</a></h2>
 <p>As specified in IEC/TS 62600-100, the power matrix is generated from the capture length matrix and wave energy flux matrix, as shown below</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1994,13 +2134,13 @@ div.rendered_html tbody tr:hover {
 <span class="c1"># Create power matrix using standard deviation</span>
 <span class="n">PM_std</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">performance</span><span class="o">.</span><span class="n">power_matrix</span><span class="p">(</span><span class="n">LM_std</span><span class="p">,</span> <span class="n">JM</span><span class="p">)</span>
 
-<span class="c1"># Show mean power matrix</span>
-<span class="n">PM_mean</span>
+<span class="c1"># Show mean power matrix, round to 3 decimals</span>
+<span class="n">PM_mean</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2071,8 +2211,8 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>224.995614</td>
-      <td>117.594372</td>
+      <td>224.996</td>
+      <td>117.594</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2090,14 +2230,14 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>212.761564</td>
-      <td>202.712529</td>
-      <td>188.707289</td>
-      <td>187.103312</td>
+      <td>212.762</td>
+      <td>202.713</td>
+      <td>188.707</td>
+      <td>187.103</td>
       <td>NaN</td>
-      <td>213.926360</td>
-      <td>174.154277</td>
-      <td>164.885663</td>
+      <td>213.926</td>
+      <td>174.154</td>
+      <td>164.886</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2111,14 +2251,14 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>176.401954</td>
-      <td>199.802389</td>
+      <td>176.402</td>
+      <td>199.802</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>201.882839</td>
-      <td>191.597808</td>
-      <td>221.704845</td>
-      <td>190.124021</td>
+      <td>201.883</td>
+      <td>191.598</td>
+      <td>221.705</td>
+      <td>190.124</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -2131,14 +2271,14 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>203.666749</td>
-      <td>216.856856</td>
-      <td>192.964697</td>
-      <td>201.633338</td>
-      <td>216.268006</td>
-      <td>209.633570</td>
-      <td>162.569223</td>
-      <td>232.529600</td>
+      <td>203.667</td>
+      <td>216.857</td>
+      <td>192.965</td>
+      <td>201.633</td>
+      <td>216.268</td>
+      <td>209.634</td>
+      <td>162.569</td>
+      <td>232.530</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -2152,14 +2292,14 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>193.397136</td>
-      <td>203.528506</td>
-      <td>196.906590</td>
-      <td>212.883232</td>
-      <td>211.277499</td>
-      <td>202.760017</td>
-      <td>199.262673</td>
-      <td>272.421397</td>
+      <td>193.397</td>
+      <td>203.529</td>
+      <td>196.907</td>
+      <td>212.883</td>
+      <td>211.277</td>
+      <td>202.760</td>
+      <td>199.263</td>
+      <td>272.421</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2171,15 +2311,15 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>170.738761</td>
-      <td>216.459415</td>
-      <td>197.483699</td>
-      <td>200.895138</td>
-      <td>212.107136</td>
-      <td>193.836535</td>
-      <td>222.185451</td>
-      <td>169.497454</td>
-      <td>122.296433</td>
+      <td>170.739</td>
+      <td>216.459</td>
+      <td>197.484</td>
+      <td>200.895</td>
+      <td>212.107</td>
+      <td>193.837</td>
+      <td>222.185</td>
+      <td>169.497</td>
+      <td>122.296</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2192,14 +2332,14 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>194.894385</td>
-      <td>214.107525</td>
-      <td>202.725209</td>
-      <td>206.900688</td>
-      <td>184.098588</td>
-      <td>186.076514</td>
-      <td>221.659196</td>
-      <td>186.200512</td>
+      <td>194.894</td>
+      <td>214.108</td>
+      <td>202.725</td>
+      <td>206.901</td>
+      <td>184.099</td>
+      <td>186.077</td>
+      <td>221.659</td>
+      <td>186.201</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2212,13 +2352,13 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>217.288522</td>
-      <td>189.402958</td>
-      <td>201.361869</td>
-      <td>207.531618</td>
-      <td>207.971103</td>
-      <td>172.771344</td>
-      <td>213.854460</td>
+      <td>217.289</td>
+      <td>189.403</td>
+      <td>201.362</td>
+      <td>207.532</td>
+      <td>207.971</td>
+      <td>172.771</td>
+      <td>213.854</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -2232,11 +2372,11 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>197.993901</td>
-      <td>194.237502</td>
-      <td>205.558829</td>
-      <td>203.194637</td>
-      <td>197.980078</td>
+      <td>197.994</td>
+      <td>194.238</td>
+      <td>205.559</td>
+      <td>203.195</td>
+      <td>197.980</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2252,12 +2392,12 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>198.149253</td>
-      <td>196.526630</td>
-      <td>222.219269</td>
-      <td>215.221416</td>
-      <td>204.002031</td>
-      <td>254.004273</td>
+      <td>198.149</td>
+      <td>196.527</td>
+      <td>222.219</td>
+      <td>215.221</td>
+      <td>204.002</td>
+      <td>254.004</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2272,11 +2412,11 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>249.158223</td>
-      <td>212.560691</td>
-      <td>212.734033</td>
-      <td>168.655106</td>
-      <td>208.219945</td>
+      <td>249.158</td>
+      <td>212.561</td>
+      <td>212.734</td>
+      <td>168.655</td>
+      <td>208.220</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2293,11 +2433,11 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>182.313792</td>
-      <td>159.418340</td>
+      <td>182.314</td>
+      <td>159.418</td>
       <td>NaN</td>
-      <td>208.417942</td>
-      <td>241.347475</td>
+      <td>208.418</td>
+      <td>241.347</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2313,11 +2453,11 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>164.712356</td>
-      <td>233.889710</td>
-      <td>110.516540</td>
+      <td>164.712</td>
+      <td>233.890</td>
+      <td>110.517</td>
       <td>NaN</td>
-      <td>207.919400</td>
+      <td>207.919</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2336,8 +2476,8 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>155.691500</td>
-      <td>229.022155</td>
+      <td>155.691</td>
+      <td>229.022</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -2354,11 +2494,11 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>166.854881</td>
+      <td>166.855</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>128.897345</td>
-      <td>198.052826</td>
+      <td>128.897</td>
+      <td>198.053</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
@@ -2378,8 +2518,8 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>230.280524</td>
-      <td>184.509696</td>
+      <td>230.281</td>
+      <td>184.510</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2399,8 +2539,8 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>248.338253</td>
-      <td>264.534455</td>
+      <td>248.338</td>
+      <td>264.534</td>
     </tr>
     <tr>
       <th>9.0</th>
@@ -2439,7 +2579,7 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>116.230087</td>
+      <td>116.230</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -2460,7 +2600,7 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>244.633644</td>
+      <td>244.634</td>
     </tr>
     <tr>
       <th>10.5</th>
@@ -2479,8 +2619,8 @@ div.rendered_html tbody tr:hover {
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>190.849367</td>
-      <td>212.410892</td>
+      <td>190.849</td>
+      <td>212.411</td>
     </tr>
   </tbody>
 </table>
@@ -2491,7 +2631,7 @@ div.rendered_html tbody tr:hover {
 <h2>Calculate MAEP<a class="headerlink" href="#Calculate-MAEP" title="Permalink to this headline">¶</a></h2>
 <p>There are two ways to calculate the mean annual energy production (MEAP). One is from capture length and wave energy flux matrices, the other is from time-series data, as shown below.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -2519,7 +2659,7 @@ MAEP from matrices =  1781210.865283924
 <h2>Graphics<a class="headerlink" href="#Graphics" title="Permalink to this headline">¶</a></h2>
 <p>The graphics function <code class="docutils literal notranslate"><span class="pre">plot_matrix</span></code> can be used to visualize results. It is important to note that the plotting function assumes the step size between bins to be linear.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -2532,12 +2672,12 @@ MAEP from matrices =  1781210.865283924
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_wave_example_26_0.png" src="../_images/mhkit-python_wave_example_26_0.png" />
+<img alt="../_images/mhkit-python_wave_example_28_0.png" src="../_images/mhkit-python_wave_example_28_0.png" />
 </div>
 </div>
 <p>The plotting function only requires the matrix as input, but the function can also take several other arguments. The list of optional arguments is: <code class="docutils literal notranslate"><span class="pre">xlabel,</span> <span class="pre">ylabel,</span> <span class="pre">zlabel,</span> <span class="pre">show_values,</span> <span class="pre">and</span> <span class="pre">ax</span></code>. The following uses these optional arguments. The matplotlib package is imported to define an axis with a larger figure size.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -2545,24 +2685,25 @@ MAEP from matrices =  1781210.865283924
 <span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-<span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_matrix</span><span class="p">(</span><span class="n">PM_mean</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Te (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Hm0 (m)&#39;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;Mean Power (kW)&#39;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_matrix</span><span class="p">(</span><span class="n">PM_mean</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Te (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Hm0 (m)&#39;</span><span class="p">,</span> \
+              <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;Mean Power (kW)&#39;</span><span class="p">,</span> <span class="n">show_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.AxesSubplot at 0x1b7feebf908&gt;
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x248bcf21c88&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/mhkit-python_wave_example_28_1.png" src="../_images/mhkit-python_wave_example_28_1.png" />
+<img alt="../_images/mhkit-python_wave_example_30_1.png" src="../_images/mhkit-python_wave_example_30_1.png" />
 </div>
 </div>
 </div>
