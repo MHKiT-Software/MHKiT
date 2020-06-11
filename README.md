@@ -108,7 +108,7 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
 ## Terminology Guidelines
   - DataFrame (not dataframe)
   - MATLAB (not Matlab)
-  - Python (no python)
+  - Python (not python)
   - pandas (not Pandas)
   - MHKiT (not mhkit)
   - open-source (not open source)
