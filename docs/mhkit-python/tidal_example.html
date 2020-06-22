@@ -5,18 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-164358105-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>MHKiT Tidal Module &mdash; MHKiT v0.1.0 documentation</title>
@@ -418,7 +407,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="MHKiT-Tidal-Module">
 <h1>MHKiT Tidal Module<a class="headerlink" href="#MHKiT-Tidal-Module" title="Permalink to this headline">¶</a></h1>
-<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.tidal.html">MHKiT tidal module</a> by stepping through the calculation of the velocity duration curve. The data file used in this example is stored in the <cite>\MHKiT:nbsphinx-math:</cite>examples`:nbsphinx-math:<cite>data</cite> &lt;<a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data</a>&gt;`__ directory.</p>
+<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.tidal.html">MHKiT tidal module</a> by stepping through the calculation of the velocity duration curve. The data file used in this example is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\MHKiT\examples\data</a> directory.</p>
 <p>Start by importing the necessary MHKiT module.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -431,8 +420,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="section" id="Loading-Data-from-NOAA-Currents">
 <h2>Loading Data from NOAA-Currents<a class="headerlink" href="#Loading-Data-from-NOAA-Currents" title="Permalink to this headline">¶</a></h2>
-<p>This example uses 1 year of data from the NOAA-Currents sites. A map of available currents stations is available at <a class="reference external" href="https://tidesandcurrents.noaa.gov/map/">https://tidesandcurrents.noaa.gov/map/</a>. The tidal io module includes two functions to import data: <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code> which pulls data from the website, and <code class="docutils literal notranslate"><span class="pre">read_noaa_json</span></code> which loads a json file. The request function can save the json file for later use.</p>
-<p>For simplicity, this example loads data from a json file into a pandas DataFrame. This data contains 1 year of 6 minute averaged data from the Southampton Shoal Channel LB 6 (Station Number: s08010) in San Francisco Bay. The data includes 6 minute averaged direction [degrees] and speed [cm/s] indexed by time. The DataFrame key names returned by NOAA are ‘d’ for direction and ‘s’ for speed. Since MHKIT uses SI units, speed is converted to m/s.</p>
+<p>This example uses 1 year of data from the NOAA-Currents sites. A map of available currents stations is available at <a class="reference external" href="https://tidesandcurrents.noaa.gov/map/">https://tidesandcurrents.noaa.gov/map/</a>. The tidal io module includes two functions to import data: <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code> which pulls data from the website, and <code class="docutils literal notranslate"><span class="pre">read_noaa_json</span></code> which loads a JSON file. The request function can save the JSON file for later use.</p>
+<p>For simplicity, this example loads data from a JSON file into a pandas DataFrame. This data contains 1 year of 6 minute averaged data from the Southampton Shoal Channel LB 6 (Station Number: s08010) in San Francisco Bay. The data includes 6 minute averaged direction [degrees] and speed [cm/s] indexed by time. The DataFrame key names returned by NOAA are ‘d’ for direction and ‘s’ for speed. Since MHKIT uses SI units, speed is converted to m/s.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -470,8 +459,8 @@ div.rendered_html tbody tr:hover {
 [18890 rows x 3 columns]
 </pre></div></div>
 </div>
-<p>The data can also be obtained using the function <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code> in the tidal IO module. To use this function, we need a station number, parameter type, a start date and an end date. The station number can be found on the NOAA tides and currents website linked above. The IEC standard recommends 1 year of 10 minute direction and velocity data. The request function allows users to easily pull any timeframe of data although NOAA limits any one pull to 30 days.</p>
-<p>The following code, which has been commented out for this demonstration, can be used to pull data from the NOAA website. This function can be used to save data to a json for later use.</p>
+<p>The data can also be obtained using the function <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code> in the tidal IO module. To use this function, we need a station number, parameter type, start date, and end date. The station number can be found on the NOAA tides and currents website linked above. The IEC standard recommends 1 year of 10-minute direction and velocity data. The request function allows users to easily pull any timeframe of data although NOAA limits any one pull to 30 days.</p>
+<p>The following code, which has been commented out for this demonstration, can be used to pull data from the NOAA website. This function can be used to save data to a JSON for later use.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -486,7 +475,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="section" id="Principal-Flow-Directions">
 <h2>Principal Flow Directions<a class="headerlink" href="#Principal-Flow-Directions" title="Permalink to this headline">¶</a></h2>
-<p>As an initial check on the data, a velocity plot can be created to identify data gaps. To consider the velocity in one of the principal flow directions we apply the <code class="docutils literal notranslate"><span class="pre">principal_flow_directions</span></code> function. This function returns 2 directions (in degrees) corresponding to the flood and ebb directions of the tidal site. Principal flow directions are calculated based on the highest frequency directions. These directions are often close to 180 degrees apart, but are not required to be.</p>
+<p>As an initial check on the data, a velocity plot can be created to identify data gaps. To consider the velocity in one of the principal flow directions we apply the <code class="docutils literal notranslate"><span class="pre">principal_flow_directions</span></code> function. This function returns 2 directions (in degrees) corresponding to the flood and ebb directions of the tidal site. Principal flow directions are calculated based on the highest frequency directions. These directions are often close to 180 degrees apart but are not required to be.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code> function plots velocity in either direction using the speed timeseries.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -522,7 +511,7 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/mhkit-python_tidal_example_9_0.png" src="../_images/mhkit-python_tidal_example_9_0.png" />
 </div>
 </div>
-<p>The plot above shows missing data for most of early and mid 2017. The IEC standard recommends a minimum of 1 year of 10 minute averaged data (See IEC 201 for full description). For the purposes of demonstration, this dataset is sufficient. To look at a specific month we can slice the dataset before passing to the plotting function.</p>
+<p>The plot above shows missing data for most of early and mid-2017. The IEC standard recommends a minimum of 1 year of 10 minute averaged data (See IEC 201 for full description). For the demonstration, this dataset is sufficient. To look at a specific month we can slice the dataset before passing to the plotting function.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -557,8 +546,8 @@ div.rendered_html tbody tr:hover {
 <span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># in m/s</span>
 
 <span class="c1"># Plot the joint probability distribution</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_joint_probability_distribution</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
-                                                   <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_joint_probability_distribution</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> \
+        <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -583,7 +572,8 @@ div.rendered_html tbody tr:hover {
 <span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.25</span> <span class="c1"># in m/s</span>
 
 <span class="c1"># Create a rose plot</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">,</span> \
+          <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -616,15 +606,6 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/mhkit-python_tidal_example_17_0.png" src="../_images/mhkit-python_tidal_example_17_0.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -666,6 +647,18 @@ div.rendered_html tbody tr:hover {
 
   
   
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-164358105-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
     
    
 

@@ -10,6 +10,7 @@ Term       	 	Definition [unit]
 ======================= ===================================================
 :math:`A_P`		Projected capture area [m^2]
 BS                 	Bretschneider spectrum
+:math:`D` 		Characteristic length [m]
 :math:`D_E` 		Equivalent diameter [m]
 :math:`E`		Energy [J] 
 :math:`\eta` 		Incident wave [m]
@@ -24,12 +25,14 @@ Fr			Froude Number
 :math:`J` 		Wave energy flux [W/m]
 JS                 	JONSWAP spectrum
 :math:`L` 		Capture length [m]
-:math:`k` 		Wave number, :math:`k = \frac{2\pi}{\lambda}` [rad/m]
+:math:`\lambda_w` 	Wave length [m]
+:math:`k` 		Wave number, :math:`k = \frac{2\pi}{\lambda_w}` [rad/m]
+KC			Keulegan-Carpenter number
 :math:`m` 		Mass [kg]
 :math:`m_k`		Spectral moment of k, for k = 0,1,2,...
 :math:`\omega` 		Wave frequency, :math:`\omega = \frac{2\pi}{T}` [rad/s]
 :math:`P` 		Power [W]
-PM                 	Pierson-Moskowitz specturm
+PM                 	Pierson-Moskowitz spectrum
 :math:`Q`		Discharge [m^3/s] 
 :math:`\rho` 		Density [kg/m^3]
 :math:`S` 		Spectral density [m^2/Hz]

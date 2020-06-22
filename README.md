@@ -12,16 +12,25 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
   - Once forked you can "clone" (this will download your fork to your machine) the repository to your local machine using the command line.
   - Using the command line navigate to the file system location you would like to keep the documentation repository clone the documentation. Replacing the username and repository name to the correct values for you. This link can be automatically generated on your fork by copying the link visible after clicking clone on your repository page. The repository name will be assumed to be MHKiT in the remaining commands.
   ```bash
-    git clone''' *https://github.com/USERNAME/REPOSITORYNAME.git*
+    git clone https://github.com/USERNAME/REPOSITORYNAME.git
   ```
   - Once cloned use the command line to change directories into the folder created by the clone to update the  MHKiT-Python and MHKiT-MATLAB [submodules].
   
   ```bash
      cd MHKiT
      git submodule init
-     submodule update --remote
+     git submodule update --remote
   ```
   The ``MHKiT-Python`` and ``MHKiT-MATLAB`` folders should now contain source code.
+  
+  To build the Python API documentation for submitting a pull request you will want to use the submodule MHKiT-Python included here. To do so first uninstall any MHKiT you may have and then use the python package manager to install this MHKiT submodule.
+  
+  ```bash
+  pip uninstall mhkit
+  cd MHKiT-Python
+  pip install .
+  ```
+   **NOTE:** After building the documentation (see below) be sure to reinstall your MHKiT-Python distribution from pypi (e.g. `pip install mhkit`) or from your fork of the repository as an editable package (e.g. `pip install -e /path/to/my/fork/of/MHKiT-Python`)
 
 ### Step 2. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
   - [Sphinx]((http://www.sphinx-doc.org/en/master/usage/installation.html)) is a python package used to create the MHKiT documentation.
@@ -99,7 +108,7 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
 ## Terminology Guidelines
   - DataFrame (not dataframe)
   - MATLAB (not Matlab)
-  - Python (no python)
+  - Python (not python)
   - pandas (not Pandas)
   - MHKiT (not mhkit)
   - open-source (not open source)
