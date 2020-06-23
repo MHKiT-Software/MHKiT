@@ -3,6 +3,15 @@
 Release Notes
 =============
 
+MHKiT v0.2.0
+------------------------------
+MHKiT v0.2.0 adds the following modules to MHKiT:
+
+* :ref:`power`: Calculate quantities of interest for power production and power quality
+* :ref:`loads`: Calculate quantities of interest for mechanical loads assessments
+
+This release also includes minor updates to the wave module to improve the versatility of the module. 
+
 MHKiT v0.1.0
 ------------------------------
 
@@ -26,9 +35,3 @@ The v0.1.0 release includes methods for resource assessment, device performance,
 
 Future Releases
 ---------------------------
-
-The next release of MHKiT, planned for Summer 2020,  will include the following modules:
-
-* Mechanical Loads Module: Calculates quantities of interest for mechanical loads.
-* Power Quality Module: Calculates quantities of interest for power quality.
-

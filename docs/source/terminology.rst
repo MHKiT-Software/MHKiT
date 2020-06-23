@@ -12,6 +12,7 @@ Term       	 	Definition [unit]
 BS                 	Bretschneider spectrum
 :math:`D` 		Characteristic length [m]
 :math:`D_E` 		Equivalent diameter [m]
+DEL         Damage Equivalent Load
 :math:`E`		Energy [J] 
 :math:`\eta` 		Incident wave [m]
 :math:`f` 		Frequency [Hz]
@@ -41,6 +42,7 @@ SWL	 		Still water line
 :math:`T_{m}` 		Mean wave period [s] 
 :math:`T_{p}` 		Peak period [s]
 :math:`T_{z}` 		Zero-crossing period [s]
+:math:`u`       Voltage [V]
 :math:`v`		Velocity [m/s] 
 :math:`V`		Velocity calculated for river and tidal modules [m/s] 
 ======================= ===================================================
@@ -51,6 +53,7 @@ The methods in MHKiT use the MKS (meters-kilograms-seconds) system, and
 assume data is stored in SI units, for example:
 
 * Acceleration = :math:`m/s^2`
+* Current = :math:`A`
 * Distance = :math:`m`
 * Energy = :math:`J`
 * Frequency = :math:`Hz` 
