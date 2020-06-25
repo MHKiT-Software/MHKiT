@@ -17,6 +17,8 @@
    wave.rst
    river.rst
    tidal.rst
+   power.rst
+   loads.rst
    utils.rst
    python.rst
    matlab.rst
@@ -54,10 +56,11 @@ MHKiT is developed as a collaboration between the National Renewable Energy Labo
 `MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.
 
 - Frederick Driscoll (NREL - PI)
+- Rebecca Fao (NREL)
 - Budi Gunawan (Sandia - PI)
+- Hristo Ivanov (NREL)
 - Katherine Klise (Sandia)
 - Sterling Olson (Sandia)
-- Rebecca Pauly (NREL)
 - Kelley Ruehl (Sandia)
 - Timothy Shippert (PNNL)
 - Chitra Sivaraman (PNNL - PI)

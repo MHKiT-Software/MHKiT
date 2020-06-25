@@ -17,6 +17,8 @@
    wave.rst
    river.rst
    tidal.rst
+   power.rst
+   loads.rst
    utils.rst
    python.rst
    matlab.rst
