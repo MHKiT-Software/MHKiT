@@ -35,3 +35,9 @@ The v0.1.0 release includes methods for resource assessment, device performance,
 
 Future Releases
 ---------------------------
+
+The next releases, planned in 2021, will include: 
+* Additional QC functionality and data transformation functions
+* Additional power quality functions for flicker analysis
+* Data ingestion functions from instrumentation and public datasets
+* Mooring module 
