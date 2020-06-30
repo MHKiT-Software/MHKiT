@@ -19,6 +19,8 @@ API Documentation
    mhkit-python/api.wave
    mhkit-python/api.river
    mhkit-python/api.tidal
+   mhkit-python/api.power
+   mhkit-python/api.loads
    mhkit-python/api.utils
 
 Examples
@@ -30,6 +32,9 @@ Jupyter notebook examples of MHKiT-Python are included below:
 - `Wave Example <mhkit-python/wave_example.html>`_
 - `River Example <mhkit-python/river_example.html>`_
 - `Tidal Example <mhkit-python/tidal_example.html>`_
+..
+..	- `Power Example <mhkit-python/power_example.html>`_
+..	- `Loads Example <mhkit-python/loads_example.html>`_
 
 Online Forum
 --------------

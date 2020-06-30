@@ -112,8 +112,8 @@ The graphics submodule contains functions to plot wave data and related metrics.
 .. autosummary::
    :nosignatures:
 
-   ~mhkit.wave.graphics.plot_elevation_timeseries
    ~mhkit.wave.graphics.plot_spectrum
+   ~mhkit.wave.graphics.plot_elevation_timeseries
    ~mhkit.wave.graphics.plot_matrix
    
 .. automodule:: mhkit.wave.graphics
