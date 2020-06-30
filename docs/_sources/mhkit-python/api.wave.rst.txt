@@ -94,8 +94,6 @@ performance matrices, and mean annual energy production.
    ~mhkit.wave.performance.power_matrix
    ~mhkit.wave.performance.mean_annual_energy_production_timeseries
    ~mhkit.wave.performance.mean_annual_energy_production_matrix
-   ~mhkit.wave.performance.dc_power
-   ~mhkit.wave.performance.ac_power_three_phase
    
 .. automodule:: mhkit.wave.performance
     :members:

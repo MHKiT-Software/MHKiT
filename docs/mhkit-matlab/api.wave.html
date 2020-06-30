@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Wave Module &mdash; MHKiT v0.1.0 documentation</title>
+  <title>Wave Module &mdash; MHKiT v0.2.0 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.1.0
+                v0.2.0
               </div>
             
           
@@ -446,6 +446,33 @@ time series, date stamp etc.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="mhkit.wave.resource.bretschneider_spectrum">
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">bretschneider_spectrum</code><span class="sig-paren">(</span><em class="sig-param">frequency</em>, <em class="sig-param">Tp</em>, <em class="sig-param">Hs</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.bretschneider_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Calculates Bretschneider Sprectrum from Tucker and Pitt (2001)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Frequency</strong> (<em>float</em>) – Wave frequency (Hz)</p></li>
+<li><p><strong>Tp</strong> (<em>float</em>) – Peak Period (s)</p></li>
+<li><p><strong>Hs</strong> (<em>float</em>) – Significant Wave Height (s)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>S</strong> (<em>structure</em>)</p>
+<p>S.spectrum=Spectral Density (m^2/Hz)</p>
+<p>S.type=String of the spectra type, i.e. Bretschneider,
+time series, date stamp etc.</p>
+<p>S.frequency= frequency (Hz)</p>
+<p>S.Te</p>
+<p>S.Hm0</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="mhkit.wave.resource.create_spectra">
 <code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">create_spectra</code><span class="sig-paren">(</span><em class="sig-param">spectra_type</em>, <em class="sig-param">frequency</em>, <em class="sig-param">Tp</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.create_spectra" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
@@ -477,7 +504,7 @@ time series, date stamp etc.</p>
 
 <dl class="function">
 <dt id="mhkit.wave.resource.elevation_spectrum">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">elevation_spectrum</code><span class="sig-paren">(</span><em class="sig-param">ts</em>, <em class="sig-param">sample_rate</em>, <em class="sig-param">nnft</em>, <em class="sig-param">time</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.elevation_spectrum" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">elevation_spectrum</code><span class="sig-paren">(</span><em class="sig-param">ts</em>, <em class="sig-param">sample_rate</em>, <em class="sig-param">nnft</em>, <em class="sig-param">time</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.elevation_spectrum" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><p>Calculates wave spectra from wave probe timeseries</p>
 </div></blockquote>
@@ -486,13 +513,18 @@ time series, date stamp etc.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ts</strong> (<em>matrix or table</em>) – Wave probe time-series data, with each column a different time
 series</p></li>
-<li><p><strong>sampleRate</strong> (<em>float</em>) – Data frequency (Hz)</p></li>
-<li><p><strong>nnft</strong> (<em>int</em>) – </p></li>
+<li><p><strong>sample_rate</strong> (<em>float</em>) – Data frequency (Hz)</p></li>
+<li><p><strong>nnft</strong> (<em>integer</em>) – Number of bins in the Fast Fourier Transform</p></li>
 <li><p><strong>time</strong> (<em>vector or table</em>) – time (s)</p></li>
-<li><p><strong>window</strong> (<em>string scalar (Optional)</em>) – Signal window type. “hamming” is used by default given the broadband
-nature of waves. See scipy.signal.get_window for more options.</p></li>
+<li><p><strong>window</strong> (<em>string (Optional)</em>) – Signal window type. “hamming” is used by default given the broadband
+nature of waves. See scipy.signal.get_window for more options.
+to call: elevation_spectrum(ts,sample_rate,nnft,time,”window”,window)</p></li>
 <li><p><strong>detrend</strong> (<em>logical (Optional)</em>) – Specifies if a linear trend is removed from the data before calculating
-the wave energy spectrum.  Data is detrended by default.</p></li>
+the wave energy spectrum.  Data is detrended by default.
+to call: elevation_spectrum(ts,sample_rate,nnft,time,”detrend”,detrend)</p></li>
+<li><p><strong>noverlap</strong> (<em>integer (Optional)</em>) – Number of points to overlap between segments. If None,
+noverlap = nperseg / 2.  Defaults to None.
+to call: elevation_spectrum(ts,sample_rate,nnft,time,”noverlap”,noverlap)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -509,7 +541,7 @@ the wave energy spectrum.  Data is detrended by default.</p></li>
 
 <dl class="function">
 <dt id="mhkit.wave.resource.energy_flux">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">energy_flux</code><span class="sig-paren">(</span><em class="sig-param">S</em>, <em class="sig-param">h</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.energy_flux" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">energy_flux</code><span class="sig-paren">(</span><em class="sig-param">S</em>, <em class="sig-param">h</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.energy_flux" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -528,11 +560,10 @@ time series, date stamp etc.</p>
 </dl>
 </p></li>
 <li><p><strong>h</strong> (<em>float</em>) – Water depth (m)</p></li>
-<li><p><strong>rho</strong> (<em>float (optional)</em>) – water density (kg/m^3)</p></li>
-<li><p><strong>g</strong> (<em>float (optional)</em>) – <p>gravitational acceleration (m/s^2)</p>
-<p>NOTE: In matlab, if you set one optional parameter, you must set
-both, rho first, then g</p>
-</p></li>
+<li><p><strong>rho</strong> (<em>float (optional)</em>) – water density (kg/m^3)
+to call: energy_flux(S,h,”rho”,rho)</p></li>
+<li><p><strong>g</strong> (<em>float (optional)</em>) – gravitational acceleration (m/s^2)
+to call: energy_flux(S,h,”g”,g)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -607,6 +638,34 @@ time series, date stamp etc.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="mhkit.wave.resource.jonswap_spectrum">
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">jonswap_spectrum</code><span class="sig-paren">(</span><em class="sig-param">frequency</em>, <em class="sig-param">Tp</em>, <em class="sig-param">Hs</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.jonswap_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Calculates JONSWAP spectrum from Hasselmann et al (1973)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Frequency</strong> (<em>float</em>) – Wave frequency (Hz)</p></li>
+<li><p><strong>Tp</strong> (<em>float</em>) – Peak Period (s)</p></li>
+<li><p><strong>Hs</strong> (<em>float</em>) – Significant Wave Height (s)</p></li>
+<li><p><strong>gamma</strong> (<em>float (optional)</em>) – Gamma</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>S</strong> (<em>structure</em>)</p>
+<p>S.spectrum=Spectral Density (m^2/Hz)</p>
+<p>S.type=String of the spectra type, i.e. Bretschneider,
+time series, date stamp etc.</p>
+<p>S.frequency= frequency (Hz)</p>
+<p>S.Te</p>
+<p>S.Hm0</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="mhkit.wave.resource.peak_period">
 <code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">peak_period</code><span class="sig-paren">(</span><em class="sig-param">S</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.peak_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates wave energy period from spectra</p>
@@ -629,6 +688,32 @@ time series, date stamp etc.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>Tp float</em> – Wave Peak Period (s)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.wave.resource.pierson_moskowitz_spectrum">
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">pierson_moskowitz_spectrum</code><span class="sig-paren">(</span><em class="sig-param">frequency</em>, <em class="sig-param">Tp</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.pierson_moskowitz_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Calculates Pierson-Moskowitz Spectrum from Tucker and Pitt (2001)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Frequency</strong> (<em>float</em>) – Wave frequency (Hz)</p></li>
+<li><p><strong>Tp</strong> (<em>float</em>) – Peak Period (s)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>S</strong> (<em>structure</em>)</p>
+<p>S.spectrum=Spectral Density (m^2/Hz)</p>
+<p>S.type=String of the spectra type, i.e. Bretschneider,
+time series, date stamp etc.</p>
+<p>S.frequency= frequency (Hz)</p>
+<p>S.Te</p>
+<p>S.Hm0</p>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -810,15 +895,17 @@ use py.mhkit_python_utils.pandas_dataframe.spectra_to_pandas(frequency,spectra)<
 
 <dl class="function">
 <dt id="mhkit.wave.resource.wave_number">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_number</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">h</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.wave_number" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_number</code><span class="sig-paren">(</span><em class="sig-param">f</em>, <em class="sig-param">h</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.wave_number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates wave number</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>f</strong> (<em>frequency (Hz)</em>) – vector or numpy array</p></li>
 <li><p><strong>h</strong> (<em>float</em>) – Water depth (m)</p></li>
-<li><p><strong>rho</strong> (<em>float (optional)</em>) – water density (kg/m^3)</p></li>
-<li><p><strong>g</strong> – gravitational acceleration (m/s^2)</p></li>
+<li><p><strong>rho</strong> (<em>float (optional)</em>) – water density (kg/m^3)
+to call: wave_number(f,h,”rho”,rho)</p></li>
+<li><p><strong>g</strong> (<em>float (optional)</em>) – gravitational acceleration (m/s^2)
+to call: wave_number(f,h,”g”,g)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

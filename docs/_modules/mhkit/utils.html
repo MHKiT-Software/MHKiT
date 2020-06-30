@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mhkit.utils &mdash; MHKiT v0.1.0 documentation</title>
+  <title>mhkit.utils &mdash; MHKiT v0.2.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                v0.1.0
+                v0.2.0
               </div>
             
           
@@ -175,8 +175,10 @@
 
 <div class="viewcode-block" id="get_statistics"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.get_statistics">[docs]</a><span class="k">def</span> <span class="nf">get_statistics</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">freq</span><span class="p">,</span><span class="n">period</span><span class="o">=</span><span class="mi">600</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate mean, max, min and stdev statistics of data for a </span>
-<span class="sd">    given statistical window</span>
+<span class="sd">    Calculate mean, max, min and stdev statistics of continuous data for a </span>
+<span class="sd">    given statistical window. Default length of statistical window (period) is</span>
+<span class="sd">    based on IEC TS 62600-3:2020 ED1. Also allows calculation of statistics for multiple statistical</span>
+<span class="sd">    windows of continuous data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ------------</span>
@@ -198,7 +200,7 @@
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)),</span> <span class="s1">&#39;freq must be of type int or float&#39;</span>
 
     <span class="c1"># Check timestamp using qc module</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="s1">&#39;1ms&#39;</span><span class="p">)</span> <span class="c1"># TODO: may be a better idea to force the user to do this in case very high sample rates are used</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="s1">&#39;1ms&#39;</span><span class="p">)</span>
     <span class="n">dataQC</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="n">freq</span><span class="p">)</span>
     <span class="n">dataQC</span> <span class="o">=</span> <span class="n">dataQC</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span>
     
@@ -237,8 +239,6 @@
     <span class="n">maxs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">maxs</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
     <span class="n">mins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
     <span class="n">stdevs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">stdev</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
-
-    <span class="c1"># TODO: handle vector averaging</span>
 
     <span class="k">return</span> <span class="n">means</span><span class="p">,</span><span class="n">maxs</span><span class="p">,</span><span class="n">mins</span><span class="p">,</span><span class="n">stdevs</span></div>
 

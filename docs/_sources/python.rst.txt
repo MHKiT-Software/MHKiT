@@ -32,9 +32,8 @@ Jupyter notebook examples of MHKiT-Python are included below:
 - `Wave Example <mhkit-python/wave_example.html>`_
 - `River Example <mhkit-python/river_example.html>`_
 - `Tidal Example <mhkit-python/tidal_example.html>`_
-..
-..	- `Power Example <mhkit-python/power_example.html>`_
-..	- `Loads Example <mhkit-python/loads_example.html>`_
+- `Power Example <mhkit-python/power_example.html>`_
+- `Loads Example <mhkit-python/loads_example.html>`_
 
 Online Forum
 --------------
