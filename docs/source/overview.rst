@@ -16,6 +16,7 @@ MHKiT is open-source software, developed in Python and MATLAB, that provides the
 * Data quality control
 * Resource assessment
 * Device performance
+* Device loads
 
 
 The software is developed for MRE data, including measurements from field and laboratory environments, and datasets produced by numerical simulations (e.g. WEC-Sim).
@@ -29,6 +30,8 @@ MHKiT Modules
 * :ref:`wave`: Calculate quantities of interest for wave energy converters (WEC)
 * :ref:`river`: Calculate quantities of interest for river energy converters (REC)
 * :ref:`tidal`: Calculate quantities of interest for tidal energy converters (TEC)
+* :ref:`power`: Calculate quantities of interest for power production and power quality
+* :ref:`loads`: Calculate quantities of interest for mechanical loads assessments
 * :ref:`utils`: Includes helper functions
 
 These modules provide functionality for calculating metrics needed by the MRE community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that map directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented.

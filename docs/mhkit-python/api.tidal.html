@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tidal Module &mdash; MHKiT v0.1.0 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.2.0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Utils Module" href="api.utils.html" />
+    <link rel="next" title="Power Module" href="api.power.html" />
     <link rel="prev" title="River Module" href="api.river.html" /> 
 </head>
 
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.1.0
+                v0.2.0
               </div>
             
           
@@ -94,6 +94,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../wave.html">Wave Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../river.html">River Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -108,6 +110,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#graphics">Graphics</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
 </ul>
 </li>
@@ -239,24 +243,6 @@ load NOAA velocity/ direction data</p>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.tidal.io"></span><dl class="function">
-<dt id="mhkit.tidal.io.read_noaa_json">
-<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">read_noaa_json</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/io.html#read_noaa_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns site DataFrame and metadata from a json saved from the
-request_noaa_data
-:param filename: filename with path of json file to load
-:type filename: string</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><strong>data</strong> (<em>DataFrame</em>) – Timeseries Site data of direction and speed</p></li>
-<li><p><strong>metadata</strong> (<em>dictionary</em>) – Site metadata</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="mhkit.tidal.io.request_noaa_data">
 <code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">write_json=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/io.html#request_noaa_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
@@ -279,6 +265,24 @@ for example {“http”: ‘localhost:8080’}</p></li>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns named according to the parameter’s
 variable description</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.tidal.io.read_noaa_json">
+<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">read_noaa_json</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/io.html#read_noaa_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns site DataFrame and metadata from a json saved from the
+request_noaa_data
+:param filename: filename with path of json file to load
+:type filename: string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>data</strong> (<em>DataFrame</em>) – Timeseries Site data of direction and speed</p></li>
+<li><p><strong>metadata</strong> (<em>dictionary</em>) – Site metadata</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -381,23 +385,25 @@ multiple VAWTs per device.</p>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.tidal.graphics"></span><dl class="function">
-<dt id="mhkit.tidal.graphics.plot_current_timeseries">
-<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_current_timeseries</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">speeds</em>, <em class="sig-param">principal_direction</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_current_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_current_timeseries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a plot of velocity from an array of direction and speed
-data in the direction of the supplied principal_direction.</p>
+<dt id="mhkit.tidal.graphics.plot_rose">
+<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_rose</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">velocities</em>, <em class="sig-param">width_dir</em>, <em class="sig-param">width_vel</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">flood=None</em>, <em class="sig-param">ebb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_rose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_rose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a polar histogram. Direction angles from binned histogram must
+be specified such that 0  degrees is north.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>direction</strong> (<em>array like</em>) – Time-series of directions [degrees]</p></li>
-<li><p><strong>speed</strong> (<em>array like</em>) – Time-series of speeds [m/s]</p></li>
-<li><p><strong>principal_direction</strong> (<em>float</em>) – Direction to compute the velocity in [degrees]</p></li>
-<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
-<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
-axes is used.</p></li>
+<li><p><strong>directions</strong> (<em>array like</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
+<li><p><strong>velocities</strong> (<em>array like</em>) – Velocities in m/s</p></li>
+<li><p><strong>width_dir</strong> (<em>float</em>) – Width of directional bins for histogram in degrees</p></li>
+<li><p><strong>width_vel</strong> (<em>float</em>) – Width of velocity bins for histogram in m/s</p></li>
+<li><p><strong>metadata</strong> (<em>dictonary</em>) – If provided needs keys [‘name’, ‘lat’, ‘lon’] for plot title
+and information box on plot</p></li>
+<li><p><strong>flood</strong> (<em>float</em>) – Direction in degrees added to theta ticks</p></li>
+<li><p><strong>ebb</strong> (<em>float</em>) – Direction in degrees added to theta ticks</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Time-series plot of current-speed velocity</p>
+<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Water current rose plot</p>
 </dd>
 </dl>
 </dd></dl>
@@ -427,25 +433,23 @@ and information box on plot</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="mhkit.tidal.graphics.plot_rose">
-<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_rose</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">velocities</em>, <em class="sig-param">width_dir</em>, <em class="sig-param">width_vel</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">flood=None</em>, <em class="sig-param">ebb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_rose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_rose" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a polar histogram. Direction angles from binned histogram must
-be specified such that 0  degrees is north.</p>
+<dt id="mhkit.tidal.graphics.plot_current_timeseries">
+<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_current_timeseries</code><span class="sig-paren">(</span><em class="sig-param">directions</em>, <em class="sig-param">speeds</em>, <em class="sig-param">principal_direction</em>, <em class="sig-param">label=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_current_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_current_timeseries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a plot of velocity from an array of direction and speed
+data in the direction of the supplied principal_direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directions</strong> (<em>array like</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
-<li><p><strong>velocities</strong> (<em>array like</em>) – Velocities in m/s</p></li>
-<li><p><strong>width_dir</strong> (<em>float</em>) – Width of directional bins for histogram in degrees</p></li>
-<li><p><strong>width_vel</strong> (<em>float</em>) – Width of velocity bins for histogram in m/s</p></li>
-<li><p><strong>metadata</strong> (<em>dictonary</em>) – If provided needs keys [‘name’, ‘lat’, ‘lon’] for plot title
-and information box on plot</p></li>
-<li><p><strong>flood</strong> (<em>float</em>) – Direction in degrees added to theta ticks</p></li>
-<li><p><strong>ebb</strong> (<em>float</em>) – Direction in degrees added to theta ticks</p></li>
+<li><p><strong>direction</strong> (<em>array like</em>) – Time-series of directions [degrees]</p></li>
+<li><p><strong>speed</strong> (<em>array like</em>) – Time-series of speeds [m/s]</p></li>
+<li><p><strong>principal_direction</strong> (<em>float</em>) – Direction to compute the velocity in [degrees]</p></li>
+<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Water current rose plot</p>
+<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Time-series plot of current-speed velocity</p>
 </dd>
 </dl>
 </dd></dl>
@@ -461,7 +465,7 @@ and information box on plot</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.utils.html" class="btn btn-neutral float-right" title="Utils Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api.power.html" class="btn btn-neutral float-right" title="Power Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="api.river.html" class="btn btn-neutral float-left" title="River Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

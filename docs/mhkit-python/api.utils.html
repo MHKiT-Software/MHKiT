@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utils Module &mdash; MHKiT v0.1.0 documentation</title>
+  <title>Utils Module &mdash; MHKiT v0.2.0 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MHKiT-MATLAB" href="../matlab.html" />
-    <link rel="prev" title="Tidal Module" href="api.tidal.html" /> 
+    <link rel="prev" title="Loads Module" href="api.loads.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                v0.1.0
+                v0.2.0
               </div>
             
           
@@ -94,6 +94,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../wave.html">Wave Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../river.html">River Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -102,6 +104,8 @@
 <li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.river.html">River Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.tidal.html">Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Utils Module</a></li>
 </ul>
 </li>
@@ -209,17 +213,92 @@
 <span id="utils-api"></span><h1>Utils Module<a class="headerlink" href="#utils-module" title="Permalink to this headline">¶</a></h1>
 <p>The utils module includes helper functions. The module currently contains a single function to help users
 convert numeric indexes to datetime indexes.  Additional helper functions could be added at a later date.</p>
-<span class="target" id="module-mhkit.utils"></span><table class="longtable docutils align-default">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.utils.get_statistics" title="mhkit.utils.get_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_statistics</span></code></a></p></td>
+<td><p>Calculate mean, max, min and stdev statistics of continuous data for a given statistical window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.utils.unwrap_vector" title="mhkit.utils.unwrap_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unwrap_vector</span></code></a></p></td>
+<td><p>Function used to unwrap vectors into 0-360 deg range</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.utils.matlab_to_datetime" title="mhkit.utils.matlab_to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matlab_to_datetime</span></code></a></p></td>
+<td><p>Convert MATLAB datenum format to Python datetime</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.utils.excel_to_datetime" title="mhkit.utils.excel_to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">excel_to_datetime</span></code></a></p></td>
+<td><p>Convert Excel datenum format to Python datetime</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.utils.index_to_datetime" title="mhkit.utils.index_to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_to_datetime</span></code></a></p></td>
 <td><p>Convert DataFrame index from int/float to datetime, rounds datetime to the nearest millisecond</p></td>
 </tr>
 </tbody>
 </table>
+<span class="target" id="module-mhkit.utils"></span><dl class="function">
+<dt id="mhkit.utils.get_statistics">
+<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">get_statistics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">freq</em>, <em class="sig-param">period=600</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#get_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.get_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate mean, max, min and stdev statistics of continuous data for a
+given statistical window. Default length of statistical window (period) is
+based on IEC TS 62600-3:2020 ED1. Also allows calculation of statistics for multiple statistical
+windows of continuous data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns of data to be analyzed</p></li>
+<li><p><strong>freq</strong> (<em>float/int</em>) – Sample rate of data [Hz]</p></li>
+<li><p><strong>period</strong> (<em>float/int</em>) – Statistical window of interest [sec], default = 600</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>means,maxs,mins,stdevs</strong> (<em>pandas DataFrame</em>) – Calculated statistical values from the data, indexed by the first timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.utils.unwrap_vector">
+<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">unwrap_vector</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#unwrap_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.unwrap_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to unwrap vectors into 0-360 deg range</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pandas Series</em><em>, </em><em>numpy array</em><em>, </em><em>list</em>) – Data points to be unwrapped [deg]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> (<em>numpy array</em>) – Data points unwrapped between 0-360 deg</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.utils.matlab_to_datetime">
+<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">matlab_to_datetime</code><span class="sig-paren">(</span><em class="sig-param">matlab_datenum</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#matlab_to_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.matlab_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert MATLAB datenum format to Python datetime</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>matlab_datenum</strong> (<em>numpy array</em>) – MATLAB datenum to be converted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>DateTimeIndex</em>) – Python datetime values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="mhkit.utils.excel_to_datetime">
+<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">excel_to_datetime</code><span class="sig-paren">(</span><em class="sig-param">excel_num</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#excel_to_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.excel_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Excel datenum format to Python datetime</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>excel_num</strong> (<em>numpy array</em>) – Excel datenums to be converted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>DateTimeIndex</em>) – Python datetime values</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="function">
 <dt id="mhkit.utils.index_to_datetime">
 <code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">index_to_datetime</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">unit='s'</em>, <em class="sig-param">origin='unix'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pecos/utils.html#index_to_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.index_to_datetime" title="Permalink to this definition">¶</a></dt>
@@ -255,7 +334,7 @@ format (i.e. ‘2019-05-17 16:05:45’)</p></li>
         <a href="../matlab.html" class="btn btn-neutral float-right" title="MHKiT-MATLAB" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.tidal.html" class="btn btn-neutral float-left" title="Tidal Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api.loads.html" class="btn btn-neutral float-left" title="Loads Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

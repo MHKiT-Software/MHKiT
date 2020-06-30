@@ -29,6 +29,8 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 - `River Example <mhkit-matlab/river_example.html>`_
 - `QC Example <mhkit-matlab/qc_example.html>`_
 - `Tidal Example <mhkit-matlab/tidal_example.html>`_
+- `Power Example <mhkit-matlab/power_example.html>`_
+- `Loads Example <mhkit-matlab/loads_example.html>`_
 
 .. MATLAB live examples remove the index, and must be manually saved as html
 
