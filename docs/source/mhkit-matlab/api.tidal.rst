@@ -61,7 +61,7 @@ multiple VAWTs per device.
 ===========================================  =========================
 Functions                                    Description
 ===========================================  =========================
-``circular``                                     Calculates the equivalent diameter and projected capture area of a circular turbine
+``circular``                                    Calculates the equivalent diameter and projected capture area of a circular turbine
 ``ducted``                                      Calculates the equivalent diameter and projected capture area of a ducted turbine
 ``multiple_circular``                           Calculates the equivalent diameter and projected capture area of a multiple circular turbine
 ``rectangular``                                 Calculates the equivalent diameter and projected capture area of a retangular turbine

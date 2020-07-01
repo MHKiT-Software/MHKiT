@@ -7,14 +7,14 @@ The QC module includes quality control functions from Pecos, see https://pecos.r
 ===========================================  =========================
 Functions                                    Description
 ===========================================  =========================
-``check_corrupt``                                   Check for corrupt data 
-``check_delta``                                     Check for stagant data and/or abrupt changes in the data using the difference between max and min values within a rolling window
-``check_increment``                                 Check data increments using the difference between values
-``check_missing``                                   Check for missing data
-``check_outlier``                                   Check for outliers using normalized data within a rolling window
-``check_range``                                     Check for data outside the expected range
-``check_timestamp``                                 Check time series for missing, non-monotonic, and duplicate timestamps
-``qc_data_to_dataframe``				Convert qc data structure to pandas dataframe
+``check_corrupt``                               Check for corrupt data 
+``check_delta``                                 Check for stagant data and/or abrupt changes in the data using the difference between max and min values within a rolling window
+``check_increment``                             Check data increments using the difference between values
+``check_missing``                               Check for missing data
+``check_outlier``                               Check for outliers using normalized data within a rolling window
+``check_range``                                 Check for data outside the expected range
+``check_timestamp``                             Check time series for missing, non-monotonic, and duplicate timestamps
+``qc_data_to_dataframe``			Convert qc data structure to pandas dataframe
 ===========================================  ========================= 
 
 .. Note::
