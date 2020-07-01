@@ -59,6 +59,7 @@ Functions                                    Description
 .. mat:automodule:: mhkit.river.device
     :members:
     :undoc-members:
+    :noindex:
 	
    
 Graphics

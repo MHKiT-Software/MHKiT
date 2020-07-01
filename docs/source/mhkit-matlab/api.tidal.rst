@@ -71,6 +71,7 @@ Functions                                    Description
     :members:
     :undoc-members:
     :show-inheritance:     
+    :noindex:
 
 .. Note::
 	Tidal device functions are the same as the River device functions

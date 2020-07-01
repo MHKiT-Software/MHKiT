@@ -100,8 +100,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-#exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
-exclude_patterns = ['.inc', '.nblink']
+exclude_patterns = ['**.inc', '**.nblink']
 
 # can be set to alphabetical, groupwise or bysource
 autodoc_member_order = 'bysource'
