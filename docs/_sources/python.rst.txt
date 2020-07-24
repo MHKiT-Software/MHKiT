@@ -25,15 +25,18 @@ API Documentation
 
 Examples
 --------------
-
 Jupyter notebook examples of MHKiT-Python are included below:
 
-- `QC Example <mhkit-python/qc_example.html>`_
-- `Wave Example <mhkit-python/wave_example.html>`_
-- `River Example <mhkit-python/river_example.html>`_
-- `Tidal Example <mhkit-python/tidal_example.html>`_
-- `Power Example <mhkit-python/power_example.html>`_
-- `Loads Example <mhkit-python/loads_example.html>`_
+.. toctree::
+   :maxdepth: 1
+
+   qc_example.ipynb
+   wave_example.ipynb
+   river_example.ipynb
+   tidal_example.ipynb
+   power_example.ipynb
+   loads_example.ipynb
+   
 
 Online Forum
 --------------

@@ -244,23 +244,25 @@
 </table>
 <span class="target" id="module-mhkit.loads"></span><dl class="mat function">
 <dt id="mhkit.loads.bin_statistics">
-<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">bin_statistics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">x</em>, <em class="sig-param">bin_edges</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.bin_statistics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">bin_statistics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">bin_against</em>, <em class="sig-param">bin_edges</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.bin_statistics" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Calculates bin statistics against “x” according to IEC</p>
+<div><p>Bins calculated statistics against data signal (or channel)
+according to IEC TS 62600-3:2020 ED1.</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>with handles- data.data and data.time</em>) – data.data contains a vector or matrix containing time-series
 statistics of variables</p></li>
-<li><p><strong>x</strong> (<em>vector</em>) – contains array of variable to bin data against (ie. current speed)</p></li>
-<li><p><strong>bin_edges</strong> (<em>vector</em>) – contains vector of desired bin edges w/ consistent step size.</p></li>
+<li><p><strong>bin_against</strong> (<em>vector</em>) – Data signal to bin data against (ie. current speed)</p></li>
+<li><p><strong>bin_edges</strong> (<em>vector</em>) – Bin edges with consistent step size.</p></li>
+<li><p><strong>data_signal</strong> (<em>cell array (optional)</em>) – List of data signal(s) to bin, default = all data signals</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p><strong>datast</strong> (<em>structure</em>)</p>
-<p>datast.averages = load means of each bin</p>
-<p>datast.std = additional information related to the binning process</p>
+<dd class="field-even"><p><p><strong>bins</strong> (<em>structure</em>)</p>
+<p>bins.averages = means of each bin</p>
+<p>bins.std = standard deviation of each bin</p>
 </p>
 </dd>
 </dl>
@@ -268,43 +270,54 @@ statistics of variables</p></li>
 
 <dl class="mat function">
 <dt id="mhkit.loads.damage_equivalent_load">
-<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">damage_equivalent_load</code><span class="sig-paren">(</span><em class="sig-param">var</em>, <em class="sig-param">m</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.damage_equivalent_load" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">damage_equivalent_load</code><span class="sig-paren">(</span><em class="sig-param">data_signal</em>, <em class="sig-param">m</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.damage_equivalent_load" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Calculates the damage equivalent load</p>
+<div><p>Calculates the damage equivalent load of a single data signal (or channel)
+based on IEC TS 62600-3:2020 ED1. 4-point rainflow counting algorithm from
+fatpack module is based on the following resources:</p>
+<ul class="simple">
+<li><p><cite>C. Amzallag et. al. Standardization of the rainflow counting method for
+fatigue analysis. International Journal of Fatigue, 16 (1994) 287-293</cite>
+<cite>ISO 12110-2, Metallic materials - Fatigue testing - Variable amplitude
+fatigue testing.</cite></p></li>
+<li><p><cite>G. Marsh et. al. Review and application of Rainflow residue processing
+techniques for accurate fatigue damage estimation. International Journal
+of Fatigue, 82 (2016) 757-765</cite></p></li>
+</ul>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>var</strong> (<em>vector</em>) – data of variable/channel being analyzed</p></li>
-<li><p><strong>m</strong> (<em>double or int</em>) – fatigue slope factor of material</p></li>
-<li><p><strong>bin_num</strong> (<em>int (optional)</em>) – number of bins for rainflow counting method (minimum=100)
-to call: get_DELs(data,chan_info,”binNum”,binNum)</p></li>
-<li><p><strong>data_length</strong> (<em>double or int (optional)</em>) – Used to control DEL frequency. Length of data in sec. Default for 1Hz is 600 seconds for 10min data
+<li><p><strong>data_signal</strong> (<em>vector</em>) – Data signal being analyzed</p></li>
+<li><p><strong>m</strong> (<em>double or int</em>) – Fatigue slope factor of material</p></li>
+<li><p><strong>bin_num</strong> (<em>int (optional)</em>) – Number of bins for rainflow counting method (minimum=100)
+to call: get_DELs(data,chan_info,”bin_num”,binNum)</p></li>
+<li><p><strong>data_length</strong> (<em>double or int (optional)</em>) – Length of data in sec. Default for 1Hz is 600 seconds for 10min data
 to call: get_DELs(data,chan_info,”data_length”,t)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>DEL</strong> (<em>Structure</em>) – Damage equivalent load of each specified variable</p>
+<dd class="field-even"><p><strong>DEL</strong> (<em>Structure</em>) – Damage equivalent load of signal</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="mat function">
 <dt id="mhkit.loads.plot_bin_statistics">
-<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">plot_bin_statistics</code><span class="sig-paren">(</span><em class="sig-param">bcenters</em>, <em class="sig-param">bmean</em>, <em class="sig-param">bmax</em>, <em class="sig-param">bmin</em>, <em class="sig-param">bstdmean</em>, <em class="sig-param">bstdmax</em>, <em class="sig-param">bstdmin</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.plot_bin_statistics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">plot_bin_statistics</code><span class="sig-paren">(</span><em class="sig-param">bin_centers</em>, <em class="sig-param">bin_mean</em>, <em class="sig-param">bin_max</em>, <em class="sig-param">bin_min</em>, <em class="sig-param">bin_mean_std</em>, <em class="sig-param">bin_max_std</em>, <em class="sig-param">bin_min_std</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.plot_bin_statistics" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>plot showing standard binned statistics of single variable</p>
+<div><p>Plot showing standard binned statistics of single variable</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bcenters</strong> (<em>vector</em>) – x-axis bin center values</p></li>
-<li><p><strong>bmean</strong> (<em>vector</em>) – binned mean statistical values of variable</p></li>
-<li><p><strong>bmax</strong> (<em>vector</em>) – binned max statistical values of variable</p></li>
-<li><p><strong>bmin</strong> (<em>vector</em>) – binned min statistical values of variable</p></li>
-<li><p><strong>bstdmean</strong> (<em>vector</em>) – standard deviations of mean binned statistics</p></li>
-<li><p><strong>bstdmax</strong> (<em>vector</em>) – standard deviations of max binned statistics</p></li>
-<li><p><strong>bstdmin</strong> (<em>vector</em>) – standard deviations of min binned statistics</p></li>
+<li><p><strong>bin_centers</strong> (<em>vector</em>) – x-axis bin center values</p></li>
+<li><p><strong>bin_mean</strong> (<em>vector</em>) – Binned mean statistical values of variable</p></li>
+<li><p><strong>bin_max</strong> (<em>vector</em>) – Binned max statistical values of variable</p></li>
+<li><p><strong>bin_min</strong> (<em>vector</em>) – Binned min statistical values of variable</p></li>
+<li><p><strong>bin_mean_std</strong> (<em>vector</em>) – Standard deviations of mean binned statistics</p></li>
+<li><p><strong>bin_max_std</strong> (<em>vector</em>) – Standard deviations of max binned statistics</p></li>
+<li><p><strong>bin_min_std</strong> (<em>vector</em>) – Standard deviations of min binned statistics</p></li>
 <li><p><strong>xlabel</strong> (<em>string (optional)</em>) – x-axis lable for the plot
 to call: binplotter(bcenters,bmean,bmax,bmin,bstdmean,bstdmax,bstdmin,”xlable”,xlable)</p></li>
 <li><p><strong>ylabel</strong> (<em>string (optional)</em>) – y-axis lable for the plot
@@ -316,34 +329,34 @@ to call: binplotter(bcenters,bmean,bmax,bmin,bstdmean,bstdmax,bstdmin,”savepat
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>figure</strong> (<em>figure</em>) – scatter plot of statistics</p>
+<dd class="field-even"><p><strong>figure</strong> (<em>figure</em>)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="mat function">
 <dt id="mhkit.loads.plot_statistics">
-<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">plot_statistics</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">vmean</em>, <em class="sig-param">vmin</em>, <em class="sig-param">vmax</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.plot_statistics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.loads.</code><code class="sig-name descname">plot_statistics</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y_mean</em>, <em class="sig-param">y_min</em>, <em class="sig-param">y_max</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.plot_statistics" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>plot showing standard raw statistics of variable</p>
+<div><p>Plot showing standard raw statistics of variable</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>vector</em>) – vector of x-axis values</p></li>
-<li><p><strong>vmean</strong> (<em>vector</em>) – vector of mean values</p></li>
-<li><p><strong>vmax</strong> (<em>vector</em>) – vector of max values</p></li>
-<li><p><strong>vmin</strong> (<em>vector</em>) – vector of min values</p></li>
-<li><p><strong>vstdev</strong> (<em>vector (optional)</em>) – vector of stand drviations
-to call: statplotter(x,vmean,vmax,vmin,”vstdev”,vstdev)</p></li>
+<li><p><strong>y_mean</strong> (<em>vector</em>) – Vector of mean values</p></li>
+<li><p><strong>y_max</strong> (<em>vector</em>) – Vector of max values</p></li>
+<li><p><strong>y_min</strong> (<em>vector</em>) – Vector of min values</p></li>
+<li><p><strong>y_stdev</strong> (<em>vector (optional)</em>) – Vector of stand drviations
+to call: statplotter(x,y_mean,y_max,y_min,”y_stdev”,vstdev)</p></li>
 <li><p><strong>xlabel</strong> (<em>string (optional)</em>) – x-axis lable for the plot
-to call: statplotter(x,vmean,vmax,vmin,”xlable”,xlable)</p></li>
+to call: statplotter(x,y_mean,y_max,y_min,”xlable”,xlable)</p></li>
 <li><p><strong>ylabel</strong> (<em>string (optional)</em>) – y-axis lable for the plot
-to call: statplotter(x,vmean,vmax,vmin,”ylable”,ylable)</p></li>
+to call: statplotter(x,y_mean,y_max,y_min,”ylable”,ylable)</p></li>
 <li><p><strong>title</strong> (<em>string (optional)</em>) – title for the plot
-to call: statplotter(x,vmean,vmax,vmin,”title”,title)</p></li>
+to call: statplotter(x,y_mean,y_max,y_min,”title”,title)</p></li>
 <li><p><strong>savepath</strong> (<em>string (optional)</em>) – path and filename to save figure.
-to call: statplotter(x,vmean,vmax,vmin,”savepath”,savepath)</p></li>
+to call: statplotter(x,y_mean,y_max,y_min,”savepath”,savepath)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

@@ -27,7 +27,6 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
     'nbsphinx',
-    'nbsphinx_link',
     'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',       
 ]

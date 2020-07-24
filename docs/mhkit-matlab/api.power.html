@@ -241,6 +241,105 @@
 </tbody>
 </table>
 <span class="target" id="module-mhkit.power.characteristics"></span><dl class="mat function">
+<dt id="mhkit.power.characteristics.ac_power_three_phase">
+<code class="sig-prename descclassname">mhkit.power.characteristics.</code><code class="sig-name descname">ac_power_three_phase</code><span class="sig-paren">(</span><em class="sig-param">voltage</em>, <em class="sig-param">current</em>, <em class="sig-param">power_factor</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.power.characteristics.ac_power_three_phase" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Calculates the real power from three phase ac voltage and current.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voltage</strong> (<em>Time series of all three measured voltages [V]</em>) – <dl class="simple">
+<dt>Pandas data frame</dt><dd><p>To make a pandas data frame from user supplied frequency and spectra
+use py.mhkit_python_utils.pandas_dataframe.spectra_to_pandas(time,voltage)</p>
+</dd>
+</dl>
+<p>OR</p>
+<dl>
+<dt>structure of form:</dt><dd><p>voltage.voltage : matrix of all three phases</p>
+<p>voltage.time : time vector</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>current</strong> (<em>Time series of all three measured current [A]</em>) – <blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>Pandas data frame</dt><dd><p>To make a pandas data frame from user supplied frequency and spectra
+use py.mhkit_python_utils.pandas_dataframe.spectra_to_pandas(time,current)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>OR</p>
+<dl>
+<dt>structure of form:</dt><dd><p>current.current : matrix of all three phases</p>
+<p>current.time : time vector</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>power_factor<span class="classifier">float</span></dt><dd><p>power factor for the system</p>
+</dd>
+<dt>line_to_line: bool (Optional)</dt><dd><p>set true if the given voltage measuremtn is line_to_line</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>P</strong> (<em>Structure</em>)</p>
+<p>P.power [W]</p>
+<p>P.time</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt id="mhkit.power.characteristics.dc_power">
+<code class="sig-prename descclassname">mhkit.power.characteristics.</code><code class="sig-name descname">dc_power</code><span class="sig-paren">(</span><em class="sig-param">voltage</em>, <em class="sig-param">current</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.power.characteristics.dc_power" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Calculates the real power from DC voltage and current.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voltage</strong> (<em>Time series of  measured voltages [V]</em>) – <dl class="simple">
+<dt>Pandas data frame</dt><dd><p>To make a pandas data frame from user supplied frequency and spectra
+use py.mhkit_python_utils.pandas_dataframe.spectra_to_pandas(time,voltage)</p>
+</dd>
+</dl>
+<p>OR</p>
+<dl>
+<dt>structure of form:</dt><dd><p>voltage.voltage : matrix or vector</p>
+<p>voltage.time : time vector</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>current</strong> (<em>Time series of current [A]</em>) – <dl class="simple">
+<dt>Pandas data frame</dt><dd><p>To make a pandas data frame from user supplied frequency and spectra
+use py.mhkit_python_utils.pandas_dataframe.spectra_to_pandas(time,current)</p>
+</dd>
+</dl>
+<p>OR</p>
+<dl>
+<dt>structure of form:</dt><dd><p>current.current : matrix or vector</p>
+<p>current.time : time vector</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>P</strong> (<em>Structure</em>)</p>
+<p>P.power [W]</p>
+<p>P.gross: gross power from all lines [W]</p>
+<p>P.time</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
 <dt id="mhkit.power.characteristics.instantaneous_frequency">
 <code class="sig-prename descclassname">mhkit.power.characteristics.</code><code class="sig-name descname">instantaneous_frequency</code><span class="sig-paren">(</span><em class="sig-param">voltage</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.power.characteristics.instantaneous_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
@@ -248,10 +347,11 @@
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>voltage</strong> (<em>structure with handles- voltage.voltage and voltage.time</em>) – measured voltage source (V) index by time</p>
+<dd class="field-odd"><p><strong>um</strong> (<em>structure with handles- um.voltage and um.time</em>) – measured voltage source (V) index by time</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>THCD</strong> (<em>double</em>) – the total harmonic current distortion</p>
+<dd class="field-even"><p><strong>frequency</strong> (<em>structure</em>) – frequency of the measured voltage with handles frequency.time and
+frequency.frequency</p>
 </dd>
 </dl>
 </dd></dl>
@@ -294,13 +394,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>harmonics</strong> (<em>structure with handles- harmonics.amplitude and harmonics.harmonic</em>) – RMS harmonic amplitude indexed by the harmonic frequency</p></li>
+<li><p><strong>harmonics</strong> (<em>structure with handles- harmonics.amplitude and harmonics.harmonic</em>) – harmonic amplitude indexed by the harmonic frequency</p></li>
 <li><p><strong>grid_freq</strong> (<em>int</em>) – value indicating if the power supply is 50 or 60 Hz. Valid input are 50 and 60</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>harmonic_subgroups</strong> (<em>structure with handles harmonic_subgroups.amplitude and</em>) –   harmonic_subgroups.harmonic
-harmonic subgroups</p>
+<dd class="field-even"><p><strong>harmonic_subgroups</strong> (<em>structure with handles harmonic_subgroups.amplitude and</em>) – harmonic_subgroups.harmonic</p>
 </dd>
 </dl>
 </dd></dl>
@@ -309,18 +408,18 @@ harmonic subgroups</p>
 <dt id="mhkit.power.quality.harmonics">
 <code class="sig-prename descclassname">mhkit.power.quality.</code><code class="sig-name descname">harmonics</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">freq</em>, <em class="sig-param">grid_freq</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.power.quality.harmonics" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Calculates the harmonics from timeseries of current or voltage</p>
+<div><p>Calculates the harmonics from time series of voltage or current based on IEC 61000-4-7.</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>structure with x.time and x.current or x.voltage as values</em>) – timeseries of voltage or current</p></li>
-<li><p><strong>freq</strong> (<em>double</em>) – frequency of the timeseries data [Hz]</p></li>
-<li><p><strong>grid_freq</strong> (<em>int</em>) – value indicating if the power supply is 50 or 60 Hz. Valid input are 50 and 60</p></li>
+<li><p><strong>x</strong> (<em>structure with x.time and x.current or x.voltage as values</em>) – Time-series of voltage [V] or current [A]</p></li>
+<li><p><strong>freq</strong> (<em>double</em>) – Frequency of the time-series data [Hz]</p></li>
+<li><p><strong>grid_freq</strong> (<em>int</em>) – Value indicating if the power supply is 50 or 60 Hz. Options = 50 or 60</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>harmonics</strong> (<em>structure</em>) – harmonic amplitude and frequency of the timeseries data</p>
+<dd class="field-even"><p><strong>harmonics</strong> (<em>structure</em>) – harmonic amplitude and frequency of the time-series data</p>
 </dd>
 </dl>
 </dd></dl>
@@ -329,18 +428,17 @@ harmonic subgroups</p>
 <dt id="mhkit.power.quality.interharmonics">
 <code class="sig-prename descclassname">mhkit.power.quality.</code><code class="sig-name descname">interharmonics</code><span class="sig-paren">(</span><em class="sig-param">harmonics</em>, <em class="sig-param">grid_freq</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.power.quality.interharmonics" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Calculates the interharmonics from the harmonics of current</p>
+<div><p>Calculates the interharmonics from the harmonics of current based on IEC 61000-4-7.</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>harmonics</strong> (<em>structure with handles- harmonics.amplitude and harmonics.harmonic</em>) – RMS harmonic amplitude indexed by the harmonic frequency</p></li>
-<li><p><strong>grid_freq</strong> (<em>int</em>) – value indicating if the power supply is 50 or 60 Hz. Valid input are 50 and 60</p></li>
+<li><p><strong>harmonics</strong> (<em>structure with handles- harmonics.amplitude and harmonics.harmonic</em>) – Harmonic amplitude indexed by the harmonic frequency</p></li>
+<li><p><strong>grid_freq</strong> (<em>int</em>) – Value indicating if the power supply is 50 or 60 Hz. Options = 50 or 60</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>interharmonics</strong> (<em>structure with handles interharmonics.amplitude and</em>) –   interharmonics.harmonic
-interharmonics groups</p>
+<dd class="field-even"><p><strong>interharmonics</strong> (<em>structure with handles interharmonics.amplitude and</em>) – interharmonics.harmonic</p>
 </dd>
 </dl>
 </dd></dl>
@@ -349,18 +447,17 @@ interharmonics groups</p>
 <dt id="mhkit.power.quality.total_harmonic_current_distortion">
 <code class="sig-prename descclassname">mhkit.power.quality.</code><code class="sig-name descname">total_harmonic_current_distortion</code><span class="sig-paren">(</span><em class="sig-param">harmonic_subgroups</em>, <em class="sig-param">rated_current</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.power.quality.total_harmonic_current_distortion" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Calculates the total harmonic current distortion from harmonic
-subgroups</p>
+<div><p>Calculates the total harmonic current distortion (THC) based on IEC/TS 62600-30</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>harmonic_subgroups</strong> (<em>structure with handles- harmonic_subgroups.amplitude and harmonic_subgroups.harmonic</em>) – the subgrouped RMS current harmonics amplitude indexed by harmonic order</p></li>
-<li><p><strong>rated_current</strong> (<em>double</em>) – the rated current of the energy device in Amps</p></li>
+<li><p><strong>harmonic_subgroups</strong> (<em>structure with handles- harmonic_subgroups.amplitude and harmonic_subgroups.harmonic</em>) – Subgrouped current harmonics amplitude indexed by harmonic order</p></li>
+<li><p><strong>rated_current</strong> (<em>double</em>) – Rated current of the energy device in Amps</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>THCD</strong> (<em>double</em>) – the total harmonic current distortion</p>
+<dd class="field-even"><p><strong>THCD</strong> (<em>double</em>) – Total harmonic current distortion</p>
 </dd>
 </dl>
 </dd></dl>
