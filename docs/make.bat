@@ -43,7 +43,7 @@ if "%1" == "help" (
 )
 
 if "%1" == "clean" (
-	del *.html *.js *.inv /s /f  /q
+	del *.html *.js *.inv 
 	rmdir _images _modules _sources _static /s
 )
 

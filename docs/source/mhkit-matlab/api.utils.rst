@@ -11,7 +11,7 @@ The utils module includes helper functions. The module currently contains a sing
 Functions                                    Description
 ===========================================  =========================
 ``get_statistics``                            	Calculate mean, max, min and stdev statistics of continuous data for a given statistical window.
-``excel_to_datetime				Convert Excel datenum format to Python datetime
+``excel_to_datetime``				Convert Excel datenum format to Python datetime
 ===========================================  ========================= 
 
 

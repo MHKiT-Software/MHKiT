@@ -21,6 +21,7 @@ API Documentation
    mhkit-matlab/api.tidal
    mhkit-matlab/api.power
    mhkit-matlab/api.loads
+   mhkit-matlab/api.utils
 
 
 Examples
