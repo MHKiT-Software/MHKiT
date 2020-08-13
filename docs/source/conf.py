@@ -8,7 +8,7 @@
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-#needs_sphinx = '1.0'
+needs_sphinx = '3.1.1'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -36,7 +36,7 @@ autosectionlabel_prefix_document = True
 #    
 
 # -- Path setup --------------------------------------------------------------
-# If extensions (or modules to document with autodoc) are in another directory,
+# If extensions (or modules to document with autodoc) are in another dire	ctory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
