@@ -35,14 +35,24 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
 ### Step 2. Download/Install [Sphinx](http://www.sphinx-doc.org/en/stable/index.html) package and extensions
   - [Sphinx]((http://www.sphinx-doc.org/en/master/usage/installation.html)) is a python package used to create the MHKiT documentation.
 
-  - To install Sphinx from the command line
-  ```pip install -U Sphinx```
+  - Install Sphinx from the command line
    **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
+    
+    ```pip install -U Sphinx```
+  
+    - Sphinx --> Version: 3.1.1
 
-  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, and NB Sphinx
+  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, and NB Sphinx)
 
-   ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx```
+     ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx```
 
+      - nbsphinx  --> Version: 0.7.1
+
+      - sphinxcontrib-matlabdomain  --> Version: 0.11.2 
+
+      - sphinxcontrib-bibtex --> Version: 1.0.0
+
+      - sphinx-rtd-theme --> Version: 0.5.0
 
 You are now ready to begin modifying and building the MHKiT documentation.
 
