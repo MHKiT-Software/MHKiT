@@ -167,13 +167,15 @@
            <div itemprop="articleBody">
             
   <h1>Source code for mhkit.wave.resource</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span> <span class="k">as</span> <span class="n">skPCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span> <span class="k">as</span> <span class="n">_fsolve</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span> <span class="k">as</span> <span class="n">_signal</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span> <span class="k">as</span> <span class="n">_product</span>
-
-
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span> <span class="k">as</span> <span class="n">_signal</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1">### Spectrum</span>
 <div class="viewcode-block" id="elevation_spectrum"><a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.elevation_spectrum">[docs]</a><span class="k">def</span> <span class="nf">elevation_spectrum</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">,</span> <span class="n">nnft</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">noverlap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -611,7 +613,7 @@
 
 <div class="viewcode-block" id="peak_period"><a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.peak_period">[docs]</a><span class="k">def</span> <span class="nf">peak_period</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates wave energy period from spectra</span>
+<span class="sd">    Calculates wave peak period from spectra</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ------------</span>
@@ -853,6 +855,287 @@
     <span class="n">k</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">k0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">])</span>
     
     <span class="k">return</span> <span class="n">k</span></div>
+
+<div class="viewcode-block" id="environmental_contour"><a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.environmental_contour">[docs]</a><span class="k">def</span> <span class="nf">environmental_contour</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;    </span>
+<span class="sd">    Calculates environmental contours of extreme sea </span>
+<span class="sd">    states using the improved joint probability distributions </span>
+<span class="sd">    with the inverse first-order reliability method (I-FORM) </span>
+<span class="sd">    probability for the desired return period (`period`). Given the </span>
+<span class="sd">    period of interest, a circle of iso-probability is created </span>
+<span class="sd">    in the principal component analysis (PCA) joint probability </span>
+<span class="sd">    (`x1`, `x2`) reference frame.  </span>
+<span class="sd">    Using the joint probability value, the cumulative distribution </span>
+<span class="sd">    function (CDF) of the marginal distribution is used to find </span>
+<span class="sd">    the quantile of each component. </span>
+<span class="sd">    Finally, using the improved PCA methodology,</span>
+<span class="sd">    the component 2 contour lines are calculated from component 1 using </span>
+<span class="sd">    the relationships defined in Exkert-Gallup et. al. 2016.	</span>
+
+<span class="sd">    Eckert-Gallup, A. C., Sallaberry, C. J., Dallman, A. R., &amp; </span>
+<span class="sd">    Neary, V. S. (2016). Application of principal component </span>
+<span class="sd">    analysis (PCA) and improved joint probability distributions to </span>
+<span class="sd">    the inverse first-order reliability method (I-FORM) for predicting </span>
+<span class="sd">    extreme sea states. Ocean Engineering, 112, 307-319.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x1: numpy array </span>
+<span class="sd">        Component 1 data</span>
+<span class="sd">    x2: numpy array </span>
+<span class="sd">        Component 2 data        	</span>
+<span class="sd">    dt : int or float</span>
+<span class="sd">        `x1` and `x2` sample rate (seconds)</span>
+<span class="sd">    period : int, float, or numpy array </span>
+<span class="sd">        Desired return period (years) for calculation of environmental</span>
+<span class="sd">        contour, can be a scalar or a vector.</span>
+<span class="sd">    **kwargs : optional        </span>
+<span class="sd">        PCA: dict</span>
+<span class="sd">            If provided, the principal component analysis (PCA) on x1, x2 </span>
+<span class="sd">            is skipped. The PCA will be the same for a given x1, x2 </span>
+<span class="sd">            therefore this step may be skipped if multiple calls to </span>
+<span class="sd">            environmental contours are made for the same x1, x2 pair. </span>
+<span class="sd">            The PCA dict may be obtained by setting return_PCA=True.</span>
+<span class="sd">        bin_size : int</span>
+<span class="sd">            Data points in each bin for the PCA. Default bin_size=250.		</span>
+<span class="sd">        nb_steps : int</span>
+<span class="sd">            Discretization of the circle in the normal space used for</span>
+<span class="sd">            I-FORM calculation. Default nb_steps=1000.</span>
+<span class="sd">        return_PCA: boolean</span>
+<span class="sd">            Default False, if True will retun the PCA dictionary </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x1_contour : numpy array </span>
+<span class="sd">        Calculated x1 values along the contour boundary following</span>
+<span class="sd">        return to original input orientation.</span>
+<span class="sd">    x2_contour : numpy array </span>
+<span class="sd">       Calculated x2 values along the contour boundary following</span>
+<span class="sd">       return to original input orientation.</span>
+<span class="sd">    PCA: dict (optional)</span>
+<span class="sd">	    principal component analysis dictionary </span>
+<span class="sd">       Keys:</span>
+<span class="sd">       -----       </span>
+<span class="sd">       &#39;principal_axes&#39;: sign corrected PCA axes </span>
+<span class="sd">       &#39;shift&#39;         : The shift applied to x2 </span>
+<span class="sd">       &#39;x1_fit&#39;        : gaussian fit of x1 data</span>
+<span class="sd">       &#39;mu_param&#39;      : fit to _mu_fcn</span>
+<span class="sd">       &#39;sigma_param&#39;   : fit to _sig_fits </span>
+
+<span class="sd">    &#39;&#39;&#39;</span>   
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s1">&#39;x1 must be of type np.ndarray&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s1">&#39;x2 must be of type np.ndarray&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)),</span> <span class="s1">&#39;dt must be of type int or float&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;period must be&#39;</span>
+                                          <span class="s1">&#39;of type int, float, or array&#39;</span><span class="p">)</span>    
+    <span class="n">PCA</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PCA&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">bin_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_size&quot;</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+    <span class="n">nb_steps</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nb_steps&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">return_PCA</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;return_PCA&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PCA</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))),</span> <span class="s1">&#39;If specified PCA must be a dict&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;bin_size must be of type int&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nb_steps</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;nb_steps must be of type int&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_PCA</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;return_PCA must be of type bool&#39;</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">period</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">period</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>    
+    
+    <span class="k">if</span> <span class="n">PCA</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">PCA</span> <span class="o">=</span> <span class="n">_principal_component_analysis</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="n">bin_size</span><span class="p">)</span>
+	
+    <span class="n">exceedance_probability</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">365</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="o">/</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">period</span><span class="p">)</span>
+    <span class="n">iso_probability_radius</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">exceedance_probability</span><span class="p">),</span> 
+                                             <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  
+    <span class="n">discretized_radians</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">nb_steps</span><span class="p">)</span>
+    
+    <span class="n">x_component_iso_prob</span> <span class="o">=</span> <span class="n">iso_probability_radius</span> <span class="o">*</span> \
+                            <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">discretized_radians</span><span class="p">)</span>
+    <span class="n">y_component_iso_prob</span> <span class="o">=</span> <span class="n">iso_probability_radius</span> <span class="o">*</span> \
+                            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">discretized_radians</span><span class="p">)</span>
+    
+    <span class="n">x_quantile</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x_component_iso_prob</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y_quantile</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">y_component_iso_prob</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Use the inverse of cdf to calculate component 1 values           </span>
+    <span class="n">component_1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">invgauss</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">x_quantile</span><span class="p">,</span> 
+                                     <span class="n">mu</span>   <span class="o">=</span><span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;x1_fit&#39;</span><span class="p">][</span><span class="s1">&#39;mu&#39;</span><span class="p">],</span>
+                                     <span class="n">loc</span>  <span class="o">=</span><span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;x1_fit&#39;</span><span class="p">][</span><span class="s1">&#39;loc&#39;</span><span class="p">],</span> 
+                                     <span class="n">scale</span><span class="o">=</span><span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;x1_fit&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="p">)</span>
+    
+    <span class="c1"># Find Component 2 mu using first order linear regression</span>
+    <span class="n">mu_slope</span>     <span class="o">=</span> <span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;mu_fit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">slope</span>
+    <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;mu_fit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">intercept</span>        
+    <span class="n">component_2_mu</span> <span class="o">=</span> <span class="n">mu_slope</span> <span class="o">*</span> <span class="n">component_1</span> <span class="o">+</span> <span class="n">mu_intercept</span>
+    
+    <span class="c1"># Find Componenet 2 sigma using second order polynomial fit</span>
+    <span class="n">sigma_polynomial_coeffcients</span> <span class="o">=</span><span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;sigma_fit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">component_2_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">sigma_polynomial_coeffcients</span><span class="p">,</span> <span class="n">component_1</span><span class="p">)</span>
+                
+    <span class="c1"># Use calculated mu and sigma values to calculate C2 along the contour</span>
+    <span class="n">component_2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">y_quantile</span><span class="p">,</span>
+                                 <span class="n">loc</span>  <span class="o">=</span><span class="n">component_2_mu</span><span class="p">,</span> 
+                                 <span class="n">scale</span><span class="o">=</span><span class="n">component_2_sigma</span><span class="p">)</span>
+                             
+    <span class="c1"># Convert contours back to the original reference frame</span>
+    <span class="n">principal_axes</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;principal_axes&#39;</span><span class="p">]</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">[</span><span class="s1">&#39;shift&#39;</span><span class="p">]</span>
+    <span class="n">pa00</span> <span class="o">=</span> <span class="n">principal_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">pa01</span> <span class="o">=</span> <span class="n">principal_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">x1_contour</span> <span class="o">=</span> <span class="p">((</span> <span class="n">pa00</span> <span class="o">*</span> <span class="n">component_1</span> <span class="o">+</span> <span class="n">pa01</span> <span class="o">*</span> <span class="p">(</span><span class="n">component_2</span> <span class="o">-</span> <span class="n">shift</span><span class="p">))</span> <span class="o">/</span> \
+                  <span class="p">(</span><span class="n">pa01</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">pa00</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>                         
+    <span class="n">x2_contour</span> <span class="o">=</span> <span class="p">((</span> <span class="n">pa01</span> <span class="o">*</span> <span class="n">component_1</span> <span class="o">-</span> <span class="n">pa00</span> <span class="o">*</span> <span class="p">(</span><span class="n">component_2</span> <span class="o">-</span> <span class="n">shift</span><span class="p">))</span> <span class="o">/</span> \
+                  <span class="p">(</span><span class="n">pa01</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">pa00</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>                                    
+    
+    <span class="c1"># Assign 0 value to any negative x1 contour values</span>
+    <span class="n">x1_contour</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x1_contour</span><span class="p">)</span>  
+    
+    <span class="k">if</span> <span class="n">return_PCA</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x1_contour</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x2_contour</span><span class="p">),</span> <span class="n">PCA</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x1_contour</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x2_contour</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">_principal_component_analysis</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mi">250</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Performs a modified principal component analysis (PCA) </span>
+<span class="sd">    [Eckert et. al 2016] on two variables (`x1`, `x2`). The additional</span>
+<span class="sd">    PCA is performed in 5 steps:</span>
+<span class="sd">    1) Transform `x1` &amp; `x2` into the principal component domain and shift</span>
+<span class="sd">       the y-axis so that all values are positive and non-zero</span>
+<span class="sd">    2) Fit the `x1` data in the transformed reference frame with an </span>
+<span class="sd">       inverse Gaussian Distribution</span>
+<span class="sd">    3) Bin the transformed data into groups of size bin and find the </span>
+<span class="sd">       mean of `x1`, the mean of `x2`, and the standard deviation of `x2`</span>
+<span class="sd">    4) Perform a first-order linear regression to determine a continuous</span>
+<span class="sd">       the function relating the mean of the `x1` bins to mean of the `x2` bins</span>
+<span class="sd">    5) Find a second-order polynomial which best relates the means of </span>
+<span class="sd">       `x1` to the standard deviation of `x2` using constrained optimization</span>
+<span class="sd">         </span>
+<span class="sd">    Eckert-Gallup, A. C., Sallaberry, C. J., Dallman, A. R., &amp; </span>
+<span class="sd">    Neary, V. S. (2016). Application of principal component </span>
+<span class="sd">    analysis (PCA) and improved joint probability distributions to </span>
+<span class="sd">    the inverse first-order reliability method (I-FORM) for predicting </span>
+<span class="sd">    extreme sea states. Ocean Engineering, 112, 307-319.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x1: numpy array </span>
+<span class="sd">        Component 1 data</span>
+<span class="sd">    x2: numpy array </span>
+<span class="sd">        Component 2 data        </span>
+<span class="sd">    bin_size : int</span>
+<span class="sd">        Number of data points in each bin </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    PCA: dict </span>
+<span class="sd">       Keys:</span>
+<span class="sd">       -----       </span>
+<span class="sd">       &#39;principal_axes&#39;: sign corrected PCA axes </span>
+<span class="sd">       &#39;shift&#39;         : The shift applied to x2 </span>
+<span class="sd">       &#39;x1_fit&#39;        : gaussian fit of x1 data</span>
+<span class="sd">       &#39;mu_param&#39;      : fit to _mu_fcn</span>
+<span class="sd">       &#39;sigma_param&#39;   : fit to _sig_fits            </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s1">&#39;x1 must be of type np.ndarray&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s1">&#39;x2 must be of type np.ndarray&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;bin_size must be of type int&#39;</span>
+    <span class="c1"># Step 0: Perform Standard PCA          </span>
+    <span class="n">mean_location</span><span class="o">=</span><span class="mi">0</span>    
+    <span class="n">x1_mean_centered</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x1</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">x2_mean_centered</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">n_samples_by_n_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x1_mean_centered</span><span class="p">,</span> 
+                                               <span class="n">x2_mean_centered</span><span class="p">))</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">skPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                                               
+    <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">n_samples_by_n_features</span><span class="p">)</span>
+    <span class="n">principal_axes</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span>
+
+    <span class="c1"># STEP 1: Transform data into new reference frame</span>
+    <span class="c1"># Apply correct/expected sign convention    </span>
+    <span class="n">principal_axes</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">principal_axes</span><span class="p">)</span>  
+    <span class="n">principal_axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">principal_axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  
+
+    <span class="c1"># Rotate data into Principal direction </span>
+    <span class="n">x1_and_x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">))</span>
+    <span class="n">x1_x2_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x1_and_x2</span><span class="p">,</span> <span class="n">principal_axes</span><span class="p">)</span>  
+    <span class="n">x1_components</span> <span class="o">=</span> <span class="n">x1_x2_components</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">x2_components</span> <span class="o">=</span> <span class="n">x1_x2_components</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Apply shift to Component 2 to make all values positive</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x2_components</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.1</span>
+    <span class="n">x2_components</span> <span class="o">=</span> <span class="n">x2_components</span> <span class="o">+</span> <span class="n">shift</span> 
+
+    <span class="c1"># STEP 2: Fit Component 1 data using a Gaussian Distribution</span>
+    <span class="n">x1_sorted_index</span> <span class="o">=</span> <span class="n">x1_components</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+    <span class="n">x1_sorted</span> <span class="o">=</span> <span class="n">x1_components</span><span class="p">[</span><span class="n">x1_sorted_index</span><span class="p">]</span>
+    <span class="n">x2_sorted</span> <span class="o">=</span> <span class="n">x2_components</span><span class="p">[</span><span class="n">x1_sorted_index</span><span class="p">]</span>
+    
+    <span class="n">x1_fit_results</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">invgauss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x1_sorted</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="n">mean_location</span><span class="p">)</span>
+    <span class="n">x1_fit</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;mu&#39;</span>    <span class="p">:</span> <span class="n">x1_fit_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="s1">&#39;loc&#39;</span>   <span class="p">:</span> <span class="n">x1_fit_results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="s1">&#39;scale&#39;</span> <span class="p">:</span> <span class="n">x1_fit_results</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+
+    <span class="c1"># Step 3: Bin Data &amp; find order 1 linear relation between x1 &amp; x2 means</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>  
+    <span class="n">minimum_4_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bin_size</span> <span class="o">&gt;</span> <span class="n">minimum_4_bins</span><span class="p">:</span>
+        <span class="n">bin_size</span> <span class="o">=</span> <span class="n">minimum_4_bins</span>
+        <span class="n">msg</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;To allow for a minimum of 4 bins the bin size has been&#39;</span> <span class="o">+</span>
+             <span class="sa">f</span><span class="s1">&#39;set to </span><span class="si">{</span><span class="n">minimum_4_bins</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">N_multiples</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">bin_size</span>
+    <span class="n">max_N_multiples_index</span>  <span class="o">=</span>  <span class="n">N_multiples</span><span class="o">*</span><span class="n">bin_size</span>
+    
+    <span class="n">x1_integer_multiples_of_bin_size</span> <span class="o">=</span> <span class="n">x1_sorted</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">max_N_multiples_index</span><span class="p">]</span>    
+    <span class="n">x2_integer_multiples_of_bin_size</span> <span class="o">=</span> <span class="n">x2_sorted</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">max_N_multiples_index</span><span class="p">]</span> 
+    
+    <span class="n">x1_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x1_integer_multiples_of_bin_size</span><span class="p">,</span> 
+                       <span class="n">N_multiples</span><span class="p">)</span>
+    <span class="n">x2_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x2_integer_multiples_of_bin_size</span><span class="p">,</span> 
+                       <span class="n">N_multiples</span><span class="p">)</span>
+    
+    <span class="n">x1_last_bin</span> <span class="o">=</span> <span class="n">x1_sorted</span><span class="p">[</span><span class="n">max_N_multiples_index</span><span class="p">:]</span>    
+    <span class="n">x2_last_bin</span> <span class="o">=</span> <span class="n">x2_sorted</span><span class="p">[</span><span class="n">max_N_multiples_index</span><span class="p">:]</span>    
+    
+    <span class="n">x1_bins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x1_last_bin</span><span class="p">)</span>
+    <span class="n">x2_bins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x2_last_bin</span><span class="p">)</span>
+    
+    <span class="n">x1_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span> 
+    <span class="n">x2_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span> 
+    <span class="n">x2_sigmas</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>     
+    
+    <span class="k">for</span> <span class="n">x1_bin</span><span class="p">,</span> <span class="n">x2_bin</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x1_bins</span><span class="p">,</span> <span class="n">x2_bins</span><span class="p">):</span>                    
+        <span class="n">x1_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x1_means</span><span class="p">,</span> <span class="n">x1_bin</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>                         
+        <span class="n">x2_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x2_means</span><span class="p">,</span> <span class="n">x2_bin</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>         
+        <span class="n">x2_sigmas</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x2_sigmas</span><span class="p">,</span> <span class="n">x2_bin</span><span class="o">.</span><span class="n">std</span><span class="p">())</span> 
+    
+    <span class="n">mu_fit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">x1_means</span><span class="p">,</span> <span class="n">x2_means</span><span class="p">)</span>    
+    
+    <span class="c1"># STEP 4: Find order 2 relation between x1_mean and x2 standard deviation</span>
+    <span class="n">sigma_polynomial_order</span><span class="o">=</span><span class="mi">2</span>
+    <span class="n">sig_0</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">sigma_polynomial_order</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_objective_function</span><span class="p">(</span><span class="n">sig_p</span><span class="p">,</span> <span class="n">x1_means</span><span class="p">,</span> <span class="n">x2_sigmas</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">sig_p</span><span class="p">,</span> <span class="n">x1_means</span><span class="p">),</span> <span class="n">x2_sigmas</span><span class="p">)</span>
+    
+    <span class="c1"># Constraint Functions</span>
+    <span class="n">y_intercept_gt_0</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">sig_p</span><span class="p">:</span> <span class="p">(</span><span class="n">sig_p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">sig_polynomial_min_gt_0</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">sig_p</span><span class="p">:</span> <span class="p">(</span><span class="n">sig_p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">sig_p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> \
+                                             <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">sig_p</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>    
+    <span class="n">constraints</span> <span class="o">=</span> <span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ineq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="n">y_intercept_gt_0</span><span class="p">},</span>
+                   <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ineq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="n">sig_polynomial_min_gt_0</span><span class="p">})</span>    
+    
+    <span class="n">sigma_fit</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">_objective_function</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">sig_0</span><span class="p">,</span> 
+                               <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x1_means</span><span class="p">,</span> <span class="n">x2_sigmas</span><span class="p">),</span>
+                               <span class="n">method</span><span class="o">=</span><span class="s1">&#39;SLSQP&#39;</span><span class="p">,</span><span class="n">constraints</span><span class="o">=</span><span class="n">constraints</span><span class="p">)</span>     
+
+    <span class="n">PCA</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;principal_axes&#39;</span><span class="p">:</span> <span class="n">principal_axes</span><span class="p">,</span> 
+           <span class="s1">&#39;shift&#39;</span>         <span class="p">:</span> <span class="n">shift</span><span class="p">,</span> 
+           <span class="s1">&#39;x1_fit&#39;</span>        <span class="p">:</span> <span class="n">x1_fit</span><span class="p">,</span> 
+           <span class="s1">&#39;mu_fit&#39;</span>        <span class="p">:</span> <span class="n">mu_fit</span><span class="p">,</span> 
+           <span class="s1">&#39;sigma_fit&#39;</span>     <span class="p">:</span> <span class="n">sigma_fit</span> <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">PCA</span>
 </pre></div>
 
            </div>

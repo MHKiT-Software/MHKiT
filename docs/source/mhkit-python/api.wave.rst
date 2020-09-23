@@ -7,16 +7,16 @@ calculate quantities of interest for wave energy converters (WEC).
 
 The wave module uses wave elevation time series data and spectra data.
 
-* **Wave elevation time series data** is stored as a pandas DataFrame indexed by time.  
-  Time can be specified in datetime or in seconds.  The column names 
-  describe the type of data in each column (for example, data from multiple sensors).
+* **Wave elevation time series data**   is stored as a pandas DataFrame 
+  indexed by time. Time can be specified in datetime or in seconds.  
+  The column names describe the type of data in each column (for 
+  example, data from multiple sensors).
 
-* **Spectra data** is stored as a pandas DataFrame index by frequency in Hz. The column names 
-  describe the type of data in each column (for example, Bretschneider and JONSWAP spectra).  
-  
-Note that spectra data is sometimes stored in time series format (data indexed by time, with one 
-column for each frequency).  To convert time series format to the spectra data format, 
-use the pandas method ``transpose``.
+* **Spectra data**    is stored as a pandas DataFrame and may be indexed 
+  by frequency in Hz or datetime. The resource and graphic modules  
+  expects spectra indexed by frequency. Timeseries spectra may be 
+  passed to these functions using after ausing the  pandas method 
+  ``transpose``.
 
 .. This doesn't generate anything
 .. automodule:: mhkit.wave
@@ -26,22 +26,28 @@ use the pandas method ``transpose``.
     
 IO
 """"""
-The io submodule contains the following function to load National Data Buoy Center (NDBC) 
-data file into a pandas DataFrame, including real time and historical data.
+The io submodule contains the following functions to request, load ,
+and manipulate  National Data Buoy Center (NDBC) data.
 
 .. autosummary:: 
    :nosignatures:
 
-   ~mhkit.wave.io.read_NDBC_file
+   ~mhkit.wave.io.ndbc.available_data
+   ~mhkit.wave.io.ndbc.request_data
+   ~mhkit.wave.io.ndbc.to_datetime_index
+   ~mhkit.wave.io.ndbc.dates_to_datetime
+   ~mhkit.wave.io.ndbc.read_file 
    
-.. automodule:: mhkit.wave.io
+   
+.. automodule:: mhkit.wave.io.ndbc
     :members:
     :undoc-members:
     :show-inheritance:
     
 Resource
 """"""""""""
-The resource submodule contains functions compute wave energy spectra and metrics.
+The resource submodule contains functions compute wave energy spectra 
+and metrics.
 
 The following functions can be used to compute wave energy spectra:
 
@@ -81,8 +87,8 @@ The following functions can be used to compute wave metrics from spectra:
 
 Performance
 """"""""""""
-The performance submodule contains functions to compute capture length, statistics, 
-performance matrices, and mean annual energy production.
+The performance submodule contains functions to compute capture length, 
+statistics, performance matrices, and mean annual energy production.
 
 .. autosummary::
    :nosignatures:
