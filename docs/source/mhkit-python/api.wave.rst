@@ -26,8 +26,8 @@ The wave module uses wave elevation time series data and spectra data.
     
 IO
 """"""
-The io submodule contains the following functions to request, load ,
-and manipulate  National Data Buoy Center (NDBC) data.
+The io submodule contains the following functions to request, load,
+and manipulate National Data Buoy Center (NDBC) data.
 
 .. autosummary:: 
    :nosignatures:
@@ -37,6 +37,7 @@ and manipulate  National Data Buoy Center (NDBC) data.
    ~mhkit.wave.io.ndbc.to_datetime_index
    ~mhkit.wave.io.ndbc.dates_to_datetime
    ~mhkit.wave.io.ndbc.read_file 
+   ~mhkit.wave.io.ndbc.parameter_units 
    
    
 .. automodule:: mhkit.wave.io.ndbc
@@ -77,6 +78,7 @@ The following functions can be used to compute wave metrics from spectra:
    ~mhkit.wave.resource.energy_flux
    ~mhkit.wave.resource.wave_celerity
    ~mhkit.wave.resource.wave_number
+   ~mhkit.wave.resource.environmental_contour
  
 .. TODO Add Binned matrix:  bins data, import from river.device
  

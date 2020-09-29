@@ -236,8 +236,8 @@ passed to these functions using after ausing the  pandas method
 </ul>
 <span class="target" id="module-mhkit.wave"></span><div class="section" id="io">
 <h2>IO<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h2>
-<p>The io submodule contains the following functions to request, load ,
-and manipulate  National Data Buoy Center (NDBC) data.</p>
+<p>The io submodule contains the following functions to request, load,
+and manipulate National Data Buoy Center (NDBC) data.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -258,6 +258,9 @@ and manipulate  National Data Buoy Center (NDBC) data.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.read_file" title="mhkit.wave.io.ndbc.read_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_file</span></code></a></p></td>
 <td><p>Reads a NDBC wave buoy data file (from <a class="reference external" href="https://www.ndbc.noaa.gov">https://www.ndbc.noaa.gov</a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.parameter_units" title="mhkit.wave.io.ndbc.parameter_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameter_units</span></code></a></p></td>
+<td><p>Returns an ordered dictionary of NDBC parameters with unit values.</p></td>
 </tr>
 </tbody>
 </table>
@@ -349,12 +352,10 @@ columns.</p>
 <li><p><strong>parameter</strong> (<em>string</em>) – ‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’
 ‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’</p></li>
 <li><p><strong>ndbc_data</strong> (<em>DataFrame</em>) – NDBC data in dataframe with date and time columns to be converted</p></li>
-<li><p><strong>Returns</strong> – <dl class="simple">
-<dt>df_datetime: DataFrame</dt><dd><p>Dataframe with NDBC date columns removed, and datetime index</p>
-</dd>
-</dl>
-</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df_datetime</strong> (<em>DataFrame</em>) – Dataframe with NDBC date columns removed, and datetime index</p>
 </dd>
 </dl>
 </dd></dl>
@@ -400,23 +401,22 @@ Note that many NDBC paramters report multiple measurements and in
 that case the returned dictionary will contain the NDBC measurement
 name and associated unit for all the measurements associated with
 the specified parameter. Optional parameter values are given below.
-All units are based on  <a class="reference external" href="https://www.ndbc.noaa.gov/measdes.shtml">https://www.ndbc.noaa.gov/measdes.shtml</a>.</p>
+All units are based on <a class="reference external" href="https://www.ndbc.noaa.gov/measdes.shtml">https://www.ndbc.noaa.gov/measdes.shtml</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parameter</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – <p>‘adcp’:     ‘Acoustic Doppler Current Profiler Current Year Historical Data’</p>
-<p>’cwind’:    ‘Continuous Winds Current Year Historical Data’</p>
-<p>’dart’:     ‘Water Column Height (DART) Current Year Historical Data’</p>
-<p>’derived2’: ‘Derived Met Values’</p>
-<p>’ocean’ :   ‘Oceanographic Current Year Historical Data’</p>
-<p>’rain’  :       ‘Hourly Rain Current Year Historical Data’</p>
-<p>’rain10’:       ‘10-Minute Rain Current Year Historical Data’</p>
-<p>’rain24’:       ‘24-Hour Rain Current Year Historical Data’</p>
-<p>’realtime2’:’Detailed Wave Summary (Realtime “.spec” data files only)’</p>
-<p>’srad’:     ‘Solar Radiation Current Year Historical Data’</p>
-<p>’stdmet’:   ‘’Standard Meteorological Current Year Historical Data’</p>
-<p>’supl’:     ‘Supplemental Measurements Current Year Historical Data’</p>
-<p>’swden’ :       ‘Raw Spectral Wave Current Year Historical Data’</p>
-</p>
+<dd class="field-odd"><p><strong>parameter</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – ‘adcp’:     ‘Acoustic Doppler Current Profiler Current Year Historical Data’
+‘cwind’:    ‘Continuous Winds Current Year Historical Data’
+‘dart’:     ‘Water Column Height (DART) Current Year Historical Data’
+‘derived2’: ‘Derived Met Values’
+‘ocean’ :   ‘Oceanographic Current Year Historical Data’
+‘rain’  :       ‘Hourly Rain Current Year Historical Data’
+‘rain10’:       ‘10-Minute Rain Current Year Historical Data’
+‘rain24’:       ‘24-Hour Rain Current Year Historical Data’
+‘realtime2’: ‘Detailed Wave Summary (Realtime <cite>.spec</cite> data files only)’
+‘srad’:     ‘Solar Radiation Current Year Historical Data’
+‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’
+‘supl’:     ‘Supplemental Measurements Current Year Historical Data’
+‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>units</strong> (<em>dict</em>) – Dictionary of parameter units</p>
@@ -495,6 +495,9 @@ and metrics.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.resource.wave_number" title="mhkit.wave.resource.wave_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave_number</span></code></a></p></td>
 <td><p>Calculates wave number</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.resource.environmental_contour" title="mhkit.wave.resource.environmental_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">environmental_contour</span></code></a></p></td>
+<td><p>Calculates environmental contours of extreme sea states using the improved joint probability distributions with the inverse first-order reliability method (I-FORM) probability for the desired return period (<cite>period</cite>).</p></td>
 </tr>
 </tbody>
 </table>
@@ -855,11 +858,15 @@ I-FORM calculation. Default nb_steps=1000.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
+<dd class="field-even"><p><ul>
 <li><p><strong>x1_contour</strong> (<em>numpy array</em>) – Calculated x1 values along the contour boundary following
 return to original input orientation.</p></li>
-<li><p><strong>x2_contour</strong> (<em>numpy array</em>) – Calculated x2 values along the contour boundary following
-return to original input orientation.</p></li>
+<li><p><strong>x2_contour</strong> (<em>numpy array</em>) –</p>
+<dl class="simple">
+<dt>Calculated x2 values along the contour boundary following</dt><dd><p>return to original input orientation.</p>
+</dd>
+</dl>
+</li>
 <li><p><strong>PCA</strong> (<em>dict (optional)</em>) –      principal component analysis dictionary
 Keys:
 —–
