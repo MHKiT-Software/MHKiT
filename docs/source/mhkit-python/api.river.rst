@@ -53,24 +53,27 @@ or velocity and power at an individual turbine.
     :undoc-members:
     :show-inheritance:
 
-Device
+Performance
 """"""""""""
-The device submodule contains functions to compute equivalent diameter 
-and capture area for circular, ducted, rectangular, adn multiple circular devices. 
+The Permormance submodule contains functions to compute equivalent diameter 
+and capture area for circular, ducted, rectangular, and multiple circular devices. 
 A circular device is a vertical axis water turbine (VAWT). A 
 rectangular device is a horizontal axis water turbine. A ducted device
 is an enclosed VAWT. A multiple-circular devices is a device with
-multiple VAWTs per device.
+multiple VAWTs per device. This submodule also contains functions for computing the tip speed ratio 
+and power coefficient from a blade/rotor type device. 
 
 .. autosummary::
    :nosignatures:
 
-   ~mhkit.river.device.circular
-   ~mhkit.river.device.ducted
-   ~mhkit.river.device.rectangular
-   ~mhkit.river.device.multiple_circular
+   ~mhkit.river.performance.circular
+   ~mhkit.river.performance.ducted
+   ~mhkit.river.performance.rectangular
+   ~mhkit.river.performance.multiple_circular
+   ~mhkit.river.performance.tip_speed_ratio
+   ~mhkit.river.performance.power_coefficient
    
-.. automodule:: mhkit.river.device
+.. automodule:: mhkit.river.performance
     :members:
     :undoc-members:
     :show-inheritance:
