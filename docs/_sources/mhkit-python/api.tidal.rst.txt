@@ -50,24 +50,27 @@ of the tidal resource given a timeseries of directional data. The
     :undoc-members:
     :show-inheritance:
 
-Device
+Performance
 """"""""""""
-The device submodule contains functions to compute equivalent diameter
+The performance submodule contains functions to compute equivalent diameter
 and capture area for circular, ducted, rectangular, adn multiple circular devices.
 A circular device is a vertical axis water turbine (VAWT). A
 rectangular device is a horizontal axis water turbine (HAWT). A ducted device
 is an enclosed VAWT. A multiple-circular devices is a device with
-multiple VAWTs per device.
+multiple VAWTs per device.The performance module also includes functions 
+for calculating a turbine coeffcient of power and tip speed ratio.
 
 .. autosummary::
    :nosignatures:
 
-   ~mhkit.tidal.device.circular
-   ~mhkit.tidal.device.ducted
-   ~mhkit.tidal.device.rectangular
-   ~mhkit.tidal.device.multiple_circular
+   ~mhkit.tidal.performance.power_coefficient
+   ~mhkit.tidal.performance.tip_speed_ratio
+   ~mhkit.tidal.performance.circular
+   ~mhkit.tidal.performance.ducted
+   ~mhkit.tidal.performance.rectangular
+   ~mhkit.tidal.performance.multiple_circular
    
-.. automodule:: mhkit.tidal.device
+.. automodule:: mhkit.tidal.performance
     :members:
     :undoc-members:
     :show-inheritance:
