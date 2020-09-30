@@ -9,7 +9,11 @@ The river module contains the following submodules:
 * ``io``: Loads discharge data from standard formats.
 * ``resource``: Computes resource assessment metrics, including exceedance probability, inflow velocity, and power (theoretical resource).
   Calculations are based on `IEC TS 62600-301:2019 ED1 <https://webstore.iec.ch/publication/28780>`_.
+<<<<<<< HEAD
 * ``performance``: Computes device metrics such as equivalent diameter and capture area.
+=======
+* ``performance``: Computes device metrics such as equivalent diameter, tip speed ratio, and capture area.
+>>>>>>> 566f406d65288623152bccfbbfe67e51b5f00345
   Calculations are based on `IEC TS 62600-300:2019 ED1 <https://webstore.iec.ch/publication/29478>`_.
 * ``graphics``: Generates graphics, including flow duration curves and velocity duration curves.
 

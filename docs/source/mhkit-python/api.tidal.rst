@@ -57,18 +57,31 @@ and capture area for circular, ducted, rectangular, adn multiple circular device
 A circular device is a vertical axis water turbine (VAWT). A
 rectangular device is a horizontal axis water turbine (HAWT). A ducted device
 is an enclosed VAWT. A multiple-circular devices is a device with
+<<<<<<< HEAD
 multiple VAWTs per device.The performance module also includes functions 
 for calculating a turbine coeffcient of power and tip speed ratio.
+=======
+multiple VAWTs per device. This submodule also contains functions for computing the tip speed ratio 
+and power coefficient from a blade/rotor type device.
+>>>>>>> 566f406d65288623152bccfbbfe67e51b5f00345
 
 .. autosummary::
    :nosignatures:
 
+<<<<<<< HEAD
    ~mhkit.tidal.performance.power_coefficient
    ~mhkit.tidal.performance.tip_speed_ratio
+=======
+>>>>>>> 566f406d65288623152bccfbbfe67e51b5f00345
    ~mhkit.tidal.performance.circular
    ~mhkit.tidal.performance.ducted
    ~mhkit.tidal.performance.rectangular
    ~mhkit.tidal.performance.multiple_circular
+<<<<<<< HEAD
+=======
+   ~mhkit.tidal.performance.tip_speed_ratio
+   ~mhkit.tidal.performance.power_coefficient
+>>>>>>> 566f406d65288623152bccfbbfe67e51b5f00345
    
 .. automodule:: mhkit.tidal.performance
     :members:
