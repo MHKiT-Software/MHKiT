@@ -46,8 +46,6 @@ or velocity and power at an individual turbine.
    ~mhkit.river.resource.discharge_to_velocity
    ~mhkit.river.resource.velocity_to_power
  
-.. TODO Add Annual energy produced (AEP)
-
 .. automodule:: mhkit.river.resource
     :members:
     :undoc-members:
@@ -55,7 +53,6 @@ or velocity and power at an individual turbine.
 
 Performance
 """"""""""""
-<<<<<<< HEAD
 The performance submodule contains functions to compute equivalent diameter 
 and capture area for circular, ducted, rectangular, adn multiple circular devices. 
 A circular device is a vertical axis water turbine (VAWT). A 

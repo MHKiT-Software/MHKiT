@@ -37,6 +37,7 @@ Jupyter notebook examples of MHKiT-Python are included below:
    power_example.ipynb
    loads_example.ipynb
    environmental_contours.ipynb
+   wecsim_example.ipynb
    
 
 Online Forum
