@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>MHKiT River Module &mdash; MHKiT v0.2.0 documentation</title>
+  <title>MHKiT River Module &mdash; MHKiT v0.3.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v0.2.0
+                v0.3.0
               </div>
             
           
@@ -116,6 +116,8 @@
 <li class="toctree-l3"><a class="reference internal" href="tidal_example.html">MHKiT Tidal Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="power_example.html">MHKiT Power Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="loads_example.html">MHKiT Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environmental_contours.html">MHKiT Environmental Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_example.html">MHKiT WEC-Sim Example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="python.html#online-forum">Online Forum</a></li>
@@ -454,7 +456,7 @@ div.rendered_html tbody tr:hover {
 <p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.river.html">MHKIT river module</a> by stepping through the calculation of annual energy produced for one turbine in the Tanana River near Nenana, Alaska. The data file used in this example is retrieved from the USGS website, a local version of the data is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\MHKiT\examples\data</a> directory.</p>
 <p>Start by importing the necessary python packages and MHKiT module.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -470,7 +472,7 @@ div.rendered_html tbody tr:hover {
 <p>The IEC standard recommends 10 years of daily discharge data for calculations of annual energy produced (AEP). The timeframe shows that at least 10 years of data is available. Clicking on the “Daily Data” will bring up a page that would allow the user to request data from the site. Each of the “Available Parameters” has a 5 digit code in front of it which will depend on the data type and reported units. The user at this point could use the website to download the data, however, the
 <code class="docutils literal notranslate"><span class="pre">request_usgs_data</span></code> function is used here.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -510,7 +512,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">request_usgs_data</span></code> function returned a pandas DataFrame indexed by time. For this example, the column name “Discharge, cubic feet per second” is long and therefore is renamed to “Q”. Furthermore, MHKiT expects all units to be in SI so the discharge values is converted to <img class="math" src="_images/math/c2e557c37814c2f967a4d7103cc65ae4aaa4a0e4.png" alt="m^3/s"/>. Finally, we can plot the discharge time series.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -541,7 +543,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <p>The flow duration curve (FDC) is a plot of discharge versus exceedance probability which quantifies the percentage of time that the discharge in a river exceeds a particular magnitude. The curve is typically compiled on a monthly or annual basis.</p>
 <p>The exceedance probability for the highest discharge is close to 0% since that value is rarely exceeded. Conversely, the lowest discharge is found closer to 100% as they are most often exceeded.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -566,12 +568,12 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <p>At each river energy converter location we must provide a curve that relates the velocity at the turbine location to the river discharge levels. IEC 301 recommends using at least 15 different discharges and that only velocities within the turbine operating conditions need to be included.</p>
 <p>Here we only provide 6 different discharge to velocities relationships created using a hydrological model. The data is loaded into a pandas DataFrame using the pandas method <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Load discharge to velocity curve at turbine location</span>
-<span class="n">DV_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/tanana_DV_curve.csv&#39;</span><span class="p">)</span>
+<span class="n">DV_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/river/tanana_DV_curve.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># Create a polynomial fit of order 2 from the discharge to velocity curve.</span>
 <span class="c1"># Return the polynomial fit and and R squared value</span>
@@ -603,7 +605,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <p>The IEC standard recommends a polynomial fit of order 3. By changing the order above and replotting the polynomial fit to the curve data it can be seen this is not a good fit for the provided data. Therefore the order was set to 2.</p>
 <p>Next, we calculate velocity for each discharge using the polynomial and plot the VDC.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -627,12 +629,12 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <h2>Power Duration Curve<a class="headerlink" href="#Power-Duration-Curve" title="Permalink to this headline">¶</a></h2>
 <p>The power duration curve is created in a nearly identical manner to the VDC. Here, a velocity to power curve is used to create a polynomial fit. The polynomial fit is used to calculate the power produced between the turbine cut-in and cut-out velocities. The velocity to power curve data is loaded into a pandas DataFrame using the pandas method <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Calculate the power produced from turbine velocity to power curve</span>
-<span class="n">VP_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/tanana_VP_curve.csv&#39;</span><span class="p">)</span>
+<span class="n">VP_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/river/tanana_VP_curve.csv&#39;</span><span class="p">)</span>
 
 <span class="c1"># Calculate the polynomial fit for the VP curve</span>
 <span class="n">p2</span><span class="p">,</span> <span class="n">r_squared_2</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">VP_curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -650,7 +652,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.9994550455214498
+0.9994550455214494
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -662,7 +664,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 </div>
 <p>The second-order polynomial fits the data well. Therefore, the polynomial is used to calculate the power using the min and max of the curves velocities as the turbine operational limits.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -689,7 +691,7 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <p>Finally, annual energy produced is computed, as shown below.</p>
 <p>Note: The function <code class="docutils literal notranslate"><span class="pre">energy_produced</span></code> returns units of Joules(3600 Joules = 1 Wh).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>

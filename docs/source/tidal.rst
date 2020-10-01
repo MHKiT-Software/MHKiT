@@ -9,7 +9,7 @@ The tidal module contains the following submodules:
 * ``io``: Loads tidal velocity and direction data from National Oceanic and Atmospheric Administration (NOAA) currents.
 * ``resource``: Computes resource assessment metrics, including exceedance probability, principal directions of flow, and directions of ebb and flood flows.
   Calculations are based on `IEC TS 62600-201:2015 ED1 <https://webstore.iec.ch/publication/22099>`_.
-* ``device``: Computes device metrics such as equivalent diameter and capture area.
+* ``performance``: Computes device metrics such as equivalent diameter, tip speed ratio, and capture area.
   Calculations are based on `IEC TS 62600-200:2013 ED1 <https://webstore.iec.ch/publication/7242>`_.
 * ``graphics``: Generates graphics, including rose plots and joint probability distributions.
 

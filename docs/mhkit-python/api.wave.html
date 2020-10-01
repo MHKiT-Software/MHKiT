@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Wave Module &mdash; MHKiT v0.2.0 documentation</title>
+  <title>Wave Module &mdash; MHKiT v0.3.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v0.2.0
+                v0.3.0
               </div>
             
           
@@ -224,33 +224,49 @@
 calculate quantities of interest for wave energy converters (WEC).</p>
 <p>The wave module uses wave elevation time series data and spectra data.</p>
 <ul class="simple">
-<li><p><strong>Wave elevation time series data</strong> is stored as a pandas DataFrame indexed by time.
-Time can be specified in datetime or in seconds.  The column names
-describe the type of data in each column (for example, data from multiple sensors).</p></li>
-<li><p><strong>Spectra data</strong> is stored as a pandas DataFrame index by frequency in Hz. The column names
-describe the type of data in each column (for example, Bretschneider and JONSWAP spectra).</p></li>
+<li><p><strong>Wave elevation time series data</strong>   is stored as a pandas DataFrame
+indexed by time. Time can be specified in datetime or in seconds.
+The column names describe the type of data in each column (for
+example, data from multiple sensors).</p></li>
+<li><p><strong>Spectra data</strong>    is stored as a pandas DataFrame and may be indexed
+by frequency in Hz or datetime. The resource and graphic modules
+expects spectra indexed by frequency. Timeseries spectra may be
+passed to these functions using after ausing the  pandas method
+<code class="docutils literal notranslate"><span class="pre">transpose</span></code>.</p></li>
 </ul>
-<p>Note that spectra data is sometimes stored in time series format (data indexed by time, with one
-column for each frequency).  To convert time series format to the spectra data format,
-use the pandas method <code class="docutils literal notranslate"><span class="pre">transpose</span></code>.</p>
 <span class="target" id="module-mhkit.wave"></span><div class="section" id="io">
 <h2>IO<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h2>
-<p>The io submodule contains the following function to load National Data Buoy Center (NDBC)
-data file into a pandas DataFrame, including real time and historical data.</p>
+<p>The io submodule contains the following functions to request, load,
+and manipulate National Data Buoy Center (NDBC) data.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.read_NDBC_file" title="mhkit.wave.io.read_NDBC_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_NDBC_file</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.available_data" title="mhkit.wave.io.ndbc.available_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">available_data</span></code></a></p></td>
+<td><p>For a given parameter this will return a DataFrame of years, station IDs and file names that contain that parameter data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.request_data" title="mhkit.wave.io.ndbc.request_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_data</span></code></a></p></td>
+<td><p>Requests data by filenames and returns a dictionary of DataFrames for each filename passed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.to_datetime_index" title="mhkit.wave.io.ndbc.to_datetime_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_datetime_index</span></code></a></p></td>
+<td><p>Converts the NDBC date and time information reported in separate columns into a DateTime index and removed the NDBC date &amp; time columns.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.dates_to_datetime" title="mhkit.wave.io.ndbc.dates_to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dates_to_datetime</span></code></a></p></td>
+<td><p>Takes a DataFrame and converts the NDBC date columns</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.read_file" title="mhkit.wave.io.ndbc.read_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_file</span></code></a></p></td>
 <td><p>Reads a NDBC wave buoy data file (from <a class="reference external" href="https://www.ndbc.noaa.gov">https://www.ndbc.noaa.gov</a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.ndbc.parameter_units" title="mhkit.wave.io.ndbc.parameter_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameter_units</span></code></a></p></td>
+<td><p>Returns an ordered dictionary of NDBC parameters with unit values.</p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.wave.io"></span><dl class="py function">
-<dt id="mhkit.wave.io.read_NDBC_file">
-<code class="sig-prename descclassname">mhkit.wave.io.</code><code class="sig-name descname">read_NDBC_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">missing_values</span><span class="o">=</span><span class="default_value">['MM', 9999, 999, 99]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io.html#read_NDBC_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.read_NDBC_file" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-mhkit.wave.io.ndbc"></span><dl class="py function">
+<dt id="mhkit.wave.io.ndbc.read_file">
+<code class="sig-prename descclassname">mhkit.wave.io.ndbc.</code><code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em>, <em class="sig-param"><span class="n">missing_values</span><span class="o">=</span><span class="default_value">['MM', 9999, 999, 99]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/ndbc.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.ndbc.read_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads a NDBC wave buoy data file (from <a class="reference external" href="https://www.ndbc.noaa.gov">https://www.ndbc.noaa.gov</a>).</p>
 <p>Realtime and historical data files can be loaded with this function.</p>
 <p>Note: With realtime data, missing data is denoted by “MM”.  With historical
@@ -278,10 +294,141 @@ contains unit information, otherwise None is returned</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="mhkit.wave.io.ndbc.available_data">
+<code class="sig-prename descclassname">mhkit.wave.io.ndbc.</code><code class="sig-name descname">available_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">buoy_number</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">proxy</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/ndbc.html#available_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.ndbc.available_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>For a given parameter this will return a DataFrame of years,
+station IDs and file names that contain that parameter data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> (<em>string</em>) – ‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’
+‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’</p></li>
+<li><p><strong>buoy_number</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Buoy Number.  5-character alpha-numeric station identifier</p></li>
+<li><p><strong>proxy</strong> (<em>dict</em>) – Proxy dict passed to python requests,
+(e.g. proxy_dict= {“http”: ‘<a class="reference external" href="http:wwwproxy.yourProxy:80/">http:wwwproxy.yourProxy:80/</a>’})</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>available_data</strong> (<em>DataFrame</em>) – DataFrame with station ID, years, and NDBC file names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.ndbc.request_data">
+<code class="sig-prename descclassname">mhkit.wave.io.ndbc.</code><code class="sig-name descname">request_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">filenames</span></em>, <em class="sig-param"><span class="n">proxy</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/ndbc.html#request_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.ndbc.request_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests data by filenames and returns a dictionary of DataFrames
+for each filename passed. If filenames for a sigle buoy are passed
+then the yearly DataFrames in the returned dictionary (ndbc_data) are
+indexed by year (e.g. ndbc_data[‘2014’]). If multiple buoy ids are
+passed then the returned dictionary is indexed by buoy id and year
+(e.g. ndbc_data[‘46022’][‘2014’]).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> (<em>string</em>) – ‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’
+‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’</p></li>
+<li><p><strong>filenames</strong> (<em>pandas Series</em><em> or </em><em>DataFrame</em>) – Data filenames on <a class="reference external" href="https://www.ndbc.noaa.gov/data/historical">https://www.ndbc.noaa.gov/data/historical</a>/{parameter}/</p></li>
+<li><p><strong>proxy</strong> (<em>dict</em>) – Proxy dict passed to python requests,
+(e.g. proxy_dict= {“http”: ‘<a class="reference external" href="http:wwwproxy.yourProxy:80/">http:wwwproxy.yourProxy:80/</a>’})</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ndbc_data</strong> (<em>dict</em>) – Dictionary of DataFrames indexed by buoy and year.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.ndbc.to_datetime_index">
+<code class="sig-prename descclassname">mhkit.wave.io.ndbc.</code><code class="sig-name descname">to_datetime_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">ndbc_data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/ndbc.html#to_datetime_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.ndbc.to_datetime_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the NDBC date and time information reported in separate
+columns into a DateTime index and removed the NDBC date &amp; time
+columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> (<em>string</em>) – ‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’
+‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’</p></li>
+<li><p><strong>ndbc_data</strong> (<em>DataFrame</em>) – NDBC data in dataframe with date and time columns to be converted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df_datetime</strong> (<em>DataFrame</em>) – Dataframe with NDBC date columns removed, and datetime index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.ndbc.dates_to_datetime">
+<code class="sig-prename descclassname">mhkit.wave.io.ndbc.</code><code class="sig-name descname">dates_to_datetime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">return_date_cols</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">return_as_dataframe</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/ndbc.html#dates_to_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.ndbc.dates_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Takes a DataFrame and converts the NDBC date columns</dt><dd><p>(e.g. “#YY  MM DD hh mm”) to datetime. Returns a DataFrame with the
+removed NDBC date columns a new [‘date’] columns with DateTime Format.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> (<em>string</em>) – ‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’
+‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’</p></li>
+<li><p><strong>data</strong> (<em>DataFrame</em>) – Dataframe with headers (e.g. [‘YY’, ‘MM’, ‘DD’, ‘hh’, {‘mm’}])</p></li>
+<li><p><strong>return_date_col</strong> (<em>Bool</em><em> (</em><em>optional</em><em>)</em>) – Default False. When true will return list of NDBC date columns</p></li>
+<li><p><strong>return_as_dataFrame</strong> (<em>bool</em>) – Results returned as a DataFrame (useful for MHKiT-MATLAB)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>date</strong> (<em>Series</em>) – Series with NDBC dates dropped and new [‘date’]
+column in DateTime format</p></li>
+<li><p><strong>ndbc_date_cols</strong> (<em>list (optional)</em>) – List of the DataFrame columns headers for dates as provided by
+NDBC</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.ndbc.parameter_units">
+<code class="sig-prename descclassname">mhkit.wave.io.ndbc.</code><code class="sig-name descname">parameter_units</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/ndbc.html#parameter_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.ndbc.parameter_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an ordered dictionary of NDBC parameters with unit values.
+If no parameter is passed then an ordered dictionary of all NDBC
+parameterz specified unites is returned. If a parameter is specified
+then only the units associated with that parameter are returned.
+Note that many NDBC paramters report multiple measurements and in
+that case the returned dictionary will contain the NDBC measurement
+name and associated unit for all the measurements associated with
+the specified parameter. Optional parameter values are given below.
+All units are based on <a class="reference external" href="https://www.ndbc.noaa.gov/measdes.shtml">https://www.ndbc.noaa.gov/measdes.shtml</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameter</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – ‘adcp’:     ‘Acoustic Doppler Current Profiler Current Year Historical Data’
+‘cwind’:    ‘Continuous Winds Current Year Historical Data’
+‘dart’:     ‘Water Column Height (DART) Current Year Historical Data’
+‘derived2’: ‘Derived Met Values’
+‘ocean’ :   ‘Oceanographic Current Year Historical Data’
+‘rain’  :       ‘Hourly Rain Current Year Historical Data’
+‘rain10’:       ‘10-Minute Rain Current Year Historical Data’
+‘rain24’:       ‘24-Hour Rain Current Year Historical Data’
+‘realtime2’: ‘Detailed Wave Summary (Realtime <cite>.spec</cite> data files only)’
+‘srad’:     ‘Solar Radiation Current Year Historical Data’
+‘stdmet’:   ‘Standard Meteorological Current Year Historical Data’
+‘supl’:     ‘Supplemental Measurements Current Year Historical Data’
+‘swden’ :       ‘Raw Spectral Wave Current Year Historical Data’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>units</strong> (<em>dict</em>) – Dictionary of parameter units</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="resource">
 <h2>Resource<a class="headerlink" href="#resource" title="Permalink to this headline">¶</a></h2>
-<p>The resource submodule contains functions compute wave energy spectra and metrics.</p>
+<p>The resource submodule contains functions compute wave energy spectra
+and metrics.</p>
 <p>The following functions can be used to compute wave energy spectra:</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -329,7 +476,7 @@ contains unit information, otherwise None is returned</p></li>
 <td><p>Calculates mean wave period from spectra</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.resource.peak_period" title="mhkit.wave.resource.peak_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peak_period</span></code></a></p></td>
-<td><p>Calculates wave energy period from spectra</p></td>
+<td><p>Calculates wave peak period from spectra</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.resource.energy_period" title="mhkit.wave.resource.energy_period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_period</span></code></a></p></td>
 <td><p>Calculates wave energy period from spectra</p></td>
@@ -348,6 +495,9 @@ contains unit information, otherwise None is returned</p></li>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.resource.wave_number" title="mhkit.wave.resource.wave_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave_number</span></code></a></p></td>
 <td><p>Calculates wave number</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.resource.environmental_contour" title="mhkit.wave.resource.environmental_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">environmental_contour</span></code></a></p></td>
+<td><p>Calculates environmental contours of extreme sea states using the improved joint probability distributions with the inverse first-order reliability method (I-FORM) probability for the desired return period (<cite>period</cite>).</p></td>
 </tr>
 </tbody>
 </table>
@@ -540,7 +690,7 @@ for example, phases = np.random.rand(len(S)) * 2 * np.pi</p></li>
 <dl class="py function">
 <dt id="mhkit.wave.resource.peak_period">
 <code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">peak_period</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#peak_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.peak_period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates wave energy period from spectra</p>
+<dd><p>Calculates wave peak period from spectra</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p>
@@ -660,11 +810,78 @@ using this function (f = w/2*pi)</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="mhkit.wave.resource.environmental_contour">
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">environmental_contour</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x1</span></em>, <em class="sig-param"><span class="n">x2</span></em>, <em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">period</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#environmental_contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.environmental_contour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates environmental contours of extreme sea
+states using the improved joint probability distributions
+with the inverse first-order reliability method (I-FORM)
+probability for the desired return period (<cite>period</cite>). Given the
+period of interest, a circle of iso-probability is created
+in the principal component analysis (PCA) joint probability
+(<cite>x1</cite>, <cite>x2</cite>) reference frame.
+Using the joint probability value, the cumulative distribution
+function (CDF) of the marginal distribution is used to find
+the quantile of each component.
+Finally, using the improved PCA methodology,
+the component 2 contour lines are calculated from component 1 using
+the relationships defined in Exkert-Gallup et. al. 2016.</p>
+<p>Eckert-Gallup, A. C., Sallaberry, C. J., Dallman, A. R., &amp;
+Neary, V. S. (2016). Application of principal component
+analysis (PCA) and improved joint probability distributions to
+the inverse first-order reliability method (I-FORM) for predicting
+extreme sea states. Ocean Engineering, 112, 307-319.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>numpy array</em>) – Component 1 data</p></li>
+<li><p><strong>x2</strong> (<em>numpy array</em>) – Component 2 data</p></li>
+<li><p><strong>dt</strong> (<em>int</em><em> or </em><em>float</em>) – <cite>x1</cite> and <cite>x2</cite> sample rate (seconds)</p></li>
+<li><p><strong>period</strong> (<em>int</em><em>, </em><em>float</em><em>, or </em><em>numpy array</em>) – Desired return period (years) for calculation of environmental
+contour, can be a scalar or a vector.</p></li>
+<li><p><strong>**kwargs</strong> (<em>optional</em>) – <dl class="simple">
+<dt>PCA: dict</dt><dd><p>If provided, the principal component analysis (PCA) on x1, x2
+is skipped. The PCA will be the same for a given x1, x2
+therefore this step may be skipped if multiple calls to
+environmental contours are made for the same x1, x2 pair.
+The PCA dict may be obtained by setting return_PCA=True.</p>
+</dd>
+<dt>bin_size<span class="classifier">int</span></dt><dd><p>Data points in each bin for the PCA. Default bin_size=250.</p>
+</dd>
+<dt>nb_steps<span class="classifier">int</span></dt><dd><p>Discretization of the circle in the normal space used for
+I-FORM calculation. Default nb_steps=1000.</p>
+</dd>
+<dt>return_PCA: boolean</dt><dd><p>Default False, if True will retun the PCA dictionary</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>x1_contour</strong> (<em>numpy array</em>) – Calculated x1 values along the contour boundary following
+return to original input orientation.</p></li>
+<li><p><strong>x2_contour</strong> (<em>numpy array</em>) – Calculated x2 values along the contour boundary following
+return to original input orientation.</p></li>
+<li><p><strong>PCA</strong> (<em>dict (optional)</em>) –     principal component analysis dictionary
+Keys:
+—–
+‘principal_axes’: sign corrected PCA axes
+‘shift’         : The shift applied to x2
+‘x1_fit’        : gaussian fit of x1 data
+‘mu_param’      : fit to _mu_fcn
+‘sigma_param’   : fit to _sig_fits</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="performance">
 <h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
-<p>The performance submodule contains functions to compute capture length, statistics,
-performance matrices, and mean annual energy production.</p>
+<p>The performance submodule contains functions to compute capture length,
+statistics, performance matrices, and mean annual energy production.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -902,6 +1119,90 @@ mhkit.device.wave, or something similar.</p></li>
 <li><p><strong>zlabel</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Colorbar label</p></li>
 <li><p><strong>show_values</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Show values on the scatter diagram</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.graphics.plot_chakrabarti">
+<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_chakrabarti</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em>, <em class="sig-param"><span class="n">lambda_w</span></em>, <em class="sig-param"><span class="n">D</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_chakrabarti"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_chakrabarti" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots, in the style of Chakrabart (2005), relative importance of viscous,
+inertia, and diffraction phemonena</p>
+<p>Chakrabarti, Subrata. Handbook of Offshore Engineering (2-volume set).
+Elsevier, 2005.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave height [m]</p></li>
+<li><p><strong>lambda_w</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave length [m]</p></li>
+<li><p><strong>D</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Characteristic length [m]</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em><em> (</em><em>optional</em><em>)</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><strong>Using floats</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lambda_w</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_chakrabarti</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">lambda_w</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Using numpy array</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lambda_w</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_chakrabarti</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">lambda_w</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Using pandas DataFrame</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lambda_w</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">H</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">lambda_w</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">D</span><span class="o">.</span><span class="n">flatten</span><span class="p">()],</span>                               <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">,</span><span class="s1">&#39;lambda_w&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_chakrabarti</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">lambda_w</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.graphics.plot_environmental_contour">
+<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_environmental_contour</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x1</span></em>, <em class="sig-param"><span class="n">x2</span></em>, <em class="sig-param"><span class="n">x1_contour</span></em>, <em class="sig-param"><span class="n">x2_contour</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_environmental_contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_environmental_contour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots an overlay of the x1 and x2 variables to the calculate
+environmental contours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>numpy array</em>) – x-axis data</p></li>
+<li><p><strong>x2</strong> (<em>numpy array</em>) – x-axis data</p></li>
+<li><p><strong>x1_contour</strong> (<em>numpy array</em>) – Calculated x1 contour values</p></li>
+<li><p><strong>x2_contour</strong> (<em>numpy array</em>) – Calculated x2 contour values</p></li>
+<li><p><strong>**kwargs</strong> (<em>optional</em>) – <dl class="simple">
+<dt>x_label: string (optional)</dt><dd><p>x-axis label. Default None.</p>
+</dd>
+<dt>y_label: string (optional)</dt><dd><p>y-axis label. Default None.</p>
+</dd>
+<dt>data_label: string (optional)</dt><dd><p>Legend label for x1, x2 data (e.g. ‘Buoy 46022’).
+Default None.</p>
+</dd>
+<dt>contour_label: string or list of strings (optional)</dt><dd><p>Legend label for x1_contour, x2_contour countor data
+(e.g. ‘100-year contour’). Default None.</p>
+</dd>
+<dt>ax<span class="classifier">matplotlib axes object (optional)</span></dt><dd><p>Axes for plotting.  If None, then a new figure is created.
+Default None.</p>
+</dd>
+</dl>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

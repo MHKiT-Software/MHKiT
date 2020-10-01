@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tidal Module &mdash; MHKiT v0.2.0 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.3.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v0.2.0
+                v0.3.0
               </div>
             
           
@@ -108,7 +108,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Tidal Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#io">IO</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#resource">Resource</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#device">Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#graphics">Graphics</a></li>
 </ul>
 </li>
@@ -338,20 +338,27 @@ the TEC optimum orientation.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="device">
-<h2>Device<a class="headerlink" href="#device" title="Permalink to this headline">¶</a></h2>
-<p>The device submodule contains functions to compute equivalent diameter
+<div class="section" id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
+<p>The performance submodule contains functions to compute equivalent diameter
 and capture area for circular, ducted, rectangular, adn multiple circular devices.
 A circular device is a vertical axis water turbine (VAWT). A
 rectangular device is a horizontal axis water turbine (HAWT). A ducted device
 is an enclosed VAWT. A multiple-circular devices is a device with
-multiple VAWTs per device.</p>
+multiple VAWTs per device. This submodule also contains functions for computing
+the tip speed ratio and power coefficient from a blade/rotor type device.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">power_coefficient</span></code></p></td>
+<td><p>Function that calculates the power coefficient of MEC device</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></p></td>
+<td><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a circular turbine</p></td>
 </tr>
@@ -366,10 +373,11 @@ multiple VAWTs per device.</p>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.tidal.device"></span></div>
+<span class="target" id="module-mhkit.tidal.performance"></span></div>
 <div class="section" id="graphics">
 <h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
-<p>The graphics submodule contains functions to plot tidal resource data and related metrics.</p>
+<p>The graphics submodule contains functions to plot tidal resource data
+and related metrics.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -395,8 +403,8 @@ be specified such that 0  degrees is north.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directions</strong> (<em>array like</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
-<li><p><strong>velocities</strong> (<em>array like</em>) – Velocities in m/s</p></li>
+<li><p><strong>directions</strong> (<em>array-like</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
+<li><p><strong>velocities</strong> (<em>array-like</em>) – Velocities in m/s</p></li>
 <li><p><strong>width_dir</strong> (<em>float</em>) – Width of directional bins for histogram in degrees</p></li>
 <li><p><strong>width_vel</strong> (<em>float</em>) – Width of velocity bins for histogram in m/s</p></li>
 <li><p><strong>metadata</strong> (<em>dictonary</em>) – If provided needs keys [‘name’, ‘lat’, ‘lon’] for plot title
@@ -419,8 +427,8 @@ be specified such that 0 is north.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directions</strong> (<em>array like</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
-<li><p><strong>velocities</strong> (<em>array like</em>) – Velocities in m/s</p></li>
+<li><p><strong>directions</strong> (<em>array-like</em>) – Directions in degrees with 0 degrees specified as true north</p></li>
+<li><p><strong>velocities</strong> (<em>array-like</em>) – Velocities in m/s</p></li>
 <li><p><strong>width_dir</strong> (<em>float</em>) – Width of directional bins for histogram in degrees</p></li>
 <li><p><strong>width_vel</strong> (<em>float</em>) – Width of velocity bins for histogram in m/s</p></li>
 <li><p><strong>metadata</strong> (<em>dictonary</em>) – If provided needs keys [‘name’, ‘Lat’, ‘Lon’] for plot title
@@ -443,8 +451,8 @@ data in the direction of the supplied principal_direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>direction</strong> (<em>array like</em>) – Time-series of directions [degrees]</p></li>
-<li><p><strong>speed</strong> (<em>array like</em>) – Time-series of speeds [m/s]</p></li>
+<li><p><strong>direction</strong> (<em>array-like</em>) – Time-series of directions [degrees]</p></li>
+<li><p><strong>speed</strong> (<em>array-like</em>) – Time-series of speeds [m/s]</p></li>
 <li><p><strong>principal_direction</strong> (<em>float</em>) – Direction to compute the velocity in [degrees]</p></li>
 <li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
