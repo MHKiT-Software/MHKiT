@@ -51,12 +51,9 @@ of the tidal resource given a timeseries of directional data.
     :undoc-members:
     :show-inheritance:
 
-<<<<<<< HEAD
-=======
 .. autofunction:: mhkit.tidal.resource.Froude_number    
 .. autofunction:: mhkit.tidal.resource.exceedance_probability
 
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
 Performance
 """"""""""""
 The performance submodule contains functions to compute equivalent diameter
@@ -71,23 +68,13 @@ the tip speed ratio and power coefficient from a blade/rotor type device.
 .. autosummary::
    :nosignatures:
 
-<<<<<<< HEAD
-   ~mhkit.tidal.performance.power_coefficient
-   ~mhkit.tidal.performance.tip_speed_ratio
-=======
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
    ~mhkit.tidal.performance.circular
    ~mhkit.tidal.performance.ducted
    ~mhkit.tidal.performance.rectangular
    ~mhkit.tidal.performance.multiple_circular
-<<<<<<< HEAD
-
-
-=======
    ~mhkit.tidal.performance.tip_speed_ratio
    ~mhkit.tidal.performance.power_coefficient
    
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
    
 .. automodule:: mhkit.tidal.performance
     :members:

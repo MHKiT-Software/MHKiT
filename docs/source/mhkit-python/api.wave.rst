@@ -27,31 +27,17 @@ The wave module uses wave elevation time series data and spectra data.
 IO
 """"""
 The io submodule contains the following functions to request, load,
-<<<<<<< HEAD
-and manipulate National Data Buoy Center (NDBC) data.
-=======
 and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, and to load `WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ data.
 
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
 
 .. autosummary:: 
    :nosignatures:
 
-<<<<<<< HEAD
-=======
    ~mhkit.wave.io.ndbc.read_file 
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
    ~mhkit.wave.io.ndbc.available_data
    ~mhkit.wave.io.ndbc.request_data
    ~mhkit.wave.io.ndbc.to_datetime_index
    ~mhkit.wave.io.ndbc.dates_to_datetime
-<<<<<<< HEAD
-   ~mhkit.wave.io.ndbc.read_file 
-   ~mhkit.wave.io.ndbc.parameter_units 
-   
-   
-.. automodule:: mhkit.wave.io.ndbc
-=======
    ~mhkit.wave.io.ndbc.parameter_units 
    ~mhkit.wave.io.wecsim.read_output
    
@@ -67,7 +53,6 @@ WEC-Sim Data
 ++++++++++++
    
 .. automodule:: mhkit.wave.io.wecsim
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
     :members:
     :undoc-members:
     :show-inheritance:

@@ -65,20 +65,12 @@ for calculating a turbine coeffcient of power and tip speed ratio.
 .. autosummary::
    :nosignatures:
    
-<<<<<<< HEAD
-   ~mhkit.river.performance.power_coefficient
-   ~mhkit.river.performance.tip_speed_ratio
-=======
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
    ~mhkit.river.performance.circular
    ~mhkit.river.performance.ducted
    ~mhkit.river.performance.rectangular
    ~mhkit.river.performance.multiple_circular
-<<<<<<< HEAD
-=======
    ~mhkit.river.performance.tip_speed_ratio
    ~mhkit.river.performance.power_coefficient
->>>>>>> 4816d64005c9b187b25e718a73fad814e79496af
    
 .. automodule:: mhkit.river.performance
     :members:
