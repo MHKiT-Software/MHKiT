@@ -112,6 +112,7 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
   - Heading 2 `------`
   - Heading 3 `^^^^^^`
   - Heading 4 `""""""`
+  - Heading 5 `++++++`
   - Made sure header underline is for full length of header text
   - Use this style guide: https://documentation-style-guide-sphinx.readthedocs.io/en/latest/style-guide.html
 

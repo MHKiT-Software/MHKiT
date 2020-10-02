@@ -26,6 +26,7 @@ load NOAA velocity/ direction data
    :nosignatures:
       
    ~mhkit.tidal.io.request_noaa_data
+   ~mhkit.tidal.io.read_noaa_json
 
 
 .. automodule:: mhkit.tidal.io
@@ -36,7 +37,7 @@ load NOAA velocity/ direction data
 Resource
 """"""""""""
 The resource module allows the user to calculate the ebb and flood directions
-of the tidal resource given a timeseries of directional data. The
+of the tidal resource given a timeseries of directional data. 
 
 .. autosummary::
    :nosignatures:
@@ -44,11 +45,14 @@ of the tidal resource given a timeseries of directional data. The
    ~mhkit.tidal.resource.principal_flow_directions
    ~mhkit.tidal.resource.Froude_number
    ~mhkit.tidal.resource.exceedance_probability
-
+   
 .. automodule:: mhkit.tidal.resource
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. autofunction:: mhkit.tidal.resource.Froude_number    
+.. autofunction:: mhkit.tidal.resource.exceedance_probability
 
 Performance
 """"""""""""
@@ -64,20 +68,25 @@ the tip speed ratio and power coefficient from a blade/rotor type device.
 .. autosummary::
    :nosignatures:
 
-   ~mhkit.tidal.performance.power_coefficient
-   ~mhkit.tidal.performance.tip_speed_ratio
    ~mhkit.tidal.performance.circular
    ~mhkit.tidal.performance.ducted
    ~mhkit.tidal.performance.rectangular
    ~mhkit.tidal.performance.multiple_circular
-
-
+   ~mhkit.tidal.performance.tip_speed_ratio
+   ~mhkit.tidal.performance.power_coefficient
+   
    
 .. automodule:: mhkit.tidal.performance
     :members:
     :undoc-members:
     :show-inheritance:
 
+.. autofunction:: mhkit.tidal.performance.circular
+.. autofunction:: mhkit.tidal.performance.ducted
+.. autofunction:: mhkit.tidal.performance.rectangular
+.. autofunction:: mhkit.tidal.performance.multiple_circular
+.. autofunction:: mhkit.tidal.performance.tip_speed_ratio
+.. autofunction:: mhkit.tidal.performance.power_coefficient
 
 	
 Graphics
@@ -91,11 +100,15 @@ and related metrics.
    ~mhkit.tidal.graphics.plot_rose
    ~mhkit.tidal.graphics.plot_joint_probability_distribution
    ~mhkit.tidal.graphics.plot_current_timeseries
+   ~mhkit.tidal.graphics.plot_velocity_duration_curve
    
 .. automodule:: mhkit.tidal.graphics
     :members:
     :undoc-members:
     :show-inheritance:
+    
+.. autofunction:: mhkit.tidal.graphics.plot_velocity_duration_curve    
+   :noindex:
 
 
 

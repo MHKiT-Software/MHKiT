@@ -245,6 +245,9 @@ load NOAA velocity/ direction data</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.io.request_noaa_data" title="mhkit.tidal.io.request_noaa_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_noaa_data</span></code></a></p></td>
 <td><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a get request into a pandas DataFrame.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.io.read_noaa_json" title="mhkit.tidal.io.read_noaa_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_noaa_json</span></code></a></p></td>
+<td><p>Returns site DataFrame and metadata from a json saved from the request_noaa_data :param filename: filename with path of json file to load :type filename: string</p></td>
+</tr>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.tidal.io"></span><dl class="py function">
@@ -296,7 +299,7 @@ request_noaa_data
 <div class="section" id="resource">
 <h2>Resource<a class="headerlink" href="#resource" title="Permalink to this headline">¶</a></h2>
 <p>The resource module allows the user to calculate the ebb and flood directions
-of the tidal resource given a timeseries of directional data. The</p>
+of the tidal resource given a timeseries of directional data.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -306,10 +309,10 @@ of the tidal resource given a timeseries of directional data. The</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.resource.principal_flow_directions" title="mhkit.tidal.resource.principal_flow_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_flow_directions</span></code></a></p></td>
 <td><p>Calculates principal flow directions for ebb and flood cycles</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Froude_number</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.resource.Froude_number" title="mhkit.tidal.resource.Froude_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Froude_number</span></code></a></p></td>
 <td><p>Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr &lt;1).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">exceedance_probability</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.resource.exceedance_probability" title="mhkit.tidal.resource.exceedance_probability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exceedance_probability</span></code></a></p></td>
 <td><p>Calculates the exceedance probability</p></td>
 </tr>
 </tbody>
@@ -339,6 +342,39 @@ the TEC optimum orientation.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="mhkit.tidal.resource.Froude_number">
+<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">Froude_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">9.80665</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#Froude_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.Froude_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the Froude Number of the river, channel or duct flow,
+to check subcritical flow assumption (if Fr &lt;1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> (<em>int/float</em>) – Average velocity [m/s].</p></li>
+<li><p><strong>h</strong> (<em>int/float</em>) – Mean hydrolic depth float [m].</p></li>
+<li><p><strong>g</strong> (<em>int/float</em>) – Gravitational acceleration [m/s2].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Fr</strong> (<em>float</em>) – Froude Number of the river [unitless].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.resource.exceedance_probability">
+<code class="sig-prename descclassname">mhkit.tidal.resource.</code><code class="sig-name descname">exceedance_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/resource.html#exceedance_probability"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.resource.exceedance_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the exceedance probability</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>D</strong> (<em>pandas Series</em>) – Data indexed by time [datetime or s].</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>F</strong> (<em>pandas DataFrame</em>) – Exceedance probability [unitless] indexed by time [datetime or s]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="performance">
 <h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
@@ -355,27 +391,143 @@ the tip speed ratio and power coefficient from a blade/rotor type device.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">power_coefficient</span></code></p></td>
-<td><p>Function that calculates the power coefficient of MEC device</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></p></td>
-<td><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.performance.circular" title="mhkit.tidal.performance.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a circular turbine</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ducted</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.performance.ducted" title="mhkit.tidal.performance.ducted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ducted</span></code></a></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a ducted turbine</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rectangular</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.performance.rectangular" title="mhkit.tidal.performance.rectangular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rectangular</span></code></a></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a retangular turbine</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_circular</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.performance.multiple_circular" title="mhkit.tidal.performance.multiple_circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_circular</span></code></a></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a multiple circular turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.performance.tip_speed_ratio" title="mhkit.tidal.performance.tip_speed_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></a></p></td>
+<td><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.performance.power_coefficient" title="mhkit.tidal.performance.power_coefficient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">power_coefficient</span></code></a></p></td>
+<td><p>Function that calculates the power coefficient of MEC device</p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.tidal.performance"></span></div>
+<span class="target" id="module-mhkit.tidal.performance"></span><dl class="py function">
+<dt id="mhkit.tidal.performance.circular">
+<code class="sig-prename descclassname">mhkit.tidal.performance.</code><code class="sig-name descname">circular</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/performance.html#circular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.performance.circular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+circular turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diameter</strong> (<em>int/float</em>) – Turbine diameter [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.performance.ducted">
+<code class="sig-prename descclassname">mhkit.tidal.performance.</code><code class="sig-name descname">ducted</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">duct_diameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/performance.html#ducted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.performance.ducted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+ducted turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>duct_diameter</strong> (<em>int/float</em>) – Duct diameter [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.performance.rectangular">
+<code class="sig-prename descclassname">mhkit.tidal.performance.</code><code class="sig-name descname">rectangular</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">w</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/performance.html#rectangular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.performance.rectangular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+retangular turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h</strong> (<em>int/float</em>) – Turbine height [m]</p></li>
+<li><p><strong>w</strong> (<em>int/float</em>) – Turbine width [m]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.performance.multiple_circular">
+<code class="sig-prename descclassname">mhkit.tidal.performance.</code><code class="sig-name descname">multiple_circular</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diameters</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/performance.html#multiple_circular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.performance.multiple_circular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the equivalent diameter and projected capture area of a
+multiple circular turbine</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diameters</strong> (<em>list</em>) – List of device diameters [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>equivalent_diameter</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.performance.tip_speed_ratio">
+<code class="sig-prename descclassname">mhkit.tidal.performance.</code><code class="sig-name descname">tip_speed_ratio</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rotor_speed</span></em>, <em class="sig-param"><span class="n">rotor_diameter</span></em>, <em class="sig-param"><span class="n">inflow_speed</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/performance.html#tip_speed_ratio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.performance.tip_speed_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotor_speed</strong> (<em>numpy array</em>) – Rotor speed [revolutions per second]</p></li>
+<li><p><strong>rotor_diameter</strong> (<em>float/int</em>) – Diameter of rotor [m]</p></li>
+<li><p><strong>inflow_speed</strong> (<em>numpy array</em>) – Velocity of inflow condition [m/s]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>TSR</strong> (<em>numpy array</em>) – Calculated tip speed ratio (TSR)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.performance.power_coefficient">
+<code class="sig-prename descclassname">mhkit.tidal.performance.</code><code class="sig-name descname">power_coefficient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">power</span></em>, <em class="sig-param"><span class="n">inflow_speed</span></em>, <em class="sig-param"><span class="n">capture_area</span></em>, <em class="sig-param"><span class="n">rho</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/performance.html#power_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.performance.power_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that calculates the power coefficient of MEC device</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>power</strong> (<em>numpy array</em>) – Power output signal of device after losses [W]</p></li>
+<li><p><strong>inflow_speed</strong> (<em>numpy array</em>) – Speed of inflow [m/s]</p></li>
+<li><p><strong>capture_area</strong> (<em>float/int</em>) – Projected area of rotor normal to inflow [m^2]</p></li>
+<li><p><strong>rho</strong> (<em>float/int</em>) – Density of environment [kg/m^3]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Cp</strong> (<em>numpy array</em>) – Power coefficient of device [-]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="graphics">
 <h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
 <p>The graphics submodule contains functions to plot tidal resource data
@@ -394,6 +546,9 @@ and related metrics.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.graphics.plot_current_timeseries" title="mhkit.tidal.graphics.plot_current_timeseries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code></a></p></td>
 <td><p>Returns a plot of velocity from an array of direction and speed data in the direction of the supplied principal_direction.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_velocity_duration_curve</span></code></p></td>
+<td><p>Plots velocity vs exceedance probability as a Velocity Duration Curve (VDC)</p></td>
 </tr>
 </tbody>
 </table>
@@ -463,6 +618,26 @@ axes is used.</p></li>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Time-series plot of current-speed velocity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_velocity_duration_curve</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">V</span></em>, <em class="sig-param"><span class="n">F</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/river/graphics.html#plot_velocity_duration_curve"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Plots velocity vs exceedance probability as a Velocity Duration Curve (VDC)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>V</strong> (<em>array-like</em>) – Velocity [m/s] indexed by time</p></li>
+<li><p><strong>F</strong> (<em>array-like</em>) – Exceedance probability [unitless] indexed by time</p></li>
+<li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
+axes is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
 </dd>
 </dl>
 </dd></dl>
