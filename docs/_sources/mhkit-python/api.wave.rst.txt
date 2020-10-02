@@ -27,23 +27,36 @@ The wave module uses wave elevation time series data and spectra data.
 IO
 """"""
 The io submodule contains the following functions to request, load,
-and manipulate National Data Buoy Center (NDBC) data.
+and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, and to load `WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ data.
+
 
 .. autosummary:: 
    :nosignatures:
 
+   ~mhkit.wave.io.ndbc.read_file 
    ~mhkit.wave.io.ndbc.available_data
    ~mhkit.wave.io.ndbc.request_data
    ~mhkit.wave.io.ndbc.to_datetime_index
    ~mhkit.wave.io.ndbc.dates_to_datetime
-   ~mhkit.wave.io.ndbc.read_file 
    ~mhkit.wave.io.ndbc.parameter_units 
+   ~mhkit.wave.io.wecsim.read_output
    
-   
+NDBC Data
++++++++++
+
 .. automodule:: mhkit.wave.io.ndbc
     :members:
     :undoc-members:
     :show-inheritance:
+
+WEC-Sim Data
+++++++++++++
+   
+.. automodule:: mhkit.wave.io.wecsim
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
     
 Resource
 """"""""""""
@@ -80,7 +93,6 @@ The following functions can be used to compute wave metrics from spectra:
    ~mhkit.wave.resource.wave_number
    ~mhkit.wave.resource.environmental_contour
  
-.. TODO Add Binned matrix:  bins data, import from river.device
  
 .. automodule:: mhkit.wave.resource
     :members:
@@ -121,6 +133,8 @@ The graphics submodule contains functions to plot wave data and related metrics.
    ~mhkit.wave.graphics.plot_spectrum
    ~mhkit.wave.graphics.plot_elevation_timeseries
    ~mhkit.wave.graphics.plot_matrix
+   ~mhkit.wave.graphics.plot_chakrabarti
+   ~mhkit.wave.graphics.plot_environmental_contour
    
 .. automodule:: mhkit.wave.graphics
     :members:

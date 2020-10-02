@@ -8,12 +8,12 @@ General
 """"""""""""
 The loads general submodule contains general loads calculations that can be applied to most MEC devices. 
 
-.. autosummary::
+.. autosummary:: 
    :nosignatures:
 
    ~mhkit.loads.general.bin_statistics
-   ~mhkit.loads.general.damage_equivalent_load
    ~mhkit.loads.general.blade_moments
+   ~mhkit.loads.general.damage_equivalent_load
 
    
 .. automodule:: mhkit.loads.general

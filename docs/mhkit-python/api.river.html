@@ -32,6 +32,8 @@
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -302,17 +304,20 @@ or velocity and power at an individual turbine.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.resource.Froude_number" title="mhkit.river.resource.Froude_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Froude_number</span></code></a></p></td>
 <td><p>Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr &lt;1).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.resource.polynomial_fit" title="mhkit.river.resource.polynomial_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polynomial_fit</span></code></a></p></td>
-<td><p>Returns a polynomial fit for y given x of order n with an R-squared score of the fit</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.resource.exceedance_probability" title="mhkit.river.resource.exceedance_probability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exceedance_probability</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.resource.exceedance_probability" title="mhkit.river.resource.exceedance_probability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exceedance_probability</span></code></a></p></td>
 <td><p>Calculates the exceedance probability</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.resource.polynomial_fit" title="mhkit.river.resource.polynomial_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polynomial_fit</span></code></a></p></td>
+<td><p>Returns a polynomial fit for y given x of order n with an R-squared score of the fit</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.resource.discharge_to_velocity" title="mhkit.river.resource.discharge_to_velocity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discharge_to_velocity</span></code></a></p></td>
 <td><p>Calculates velocity given discharge data and the relationship between discharge and velocity at an individual turbine</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.resource.velocity_to_power" title="mhkit.river.resource.velocity_to_power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">velocity_to_power</span></code></a></p></td>
 <td><p>Calculates power given velocity data and the relationship between velocity and power from an individual turbine</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.resource.energy_produced" title="mhkit.river.resource.energy_produced"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_produced</span></code></a></p></td>
+<td><p>Returns the energy produced for a given time period provided exceedence probability and power.</p></td>
 </tr>
 </tbody>
 </table>
@@ -446,12 +451,6 @@ for calculating a turbine coeffcient of power and tip speed ratio.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.performance.power_coefficient" title="mhkit.river.performance.power_coefficient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">power_coefficient</span></code></a></p></td>
-<td><p>Function that calculates the power coefficient of MEC device</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.performance.tip_speed_ratio" title="mhkit.river.performance.tip_speed_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></a></p></td>
-<td><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.performance.circular" title="mhkit.river.performance.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a circular turbine</p></td>
 </tr>
@@ -463,6 +462,12 @@ for calculating a turbine coeffcient of power and tip speed ratio.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.performance.multiple_circular" title="mhkit.river.performance.multiple_circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_circular</span></code></a></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a multiple circular turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.river.performance.tip_speed_ratio" title="mhkit.river.performance.tip_speed_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></a></p></td>
+<td><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.river.performance.power_coefficient" title="mhkit.river.performance.power_coefficient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">power_coefficient</span></code></a></p></td>
+<td><p>Function that calculates the power coefficient of MEC device</p></td>
 </tr>
 </tbody>
 </table>
