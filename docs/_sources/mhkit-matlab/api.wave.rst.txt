@@ -10,15 +10,18 @@ The wave module contains a set of functions to calculate quantities of interest 
 
 IO
 """"""""""""
-The io submodule contains the following function to load National Data Buoy Center (NDBC) data file into a pandas DataFrame, including real time and historical data.
+The io submodule contains the following function to download and load National Data Buoy Center (NDBC) data file into structures,
+including real time and historical data.
 
 ===========================================  =========================
 Functions                                    Description
 ===========================================  =========================
 ``read_NDBC_file``                               Reads a NDBC wave buoy data file (from https://www.ndbc.noaa.gov) into a structure. 
+``NDBC_available_data``                          Returns the NDBC stations IDs, years, and file names for a requested parameter. 
+``NDBC_request_data``                            Returns requested NDBC data from passed filenames and parameter. 
 ===========================================  ========================= 
 
-.. mat:automodule:: mhkit.wave.io
+.. mat:automodule:: mhkit.wave.io.ndbc
     :members:
     :undoc-members:
     :show-inheritance:
@@ -48,6 +51,7 @@ Functions                                    Description
 ``average_zero_crossing_period``             Calculates wave average zero crossing period from spectra
 ``energy_flux``                              Calculates the omnidirectional wave energy flux of the spectra
 ``energy_period``                            Calculates the energy period
+``environmental_contour``                    Calculates environmental contours of extreme sea states
 ``frequency_moment``                         Calculates the Nth frequency moment of the spectrum
 ``peak_period``                              Calculates wave energy period from spectra
 ``significant_wave_height``                  Calculates wave height from spectra
@@ -98,6 +102,7 @@ The :graphics submodule contains functions to plot wave data and related metrics
 Functions                                    Description
 ===========================================  =========================
 ``plot_elevation_timeseries``                    Plots wave elevation timeseries 
+``plot_envoronmental_contours``                  Plots an overlay of the x1 and x2 variables to the calculated environmental contours.
 ``plot_matrix``                                  Plots the matrix with Hm0 and Te on the y and x axis 
 ``plot_spectrum``                                Plots wave amplitude spectrum
 ===========================================  ========================= 
