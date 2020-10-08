@@ -6,7 +6,7 @@ The loads module contains a set of functions to calculate quantities of interest
 
 General
 """"""""""""
-The loads general submodule contains general loads calculations that can be applied to most MEC devices. 
+The loads general submodule contains general loads calculations that can be applied to most MRE devices. 
 
 .. autosummary:: 
    :nosignatures:

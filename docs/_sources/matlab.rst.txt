@@ -35,6 +35,7 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 - `Tidal Example <mhkit-matlab/tidal_example.html>`_
 - `Power Example <mhkit-matlab/power_example.html>`_
 - `Loads Example <mhkit-matlab/loads_example.html>`_
+- `Environmental Contours Example <mhkit-matlab/environmental_contours_example.html>`_
 
 .. MATLAB live examples remove the index, and must be manually saved as html
 

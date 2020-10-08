@@ -110,7 +110,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">River Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#io">IO</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#resource">Resource</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#device">Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#graphics">Graphics</a></li>
 </ul>
 </li>
@@ -521,9 +521,12 @@ velocity and power at an individual turbine</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="device">
-<h2>Device<a class="headerlink" href="#device" title="Permalink to this headline">¶</a></h2>
-<p>The device submodule contains functions to compute equivalent diameter and capture area for circular, ducted, rectangular, adn multiple circular devices. A circular device is a vertical axis water turbine (VAWT). A rectangular device is a horizontal axis water turbine. A ducted device is an enclosed VAWT. A multiple-circular devices is a device with multiple VAWTs per device.</p>
+<div class="section" id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
+<p>The performance submodule contains functions to compute equivalent diameter and capture area for circular, ducted, rectangular, and
+multiple circular devices. A circular device is a vertical axis water turbine (VAWT).
+A rectangular device is a horizontal axis water turbine. A ducted device is an enclosed VAWT. A multiple-circular devices is a device with multiple VAWTs per device.
+This submodule also contains functions for computing tip speed ratio and the power coefficient from blade/rotor type devices.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 31%" />
@@ -547,11 +550,17 @@ velocity and power at an individual turbine</p></li>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rectangular</span></code></p></td>
 <td><p>Calculates the equivalent diameter and projected capture area of a retangular turbine</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></p></td>
+<td><p>Calculates the tip speed ratio (TSR) of a MEC device with rotor</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">power_coefficient</span></code></p></td>
+<td><p>Calculates the calculates the power coefficient of MEC device</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="mat function">
 <dt>
-<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">circular</code><span class="sig-paren">(</span><em class="sig-param">diameter</em><span class="sig-paren">)</span></dt>
+<code class="sig-prename descclassname">mhkit.river.performance.</code><code class="sig-name descname">circular</code><span class="sig-paren">(</span><em class="sig-param">diameter</em><span class="sig-paren">)</span></dt>
 <dd><blockquote>
 <div><p>Calculates the equivalent diameter and projected capture area of a
 circular turbine</p>
@@ -572,7 +581,7 @@ circular turbine</p>
 
 <dl class="mat function">
 <dt>
-<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">ducted</code><span class="sig-paren">(</span><em class="sig-param">diameter</em><span class="sig-paren">)</span></dt>
+<code class="sig-prename descclassname">mhkit.river.performance.</code><code class="sig-name descname">ducted</code><span class="sig-paren">(</span><em class="sig-param">diameter</em><span class="sig-paren">)</span></dt>
 <dd><blockquote>
 <div><p>Calculates the equivalent diameter and projected capture area of a
 ducted turbine</p>
@@ -593,7 +602,7 @@ ducted turbine</p>
 
 <dl class="mat function">
 <dt>
-<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">multiple_circular</code><span class="sig-paren">(</span><em class="sig-param">diameters</em><span class="sig-paren">)</span></dt>
+<code class="sig-prename descclassname">mhkit.river.performance.</code><code class="sig-name descname">multiple_circular</code><span class="sig-paren">(</span><em class="sig-param">diameters</em><span class="sig-paren">)</span></dt>
 <dd><blockquote>
 <div><p>Calculates the equivalent diameter and projected capture area of a
 multiple circular turbine</p>
@@ -614,7 +623,28 @@ multiple circular turbine</p>
 
 <dl class="mat function">
 <dt>
-<code class="sig-prename descclassname">mhkit.river.device.</code><code class="sig-name descname">rectangular</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">w</em><span class="sig-paren">)</span></dt>
+<code class="sig-prename descclassname">mhkit.river.performance.</code><code class="sig-name descname">power_coefficient</code><span class="sig-paren">(</span><em class="sig-param">power</em>, <em class="sig-param">inflow_speed</em>, <em class="sig-param">capture_area</em>, <em class="sig-param">rho</em><span class="sig-paren">)</span></dt>
+<dd><blockquote>
+<div><p>Function that calculates the power coefficient of MEC device</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>power</strong> (<em>vector</em>) – Power output signal of device after losses [W]</p></li>
+<li><p><strong>inflow_speed</strong> (<em>vector</em>) – Velocity of inflow condition [m/s]</p></li>
+<li><p><strong>capture_area</strong> (<em>double or int</em>) – Projected area of rotor normal to inflow [m^2]</p></li>
+<li><p><strong>rho</strong> (<em>double or int</em>) – Density of environment [kg/m^3]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Cp</strong> (<em>vector</em>) – Power coefficient of device [-]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt>
+<code class="sig-prename descclassname">mhkit.river.performance.</code><code class="sig-name descname">rectangular</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">w</em><span class="sig-paren">)</span></dt>
 <dd><blockquote>
 <div><p>Calculates the equivalent diameter and projected capture area of a
 retangular turbine</p>
@@ -632,6 +662,26 @@ retangular turbine</p>
 <li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
 </ul>
 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt>
+<code class="sig-prename descclassname">mhkit.river.performance.</code><code class="sig-name descname">tip_speed_ratio</code><span class="sig-paren">(</span><em class="sig-param">rotor_speed</em>, <em class="sig-param">rotor_diameter</em>, <em class="sig-param">inflow_speed</em><span class="sig-paren">)</span></dt>
+<dd><blockquote>
+<div><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotor_speed</strong> (<em>vector</em>) – Rotor Speed [rps]</p></li>
+<li><p><strong>rotor_diameter</strong> (<em>double or int</em>) – diameter -f rotor [m]</p></li>
+<li><p><strong>inflow_speed</strong> (<em>vector</em>) – Velocity of inflow condition [m/s]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>TSR</strong> (<em>vector</em>) – Calculated tip speed ratio (TSR)</p>
 </dd>
 </dl>
 </dd></dl>

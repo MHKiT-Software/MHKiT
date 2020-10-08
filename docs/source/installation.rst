@@ -159,6 +159,9 @@ work with Python 2.7.  A second version of Python (3.6+) will need to
 be installed on your machine. DO NOT DELETE Python 2.7. Use the above 
 steps to make sure MATLAB is running the proper version of Python.
 
+.. Note::
+	If you are using Python 3.8, MATLAB 2020b or later is required. 
+
 
 Install the MHKiT-MATLAB Toolbox (mhkit.mltbx)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
