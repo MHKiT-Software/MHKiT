@@ -679,13 +679,10 @@ time series, date stamp etc.</p>
 <dl class="mat function">
 <dt id="mhkit.wave.resource.environmental_contour">
 <code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">environmental_contour</code><span class="sig-paren">(</span><em class="sig-param">x1</em>, <em class="sig-param">x2</em>, <em class="sig-param">dt</em>, <em class="sig-param">period</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.resource.environmental_contour" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Calculates environmental contours of extreme sea
-states using the improved joint probability distributions</p>
-<blockquote>
-<div><p>with the inverse first-order reliability method (IFORM)</p>
-</div></blockquote>
-<p>probability for the desired return period (period). Given the
+<dd><p>Calculates environmental contours of extreme sea
+states using the improved joint probability distributions
+with the inverse first-order reliability method (IFORM)
+probability for the desired return period (period). Given the
 period of interest a circle of iso-probability is created in the
 in the PCA joint probability (x1, x2) reference frame.
 Using the joint probability value the CDF of the marginal
@@ -698,12 +695,25 @@ Neary, V. S. (2016). Application of principal component
 analysis (PCA) and improved joint probability distributions to
 the inverse first-order reliability method (I-FORM) for predicting
 extreme sea states. Ocean Engineering, 112, 307-319.</p>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x1</strong> (<em>vector</em>) – component 1 data</p></li>
-<li><p><strong>x2</strong> – component 2 data</p></li>
+<li><p><strong>x2</strong> (<em>vector</em>) – component 2 data</p></li>
+<li><p><strong>dt</strong> (<em>double</em>) – x1 and x2 sample rate (seconds)</p></li>
+<li><p><strong>period</strong> (<em>scalar or vector</em>) – Desired return period (years) for calculation of environmental
+contour, can be a scalar or a vector.</p></li>
+<li><p><strong>PCA</strong> (<em>Structure (optional)</em>) – principal component analysis dictionary from previous function
+call. When supplied the function will skip the PCA calculation
+for the passe x1, and x2.
+to call: environmental_contour(x1,x2,dt,period,”PCA”,PCA)</p></li>
+<li><p><strong>bin_size</strong> (<em>double (optional)</em>) – Data points in each bin
+to call: environmental_contour(x1,x2,dt,period,”bin_size”,bin_size)</p></li>
+<li><p><strong>nb_steps</strong> (<em>int (optional)</em>) – Discretization of the circle in the normal space used for
+IFORM calculation.
+to call: environmental_contour(x1,x2,dt,period,”nb_steps”,nb_steps)</p></li>
+<li><p><strong>return_PCA</strong> (<em>boolean</em>) – Default False, if True will retun the PCA dictionary
+to call: environmental_contour(x1,x2,dt,period,”return_PCA”,return_PCA)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
