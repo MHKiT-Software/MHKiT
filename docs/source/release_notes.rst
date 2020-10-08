@@ -5,18 +5,26 @@ Release Notes
 
 MHKiT v0.3.0
 -------------
-**Coming soon!**
+MHKiT v0.3.0 adds the following modules to MHKiT:
+
+ * `wave.io.ndbc <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#io>`_ Module: functions for downloading and converting NDBC data into MHKIT formats.
+ * `wave.io.wecsim <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#io>`_ Module: functions for converting WEC-Sim data into MHKiT formats.
+ * `river.performance <https://mhkit-software.github.io/MHKiT/mhkit-python/api.river.html#performance>`_ and `tidal.performance <https://mhkit-software.github.io/MHKiT/mhkit-python/api.tidal.html#performance>`_ Module: new functionality to assess device performance from blade/rotor type devices.
+ * `Loads Module <https://mhkit-software.github.io/MHKiT/mhkit-python/api.loads.html#loads-module>`_: new function for computing blade moments; new submodule structure `loads.general <https://mhkit-software.github.io/MHKiT/mhkit-python/api.loads.html#general>`_ and `loads.graphics <https://mhkit-software.github.io/MHKiT/mhkit-python/api.loads.html#graphics>`_.
 
 Refer to the following GitHub repositories to access the MHKiT v0.3.0 tagged release:
 
 MHKiT-Python v0.3.0 
 ^^^^^^^^^^^^^^^^^^^^^
 * `MHKiT-Python v0.3.0 Release <https://github.com/MHKiT-Software/MHKiT-Python/releases/tag/v0.3.0>`_
+* .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4063895.svg
+     :target: https://doi.org/10.5281/zenodo.4063895
 
 MHKiT-MATLAB v0.3.0 
 ^^^^^^^^^^^^^^^^^^^^^
 * `MHKiT-MATLAB v0.3.0 Release <https://github.com/MHKiT-Software/MHKiT-MATLAB/releases/tag/v0.3.0>`_
-
+* .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4063920.svg
+     :target: https://doi.org/10.5281/zenodo.4063920
 
 MHKiT v0.2.0
 -------------
