@@ -78,7 +78,9 @@ If MHKiT-Python is not installed properly, the user will see the following error
 
 To test a simple function using MHKiT-Python, the user can compute the equivalent diameter (ED) and projected capture area (AP) of a circular turbine by running the following code::
 
-    [ED, AP] = mhkit.river.device.circular(30)
+    [ED, AP] = mhkit.river.performance.circular(30)
+    print(ED)
+    print(AP)
 
 The results should be::
 
