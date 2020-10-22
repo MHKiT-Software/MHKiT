@@ -171,10 +171,13 @@
   <h1>Source code for mhkit.wave.graphics</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">mhkit.wave.resource</span> <span class="kn">import</span> <span class="n">significant_wave_height</span> <span class="k">as</span> <span class="n">_sig_wave_height</span>
 <span class="kn">from</span> <span class="nn">mhkit.wave.resource</span> <span class="kn">import</span> <span class="n">peak_period</span> <span class="k">as</span> <span class="n">_peak_period</span>
 <span class="kn">from</span> <span class="nn">mhkit.river.graphics</span> <span class="kn">import</span> <span class="n">_xy_plot</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">gridspec</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pylab</span>
 
 
 <div class="viewcode-block" id="plot_spectrum"><a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.graphics.plot_spectrum">[docs]</a><span class="k">def</span> <span class="nf">plot_spectrum</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -548,6 +551,215 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y_label</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_compendium"><a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.graphics.plot_compendium">[docs]</a><span class="k">def</span> <span class="nf">plot_compendium</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">buoytitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create subplots showing: Significant Wave Height (Hs), Peak Period (Tp), </span>
+<span class="sd">    and Direction (Dp) using OPeNDAP service from CDIP THREDDS Server.</span>
+<span class="sd">    </span>
+<span class="sd">    See http://cdip.ucsd.edu/themes/cdip?pb=1&amp;bl=cdip?pb=1&amp;d2=p70&amp;u3=s:100:st:1:v:compendium:dt:201204 for example Compendium plot.</span>
+<span class="sd">    </span>
+<span class="sd">    Developed based on: http://cdip.ucsd.edu/themes/media/docs/documents/html_pages/compendium.html</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    data: pandas DataFrame</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed frequency [Hz]</span>
+<span class="sd">    buoytitle: string (optional)</span>
+<span class="sd">        Buoy title from the CDIP THREDDS Server</span>
+<span class="sd">    ax : matplotlib axes object (optional)</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure is created.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create figure and specify subplot orientation (3 rows, 1 column), shared x-axis, and figure size</span>
+    <span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">pHs</span><span class="p">,</span> <span class="n">pTp</span><span class="p">,</span> <span class="n">pDp</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> 
+    
+    <span class="c1"># Create 3 stacked subplots for three PARAMETERS (Hs, Tp, Dp)</span>
+    <span class="n">pHs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">Hs</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="n">pTp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">Tp</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="n">pDp</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">Dp</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># Plot Dp variable as a scatterplot, rather than line</span>
+    
+    <span class="c1"># Significant Wave Height, Hs</span>
+    <span class="n">pHs</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="c1"># pHs.set_xticklabels([&#39;3&#39;,&#39;8&#39;,&#39;13&#39;,&#39;18&#39;,&#39;23&#39;,&#39;28&#39;]) </span>
+    <span class="n">pHs</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">pHs</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">pHs</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Hs, m&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">pHs</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="c1"># Make a second y-axis for the Hs plot, to show values in both meters and feet</span>
+    <span class="n">pHs2</span> <span class="o">=</span> <span class="n">pHs</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+    <span class="n">pHs2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+    <span class="n">pHs2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Hs, ft&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    
+    <span class="c1"># Peak Period, Tp</span>
+    <span class="n">pTp</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span>
+    <span class="n">pTp</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tp, s&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">pTp</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Direction, Dp </span>
+    <span class="n">pDp</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">)</span>
+    <span class="n">pDp</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Dp, deg&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">pDp</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="n">pDp</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Day&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    
+    <span class="c1"># Set x-axis tick interval to every 5 days</span>
+    <span class="n">days</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">DayLocator</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+    <span class="n">daysFmt</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">days</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">daysFmt</span><span class="p">)</span>
+    
+    <span class="c1"># Set Titles</span>
+    <span class="n">month_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month_name</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">year_num</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">buoytitle</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">month_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year_num</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">f</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_boxplot"><a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.graphics.plot_boxplot">[docs]</a><span class="k">def</span> <span class="nf">plot_boxplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">buoytitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create plot of monthly-averaged boxes of Significant Wave Height (Hs) data across one year using OPeNDAP service from CDIP THREDDS Server.</span>
+
+<span class="sd">    See http://cdip.ucsd.edu/themes/cdip?pb=1&amp;bl=cdip?pb=1&amp;d2=p70&amp;u3=s:093:st:1:v:hs_box_plot:dt:2011 for example Hs Boxplot.</span>
+
+<span class="sd">    Developed based on: http://cdip.ucsd.edu/themes/media/docs/documents/html_pages/annualHs_plot.html</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    data: pandas DataFrame</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed frequency [Hz]</span>
+<span class="sd">    buoytitle: string (optional)</span>
+<span class="sd">        Buoy title from the CDIP THREDDS Server</span>
+<span class="sd">    ax : matplotlib axes object (optional)</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure is created.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create array of month numbers to cycle through to grab Hs data</span>
+    <span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;02&#39;</span><span class="p">,</span> <span class="s1">&#39;03&#39;</span><span class="p">,</span> <span class="s1">&#39;04&#39;</span><span class="p">,</span> <span class="s1">&#39;05&#39;</span><span class="p">,</span> <span class="s1">&#39;06&#39;</span><span class="p">,</span> <span class="s1">&#39;07&#39;</span><span class="p">,</span> <span class="s1">&#39;08&#39;</span><span class="p">,</span> <span class="s1">&#39;09&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">]</span>
+    <span class="n">year_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    
+    <span class="c1"># Create array of month-long chunks of Hs data, to be plotted as a series of </span>
+    <span class="c1"># boxplots. Use a for-loop to cycle through the Hs variable and define </span>
+    <span class="c1"># each month-long array using the above-specified time index numbers.</span>
+    <span class="c1"># Calculate the monthly mean (average) using each month-long chunk of data.</span>
+    <span class="c1"># Calculate the number of instances of the variable being incorporated </span>
+    <span class="c1"># into each month-long average</span>
+    <span class="n">box_data</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">means</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">monthlengths</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">imonth</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">unique</span><span class="p">())):</span>
+        <span class="n">tmp1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">imonth</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">tmp2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">imonth</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">tmp3</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">imonth</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>    
+        <span class="n">box_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp1</span><span class="p">)</span>
+        <span class="n">means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp2</span><span class="p">)</span>
+        <span class="n">monthlengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp3</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">means</span><span class="p">)</span>
+    <span class="n">meansround</span> <span class="o">=</span> <span class="n">means</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="n">Jan</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Feb</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Mar</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Apr</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">May</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Jun</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Jul</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Aug</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Sep</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Oct</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Nov</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    <span class="n">Dec</span> <span class="o">=</span> <span class="n">box_data</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">Hs</span>
+    
+    <span class="c1"># Create overall figure and specify size, and grid to specify positions of subplots</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span> 
+    <span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> 
+    
+    <span class="c1"># Create a dataset for sample &#39;legend&#39; boxplot, to go underneath actual boxplot</span>
+    <span class="n">bp_sample2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+    
+    <span class="c1"># Create two subplots - actual monthly-averaged data (top) and example &#39;legend&#39; boxplot (bottom)</span>
+    <span class="c1"># Subplot of monthly-averaged boxplot data</span>
+    <span class="n">bp</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,:])</span>
+    <span class="n">bp_data</span> <span class="o">=</span><span class="n">bp</span><span class="o">.</span><span class="n">boxplot</span><span class="p">([</span><span class="n">Jan</span><span class="p">,</span><span class="n">Feb</span><span class="p">,</span><span class="n">Mar</span><span class="p">,</span><span class="n">Apr</span><span class="p">,</span><span class="n">May</span><span class="p">,</span><span class="n">Jun</span><span class="p">,</span><span class="n">Jul</span><span class="p">,</span><span class="n">Aug</span><span class="p">,</span><span class="n">Sep</span><span class="p">,</span><span class="n">Oct</span><span class="p">,</span><span class="n">Nov</span><span class="p">,</span><span class="n">Dec</span><span class="p">])</span>  
+    <span class="c1"># Add &#39;meanlineprops&#39; to include the above-defined properties</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">months</span><span class="p">,</span><span class="n">means</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">900</span><span class="p">)</span> <span class="c1"># Overlay monthly means as green lines using &#39;scatter&#39; function.</span>
+    
+    <span class="c1"># Subplot to show example &#39;legend&#39; boxplot below actual monthly-averaged boxplot graph</span>
+    <span class="n">bp2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,:])</span>
+    <span class="n">bp2_example</span> <span class="o">=</span> <span class="n">bp2</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">bp_sample2</span><span class="p">,</span><span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># Plot horizontal example boxplot with labels</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mf">2.3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+        
+    <span class="c1"># Add values of monthly means as text</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">meansround</span><span class="p">):</span>
+        <span class="n">bp</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">months</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">means</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span><span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+        
+    <span class="c1"># Get positions of Median, Quartiles and Outliers to use in &#39;legend&#39; text labels </span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">bp2_example</span><span class="p">[</span><span class="s1">&#39;medians&#39;</span><span class="p">]:</span>
+        <span class="n">xm</span><span class="p">,</span> <span class="n">ym</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get_xydata</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># location of Median line   </span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">bp2_example</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">]:</span>
+        <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get_xydata</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># location of Box edges (Quartiles)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">bp2_example</span><span class="p">[</span><span class="s1">&#39;whiskers&#39;</span><span class="p">]:</span>
+        <span class="n">xw</span><span class="p">,</span> <span class="n">yw</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get_xydata</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># location of Whisker ends (Outliers)    </span>
+    
+    <span class="c1"># Add text labels for &#39;Median&#39;, Mean&#39;, &#39;25th/75th %iles&#39; and &#39;Outliers&#39; to subplot2, to create sample &#39;legend&#39; boxplot</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;Median&quot;</span><span class="p">,[</span><span class="n">xm</span><span class="p">,</span><span class="n">ym</span><span class="o">-</span><span class="mf">0.3</span><span class="o">*</span><span class="n">ym</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;Mean&quot;</span><span class="p">,[</span><span class="mf">2.2</span><span class="p">,</span><span class="mf">0.65</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;25</span><span class="si">%i</span><span class="s2">le&quot;</span><span class="p">,[</span><span class="n">xb</span><span class="o">-</span><span class="mf">0.01</span><span class="o">*</span><span class="n">xb</span><span class="p">,</span><span class="n">yb</span><span class="o">-</span><span class="mf">0.15</span><span class="o">*</span><span class="n">yb</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;75</span><span class="si">%i</span><span class="s2">le&quot;</span><span class="p">,[</span><span class="n">xb</span><span class="o">+</span><span class="mf">0.2</span><span class="o">*</span><span class="n">xb</span><span class="p">,</span><span class="n">yb</span><span class="o">-</span><span class="mf">0.15</span><span class="o">*</span><span class="n">yb</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;Outliers&quot;</span><span class="p">,[</span><span class="n">xw</span><span class="o">+</span><span class="mf">0.38</span><span class="o">*</span><span class="n">xw</span><span class="p">,</span><span class="n">yw</span><span class="o">-</span><span class="mf">0.3</span><span class="o">*</span><span class="n">yw</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Set colors of box aspects for top subplot    </span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">bp_data</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">bp_data</span><span class="p">[</span><span class="s1">&#39;whiskers&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">bp_data</span><span class="p">[</span><span class="s1">&#39;fliers&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Set colors of box aspects for bottom (sample) subplot   </span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">bp2_example</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">bp2_example</span><span class="p">[</span><span class="s1">&#39;whiskers&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">bp2_example</span><span class="p">[</span><span class="s1">&#39;fliers&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Set Titles</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">buoytitle</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.97</span><span class="p">)</span> <span class="c1"># Overall plot title using &#39;buoytitle&#39; variable</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Significant Wave Height by month for &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year_date</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span> <span class="c1"># Subtitle for top plot</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Sample Boxplot&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span> <span class="c1"># Subtitle for bottom plot</span>
+    
+    <span class="c1"># Set axes labels and ticks</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span><span class="s1">&#39;Feb&#39;</span><span class="p">,</span><span class="s1">&#39;Mar&#39;</span><span class="p">,</span><span class="s1">&#39;Apr&#39;</span><span class="p">,</span><span class="s1">&#39;May&#39;</span><span class="p">,</span><span class="s1">&#39;Jun&#39;</span><span class="p">,</span><span class="s1">&#39;Jul&#39;</span><span class="p">,</span><span class="s1">&#39;Aug&#39;</span><span class="p">,</span><span class="s1">&#39;Sep&#39;</span><span class="p">,</span><span class="s1">&#39;Oct&#39;</span><span class="p">,</span><span class="s1">&#39;Nov&#39;</span><span class="p">,</span><span class="s1">&#39;Dec&#39;</span><span class="p">],</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Significant Wave Height, Hs (m)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Create a second row of x-axis labels for top subplot</span>
+    <span class="n">newax</span> <span class="o">=</span> <span class="n">bp</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+    <span class="n">newax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+    <span class="n">newax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+    <span class="n">newax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="s1">&#39;outward&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">))</span>
+    <span class="n">newax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">monthlengths</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="c1"># Plot horizontal gridlines onto top subplot</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    
+    <span class="c1"># Remove tickmarks from bottom subplot</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">bp2</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
 </pre></div>
 
            </div>
