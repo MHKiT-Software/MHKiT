@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+MHKiT v0.3.1
+-------------
+ * Ensures compatibility with dependency PECOS v0.1.9 
+
+
 MHKiT v0.3.0
 -------------
 MHKiT v0.3.0 adds the following modules to MHKiT:
