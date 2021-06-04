@@ -27,7 +27,9 @@ The wave module uses wave elevation time series data and spectra data.
 IO
 """"""
 The io submodule contains the following functions to request, load,
-and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, and to load `WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ data.
+and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, `WPTO Hindcast <https://registry.opendata.aws/wpto-pds-us-wave/>`_data, and 
+`CDiP <http://cdip.ucsd.edu>`_ data. The io module also has functions to load and manipulate 
+`WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ and `SWAN <https://snl-waterpower.github.io/SNL-SWAN/>`_ model data.
 
 
 .. autosummary:: 
@@ -41,10 +43,27 @@ and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ 
    ~mhkit.wave.io.ndbc.parameter_units 
    ~mhkit.wave.io.wecsim.read_output
    
+CDiP Data
+++++++++++++
+   
+.. automodule:: mhkit.wave.io.cdip
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+
 NDBC Data
 +++++++++
 
 .. automodule:: mhkit.wave.io.ndbc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+SWAN Data
++++++++++
+
+.. automodule:: mhkit.wave.io.swan
     :members:
     :undoc-members:
     :show-inheritance:
@@ -56,7 +75,14 @@ WEC-Sim Data
     :members:
     :undoc-members:
     :show-inheritance:
-    
+
+WPTO Hindcast Data
+++++++++++++++++++
+   
+.. automodule:: mhkit.wave.io.hindcast
+    :members:
+    :undoc-members:
+    :show-inheritance:
     
 Resource
 """"""""""""
