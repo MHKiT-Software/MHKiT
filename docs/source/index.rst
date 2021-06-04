@@ -22,10 +22,12 @@
    utils.rst
    python.rst
    matlab.rst
+   webinars.rst
    license.rst
    release_notes.rst
    citeus.rst
    contact.rst
+
 
 
 
