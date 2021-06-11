@@ -22,6 +22,7 @@
    utils.rst
    python.rst
    matlab.rst
+   troubleshooting.rst
    webinars.rst
    license.rst
    release_notes.rst

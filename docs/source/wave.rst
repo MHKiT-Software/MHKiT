@@ -6,7 +6,7 @@ The Wave module contains a set of functions to calculate quantities of interest 
 
 The wave module contains the following submodules:
 
-* ``io``: Loads wave elevation and spectra data from standard formats.
+* ``io``: Loads wave elevation and spectra data from standard formats including WEC-Sim, SWAN, WPTO hindcast, CDiP, and NDBC data.
 * ``resource``: Computes resource assessment metrics, including wave energy spectra, significant wave height and peak period.
   Calculations are based on `IEC TS 62600-101:2015 ED1 <https://webstore.iec.ch/publication/22593>`_.
 * ``performance``: Computes performance metrics such as capture length matrix, and mean annual energy production.
