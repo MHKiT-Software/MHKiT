@@ -27,7 +27,7 @@ Requirements
 * `SciPy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing
 * `Matplotlib <http://matplotlib.org>`_: used to produce figures
 * `Requests <https://requests.readthedocs.io/>`_: used to get data from websites
-* `Pecos v0.1.8 <https://pecos.readthedocs.io/>`_: used for quality control analysis
+* `Pecos v0.1.9 <https://pecos.readthedocs.io/>`_: used for quality control analysis
 
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ because it includes all of the MHKiT-Python package dependencies except Pecos.
 

@@ -101,6 +101,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../citeus.html">Cite Us</a></li>
@@ -178,12 +180,12 @@
 
 <span class="n">_matlab</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Private variable indicating if mhkit is run through matlab</span>
 
-<div class="viewcode-block" id="get_statistics"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.get_statistics">[docs]</a><span class="k">def</span> <span class="nf">get_statistics</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">freq</span><span class="p">,</span><span class="n">period</span><span class="o">=</span><span class="mi">600</span><span class="p">):</span>
+<div class="viewcode-block" id="get_statistics"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.get_statistics">[docs]</a><span class="k">def</span> <span class="nf">get_statistics</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">freq</span><span class="p">,</span><span class="n">period</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span><span class="n">vector_channels</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate mean, max, min and stdev statistics of continuous data for a </span>
 <span class="sd">    given statistical window. Default length of statistical window (period) is</span>
 <span class="sd">    based on IEC TS 62600-3:2020 ED1. Also allows calculation of statistics for multiple statistical</span>
-<span class="sd">    windows of continuous data.</span>
+<span class="sd">    windows of continuous data and accounts for vector/directional channels.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ------------</span>
@@ -193,7 +195,9 @@
 <span class="sd">        Sample rate of data [Hz]</span>
 <span class="sd">    period : float/int</span>
 <span class="sd">        Statistical window of interest [sec], default = 600 </span>
-<span class="sd">    </span>
+<span class="sd">    vector_channels : string or list (optional)</span>
+<span class="sd">        List of vector/directional channel names formatted in deg (0-360)</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    ---------</span>
 <span class="sd">    means,maxs,mins,stdevs : pandas DataFrame</span>
@@ -203,6 +207,9 @@
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">),</span> <span class="s1">&#39;data must be of type pd.DataFrame&#39;</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)),</span> <span class="s1">&#39;freq must be of type int or float&#39;</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)),</span> <span class="s1">&#39;freq must be of type int or float&#39;</span>
+    <span class="c1"># catch if vector_channels is not an string array</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector_channels</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span> <span class="n">vector_channels</span> <span class="o">=</span> <span class="p">[</span><span class="n">vector_channels</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vector_channels</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s1">&#39;vector_channels must be a list of strings&#39;</span>
 
     <span class="c1"># Check timestamp using qc module</span>
     <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="s1">&#39;1ms&#39;</span><span class="p">)</span>
@@ -233,12 +240,17 @@
             <span class="k">continue</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Get stats</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-            <span class="n">maxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-            <span class="n">mins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-            <span class="n">stdev</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
-
+            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># time vector</span>
+            <span class="n">maxs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="c1"># maxes</span>
+            <span class="n">mins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="c1"># mins</span>
+            <span class="n">means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="c1"># means</span>
+            <span class="n">stdev</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datachunk</span><span class="o">.</span><span class="n">std</span><span class="p">())</span> <span class="c1"># standard deviation</span>
+            <span class="c1"># calculate vector averages and std</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vector_channels</span><span class="p">:</span>
+                <span class="n">vector_avg</span><span class="p">,</span> <span class="n">vector_std</span> <span class="o">=</span> <span class="n">vector_statistics</span><span class="p">(</span><span class="n">datachunk</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>            
+                <span class="n">means</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector_avg</span> <span class="c1"># overwrite scalar average for channel</span>
+                <span class="n">stdev</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector_std</span> <span class="c1"># overwrite scalar std for channel</span>
+        
     <span class="c1"># Convert to DataFrames and set index</span>
     <span class="n">means</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">means</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
     <span class="n">maxs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">maxs</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
@@ -246,6 +258,44 @@
     <span class="n">stdevs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">stdev</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">means</span><span class="p">,</span><span class="n">maxs</span><span class="p">,</span><span class="n">mins</span><span class="p">,</span><span class="n">stdevs</span></div>
+
+<div class="viewcode-block" id="vector_statistics"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.vector_statistics">[docs]</a><span class="k">def</span> <span class="nf">vector_statistics</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function used to calculate statistics for vector/directional channels based on</span>
+<span class="sd">    routine from Campbell data logger and Yamartino algorithm</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas Series, numpy array, list</span>
+<span class="sd">        Vector channel to calculate statistics on [deg, 0-360]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vector_avg : numpy array</span>
+<span class="sd">        Vector mean statistic</span>
+<span class="sd">    vector_std : numpy array</span>
+<span class="sd">        Vector standard deviation statistic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s1">&#39;data must be of type np.ndarray&#39;</span>
+    
+    <span class="c1"># calculate mean</span>
+    <span class="n">Ux</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">data</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">Uy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">data</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">vector_avg</span> <span class="o">=</span> <span class="p">(</span><span class="mi">90</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">Uy</span><span class="p">,</span><span class="n">Ux</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">vector_avg</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span> <span class="n">vector_avg</span> <span class="o">=</span> <span class="n">vector_avg</span><span class="o">+</span><span class="mi">360</span>
+    <span class="k">elif</span> <span class="n">vector_avg</span><span class="o">&gt;</span><span class="mi">360</span><span class="p">:</span> <span class="n">vector_avg</span> <span class="o">=</span> <span class="n">vector_avg</span><span class="o">-</span><span class="mi">360</span>
+    <span class="c1"># calculate standard deviation              </span>
+    <span class="n">magsum</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">Ux</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Uy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mf">1e8</span><span class="p">)</span><span class="o">/</span><span class="mf">1e8</span> <span class="c1"># round to 8th decimal place to reduce roundoff error</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">magsum</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isreal</span><span class="p">(</span><span class="n">epsilon</span><span class="p">):</span> <span class="c1"># check if epsilon is imaginary (error)</span>
+        <span class="n">vector_std</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: epsilon contains imaginary value&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">vector_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mf">0.1547</span><span class="o">*</span><span class="n">epsilon</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">return</span> <span class="n">vector_avg</span><span class="p">,</span> <span class="n">vector_std</span></div>
 
 <div class="viewcode-block" id="unwrap_vector"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.unwrap_vector">[docs]</a><span class="k">def</span> <span class="nf">unwrap_vector</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

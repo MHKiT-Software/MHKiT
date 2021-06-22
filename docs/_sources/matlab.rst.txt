@@ -37,6 +37,7 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 - `Loads Example <mhkit-matlab/loads_example.html>`_
 - `Environmental Contours Example <mhkit-matlab/environmental_contours_example.html>`_
 - `WEC-Sim Example <mhkit-matlab/wecsim_example.html>`_
+- `SWAN Example <mhkit-matlab/SWAN_example.html>`_
 
 .. MATLAB live examples remove the index, and must be manually saved as html
 
