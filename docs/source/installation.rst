@@ -9,7 +9,7 @@ The following section includes installation instructions for `MHKiT-Python <http
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.6+) <https://www.python.org/>`_  and has several Python package dependencies.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.7+) <https://www.python.org/>`_  and has several Python package dependencies.
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
 Refer to the `Python website <https://www.python.org/>`_ for information on using Python.
 
@@ -17,6 +17,12 @@ Refer to the `Python website <https://www.python.org/>`_ for information on usin
     The installation of Anaconda3 no longer adds python to the Windows Environment Variables by default. During installation, there is a checkbox in the advanced options of the installation to add it to the system path. The installation wizard advises against doing so in case a user has multiple python installations. Either check this box or setup your environmental variables so that python is accessible through your system path.
 
     Click `here <https://www.datacamp.com/community/tutorials/installing-anaconda-windows>`_ for more information.
+
+.. Note::
+	Mac computers come with Python 2.7 pre-installed. MHKiT does not 
+	work with Python 2.7.  A second version of Python (3.7+) will need to 
+	be installed on your machine. DO NOT DELETE Python 2.7. Use the above 
+	steps to make sure MATLAB is running the proper version of Python.
 
 Requirements
 ^^^^^^^^^^^^^^^
@@ -95,6 +101,9 @@ MHKiT-MATLAB
 MATLAB 2019b or later and relies on three components which need to be 
 installed separately.
 
+.. Note::
+	If you are using Python 3.8, MATLAB 2020b or later is required. 
+
 Install MHKiT-MATLAB
 ^^^^^^^^^^^^^^^^^^^^^
 First, MHKiT-MATLAB consists of MATLAB code which runs the MHKiT-Python functions. Therefore, the installation of both packages is necessary. See the MHKit-Python installation instructions above.
@@ -147,14 +156,6 @@ If the resulting path to the python executable (path_to_exe) indicates
 Python 3.6+, copy the path and in the MATLAB terminal run::
 
     pyversion('<path_to_exe>')
-
-Note: Mac computers come with Python 2.7 pre-installed. MHKiT does not 
-work with Python 2.7.  A second version of Python (3.6+) will need to 
-be installed on your machine. DO NOT DELETE Python 2.7. Use the above 
-steps to make sure MATLAB is running the proper version of Python.
-
-.. Note::
-	If you are using Python 3.8, MATLAB 2020b or later is required. 
 
 
 Step 4: Install the MHKiT-MATLAB Toolbox 

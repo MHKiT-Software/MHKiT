@@ -58,8 +58,8 @@ MHKiT is developed as a collaboration between the National Renewable Energy Labo
 `MHKiT-Python Contributors <https://github.com/MHKiT-Software/MHKiT-Python/graphs/contributors>`_ page and the
 `MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.
 
-- Frederick Driscoll (NREL - PI)
-- Rebecca Fao (NREL)
+- Frederick Driscoll (NREL)
+- Rebecca Fao (NREL - PI)
 - Budi Gunawan (Sandia - PI)
 - Hristo Ivanov (NREL)
 - Katherine Klise (Sandia)
