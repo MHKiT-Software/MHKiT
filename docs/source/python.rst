@@ -41,6 +41,7 @@ Jupyter notebook examples of MHKiT-Python are included below:
    SWAN_example.ipynb
    WPTO_hindcast_example.ipynb
    cdip_example.ipynb
+   PacWave_resource_characterization_example.ipynb
    
 
 Online Forum

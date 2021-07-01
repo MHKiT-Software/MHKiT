@@ -130,8 +130,6 @@ The following functions can be used to compute wave metrics from spectra:
    ~mhkit.wave.resource.wave_celerity
    ~mhkit.wave.resource.wave_number
    ~mhkit.wave.resource.environmental_contour
-   ~mhkit.wave.resource.joint_probability_distribution
-   ~mhkit.wave.resource.directional_joint_probability_distribution
    ~mhkit.wave.resource.depth_regime
    ~mhkit.wave.resource.wave_length
  
