@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Wave Module &mdash; MHKiT v0.3.1 documentation</title>
+  <title>Wave Module &mdash; MHKiT v0.4.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                v0.3.1
+                v0.4.0
               </div>
             
           
@@ -286,10 +286,121 @@ and manipulate <a class="reference external" href="https://www.ndbc.noaa.gov/">N
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.hindcast.request_wpto_point_data" title="mhkit.wave.io.hindcast.request_wpto_point_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_wpto_point_data</span></code></a></p></td>
 <td><p>Returns data from the WPTO wave hindcast hosted on AWS at the specified latitude and longitude point(s), or the closest available pont(s).</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.hindcast.request_wpto_directional_spectrum" title="mhkit.wave.io.hindcast.request_wpto_directional_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_wpto_directional_spectrum</span></code></a></p></td>
+<td><p>Returns directional spectra data from the WPTO wave hindcast hosted on AWS at the specified latitude and longitude point(s), or the closest available pont(s).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.cdip.request_netCDF" title="mhkit.wave.io.cdip.request_netCDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_netCDF</span></code></a></p></td>
+<td><p>Returns historic or realtime data from CDIP THREDDS server</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.io.cdip.request_parse_workflow" title="mhkit.wave.io.cdip.request_parse_workflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_parse_workflow</span></code></a></p></td>
+<td><p>Parses a passed CDIP netCDF file or requests a station number from <a class="reference external" href="http://cdip.ucsd.edu/">http://cdip.ucsd.edu/</a>) and parses.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.io.cdip.get_netcdf_variables" title="mhkit.wave.io.cdip.get_netcdf_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_netcdf_variables</span></code></a></p></td>
+<td><p>Iterates over and extracts variables from CDIP bouy data.</p></td>
+</tr>
 </tbody>
 </table>
-<div class="section" id="cdip-data">
-<h3>CDiP Data<a class="headerlink" href="#cdip-data" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-mhkit.wave.io.cdip">
+<span id="cdip-data"></span><h3>CDiP Data<a class="headerlink" href="#module-mhkit.wave.io.cdip" title="Permalink to this headline">¶</a></h3>
+<dl class="py function">
+<dt id="mhkit.wave.io.cdip.request_netCDF">
+<code class="sig-prename descclassname">mhkit.wave.io.cdip.</code><code class="sig-name descname">request_netCDF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">station_number</span></em>, <em class="sig-param"><span class="n">data_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/cdip.html#request_netCDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.cdip.request_netCDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns historic or realtime data from CDIP THREDDS server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station_number</strong> (<em>string</em>) – CDIP station number of interest</p></li>
+<li><p><strong>data_type</strong> (<em>string</em>) – ‘historic’ or ‘realtime’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nc</strong> (<em>netCDF Object</em>) – netCDF data for the given station number and data type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.cdip.request_parse_workflow">
+<code class="sig-prename descclassname">mhkit.wave.io.cdip.</code><code class="sig-name descname">request_parse_workflow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nc</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">station_number</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">years</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_date</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data_type</span><span class="o">=</span><span class="default_value">'historic'</span></em>, <em class="sig-param"><span class="n">all_2D_variables</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/cdip.html#request_parse_workflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.cdip.request_parse_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a passed CDIP netCDF file or requests a station number
+from <a class="reference external" href="http://cdip.ucsd.edu/">http://cdip.ucsd.edu/</a>) and parses. This function can return specific
+parameters is passed. Years may be non-consecutive e.g. [2001, 2010].
+Time may be sliced by dates (start_date or end date in YYYY-MM-DD).
+data_type defaults to historic but may also be set to ‘realtime’.
+By default 2D variables are not parsed if all 2D varaibles are needed. See
+the MHKiT CDiP example Jupyter notbook for information on available parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nc</strong> (<em>netCDF Object</em>) – netCDF data for the given station number and data type. Can be the output of
+request_netCDF</p></li>
+<li><p><strong>station_number</strong> (<em>string</em>) – Station number of CDIP wave buoy</p></li>
+<li><p><strong>parameters</strong> (<em>string</em><em> or </em><em>list of stings</em>) – Parameters to return. If None will return all varaibles except
+2D-variables.</p></li>
+<li><p><strong>years</strong> (<em>int</em><em> or </em><em>list of int</em>) – Year date, e.g. 2001 or [2001, 2010]</p></li>
+<li><p><strong>start_date</strong> (<em>string</em>) – Start date in YYYY-MM-DD, e.g. ‘2012-04-01’</p></li>
+<li><p><strong>end_date</strong> (<em>string</em>) – End date in YYYY-MM-DD, e.g. ‘2012-04-30’</p></li>
+<li><p><strong>data_type</strong> (<em>string</em>) – Either ‘historic’ or ‘realtime’</p></li>
+<li><p><strong>all_2D_variables</strong> (<em>boolean</em>) – Will return all 2D data. Enabling this will add significant
+processing time. If all 2D variables are not needed it is
+recomended to pass 2D parameters of interest using the
+‘parameters’ keyword and leave this set to False. Default False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>data</strong> (<em>dictionary</em>) –</p>
+<dl class="simple">
+<dt>‘vars1D’: DataFrame</dt><dd><p>1D variables indexed by time</p>
+</dd>
+<dt>’metadata’: dictionary</dt><dd><p>Anything not of length time</p>
+</dd>
+<dt>’vars2D’: dictionary of DataFrames, optional</dt><dd><p>If 2D-vars are passed in the ‘parameters key’ or if run
+with all_2D_variables=True, then this key will appear
+with a dictonary of DataFrames of 2D variables.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.cdip.get_netcdf_variables">
+<code class="sig-prename descclassname">mhkit.wave.io.cdip.</code><code class="sig-name descname">get_netcdf_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nc</span></em>, <em class="sig-param"><span class="n">start_date</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">all_2D_variables</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/cdip.html#get_netcdf_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.cdip.get_netcdf_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates over and extracts variables from CDIP bouy data. See
+the MHKiT CDiP example Jupyter notbook for information on available
+parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nc</strong> (<em>netCDF Object</em>) – netCDF data for the given station number and data type</p></li>
+<li><p><strong>start_stamp</strong> (<em>float</em>) – Data of interest start in seconds since epoch</p></li>
+<li><p><strong>end_stamp</strong> (<em>float</em>) – Data of interest end in seconds since epoch</p></li>
+<li><p><strong>parameters</strong> (<em>string</em><em> or </em><em>list of stings</em>) – Parameters to return. If None will return all varaibles except
+2D-variables. Default None.</p></li>
+<li><p><strong>all_2D_variables</strong> (<em>boolean</em>) – Will return all 2D data. Enabling this will add significant
+processing time. If all 2D variables are not needed it is
+recomended to pass 2D parameters of interest using the
+‘parameters’ keyword and leave this set to False. Default False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>results</strong> (<em>dictionary</em>) –</p>
+<dl class="simple">
+<dt>‘vars1D’: DataFrame</dt><dd><p>1D variables indexed by time</p>
+</dd>
+<dt>’metadata’: dictionary</dt><dd><p>Anything not of length time</p>
+</dd>
+<dt>’vars2D’: dictionary of DataFrames, optional</dt><dd><p>If 2D-vars are passed in the ‘parameters key’ or if run
+with all_2D_variables=True, then this key will appear
+with a dictonary of DataFrames of 2D variables.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-mhkit.wave.io.ndbc">
 <span id="ndbc-data"></span><h3>NDBC Data<a class="headerlink" href="#module-mhkit.wave.io.ndbc" title="Permalink to this headline">¶</a></h3>
@@ -537,7 +648,7 @@ DataFrame.</p>
 <span id="wec-sim-data"></span><h3>WEC-Sim Data<a class="headerlink" href="#module-mhkit.wave.io.wecsim" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt id="mhkit.wave.io.wecsim.read_output">
-<code class="sig-prename descclassname">mhkit.wave.io.wecsim.</code><code class="sig-name descname">read_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.wave.io.wecsim.read_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.wave.io.wecsim.</code><code class="sig-name descname">read_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/wecsim.html#read_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.wecsim.read_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads the wecSim response class once ‘output’ has been saved to a <cite>.mat</cite>
 structure.</p>
 <p>NOTE: Python is unable to import MATLAB objects.
@@ -556,6 +667,21 @@ MATLAB must be used to save the wecSim object as a structure.</p>
 <div class="section" id="module-mhkit.wave.io.hindcast">
 <span id="wpto-hindcast-data"></span><h3>WPTO Hindcast Data<a class="headerlink" href="#module-mhkit.wave.io.hindcast" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
+<dt id="mhkit.wave.io.hindcast.region_selection">
+<code class="sig-prename descclassname">mhkit.wave.io.hindcast.</code><code class="sig-name descname">region_selection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lat_lon</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/hindcast.html#region_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.hindcast.region_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the name of the predefined region in which the given coordinates reside.
+Can be used to check if the passed lat/lon pair is within the WPTO hindcast dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>lat_lon</strong> (<em>list</em><em> or </em><em>tuple</em>) – Latitude and longitude coordinates as flaots or intigers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>region</strong> (<em>string</em>) – Name of predefined region for given coordinates</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="mhkit.wave.io.hindcast.request_wpto_point_data">
 <code class="sig-prename descclassname">mhkit.wave.io.hindcast.</code><code class="sig-name descname">request_wpto_point_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_type</span></em>, <em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">lat_lon</span></em>, <em class="sig-param"><span class="n">years</span></em>, <em class="sig-param"><span class="n">tree</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unscale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">str_decode</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">hsds</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/hindcast.html#request_wpto_point_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.hindcast.request_wpto_point_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns data from the WPTO wave hindcast hosted on AWS at the specified latitude and longitude point(s),
@@ -567,9 +693,9 @@ Please see the WPTO_hindcast_example notebook for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data_type</strong> (<em>string</em>) – data set type of interst
+<li><p><strong>data_type</strong> (<em>string</em>) – Data set type of interest
 Options: ‘3-hour’ ‘1-hour’</p></li>
-<li><p><strong>parameter</strong> (<em>string</em><em> or </em><em>list of strings</em>) – <p>dataset parameter to be downloaded
+<li><p><strong>parameter</strong> (<em>string</em><em> or </em><em>list of strings</em>) – <p>Dataset parameter to be downloaded
 3-hour dataset options: ‘directionality_coefficient’, ‘energy_period’, ‘maximum_energy_direction’</p>
 <blockquote>
 <div><p>’mean_absolute_period’, ‘mean_zero-crossing_period’, ‘omni-directional_wave_power’, ‘peak_period’
@@ -582,7 +708,7 @@ Options: ‘3-hour’ ‘1-hour’</p></li>
 </dd>
 </dl>
 </p></li>
-<li><p><strong>lat_lon</strong> (<em>tuple</em><em> or </em><em>list of tuples</em>) – latitude longitude pairs at which to extract data</p></li>
+<li><p><strong>lat_lon</strong> (<em>tuple</em><em> or </em><em>list of tuples</em>) – Latitude longitude pairs at which to extract data</p></li>
 <li><p><strong>years</strong> (<em>list</em>) – Year(s) to be accessed. The years 1979-2010 available. Examples: [1996] or [2004,2006,2007]</p></li>
 <li><p><strong>tree</strong> (<em>str | cKDTree</em><em> (</em><em>optional</em><em>)</em>) – cKDTree or path to .pkl file containing pre-computed tree
 of lat, lon coordinates, default = None</p></li>
@@ -599,7 +725,46 @@ local machine, not AWS. Default = True</p></li>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>data</strong> (<em>DataFrame</em>) – Data indexed by datetime with columns named for parameter and cooresponding metadata index</p></li>
-<li><p><strong>meta</strong> (<em>DataFrame</em>) – location metadata for the requested data location</p></li>
+<li><p><strong>meta</strong> (<em>DataFrame</em>) – Location metadata for the requested data location</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.io.hindcast.request_wpto_directional_spectrum">
+<code class="sig-prename descclassname">mhkit.wave.io.hindcast.</code><code class="sig-name descname">request_wpto_directional_spectrum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lat_lon</span></em>, <em class="sig-param"><span class="n">year</span></em>, <em class="sig-param"><span class="n">tree</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unscale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">str_decode</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">hsds</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/io/hindcast.html#request_wpto_directional_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.io.hindcast.request_wpto_directional_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns directional spectra data from the WPTO wave hindcast hosted on AWS at the specified latitude and longitude point(s),
+or the closest available pont(s).
+Visit <a class="reference external" href="https://registry.opendata.aws/wpto-pds-us-wave/">https://registry.opendata.aws/wpto-pds-us-wave/</a> for more information about the dataset and available
+locations and years.</p>
+<p>Note: To access the WPTO hindcast data, you will need to configure h5pyd for data access on HSDS.
+Please see the WPTO_hindcast_example notebook for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_lon</strong> (<em>tuple</em><em> or </em><em>list of tuples</em>) – Latitude longitude pairs at which to extract data</p></li>
+<li><p><strong>year</strong> (<em>string</em>) – Year to be accessed. The years 1979-2010 available. Only one year can be requested at a time.</p></li>
+<li><p><strong>tree</strong> (<em>str | cKDTree</em><em> (</em><em>optional</em><em>)</em>) – cKDTree or path to .pkl file containing pre-computed tree
+of lat, lon coordinates, default = None</p></li>
+<li><p><strong>unscale</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Boolean flag to automatically unscale variables on extraction
+Default = True</p></li>
+<li><p><strong>str_decode</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – <p>Boolean flag to decode the bytestring meta data into normal
+strings. Setting this to False will speed up the meta data read.</p>
+<blockquote>
+<div><p>Default = True</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>hsds</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Boolean flag to use h5pyd to handle .h5 ‘files’ hosted on AWS
+behind HSDS. Setting to False will indicate to look for files on
+local machine, not AWS. Default = True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>data</strong> (<em>xarray</em>) – Coordinates as datetime, frequency, and direction for data at specified location(s)</p></li>
+<li><p><strong>meta</strong> (<em>DataFrame</em>) – Location metadata for the requested data location</p></li>
 </ul>
 </p>
 </dd>
@@ -681,6 +846,12 @@ and metrics.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.resource.environmental_contour" title="mhkit.wave.resource.environmental_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">environmental_contour</span></code></a></p></td>
 <td><p>Calculates environmental contours of extreme sea states using the improved joint probability distributions with the inverse first-order reliability method (I-FORM) probability for the desired return period (<cite>period</cite>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.resource.depth_regime" title="mhkit.wave.resource.depth_regime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depth_regime</span></code></a></p></td>
+<td><p>Calculates the depth regime based on wavelength and height Deep water: h/l &gt; ratio This function exists so sinh in wave celerity doesn’t blow up to infinity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.resource.wave_length" title="mhkit.wave.resource.wave_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave_length</span></code></a></p></td>
+<td><p>Calculates wave length from wave number To compute: 2*pi/wavenumber</p></td>
 </tr>
 </tbody>
 </table>
@@ -937,15 +1108,21 @@ for example, phases = np.random.rand(len(S)) * 2 * np.pi</p></li>
 
 <dl class="py function">
 <dt id="mhkit.wave.resource.energy_flux">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">energy_flux</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1025</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">9.80665</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#energy_flux"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.energy_flux" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">energy_flux</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">deep</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1025</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">9.80665</span></em>, <em class="sig-param"><span class="n">ratio</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#energy_flux"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.energy_flux" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the omnidirectional wave energy flux of the spectra</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p></li>
+<li><p><strong>S</strong> (<em>pandas DataFrame</em><em> or </em><em>Series</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p></li>
 <li><p><strong>h</strong> (<em>float</em>) – Water depth [m]</p></li>
-<li><p><strong>rho</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Water Density [kg/m3]</p></li>
-<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]</p></li>
+<li><p><strong>deep</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – If True use the deep water approximation. Default False. When
+False a depth check is run to check for shallow water. The ratio
+of the shallow water regime can be changed using the ratio
+keyword.</p></li>
+<li><p><strong>rho</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Water Density [kg/m^3]. Default = 1025 kg/m^3</p></li>
+<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]. Default = 9.80665 m/s^2</p></li>
+<li><p><strong>ratio</strong> (<em>float</em><em> or </em><em>int</em><em> (</em><em>optional</em><em>)</em>) – Only applied if depth=False. If h/l &gt; ratio,
+water depth will be set to deep. Default ratio = 2.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -956,18 +1133,36 @@ for example, phases = np.random.rand(len(S)) * 2 * np.pi</p></li>
 
 <dl class="py function">
 <dt id="mhkit.wave.resource.wave_celerity">
-<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_celerity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">9.80665</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#wave_celerity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.wave_celerity" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_celerity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">9.80665</span></em>, <em class="sig-param"><span class="n">depth_check</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ratio</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#wave_celerity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.wave_celerity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates wave celerity (group velocity)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<em>pandas DataFrame</em>) – Wave number [1/m] indexed by frequency [Hz]</p></li>
+<li><p><strong>k</strong> (<em>pandas DataFrame</em><em> or </em><em>Series</em>) – Wave number [1/m] indexed by frequency [Hz]</p></li>
 <li><p><strong>h</strong> (<em>float</em>) – Water depth [m]</p></li>
-<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]</p></li>
+<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]. Default 9.80665 m/s.</p></li>
+<li><p><strong>depth_check</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – If True check depth regime. Default False.</p></li>
+<li><p><strong>ratio</strong> (<em>float</em><em> or </em><em>int</em><em> (</em><em>optional</em><em>)</em>) – Only applied if depth_check=True. If h/l &gt; ratio,
+water depth will be set to deep. Default ratio = 2</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>Cg</strong> (<em>pandas DataFrame</em>) – Water celerity [?] indexed by frequency [Hz]</p>
+<dd class="field-even"><p><strong>Cg</strong> (<em>pandas DataFrame</em>) – Water celerity [m/s] indexed by frequency [Hz]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.resource.wave_length">
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">wave_length</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#wave_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.wave_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates wave length from wave number
+To compute: 2*pi/wavenumber</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>pandas Dataframe</em>) – Wave number [1/m] indexed by frequency</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>l</strong> (<em>float or array</em>) – Wave length [m] indexed by frequency</p>
 </dd>
 </dl>
 </dd></dl>
@@ -989,6 +1184,31 @@ using this function (f = w/2*pi)</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>k</strong> (<em>pandas DataFrame</em>) – Wave number [1/m] indexed by frequency [Hz]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.resource.depth_regime">
+<code class="sig-prename descclassname">mhkit.wave.resource.</code><code class="sig-name descname">depth_regime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">l</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">ratio</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/resource.html#depth_regime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.resource.depth_regime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the depth regime based on wavelength and height
+Deep water: h/l &gt; ratio
+This function exists so sinh in wave celerity doesn’t blow
+up to infinity.</p>
+<p>P.K. Kundu, I.M. Cohen (2000) suggest h/l &gt;&gt; 1 for deep water (pg 209)
+Same citation as above, they also suggest for 3% accuracy, h/l &gt; 0.28 (pg 210)
+However, since this function allows multiple wavelengths, higher ratio
+numbers are more accurate across varying wavelengths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>array-like</em>) – wavelength [m]</p></li>
+<li><p><strong>h</strong> (<em>float</em><em> or </em><em>int</em>) – water column depth [m]</p></li>
+<li><p><strong>ratio</strong> (<em>float</em><em> or </em><em>int</em><em> (</em><em>optional</em><em>)</em>) – if h/l &gt; ratio, water depth will be set to deep. Default ratio = 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>depth_reg</strong> (<em>boolean or boolean array</em>) – Boolean True if deep water, False otherwise</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1232,6 +1452,46 @@ along with data frequency in each bin</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="mhkit.wave.performance.power_performance_workflow">
+<code class="sig-prename descclassname">mhkit.wave.performance.</code><code class="sig-name descname">power_performance_workflow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">statistic</span></em>, <em class="sig-param"><span class="n">frequency_bins</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">deep</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1205</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">9.80665</span></em>, <em class="sig-param"><span class="n">ratio</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">show_values</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">savepath</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/performance.html#power_performance_workflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.performance.power_performance_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>High-level function to compute power performance quantities of
+interest following IEC TS 62600-100 for given wave spectra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S</strong> (<em>pandas DataFrame</em><em> or </em><em>Series</em>) – Spectral density [m^2/Hz] indexed by frequency [Hz]</p></li>
+<li><p><strong>h</strong> (<em>float</em>) – Water depth [m]</p></li>
+<li><p><strong>P</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em>) – Power [W]</p></li>
+<li><p><strong>statistic</strong> (<em>string</em><em> or </em><em>list of strings</em>) – Statistics for plotting capture length matrices,
+options include: “mean”, “std”, “median”,
+“count”, “sum”, “min”, “max”, and “frequency”.
+Note that “std” uses a degree of freedom of 1 in accordance with IEC/TS 62600-100.
+To output capture length matrices for multiple binning parameters,
+define as a list of strings: statistic = [“”, “”, “”]</p></li>
+<li><p><strong>frequency_bins</strong> (<em>numpy array</em><em> or </em><em>pandas Series</em><em> (</em><em>optional</em><em>)</em>) – Bin widths for frequency of S. Required for unevenly sized bins</p></li>
+<li><p><strong>deep</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – If True use the deep water approximation. Default False. When
+False a depth check is run to check for shallow water. The ratio
+of the shallow water regime can be changed using the ratio
+keyword.</p></li>
+<li><p><strong>rho</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Water density [kg/m^3]. Default = 1025 kg/m^3</p></li>
+<li><p><strong>g</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – Gravitational acceleration [m/s^2]. Default = 9.80665 m/s^2</p></li>
+<li><p><strong>ratio</strong> (<em>float</em><em> or </em><em>int</em><em> (</em><em>optional</em><em>)</em>) – Only applied if depth=False. If h/l &gt; ratio,
+water depth will be set to deep. Default ratio = 2.</p></li>
+<li><p><strong>show_values</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – Show values on the scatter diagram. Default = False.</p></li>
+<li><p><strong>savepath</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Path to save figure. Terminate with ‘’. Default=””.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>LM</strong> (<em>xarray dataset</em>) – Capture length matrices</p></li>
+<li><p><strong>maep_matrix</strong> (<em>float</em>) – Mean annual energy production</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="graphics">
 <h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
@@ -1243,10 +1503,10 @@ along with data frequency in each bin</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_spectrum" title="mhkit.wave.graphics.plot_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_spectrum</span></code></a></p></td>
-<td><p>Plots wave amplitude spectrum versus omega :param S: Spectral density [m^2/Hz] indexed frequency [Hz] :type S: pandas DataFrame :param ax: Axes for plotting.</p></td>
+<td><p>Plots wave amplitude spectrum versus omega</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_elevation_timeseries" title="mhkit.wave.graphics.plot_elevation_timeseries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_elevation_timeseries</span></code></a></p></td>
-<td><p>Plot wave surface elevation time-series :param eta: Wave surface elevation [m] indexed by time [datetime or s] :type eta: pandas DataFrame :param ax: Axes for plotting.</p></td>
+<td><p>Plot wave surface elevation time-series</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_matrix" title="mhkit.wave.graphics.plot_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_matrix</span></code></a></p></td>
 <td><p>Plots values in the matrix as a scatter diagram</p></td>
@@ -1257,19 +1517,33 @@ along with data frequency in each bin</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_environmental_contour" title="mhkit.wave.graphics.plot_environmental_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_environmental_contour</span></code></a></p></td>
 <td><p>Plots an overlay of the x1 and x2 variables to the calculate environmental contours.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_compendium" title="mhkit.wave.graphics.plot_compendium"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_compendium</span></code></a></p></td>
+<td><p>Create subplots showing: Significant Wave Height (Hs), Peak Period (Tp), and Direction (Dp) using OPeNDAP service from CDIP THREDDS Server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_boxplot" title="mhkit.wave.graphics.plot_boxplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_boxplot</span></code></a></p></td>
+<td><p>Create plot of monthly-averaged boxes of Significant Wave Height (Hs) data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.wave.graphics.plot_avg_annual_energy_matrix" title="mhkit.wave.graphics.plot_avg_annual_energy_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_avg_annual_energy_matrix</span></code></a></p></td>
+<td><p>Creates an average annual energy matrix with frequency of occurance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.wave.graphics.monthly_cumulative_distribution" title="mhkit.wave.graphics.monthly_cumulative_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">monthly_cumulative_distribution</span></code></a></p></td>
+<td><p>Creates a cumulative distribution of energy flux as described in IEC TS 62600-101.</p></td>
+</tr>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.wave.graphics"></span><dl class="py function">
 <dt id="mhkit.wave.graphics.plot_spectrum">
 <code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_spectrum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_spectrum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots wave amplitude spectrum versus omega
-:param S: Spectral density [m^2/Hz] indexed frequency [Hz]
-:type S: pandas DataFrame
-:param ax: Axes for plotting.  If None, then a new figure is created.
-:type ax: matplotlib axes object</p>
+<dd><p>Plots wave amplitude spectrum versus omega</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed frequency [Hz]</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1277,14 +1551,16 @@ along with data frequency in each bin</p>
 <dl class="py function">
 <dt id="mhkit.wave.graphics.plot_elevation_timeseries">
 <code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_elevation_timeseries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eta</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_elevation_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_elevation_timeseries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot wave surface elevation time-series
-:param eta: Wave surface elevation [m] indexed by time [datetime or s]
-:type eta: pandas DataFrame
-:param ax: Axes for plotting.  If None, then a new figure is created.
-:type ax: matplotlib axes object</p>
+<dd><p>Plot wave surface elevation time-series</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eta</strong> (<em>pandas DataFrame</em>) – Wave surface elevation [m] indexed by time [datetime or s]</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1318,18 +1594,18 @@ mhkit.device.wave, or something similar.</p></li>
 <dd><p>Plots, in the style of Chakrabart (2005), relative importance of viscous,
 inertia, and diffraction phemonena
 Chakrabarti, Subrata. Handbook of Offshore Engineering (2-volume set).
-Elsevier, 2005.
-:param H: Wave height [m]
-:type H: float or numpy array or pandas Series
-:param lambda_w: Wave length [m]
-:type lambda_w: float or numpy array or pandas Series
-:param D: Characteristic length [m]
-:type D: float or numpy array or pandas Series
-:param ax: Axes for plotting.  If None, then a new figure is created.
-:type ax: matplotlib axes object (optional)</p>
+Elsevier, 2005.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave height [m]</p></li>
+<li><p><strong>lambda_w</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Wave length [m]</p></li>
+<li><p><strong>D</strong> (<em>float</em><em> or </em><em>numpy array</em><em> or </em><em>pandas Series</em>) – Characteristic length [m]</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em><em> (</em><em>optional</em><em>)</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1388,6 +1664,90 @@ Default None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.graphics.plot_avg_annual_energy_matrix">
+<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_avg_annual_energy_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Hm0</span></em>, <em class="sig-param"><span class="n">Te</span></em>, <em class="sig-param"><span class="n">J</span></em>, <em class="sig-param"><span class="n">time_index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">Hm0_bin_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">Te_bin_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">Hm0_edges</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">Te_edges</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_avg_annual_energy_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_avg_annual_energy_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an average annual energy matrix with frequency of occurance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Hm0</strong> (<em>array-like</em>) – Significant wave height</p></li>
+<li><p><strong>Te</strong> (<em>array-like</em>) – Energy period</p></li>
+<li><p><strong>J</strong> (<em>array-like</em>) – Energy flux</p></li>
+<li><p><strong>time_index</strong> (<em>DateTime Index</em>) – time to index by. Optional default None. If None Passed parameters must be series indexed by Datetime.</p></li>
+<li><p><strong>Hm0_bin_size</strong> (<em>float</em><em>, </em><em>int</em>) – Creates edges of bin using this discrtization. Optional default None. If not passed must pass Hm0_edges.</p></li>
+<li><p><strong>Te_bin_size</strong> (<em>float</em><em>, </em><em>int</em>) – Creates edges of bin using this discrtization. Optional default None. If not passed must pass Te_edges.</p></li>
+<li><p><strong>Hm0_edges</strong> (<em>array-like</em>) – Defines the Hm0 bin edges to use. Optional default None.</p></li>
+<li><p><strong>Te_edges</strong> (<em>array-like</em>) – Defines the Te bin edges to use. Optional default None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fig</strong> (<em>Figure</em>) – Average annual energy table plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.graphics.monthly_cumulative_distribution">
+<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">monthly_cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">J</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#monthly_cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.monthly_cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a cumulative distribution of energy flux as described in
+IEC TS 62600-101.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>J</strong> (<em>Series</em>) – Energy Flux with DateTime index</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>axes</em>) – Figure of monthly cumulative distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.graphics.plot_compendium">
+<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_compendium</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Hs</span></em>, <em class="sig-param"><span class="n">Tp</span></em>, <em class="sig-param"><span class="n">Dp</span></em>, <em class="sig-param"><span class="n">buoy_title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_compendium"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_compendium" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create subplots showing: Significant Wave Height (Hs), Peak Period (Tp),
+and Direction (Dp) using OPeNDAP service from CDIP THREDDS Server.</p>
+<p>See <a class="reference external" href="http://cdip.ucsd.edu/themes/cdip?pb=1&amp;bl=cdip">http://cdip.ucsd.edu/themes/cdip?pb=1&amp;bl=cdip</a>?pb=1&amp;d2=p70&amp;u3=s:100:st:1:v:compendium:dt:201204 for example Compendium plot.</p>
+<p>Developed based on: <a class="reference external" href="http://cdip.ucsd.edu/themes/media/docs/documents/html_pages/compendium.html">http://cdip.ucsd.edu/themes/media/docs/documents/html_pages/compendium.html</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Hs</strong> (<em>pandas Series</em>) – significant wave height</p></li>
+<li><p><strong>Tp</strong> (<em>pandas Series</em>) – significant wave height</p></li>
+<li><p><strong>Dp</strong> (<em>pandas Series</em>) – significant wave height</p></li>
+<li><p><strong>buoy_title</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Buoy title from the CDIP THREDDS Server</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em><em> (</em><em>optional</em><em>)</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.wave.graphics.plot_boxplot">
+<code class="sig-prename descclassname">mhkit.wave.graphics.</code><code class="sig-name descname">plot_boxplot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Hs</span></em>, <em class="sig-param"><span class="n">buoy_title</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/wave/graphics.html#plot_boxplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.wave.graphics.plot_boxplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create plot of monthly-averaged boxes of Significant Wave Height (Hs)
+data.</p>
+<dl class="simple">
+<dt>Developed based on:</dt><dd><p><a class="reference external" href="http://cdip.ucsd.edu/themes/media/docs/documents/html_pages/annualHs_plot.html">http://cdip.ucsd.edu/themes/media/docs/documents/html_pages/annualHs_plot.html</a></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Spectral density [m^2/Hz] indexed frequency [Hz]</p></li>
+<li><p><strong>buoy_title</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Buoy title from the CDIP THREDDS Server</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib axes object</em><em> (</em><em>optional</em><em>)</em>) – Axes for plotting.  If None, then a new figure is created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>matplotlib pyplot axes</em>)</p>
 </dd>
 </dl>
 </dd></dl>
