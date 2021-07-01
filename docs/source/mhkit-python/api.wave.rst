@@ -27,7 +27,9 @@ The wave module uses wave elevation time series data and spectra data.
 IO
 """"""
 The io submodule contains the following functions to request, load,
-and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, and to load `WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ data.
+and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, `WPTO Hindcast <https://registry.opendata.aws/wpto-pds-us-wave/>`_data, and 
+`CDiP <http://cdip.ucsd.edu>`_ data. The io module also has functions to load and manipulate 
+`WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ and `SWAN <https://snl-waterpower.github.io/SNL-SWAN/>`_ model data.
 
 
 .. autosummary:: 
@@ -40,11 +42,40 @@ and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ 
    ~mhkit.wave.io.ndbc.dates_to_datetime
    ~mhkit.wave.io.ndbc.parameter_units 
    ~mhkit.wave.io.wecsim.read_output
+   ~mhkit.wave.io.swan.read_table
+   ~mhkit.wave.io.swan.read_block
+   ~mhkit.wave.io.swan.dictionary_of_block_to_table
+   ~mhkit.wave.io.swan.block_to_table
+   ~mhkit.wave.io.hindcast.request_wpto_point_data
+   ~mhkit.wave.io.hindcast.request_wpto_directional_spectrum
+   ~mhkit.wave.io.cdip.request_netCDF
+   ~mhkit.wave.io.cdip.request_parse_workflow
+   ~mhkit.wave.io.cdip.get_netcdf_variables
+
+
+
    
+CDiP Data
+++++++++++++
+   
+.. automodule:: mhkit.wave.io.cdip
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+
 NDBC Data
 +++++++++
 
 .. automodule:: mhkit.wave.io.ndbc
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+SWAN Data
++++++++++
+
+.. automodule:: mhkit.wave.io.swan
     :members:
     :undoc-members:
     :show-inheritance:
@@ -56,7 +87,14 @@ WEC-Sim Data
     :members:
     :undoc-members:
     :show-inheritance:
-    
+
+WPTO Hindcast Data
+++++++++++++++++++
+   
+.. automodule:: mhkit.wave.io.hindcast
+    :members:
+    :undoc-members:
+    :show-inheritance:
     
 Resource
 """"""""""""
@@ -92,6 +130,8 @@ The following functions can be used to compute wave metrics from spectra:
    ~mhkit.wave.resource.wave_celerity
    ~mhkit.wave.resource.wave_number
    ~mhkit.wave.resource.environmental_contour
+   ~mhkit.wave.resource.depth_regime
+   ~mhkit.wave.resource.wave_length
  
  
 .. automodule:: mhkit.wave.resource
@@ -135,6 +175,8 @@ The graphics submodule contains functions to plot wave data and related metrics.
    ~mhkit.wave.graphics.plot_matrix
    ~mhkit.wave.graphics.plot_chakrabarti
    ~mhkit.wave.graphics.plot_environmental_contour
+   ~mhkit.wave.graphics.plot_compendium
+   ~mhkit.wave.graphics.plot_boxplot
    
 .. automodule:: mhkit.wave.graphics
     :members:

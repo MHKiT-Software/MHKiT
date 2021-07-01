@@ -3,6 +3,18 @@
 Release Notes
 =============
 
+MHKiT v0.4.0
+-------------
+MHKiT v0.4.0 adds the following modules and capabilities to MHKiT:
+
+ * `wave.io.cdip <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#io>`_ Module: functions for downloading and converting CDiP data into MHKIT formats (MHKiT-Python Only).
+ * `wave.io.hindcast <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#io>`_ Module: functions for downloading and converting WPTO Hindcast data into MHKIT formats (MHKiT-Python Only).
+ * `wave.io.swan <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#io>`_ Module: functions for importing and converting SWAN data into MHKIT formats.
+ * `wave.resource <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#resource>`_ Module: Deep water approximations for wave resource characterization (MHKiT-Python Only).
+ * `utils <https://mhkit-software.github.io/MHKiT/utils.html#Utils>`_ Module: Vector averaging capabilities in statistics calculations. 
+ * `wave.performance <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#performance>`_ Module: Wave power performance workflow functions.
+
+
 MHKiT v0.3.1
 -------------
  * Ensures compatibility with dependency PECOS v0.1.9 

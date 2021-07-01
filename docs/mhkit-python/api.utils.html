@@ -119,6 +119,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../citeus.html">Cite Us</a></li>
@@ -243,21 +245,41 @@ convert numeric indexes to datetime indexes.  Additional helper functions could 
 </table>
 <span class="target" id="module-mhkit.utils"></span><dl class="py function">
 <dt id="mhkit.utils.get_statistics">
-<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">get_statistics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">freq</span></em>, <em class="sig-param"><span class="n">period</span><span class="o">=</span><span class="default_value">600</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#get_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.get_statistics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">get_statistics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">freq</span></em>, <em class="sig-param"><span class="n">period</span><span class="o">=</span><span class="default_value">600</span></em>, <em class="sig-param"><span class="n">vector_channels</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#get_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.get_statistics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate mean, max, min and stdev statistics of continuous data for a
 given statistical window. Default length of statistical window (period) is
 based on IEC TS 62600-3:2020 ED1. Also allows calculation of statistics for multiple statistical
-windows of continuous data.</p>
+windows of continuous data and accounts for vector/directional channels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns of data to be analyzed</p></li>
 <li><p><strong>freq</strong> (<em>float/int</em>) – Sample rate of data [Hz]</p></li>
 <li><p><strong>period</strong> (<em>float/int</em>) – Statistical window of interest [sec], default = 600</p></li>
+<li><p><strong>vector_channels</strong> (<em>string</em><em> or </em><em>list</em><em> (</em><em>optional</em><em>)</em>) – List of vector/directional channel names formatted in deg (0-360)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>means,maxs,mins,stdevs</strong> (<em>pandas DataFrame</em>) – Calculated statistical values from the data, indexed by the first timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.utils.vector_statistics">
+<code class="sig-prename descclassname">mhkit.utils.</code><code class="sig-name descname">vector_statistics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#vector_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.utils.vector_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to calculate statistics for vector/directional channels based on
+routine from Campbell data logger and Yamartino algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pandas Series</em><em>, </em><em>numpy array</em><em>, </em><em>list</em>) – Vector channel to calculate statistics on [deg, 0-360]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>vector_avg</strong> (<em>numpy array</em>) – Vector mean statistic</p></li>
+<li><p><strong>vector_std</strong> (<em>numpy array</em>) – Vector standard deviation statistic</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
