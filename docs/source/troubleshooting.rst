@@ -8,7 +8,8 @@ There are some known issues with various configurations of Python packages, Matl
 
 For all issues, please enusure MHKiT and its dependencies are up to date. 
 To ensure this :
-For Python: 
+For Python:
+
     ```pip install mhkit --upgrade``` or ```pip install -e . ``` from your local clone
 
 For Matlab: Follow the MHKiT-Matlab `installation instructions <https://mhkit-software.github.io/MHKiT/installation.html#id7>`_ to download the latest version. 

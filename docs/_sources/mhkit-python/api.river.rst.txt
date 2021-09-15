@@ -21,8 +21,8 @@ load USGS discharge data.
 .. autosummary::
    :nosignatures:
    
-   ~mhkit.river.io.read_usgs_file
-   ~mhkit.river.io.request_usgs_data
+   ~mhkit.river.io.usgs.read_usgs_file
+   ~mhkit.river.io.usgs.request_usgs_data
    
 .. automodule:: mhkit.river.io
     :members:

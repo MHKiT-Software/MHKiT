@@ -27,7 +27,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
     'nbsphinx',
-    'sphinxcontrib.bibtex',
+    #'sphinxcontrib.bibtex',
     'sphinxcontrib.matlab',       
 ]
 
@@ -70,7 +70,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'MHKiT'
-copyright = '2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories'
+copyright = '2021, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories'
 author = 'MHKiT Developers'
 
 # The version info for the project you're documenting, acts as replacement for
