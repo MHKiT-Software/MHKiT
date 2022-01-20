@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOLfYN Module &mdash; MHKiT v0.4.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MHKiT Quality Control Module" href="../qc_example.html" />
+    <link rel="prev" title="Utils Module" href="api.utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MHKiT
+          </a>
+              <div class="version">
+                v0.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qc.html">QC Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wave.html">Wave Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../river.html">River Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../python.html#api-documentation">API Documentation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="api.qc.html">QC Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.river.html">River Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.tidal.html">Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DOLfYN Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#instrument-support">Instrument Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#i-o">I/O</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rotate">Rotate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#time">Time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-functions">Other functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../python.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python.html#online-forum">Online Forum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python.html#software-tests">Software Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../python.html">MHKiT-Python</a> &raquo;</li>
+      <li>DOLfYN Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/mhkit-python/api.dolfyn.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="dolfyn-module">
+<span id="dolfyn-api"></span><h1>DOLfYN Module<a class="headerlink" href="#dolfyn-module" title="Permalink to this headline"></a></h1>
+<p>DOLfYN is a library of tools for reading, processing, and analyzing
+data from oceanographic velocity measurement instruments such as
+acoustic Doppler velocimeters (ADVs) and acoustic Doppler current profilers
+(ADCPs). It is currently being migrated into MHKiT, which currently includes
+tools to</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Read in raw ADCP/ADV datafiles</p></li>
+<li><p>Rotate vector data through coordinate systems (i.e. beam to instrument to Earth to principal frames of reference)</p></li>
+</ul>
+</div></blockquote>
+<p>DOLfYN data objects are built on xarray <a class="reference external" href="http://xarray.pydata.org/en/stable/user-guide/data-structures.html">DataArrays</a>
+combined into a single <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a>.
+Xarray can be thought of as a multidimensional extension of pandas, though
+it is not built on top of pandas. Datasets and DataArrays support all of the
+same basic functionality of dictionaries (e.g., indexing, iterating, etc.),
+with additional functionality that is designed to streamline the process of
+analyzing and working with data.</p>
+<div class="section" id="instrument-support">
+<h2>Instrument Support<a class="headerlink" href="#instrument-support" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>Nortek:</dt><dd><ul>
+<li><p>AWAC ADCP</p></li>
+<li><p>Signature AD2CP</p></li>
+<li><p>Vector ADV</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>TRDI:</dt><dd><ul>
+<li><p>Workhorse ADCPs (Monitor and Sentinel)</p></li>
+<li><p>WinRiver output files</p></li>
+<li><p>VMDAS output files</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="i-o">
+<h2>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline"></a></h2>
+<p>Contains high level routines for reading in instrument binary data,
+and saving and loading xarray datasets. DOLfYN will automatically search through
+and select a binary reader based on the input data’s file extension.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.read" title="mhkit.dolfyn.io.api.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
+<td><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI (.000, .PD0, .ENX, etc.) data file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.read_example" title="mhkit.dolfyn.io.api.read_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_example</span></code></a></p></td>
+<td><p>Read an ADCP or ADV datafile from the examples directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.save" title="mhkit.dolfyn.io.api.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a></p></td>
+<td><p>Save xarray dataset as netCDF (.nc).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.load" title="mhkit.dolfyn.io.api.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a></p></td>
+<td><p>Load xarray dataset from netCDF (.nc)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.save_mat" title="mhkit.dolfyn.io.api.save_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_mat</span></code></a></p></td>
+<td><p>Save xarray dataset as a MATLAB (.mat) file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.load_mat" title="mhkit.dolfyn.io.api.load_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mat</span></code></a></p></td>
+<td><p>Load xarray dataset from MATLAB (.mat) file, complimentary to <cite>save_mat()</cite></p></td>
+</tr>
+</tbody>
+</table>
+<p>I/O functions can be accessed directly from the main import:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">import</span> <span class="nn">mhkit.dolfyn</span> <span class="k">as</span> <span class="nn">dlfn</span>
+<span class="o">&gt;&gt;</span> <span class="n">dat</span> <span class="o">=</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">my_data_file</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">save_file</span><span class="o">.</span><span class="n">nc</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<span class="target" id="module-mhkit.dolfyn.io.api"></span><dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.io.api.read">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.read" title="Permalink to this definition"></a></dt>
+<dd><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI
+(.000, .PD0, .ENX, etc.) data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>string</em>) – Filename of instrument file to read.</p></li>
+<li><p><strong>userdata</strong> (True, False, or string of userdata.json filename (default <code class="docutils literal notranslate"><span class="pre">True</span></code>)) – Whether to read the ‘&lt;base-filename&gt;.userdata.json’ file.</p></li>
+<li><p><strong>nens</strong> (<em>None</em><em> (</em><em>default: read entire file</em><em>)</em><em>, </em><em>int</em><em>, or </em><em>2-element tuple</em><em> (</em><em>start</em><em>, </em><em>stop</em><em>)</em>) – Number of pings or ensembles to read from the file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from instrument datafile.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.io.api.read_example">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">read_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#read_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.read_example" title="Permalink to this definition"></a></dt>
+<dd><p>Read an ADCP or ADV datafile from the examples directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – <p>A few available files:</p>
+<blockquote>
+<div><p>AWAC_test01.wpr
+BenchFile01.ad2cp
+RDI_test01.000
+burst_mode01.VEC
+vector_data01.VEC
+vector_data_imu01.VEC
+winriver01.PD0
+winriver02.PD0</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.io.api.save">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NETCDF4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'netcdf4'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.save" title="Permalink to this definition"></a></dt>
+<dd><p>Save xarray dataset as netCDF (.nc).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xarray.Dataset</em>) – </p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.nc’ extension</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Drops ‘config’ lines.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.io.api.load">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.load" title="Permalink to this definition"></a></dt>
+<dd><p>Load xarray dataset from netCDF (.nc)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.nc’ extension</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.io.api.save_mat">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">save_mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datenum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#save_mat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.save_mat" title="Permalink to this definition"></a></dt>
+<dd><p>Save xarray dataset as a MATLAB (.mat) file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xarray.Dataset</em>) – Data to save</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.mat’ extension</p></li>
+<li><p><strong>datenum</strong> (<em>bool</em>) – Converts epoch time into MATLAB datenum</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The xarray data format is saved as a MATLAB structure with the fields
+‘vars, coords, config, units’</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.io.savemat</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.io.api.load_mat">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">load_mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datenum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#load_mat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.load_mat" title="Permalink to this definition"></a></dt>
+<dd><p>Load xarray dataset from MATLAB (.mat) file, complimentary to <cite>save_mat()</cite></p>
+<p>A .mat file must contain the fields: {vars, coords, config, units},
+where ‘coords’ contain the dimensions of all variables in ‘vars’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.mat’ extension</p></li>
+<li><p><strong>datenum</strong> (<em>bool</em>) – Converts MATLAB datenum into epoch time</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.io.loadmat</span></code></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rotate">
+<h2>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt>Contains functions for rotating data through frames of reference (FoR):</dt><dd><ol class="arabic simple">
+<li><p><strong>‘beam’</strong>: Follows the acoustic beam FoR, where velocity data is organized by beam number 1-3 or 1-4.</p></li>
+<li><p><strong>‘inst’</strong>: The instrument’s <em>XYZ</em> Cartesian directions. For ADVs, this orientation is from the mark on the ADV body/battery canister, not the sensor head. For TRDI 4-beam instruments, the fourth velocity term is the error velocity (aka <em>XYZE</em>). For Nortek 4-beam instruments, this is <em>XYZ1 Z2</em>, where <em>E=Z2-Z1</em>.</p></li>
+<li><p><strong>‘earth’</strong>: <em>East North UP</em> (<em>ENU</em>) FoR. Based on either magnetic or true North, depending on whether or not DOLfYN has a magnetic declination associated with the dataset. Instruments do not internally record magnetic declination, unless it has been supplied via external software like TRDI’s VMDAS.</p></li>
+<li><p><strong>‘principal’</strong>: Rotates velocity data into a <em>streamwise</em>, <em>cross-stream</em>, and <em>vertical</em> FoR based on the principal flow direction. One must calculate principal heading first.</p></li>
+</ol>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.rotate2" title="mhkit.dolfyn.rotate.api.rotate2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate2</span></code></a></p></td>
+<td><p>Rotate a dataset to a new coordinate system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.set_declination" title="mhkit.dolfyn.rotate.api.set_declination"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_declination</span></code></a></p></td>
+<td><p>Set the magnetic declination</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.calc_principal_heading" title="mhkit.dolfyn.rotate.api.calc_principal_heading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_principal_heading</span></code></a></p></td>
+<td><p>Compute the principal angle of the horizontal velocity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.set_inst2head_rotmat" title="mhkit.dolfyn.rotate.api.set_inst2head_rotmat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_inst2head_rotmat</span></code></a></p></td>
+<td><p>Set the instrument to head rotation matrix for the Nortek ADV if it hasn't already been set through a '.userdata.json' file.</p></td>
+</tr>
+</tbody>
+</table>
+<p>These functions pertain to both ADCPs and ADVs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">import</span> <span class="nn">mhkit.dolfyn</span> <span class="k">as</span> <span class="nn">dlfn</span>
+<span class="o">&gt;&gt;</span> <span class="n">dat</span> <span class="o">=</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">read_example</span><span class="p">(</span><span class="s1">&#39;burst_mode01.VEC&#39;</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="n">dat_mag</span> <span class="o">=</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">set_declination</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">dat_earth</span> <span class="o">=</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">dat_mag</span><span class="p">,</span> <span class="s1">&#39;earth&#39;</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="n">dat_earth</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;principal_heading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">calc_principal_heading</span><span class="p">(</span><span class="n">dat_earth</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">])</span>
+<span class="o">&gt;&gt;</span> <span class="n">dat_flow</span> <span class="o">=</span> <span class="n">dlfn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">dat_earth</span><span class="p">,</span> <span class="s1">&#39;principal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<span class="target" id="module-mhkit.dolfyn.rotate.api"></span><dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.rotate.api.rotate2">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">rotate2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'earth'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#rotate2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.rotate2" title="Permalink to this definition"></a></dt>
+<dd><p>Rotate a dataset to a new coordinate system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ds</strong> (<em>xr.Dataset</em>) – The dolfyn dataset (ADV or ADCP) to rotate.</p></li>
+<li><p><strong>out_frame</strong> (<em>string {'beam'</em><em>, </em><em>'inst'</em><em>, </em><em>'earth'</em><em>, </em><em>'principal'}</em>) – The coordinate system to rotate the data into.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The rotated dataset</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function rotates all variables in <code class="docutils literal notranslate"><span class="pre">ds.attrs['rotate_vars']</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.rotate.api.calc_principal_heading">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">calc_principal_heading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tidal_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#calc_principal_heading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.calc_principal_heading" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the principal angle of the horizontal velocity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vel</strong> (<em>np.ndarray</em><em> (</em><em>2</em><em>,</em><em>...</em><em>,</em><em>Nt</em><em>)</em><em>, or </em><em>(</em><em>3</em><em>,</em><em>...</em><em>,</em><em>Nt</em><em>)</em>) – The 2D or 3D velocity array (3rd-dim is ignored in this calculation)</p></li>
+<li><p><strong>tidal_mode</strong> (<em>bool</em><em> (</em><em>default: True</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>p_heading</strong> (<em>float or ndarray</em>) – The principal heading in degrees clockwise from North.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>The tidal mode follows these steps:</dt><dd><ol class="arabic simple">
+<li><p>rotates vectors with negative velocity by 180 degrees</p></li>
+<li><p>then doubles those angles to make a complete circle again</p></li>
+<li><p>computes a mean direction from this, and halves that angle again.</p></li>
+<li><p>The returned angle is forced to be between 0 and 180. So, you
+may need to add 180 to this if you want your positive
+direction to be in the western-half of the plane.</p></li>
+</ol>
+</dd>
+</dl>
+<p>Otherwise, this function simply computes the average direction
+using a vector method.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.rotate.api.set_declination">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">set_declination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">declin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#set_declination"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.set_declination" title="Permalink to this definition"></a></dt>
+<dd><p>Set the magnetic declination</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>declination</strong> (<em>float</em>) – The value of the magnetic declination in degrees (positive
+values specify that Magnetic North is clockwise from True North)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Dataset adjusted for the magnetic declination</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method modifies the data object in the following ways:</p>
+<ul class="simple">
+<li><p>If the dataset is in the <em>earth</em> reference frame at the time of
+setting declination, it will be rotated into the “<em>True-East</em>,
+<em>True-North</em>, Up” (hereafter, ETU) coordinate system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dat['orientmat']</span></code> is modified to be an ETU to
+instrument (XYZ) rotation matrix (rather than the magnetic-ENU to
+XYZ rotation matrix). Therefore, all rotations to/from the ‘earth’
+frame will now be to/from this ETU coordinate system.</p></li>
+<li><p>The value of the specified declination will be stored in
+<code class="docutils literal notranslate"><span class="pre">dat.attrs['declination']</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dat['heading']</span></code> is adjusted for declination
+(i.e., it is relative to True North).</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">dat.attrs['principal_heading']</span></code> is set, it is
+adjusted to account for the orientation of the new ‘True’
+earth coordinate system (i.e., calling set_declination on a
+data object in the principal coordinate system, then calling
+dat.rotate2(‘earth’) will yield a data object in the new
+‘True’ earth coordinate system)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.rotate.api.set_inst2head_rotmat">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">set_inst2head_rotmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotmat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#set_inst2head_rotmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.set_inst2head_rotmat" title="Permalink to this definition"></a></dt>
+<dd><p>Set the instrument to head rotation matrix for the Nortek ADV if it
+hasn’t already been set through a ‘.userdata.json’ file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rotmat</strong> (<em>float</em>) – 3x3 rotation matrix</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Dataset with rotation matrix applied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="time">
+<h2>Time<a class="headerlink" href="#time" title="Permalink to this headline"></a></h2>
+<p>Time in DOLfYN is handled primary in epoch time, or seconds since 1/1/1970, and
+includes conversion to Unix timestamps, datetime objects, and MATLAB datenum.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.date2dt64" title="mhkit.dolfyn.time.date2dt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">date2dt64</span></code></a></p></td>
+<td><p>Convert numpy.datetime64 array to list of datetime objects</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.dt642date" title="mhkit.dolfyn.time.dt642date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dt642date</span></code></a></p></td>
+<td><p>Convert numpy.datetime64 array to list of datetime objects</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.epoch2dt64" title="mhkit.dolfyn.time.epoch2dt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch2dt64</span></code></a></p></td>
+<td><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to numpy.datetime64 array</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.dt642epoch" title="mhkit.dolfyn.time.dt642epoch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dt642epoch</span></code></a></p></td>
+<td><p>Convert numpy.datetime64 array to epoch time (seconds since 1/1/1970 00:00:00)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.epoch2date" title="mhkit.dolfyn.time.epoch2date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch2date</span></code></a></p></td>
+<td><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to a list of datetime objects</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.date2str" title="mhkit.dolfyn.time.date2str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">date2str</span></code></a></p></td>
+<td><p>Convert list of datetime objects to legible strings</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.date2epoch" title="mhkit.dolfyn.time.date2epoch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">date2epoch</span></code></a></p></td>
+<td><p>Convert list of datetime objects to epoch time</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.date2matlab" title="mhkit.dolfyn.time.date2matlab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">date2matlab</span></code></a></p></td>
+<td><p>Convert list of datetime objects to MATLAB datenum</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.matlab2date" title="mhkit.dolfyn.time.matlab2date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matlab2date</span></code></a></p></td>
+<td><p>Convert MATLAB datenum to list of datetime objects</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.dolfyn.time"></span><dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.epoch2dt64">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">epoch2dt64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ep_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#epoch2dt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.epoch2dt64" title="Permalink to this definition"></a></dt>
+<dd><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to
+numpy.datetime64 array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ep_time</strong> (<em>xarray.DataArray</em>) – Time coordinate data-array or single time element</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>numpy.datetime64</em>) – The converted datetime64 array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.dt642epoch">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">dt642epoch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#dt642epoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.dt642epoch" title="Permalink to this definition"></a></dt>
+<dd><p>Convert numpy.datetime64 array to epoch time
+(seconds since 1/1/1970 00:00:00)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt64</strong> (<em>numpy.datetime64</em>) – Single or array of datetime64 object(s)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>float</em>) – Epoch time (seconds since 1/1/1970 00:00:00)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.date2dt64">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2dt64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2dt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2dt64" title="Permalink to this definition"></a></dt>
+<dd><p>Convert numpy.datetime64 array to list of datetime objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>datetime.datetime</em>) – The converted datetime object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dt64</strong> (<em>numpy.datetime64</em>) – Single or array of datetime64 object(s)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.dt642date">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">dt642date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#dt642date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.dt642date" title="Permalink to this definition"></a></dt>
+<dd><p>Convert numpy.datetime64 array to list of datetime objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt64</strong> (<em>numpy.datetime64</em>) – Single or array of datetime64 object(s)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>datetime.datetime</em>) – The converted datetime object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.epoch2date">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">epoch2date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ep_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_hr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#epoch2date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.epoch2date" title="Permalink to this definition"></a></dt>
+<dd><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to a list
+of datetime objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ep_time</strong> (<em>xarray.DataArray</em>) – Time coordinate data-array or single time element</p></li>
+<li><p><strong>offset_hr</strong> (<em>int</em>) – Number of hours to offset time by (e.g. UTC -7 hours = PDT)</p></li>
+<li><p><strong>to_str</strong> (<em>logical</em>) – Converts datetime object to a readable string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>datetime.datetime</em>) – The converted datetime object or list(strings)</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The specific time instance is set during deployment, usually sync’d to the
+deployment computer. The time seen by dolfyn is in the timezone of the
+deployment computer, which is unknown to dolfyn.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.date2str">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2str" title="Permalink to this definition"></a></dt>
+<dd><p>Convert list of datetime objects to legible strings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dt</strong> (<em>datetime.datetime</em>) – Single or list of datetime object(s)</p></li>
+<li><p><strong>format_str</strong> (<em>string</em>) – Timestamp string formatting, default: ‘%Y-%m-%d %H:%M:%S.%f’.
+See datetime.strftime documentation for timestamp string formatting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>string</em>) – Converted timestamps</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.date2epoch">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2epoch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2epoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2epoch" title="Permalink to this definition"></a></dt>
+<dd><p>Convert list of datetime objects to epoch time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>datetime.datetime</em>) – Single or list of datetime object(s)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>float</em>) – Datetime converted to epoch time (seconds since 1/1/1970 00:00:00)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.date2matlab">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2matlab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2matlab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2matlab" title="Permalink to this definition"></a></dt>
+<dd><p>Convert list of datetime objects to MATLAB datenum</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>datetime.datetime</em>) – List of datetime objects</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>float</em>) – List of timestamps in MATLAB datnum format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.time.matlab2date">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">matlab2date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matlab_dn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#matlab2date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.matlab2date" title="Permalink to this definition"></a></dt>
+<dd><p>Convert MATLAB datenum to list of datetime objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>matlab_dn</strong> (<em>float</em>) – List of timestamps in MATLAB datnum format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dt</strong> (<em>datetime.datetime</em>) – List of datetime objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="other-functions">
+<h2>Other functions<a class="headerlink" href="#other-functions" title="Permalink to this headline"></a></h2>
+<p>Functions in the DOLfYN codebase that may be useful to users are kept here</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.tools.misc.slice1d_along_axis" title="mhkit.dolfyn.tools.misc.slice1d_along_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice1d_along_axis</span></code></a></p></td>
+<td><p>Return an iterator object for looping over 1-D slices, along <code class="docutils literal notranslate"><span class="pre">axis</span></code>, of an array of shape arr_shape.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.tools.misc.fillgaps" title="mhkit.dolfyn.tools.misc.fillgaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fillgaps</span></code></a></p></td>
+<td><p>Linearly fill NaN value in an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.tools.misc.interpgaps" title="mhkit.dolfyn.tools.misc.interpgaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpgaps</span></code></a></p></td>
+<td><p>Fill gaps (NaN values) in <code class="docutils literal notranslate"><span class="pre">a</span></code> by linear interpolation along dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code> with the point spacing specified in <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.tools.misc.convert_degrees" title="mhkit.dolfyn.tools.misc.convert_degrees"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_degrees</span></code></a></p></td>
+<td><p>Converts between the 'cartesian angle' (counter-clockwise from East) and the 'polar angle' in (degrees clockwise from North)</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.dolfyn.tools.misc"></span><dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.tools.misc.slice1d_along_axis">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">slice1d_along_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#slice1d_along_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.slice1d_along_axis" title="Permalink to this definition"></a></dt>
+<dd><p>Return an iterator object for looping over 1-D slices, along <code class="docutils literal notranslate"><span class="pre">axis</span></code>, of
+an array of shape arr_shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr_shape</strong> (<em>tuple</em><em>,</em><em>list</em>) – Shape of the array over which the slices will be made.</p></li>
+<li><p><strong>axis</strong> (<em>integer</em>) – Axis along which <cite>arr</cite> is sliced.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Iterator</strong> (<em>object</em>) – The iterator object returns slice objects which slices arrays of
+shape arr_shape into 1-D arrays.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>&gt;&gt; out=np.empty(replace(arr.shape,0,1))
+&gt;&gt; for slc in slice1d_along_axis(arr.shape,axis=0):
+&gt;&gt;     out[slc]=my_1d_function(arr[slc])</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.tools.misc.fillgaps">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">fillgaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrapFlg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#fillgaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.fillgaps" title="Permalink to this definition"></a></dt>
+<dd><p>Linearly fill NaN value in an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The array to be filled.</p></li>
+<li><p><strong>maxgap</strong> (<em>numpy.ndarray</em><em> (</em><em>optional: inf</em><em>)</em>) – The maximum gap to fill.</p></li>
+<li><p><strong>dim</strong> (<em>int</em><em> (</em><em>optional: 0</em><em>)</em>) – The dimension to operate along.</p></li>
+<li><p><strong>extrapFlg</strong> (<em>bool</em><em> (</em><em>optional: False</em><em>)</em>) – Whether to extrapolate if NaNs are found at the ends of the
+array.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#mhkit.dolfyn.tools.misc.interpgaps" title="mhkit.dolfyn.tools.misc.interpgaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mhkit.dolfyn.tools.misc.interpgaps</span></code></a></dt><dd><p>Linearly interpolates in time.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This function interpolates assuming spacing/timestep between
+successive points is constant. If the spacing is not constant, use
+interpgaps.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.tools.misc.interpgaps">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">interpgaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrapFlg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#interpgaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.interpgaps" title="Permalink to this definition"></a></dt>
+<dd><p>Fill gaps (NaN values) in <code class="docutils literal notranslate"><span class="pre">a</span></code> by linear interpolation along
+dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code> with the point spacing specified in <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The array containing NaN values to be filled.</p></li>
+<li><p><strong>t</strong> (<em>numpy.ndarray</em><em> (</em><em>len</em><em>(</em><em>t</em><em>) </em><em>== a.shape</em><em>[</em><em>dim</em><em>]</em><em>)</em>) – Independent variable of the points in <code class="docutils literal notranslate"><span class="pre">a</span></code>, e.g. timestep</p></li>
+<li><p><strong>maxgap</strong> (<em>numpy.ndarray</em><em> (</em><em>optional: inf</em><em>)</em>) – The maximum gap to fill.</p></li>
+<li><p><strong>dim</strong> (<em>int</em><em> (</em><em>optional: 0</em><em>)</em>) – The dimension to operate along.</p></li>
+<li><p><strong>extrapFlg</strong> (<em>bool</em><em> (</em><em>optional: False</em><em>)</em>) – Whether to extrapolate if NaNs are found at the ends of the
+array.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#mhkit.dolfyn.tools.misc.fillgaps" title="mhkit.dolfyn.tools.misc.fillgaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mhkit.dolfyn.tools.misc.fillgaps</span></code></a></dt><dd><p>Linearly interpolates in array-index space.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.tools.misc.convert_degrees">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">convert_degrees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tidal_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#convert_degrees"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.convert_degrees" title="Permalink to this definition"></a></dt>
+<dd><p>Converts between the ‘cartesian angle’ (counter-clockwise from East) and
+the ‘polar angle’ in (degrees clockwise from North)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>deg</strong> (<em>float</em><em> or </em><em>array-like</em>) – Number or array in ‘degrees CCW from East’ or ‘degrees CW from North’</p></li>
+<li><p><strong>tidal_mode</strong> (<em>bool</em>) – If true, range is set from 0 to +/-180 degrees. If false, range is 0 to
+360 degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>out</strong> (<em>float or array-like</em>) – Input data transformed to ‘degrees CW from North’ or
+‘degrees CCW from East’, respectively (based on <cite>deg</cite>)</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The same algorithm is used to convert back and forth between ‘CCW from E’
+and ‘CW from N’</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api.utils.html" class="btn btn-neutral float-left" title="Utils Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../qc_example.html" class="btn btn-neutral float-right" title="MHKiT Quality Control Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-164358105-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

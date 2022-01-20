@@ -10,8 +10,7 @@ The wave module contains a set of functions to calculate quantities of interest 
 
 IO
 """"""""""""
-The io submodule contains the following function to download and load National Data Buoy Center (NDBC) data file into structures,
-including real time and historical data.
+The io submodule contains the following functions to download and load National Data Buoy Center (NDBC), including real time and historical data, and SWAN model data into structures.
 
 ===========================================  =========================
 Functions                                    Description
@@ -19,6 +18,8 @@ Functions                                    Description
 ``read_NDBC_file``                               Reads a NDBC wave buoy data file (from https://www.ndbc.noaa.gov) into a structure. 
 ``NDBC_available_data``                          Returns the NDBC stations IDs, years, and file names for a requested parameter. 
 ``NDBC_request_data``                            Returns requested NDBC data from passed filenames and parameter. 
+``swan_read_block``                              Reads in SWAN ASCII block format output and returns a data structure. 
+``swan_read_table``                              Reads in SWAN ASCII table format output and returns a data structure. 
 ===========================================  ========================= 
 
 .. mat:automodule:: mhkit.wave.io.ndbc
@@ -77,14 +78,13 @@ The performance submodule contains functions to compute capture length, statisti
 =============================================  =========================
 Functions                                      Description
 =============================================  =========================
-``dc_power``                                   Calculates the real power from DC voltage and current. 
-``ac_power_three_phase``                       Calculates the real power from three phase ac voltage and current. 
 ``capture_length``                             Calculates the capture length (often called capture width).
 ``capture_length_matrix``                      Generates a capture length matrix for a given statistic
 ``mean_annual_energy_production_matrix``       Calculates mean annual energy production (MAEP) from matrix data along with data frequency in each bin
 ``mean_annual_energy_production_timeseeries``  Calculates mean annual energy production (MAEP) from timeseries
 ``power_matrix``                               Generates a power matrix from a capture length matrix and wave energy flux matrix
 ``wave_energy_flux_matrix``                    Generates a wave eneergy flux matrix for a given statistic
+``power_performance_workflow``                 High-level function to compute power performance quantities of interest following IEC TS 62600-100 for given wave spectra.
 =============================================  ========================= 
 
 
@@ -105,6 +105,7 @@ Functions                                    Description
 ``plot_envoronmental_contours``                  Plots an overlay of the x1 and x2 variables to the calculated environmental contours.
 ``plot_matrix``                                  Plots the matrix with Hm0 and Te on the y and x axis 
 ``plot_spectrum``                                Plots wave amplitude spectrum
+``plot_chakrabarti``                             Plots, in the style of Chakrabarti (2005), relative importance of viscous,inertia, and diffraction phemonena
 ===========================================  ========================= 
    
 .. mat:automodule:: mhkit.wave.graphics

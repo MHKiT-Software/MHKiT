@@ -25,8 +25,8 @@ load NOAA velocity/ direction data
 .. autosummary::
    :nosignatures:
       
-   ~mhkit.tidal.io.request_noaa_data
-   ~mhkit.tidal.io.read_noaa_json
+   ~mhkit.tidal.io.noaa.request_noaa_data
+   ~mhkit.tidal.io.noaa.read_noaa_json
 
 
 .. automodule:: mhkit.tidal.io

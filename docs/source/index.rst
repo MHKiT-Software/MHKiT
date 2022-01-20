@@ -20,6 +20,7 @@
    power.rst
    loads.rst
    utils.rst
+   dolfyn.rst
    python.rst
    matlab.rst
    troubleshooting.rst
