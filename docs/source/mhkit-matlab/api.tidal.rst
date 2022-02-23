@@ -93,6 +93,8 @@ Functions                                    Description
 ``plot_rose``                                    Creates a polar histogram. Direction angles from binned histogram must be specified such that 0  degrees is north.
 ``plot_joint_probability_distribution``          Creates a polar histogram. Direction angles from binned histogram must be specified such that 0 is north.
 ``plot_current_timeseries``                      Returns a plot of velocity from an array of direction and speed data in the direction of the supplied principal_direction.
+``plot_tidal_phase_exceedance``                  Creates a stacked area plot of the exceedance probability for the flood and ebb tidal phases.
+``plot_tidal_phase_probability``                 Discretizes the tidal series speed by bin size and returns a plot of the probability for each bin in the flood or ebb tidal phase.
 ===========================================  ========================= 
 
 
