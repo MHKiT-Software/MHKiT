@@ -36,3 +36,29 @@ The graphics submodule contains functions to plot loads metrics.
     :members:
     :no-undoc-members:
     :show-inheritance:
+
+
+Extreme
+""""""""""""
+The extreme submodule contains functions to calculate peak distribution.
+
+.. autosummary::
+   :nosignatures:
+
+   ~mhkit.loads.extreme.global_peaks
+   ~mhkit.loads.extreme.npeaks_st
+   ~mhkit.loads.extreme.peaks_distribution_Weibull
+   ~mhkit.loads.extreme.peaks_distribution_WeibullTailFit
+   ~mhkit.loads.extreme.peaks_distribution_peaksOverThreshold
+   ~mhkit.loads.extreme.ste_peaks
+   ~mhkit.loads.extreme.blockMaxima
+   ~mhkit.loads.extreme.ste_block_maxima_GEV
+   ~mhkit.loads.extreme.ste_block_maxima_Gumbel
+   ~mhkit.loads.extreme.short_term_extreme
+   ~mhkit.loads.extreme.full_seastate_long_term_extreme
+   ~mhkit.loads.extreme.MLERcoeffsGen
+   
+.. automodule:: mhkit.loads.extreme
+    :members:
+    :no-undoc-members:
+    :show-inheritance:

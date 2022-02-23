@@ -101,6 +101,8 @@ and related metrics.
    ~mhkit.tidal.graphics.plot_joint_probability_distribution
    ~mhkit.tidal.graphics.plot_current_timeseries
    ~mhkit.tidal.graphics.plot_velocity_duration_curve
+   ~mhkit.tidal.graphics.tidal_phase_probability
+   ~mhkit.tidal.graphics.tidal_phase_exceedance
    
 .. automodule:: mhkit.tidal.graphics
     :members:

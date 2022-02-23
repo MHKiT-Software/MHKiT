@@ -21,6 +21,7 @@ API Documentation
    mhkit-python/api.tidal
    mhkit-python/api.power
    mhkit-python/api.loads
+   mhkit-python/api.dolfyn
    mhkit-python/api.utils
 
 Examples
