@@ -108,7 +108,6 @@ The following functions can be used to compute wave energy spectra:
 
    ~mhkit.wave.resource.elevation_spectrum
    ~mhkit.wave.resource.pierson_moskowitz_spectrum
-   ~mhkit.wave.resource.bretschneider_spectrum
    ~mhkit.wave.resource.jonswap_spectrum
    
 The following functions can be used to compute wave metrics from spectra:
