@@ -12,5 +12,6 @@ The wave module contains the following submodules:
 * ``performance``: Computes performance metrics such as capture length matrix, and mean annual energy production.
   Calculations are based on `IEC TS 62600-100:2012 ED1 <https://webstore.iec.ch/publication/7241>`_.
 * ``graphics``: Generates graphics, including elevation time-series, spectra, and scatter diagrams.
+* ``contours``: Calculates envoronmental contours of extreme seastates. 
 
 See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the wave module.

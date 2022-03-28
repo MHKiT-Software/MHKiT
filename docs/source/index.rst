@@ -19,6 +19,7 @@
    tidal.rst
    power.rst
    loads.rst
+   dolfyn.rst
    utils.rst
    python.rst
    matlab.rst

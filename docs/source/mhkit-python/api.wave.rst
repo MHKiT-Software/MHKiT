@@ -128,7 +128,6 @@ The following functions can be used to compute wave metrics from spectra:
    ~mhkit.wave.resource.energy_flux
    ~mhkit.wave.resource.wave_celerity
    ~mhkit.wave.resource.wave_number
-   ~mhkit.wave.resource.environmental_contour
    ~mhkit.wave.resource.depth_regime
    ~mhkit.wave.resource.wave_length
  
@@ -180,6 +179,23 @@ The graphics submodule contains functions to plot wave data and related metrics.
    ~mhkit.wave.graphics.monthly_cumulative_distribution
 
 .. automodule:: mhkit.wave.graphics
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Contours
+""""""""""""
+Contains functions for calculating environmental contours of extreme seastates  
+
+.. autosummary::
+   :nosignatures:
+
+   ~mhkit.wave.contours.environmental_contours
+   ~mhkit.wave.contours.PCA_contour
+   ~mhkit.wave.contours.samples_full_seastate
+   ~mhkit.wave.contours.samples_contour
+
+.. automodule:: mhkit.wave.contours
     :members:
     :undoc-members:
     :show-inheritance:

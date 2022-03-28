@@ -45,7 +45,7 @@ Jupyter notebook examples of MHKiT-Python are included below:
    PacWave_resource_characterization_example.ipynb
    Delft3D_example.ipynb
    adcp_example.ipynb
-   adv.example.ipynb
+   adv_example.ipynb
    extreme_response_MLER_example.ipynb
    extreme_response_contour_example.ipynb
    extreme_response_full_sea_state_example.ipynb
