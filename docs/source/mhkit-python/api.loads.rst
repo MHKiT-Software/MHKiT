@@ -46,17 +46,20 @@ The extreme submodule contains functions to calculate peak distribution.
    :nosignatures:
 
    ~mhkit.loads.extreme.global_peaks
-   ~mhkit.loads.extreme.npeaks_st
-   ~mhkit.loads.extreme.peaks_distribution_Weibull
-   ~mhkit.loads.extreme.peaks_distribution_WeibullTailFit
-   ~mhkit.loads.extreme.peaks_distribution_peaksOverThreshold
+   ~mhkit.loads.extreme.number_of_short_term_peaks
+   ~mhkit.loads.extreme.peaks_distribution_weibull
+   ~mhkit.loads.extreme.peaks_distribution_weibull_tail_fit
+   ~mhkit.loads.extreme.peaks_distribution_peaks_over_threshold
    ~mhkit.loads.extreme.ste_peaks
-   ~mhkit.loads.extreme.blockMaxima
-   ~mhkit.loads.extreme.ste_block_maxima_GEV
-   ~mhkit.loads.extreme.ste_block_maxima_Gumbel
+   ~mhkit.loads.extreme.block_maxima
+   ~mhkit.loads.extreme.ste_block_maxima_gev
+   ~mhkit.loads.extreme.ste_block_maxima_gumbel
    ~mhkit.loads.extreme.short_term_extreme
    ~mhkit.loads.extreme.full_seastate_long_term_extreme
-   ~mhkit.loads.extreme.MLERcoeffsGen
+   ~mhkit.loads.extreme.mler_coefficients
+   ~mhkit.loads.extreme.mler_simulation
+   ~mhkit.loads.extreme.mler_wave_amp_normalize
+   ~mhkit.loads.extreme.mler_export_time_series
    
 .. automodule:: mhkit.loads.extreme
     :members:
