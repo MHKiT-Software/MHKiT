@@ -11,6 +11,7 @@ The tidal module contains the following submodules:
 
 * ``general``: Computes loads metrics such as damage equivalent loads.
 * ``graphics``: Generates graphics of loads statistics.
+* ``extreme``: Contains functions to calculate peak distribution.
 
 See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the loads module.
 
