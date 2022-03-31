@@ -19,10 +19,13 @@ Functions                                    Description
 ``NDBC_available_data``                          Returns the NDBC stations IDs, years, and file names for a requested parameter. 
 ``NDBC_request_data``                            Returns requested NDBC data from passed filenames and parameter. 
 ``swan_read_block``                              Reads in SWAN ASCII block format output and returns a data structure. 
-``swan_read_table``                              Reads in SWAN ASCII table format output and returns a data structure. 
-===========================================  ========================= 
+``swan_read_table``                              Reads in SWAN ASCII table format output and returns a data structure.
+``cdip_request_parse_workflow``                  Parses CDIP data from a web request.
+``region_selection``                             Returns the name of the predefined region in which the given coordinates reside.
+``request_wpto``                                 Returns data from the WPTO wave hindcast hosted on AWS at the specified latitude and longitude point(s).
+===========================================  =========================
 
-.. mat:automodule:: mhkit.wave.io.ndbc
+.. mat:automodule:: mhkit.wave.io
     :members:
     :undoc-members:
     :show-inheritance:

@@ -3,6 +3,19 @@
 Release Notes
 =============
 
+MHKiT v0.5.0
+-------------
+MHKiT v0.5.0 adds the following modules and capabilities to MHKiT-Python:
+
+ * Organization: grouped io specific functions in wave, tidal, and river into io folder
+ * Updated Jonswap spectrum to match IEC guidance
+ * `dolfyn <https://mhkit-software.github.io/MHKiT/mhkit-python/api.dolfyn.html#dolfyn>`_ Added DOLfYN module to analyze and process ADV and ADCP data
+ * `wave.contours <https://mhkit-software.github.io/MHKiT/mhkit-python/api.wave.html#contours>`_ Incorporated the remaining WDRT functionality
+ * `river.io.d3d <https://mhkit-software.github.io/MHKiT/mhkit-python/api.river.html#io>`_ Added Delft3D case post-processing in the river/ tidal models
+ * Fixed a bug in the wave elevation function 
+ * Include the last day in CDIP requests and file timezone issues with CDIP
+ * Upgrades to processing numpy and pandas version to maintain compatability
+
 MHKiT v0.4.0
 -------------
 MHKiT v0.4.0 adds the following modules and capabilities to MHKiT:

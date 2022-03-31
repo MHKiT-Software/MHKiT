@@ -21,6 +21,7 @@ API Documentation
    mhkit-python/api.tidal
    mhkit-python/api.power
    mhkit-python/api.loads
+   mhkit-python/api.dolfyn
    mhkit-python/api.utils
 
 Examples
@@ -36,12 +37,20 @@ Jupyter notebook examples of MHKiT-Python are included below:
    tidal_example.ipynb
    power_example.ipynb
    loads_example.ipynb
-   environmental_contours.ipynb
+   environmental_contours_example.ipynb
    wecsim_example.ipynb
    SWAN_example.ipynb
    WPTO_hindcast_example.ipynb
    cdip_example.ipynb
    PacWave_resource_characterization_example.ipynb
+   Delft3D_example.ipynb
+   adcp_example.ipynb
+   adv_example.ipynb
+   extreme_response_MLER_example.ipynb
+   extreme_response_contour_example.ipynb
+   extreme_response_full_sea_state_example.ipynb
+   short_term_extremes_example.ipynb
+
    
 
 Online Forum
