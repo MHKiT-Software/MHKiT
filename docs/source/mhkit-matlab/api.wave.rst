@@ -40,8 +40,9 @@ The following options exist to compute wave energy spectra:
 ===========================================  =========================
 Functions                                    Description
 ===========================================  =========================
-``create_spectra``                               Calculates a spectra of user defined type.
-``elevation_spectrum``                           Calculates wave spectra from wave probe timeseries.
+``jonswap_spectrum``                         Calculates Jonswap spectrum from wave data. 
+``pierson_moskowitz_spectrum``               Calculates Pierson Moskowitz spectrum from wave data. 
+``elevation_spectrum``                       Calculates wave spectra from wave probe timeseries.
 ===========================================  ========================= 
    
 
@@ -53,6 +54,7 @@ Functions                                    Description
 ``average_crest_period``                     Calculate the average creat period from spectra. 
 ``average_wave_period``                      Calculates the average wave period from spectra
 ``average_zero_crossing_period``             Calculates wave average zero crossing period from spectra
+``depth_regime``                             Calculates depth regime based on wavelength and height
 ``energy_flux``                              Calculates the omnidirectional wave energy flux of the spectra
 ``energy_period``                            Calculates the energy period
 ``environmental_contour``                    Calculates environmental contours of extreme sea states
@@ -63,6 +65,7 @@ Functions                                    Description
 ``spectral_width``                           Calculates wave spectral width from spectra
 ``surface_elevation``                        Calculates wave elevation time series from spectrum using a random phase
 ``wave_celerity``                            Calculates wave celerity (group velocity)
+``wave_length``                              Calculates wave length from wave number 
 ``wave_number``                              Calculates wave number
 ===========================================  ========================= 
                               
@@ -104,11 +107,13 @@ The :graphics submodule contains functions to plot wave data and related metrics
 ===========================================  =========================
 Functions                                    Description
 ===========================================  =========================
-``plot_elevation_timeseries``                    Plots wave elevation timeseries 
-``plot_envoronmental_contours``                  Plots an overlay of the x1 and x2 variables to the calculated environmental contours.
-``plot_matrix``                                  Plots the matrix with Hm0 and Te on the y and x axis 
-``plot_spectrum``                                Plots wave amplitude spectrum
-``plot_chakrabarti``                             Plots, in the style of Chakrabarti (2005), relative importance of viscous,inertia, and diffraction phemonena
+``plot_elevation_timeseries``                Plots wave elevation timeseries 
+``plot_envoronmental_contours``              Plots an overlay of the x1 and x2 variables to the calculated environmental contours.
+``plot_matrix``                              Plots the matrix with Hm0 and Te on the y and x axis 
+``plot_spectrum``                            Plots wave amplitude spectrum
+``plot_chakrabarti``                         Plots, in the style of Chakrabarti (2005), relative importance of viscous,inertia, and diffraction phemonena
+``plot_boxplot``                             Creates monthl average boxplots of significant wave height 
+``plot_compendium``                          Creates subplots of environmental resource from cdip data
 ===========================================  ========================= 
    
 .. mat:automodule:: mhkit.wave.graphics

@@ -38,6 +38,8 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 - `Environmental Contours Example <mhkit-matlab/environmental_contours_example.html>`_
 - `WEC-Sim Example <mhkit-matlab/wecsim_example.html>`_
 - `SWAN Example <mhkit-matlab/SWAN_example.html>`_
+- `CDIP Example <mhkit-matlab/cdip_example.html>`_
+- `WPTO Hindcast Example <mhkit-matlab/WPTO_hindcast_example.html>`_
 
 .. MATLAB live examples remove the index, and must be manually saved as html
 
