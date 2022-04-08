@@ -21,14 +21,14 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI
 .. autosummary::
    :nosignatures:
    
-   ~mhkit.dolfyn.read
-   ~mhkit.dolfyn.read_example
-   ~mhkit.dolfyn.save
-   ~mhkit.dolfyn.load
-   ~mhkit.dolfyn.save_mat
-   ~mhkit.dolfyn.load_mat
+   ~mhkit.dolfyn.io.api.read
+   ~mhkit.dolfyn.io.api.read_example
+   ~mhkit.dolfyn.io.api.save
+   ~mhkit.dolfyn.io.api.load
+   ~mhkit.dolfyn.io.api.save_mat
+   ~mhkit.dolfyn.io.api.load_mat
    
-.. automodule:: mhkit.dolfyn.io
+.. automodule:: mhkit.dolfyn.io.api
     :members:
     :undoc-members:
     :show-inheritance:
@@ -41,11 +41,11 @@ to a new coordinate system.
 .. autosummary::
    :nosignatures:
 
-   ~mhkit.dolfyn.rotate2
-   ~mhkit.dolfyn.calc_principal_heading
-   ~mhkit.dolfyn.set_declination
+   ~mhkit.dolfyn.rotate.api.rotate2
+   ~mhkit.dolfyn.rotate.api.calc_principal_heading
+   ~mhkit.dolfyn.rotate.api.set_declination
  
-.. automodule:: mhkit.dolfyn.rotate
+.. automodule:: mhkit.dolfyn.rotate.api
     :members:
     :undoc-members:
     :show-inheritance:
