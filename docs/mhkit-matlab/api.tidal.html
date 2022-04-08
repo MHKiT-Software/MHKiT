@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tidal Module &mdash; MHKiT v0.3.1 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.5.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                v0.3.1
+                v0.5.0
               </div>
             
           
@@ -100,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../matlab.html">MHKiT-MATLAB</a><ul class="current">
@@ -275,7 +276,7 @@ request_noaa_data</p>
 
 <dl class="mat function">
 <dt id="mhkit.tidal.io.request_noaa_data">
-<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">varargin</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param">station</em>, <em class="sig-param">parameter</em>, <em class="sig-param">start_date</em>, <em class="sig-param">end_date</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
 GET request into a structure. NOAA sets max of 31 days between start and end date.
 See <a class="reference external" href="https://co-ops.nos.noaa.gov/api/">https://co-ops.nos.noaa.gov/api/</a> for options. All times are reported as GMT and metric
@@ -287,9 +288,21 @@ units are returned for data.</p>
 <li><p><strong>parameter</strong> (<em>str</em>) – NOAA paramter (e.g. ‘currents’)</p></li>
 <li><p><strong>start_date</strong> (<em>str</em>) – Start date in the format yyyyMMdd</p></li>
 <li><p><strong>end_date</strong> (<em>str</em>) – End date in the format yyyyMMdd</p></li>
-<li><p><strong>proxy</strong> (<em>structure (optional)</em>) – To request data from behind a firewall, define a structure of proxy settings,
-for example proxy.http = “localhost:8080”</p></li>
-<li><p><strong>write_json</strong> (<em>str (optional)</em>) – Name of json file to write data</p></li>
+<li><p><strong>proxy</strong> (<em>None</em>) – <p>Parameter is now deprecated.
+To request data from behind a firewall, configure in MATLAB
+Preferences by navigating to:</p>
+<blockquote>
+<div><p>Home -&gt; Environment -&gt; Preferences</p>
+</div></blockquote>
+<dl class="simple">
+<dt>then:</dt><dd><p>MATLAB -&gt; Web -&gt; Use a proxy server to connect to the Internet</p>
+</dd>
+<dt>See the following for details:</dt><dd><p><a class="reference external" href="https://www.mathworks.com/help/matlab/import_export/proxy.html">https://www.mathworks.com/help/matlab/import_export/proxy.html</a></p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>write_json</strong> (<em>str or None (optional)</em>) – Name of json file to write data
+to call: request_noaa_data(station,parameter,start_date,end_date,”write_json”,write_json)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -540,8 +553,8 @@ retangular turbine</p>
 The functions are designed to work in parallel with the <a class="reference internal" href="../mhkit-python/api.tidal.html#module-mhkit.tidal.resource" title="mhkit.tidal.resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">resource</span></code></a> submodule.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 75%" />
+<col style="width: 24%" />
+<col style="width: 76%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Functions</p></th>
@@ -560,6 +573,12 @@ The functions are designed to work in parallel with the <a class="reference inte
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code></p></td>
 <td><p>Returns a plot of velocity from an array of direction and speed data in the direction of the supplied principal_direction.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_tidal_phase_exceedance</span></code></p></td>
+<td><p>Creates a stacked area plot of the exceedance probability for the flood and ebb tidal phases.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_tidal_phase_probability</span></code></p></td>
+<td><p>Discretizes the tidal series speed by bin size and returns a plot of the probability for each bin in the flood or ebb tidal phase.</p></td>
 </tr>
 </tbody>
 </table>

@@ -3,9 +3,9 @@
 Release Notes
 =============
 
-MHKiT v0.5.0
--------------
-MHKiT v0.5.0 adds the following modules and capabilities to MHKiT-Python:
+MHKiT-Python v0.5.0 & MHKiT-Matlab v0.4.0
+-----------------------------------------
+MHKiT-Python v0.5.0 adds the following modules and capabilities to MHKiT-Python:
 
  * Organization: grouped io specific functions in wave, tidal, and river into io folder
  * Updated Jonswap spectrum to match IEC guidance
@@ -15,6 +15,13 @@ MHKiT v0.5.0 adds the following modules and capabilities to MHKiT-Python:
  * Fixed a bug in the wave elevation function 
  * Include the last day in CDIP requests and file timezone issues with CDIP
  * Upgrades to processing numpy and pandas version to maintain compatability
+
+MHKiT-Matlab v0.4.0 adds the following modules and capabilities to MHKiT-Python:
+
+ * Updated Jonswap spectrum to match IEC guidance
+ * `cdip <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html#io>`_ Module: functions for downloading and converting CDiP data into MHKIT formats.
+ * `WPTO hindcast <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html#io>`_ Module: functions for downloading and converting WPTO Hindcast data into MHKIT formats
+ * Fixed a bug in the wave elevation function 
 
 MHKiT v0.4.0
 -------------
