@@ -29,7 +29,7 @@ Functions                                    Description
     :members:
     :undoc-members:
     :show-inheritance:
- .. mat:automodule:: mhkit.wave.IO.hindcast
+.. mat:automodule:: mhkit.wave.IO.hindcast
     :members:
     :undoc-members:
     :show-inheritance:
