@@ -25,11 +25,22 @@ Functions                                    Description
 ``request_wpto``                                 Returns data from the WPTO wave hindcast hosted on AWS at the specified latitude and longitude point(s).
 ===========================================  =========================
 
-.. mat:automodule:: mhkit.wave.io
+.. mat:automodule:: mhkit.wave.IO.CDIP
     :members:
     :undoc-members:
     :show-inheritance:
-    
+ .. mat:automodule:: mhkit.wave.IO.hindcast
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. mat:automodule:: mhkit.wave.IO.NDBC
+    :members:
+    :undoc-members:
+    :show-inheritance:   
+.. mat:automodule:: mhkit.wave.IO.SWAN
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Resource
 """"""""""""""""""

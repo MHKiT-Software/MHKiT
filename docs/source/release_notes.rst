@@ -16,7 +16,7 @@ MHKiT-Python v0.5.0 adds the following modules and capabilities to MHKiT-Python:
  * Include the last day in CDIP requests and file timezone issues with CDIP
  * Upgrades to processing numpy and pandas version to maintain compatability
 
- MHKiT-Matlab v0.4.0 adds the following modules and capabilities to MHKiT-Python:
+MHKiT-Matlab v0.4.0 adds the following modules and capabilities to MHKiT-Python:
 
  * Updated Jonswap spectrum to match IEC guidance
  * `cdip <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html#io>`_ Module: functions for downloading and converting CDiP data into MHKIT formats.
