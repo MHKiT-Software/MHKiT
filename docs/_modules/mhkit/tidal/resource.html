@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mhkit.tidal.resource &mdash; MHKiT v0.3.1 documentation</title>
+  <title>mhkit.tidal.resource &mdash; MHKiT v0.5.1 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v0.3.1
+                v0.5.1
               </div>
             
           
@@ -98,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -315,6 +316,40 @@
     <span class="k">return</span> <span class="n">PrincipalDirection1</span><span class="p">,</span> <span class="n">PrincipalDirection2</span> </div>
     
 
+<span class="k">def</span> <span class="nf">_flood_or_ebb</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns a mask which is True for directions on the ebb side of the </span>
+<span class="sd">    midpoints between the flood and ebb directions on the unit circle </span>
+<span class="sd">    and False for directions on the Flood side.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d: array-like</span>
+<span class="sd">        Directions to considered of length N</span>
+<span class="sd">    flood: float or int</span>
+<span class="sd">        Principal component of flow in the flood direction in degrees</span>
+<span class="sd">    ebb: float or int</span>
+<span class="sd">        Principal component of flow in the ebb direction in degrees</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    is_ebb: boolean array</span>
+<span class="sd">        array of length N which is True for directions on the ebb side </span>
+<span class="sd">        of the midpoints between flood and ebb on the unit circle and</span>
+<span class="sd">        false otherwise.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">max_angle</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ebb</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
+    <span class="n">min_angle</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ebb</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
+    
+    <span class="n">lower_split</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_angle</span> <span class="o">+</span> <span class="p">(</span><span class="mi">360</span> <span class="o">-</span> <span class="n">max_angle</span> <span class="o">+</span> <span class="n">min_angle</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="p">)</span> <span class="o">%</span> <span class="mi">360</span>
+    <span class="n">upper_split</span> <span class="o">=</span> <span class="n">lower_split</span> <span class="o">+</span> <span class="mi">180</span>
+    
+    <span class="k">if</span> <span class="n">lower_split</span> <span class="o">&lt;=</span> <span class="n">ebb</span> <span class="o">&lt;</span> <span class="n">upper_split</span><span class="p">:</span>
+        <span class="n">is_ebb</span> <span class="o">=</span> <span class="p">((</span><span class="n">d</span> <span class="o">&lt;</span> <span class="n">upper_split</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span> <span class="o">&gt;=</span> <span class="n">lower_split</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">is_ebb</span> <span class="o">=</span> <span class="o">~</span><span class="p">((</span><span class="n">d</span> <span class="o">&lt;</span> <span class="n">upper_split</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">d</span> <span class="o">&gt;=</span> <span class="n">lower_split</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+        
+    <span class="k">return</span> <span class="n">is_ebb</span>
 
 </pre></div>
 

@@ -16,13 +16,18 @@ The river module contains a set of functions to calculate quantities of interest
 IO
 """"""
 The io submodule contains the following functions to 
-load USGS discharge data.  
+load USGS discharge and Delft3D data.  
 
 .. autosummary::
    :nosignatures:
    
-   ~mhkit.river.io.read_usgs_file
-   ~mhkit.river.io.request_usgs_data
+   ~mhkit.river.io.usgs.read_usgs_file
+   ~mhkit.river.io.usgs.request_usgs_data
+   ~mhkit.river.io.d3d.get_layer_data
+   ~mhkit.river.io.d3d.create_points
+   ~mhkit.river.io.d3d.variable_interpolation
+   ~mhkit.river.io.d3d.get_all_data_points
+   ~mhkit.river.io.d3d.turbulent_intensity
    
 .. automodule:: mhkit.river.io
     :members:

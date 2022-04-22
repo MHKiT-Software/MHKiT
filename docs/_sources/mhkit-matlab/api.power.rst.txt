@@ -15,6 +15,8 @@ The characteristics submodule calculates power quantities of interest from volta
 Functions                                    Description
 ===========================================  =========================
 ``instantaneous_frequency``                   	Calculates instantaneous frequency of measured voltage
+``dc_power``                                   Calculates the real power from DC voltage and current. 
+``ac_power_three_phase``                       Calculates the real power from three phase ac voltage and current.
 ===========================================  ========================= 
 
 .. mat:automodule:: mhkit.power.characteristics

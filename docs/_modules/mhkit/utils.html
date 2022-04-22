@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mhkit.utils &mdash; MHKiT v0.3.1 documentation</title>
+  <title>mhkit.utils &mdash; MHKiT v0.5.1 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                v0.3.1
+                v0.5.1
               </div>
             
           
@@ -98,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../matlab.html">MHKiT-MATLAB</a></li>
@@ -172,11 +173,12 @@
             
   <h1>Source code for mhkit.utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">pecos.utils</span> <span class="kn">import</span> <span class="n">index_to_datetime</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">qc</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
-<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
-<span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">qc</span>
+
 
 <span class="n">_matlab</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Private variable indicating if mhkit is run through matlab</span>
 
@@ -386,6 +388,88 @@
     <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;1899-12-30&#39;</span><span class="p">)</span><span class="o">+</span><span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">excel_num</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">time</span>                </div>
+    
+    
+<div class="viewcode-block" id="magnitude_phase"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.magnitude_phase">[docs]</a><span class="k">def</span> <span class="nf">magnitude_phase</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Retuns magnitude and phase in two or three dimensions. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: array_like</span>
+<span class="sd">        x-component</span>
+<span class="sd">    y: array_like</span>
+<span class="sd">        y-component</span>
+<span class="sd">    z: array_like</span>
+<span class="sd">        z-component defined positive up. (Optional) Default None.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mag: float or array</span>
+<span class="sd">        magnitude of the vector</span>
+<span class="sd">    theta: float or array</span>
+<span class="sd">        radians from the x-axis</span>
+<span class="sd">    phi: float or array</span>
+<span class="sd">        radians from z-axis defined as positive up. Optional: only </span>
+<span class="sd">        returned when z is passed.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">threeD</span><span class="o">=</span><span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+        <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">threeD</span><span class="o">=</span><span class="kc">True</span>
+        
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+        
+    <span class="k">if</span> <span class="n">threeD</span><span class="p">:</span>
+        <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mag</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mag</span><span class="p">,</span> <span class="n">theta</span></div>
+
+<div class="viewcode-block" id="unorm"><a class="viewcode-back" href="../../mhkit-python/api.utils.html#mhkit.utils.unorm">[docs]</a><span class="k">def</span> <span class="nf">unorm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Calculates the root mean squared value given three arrays. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: array </span>
+<span class="sd">        One input for the root mean squared calculation.(eq. x velocity) </span>
+<span class="sd">    y: array</span>
+<span class="sd">        One input for the root mean squared calculation.(eq. y velocity) </span>
+<span class="sd">    z: array</span>
+<span class="sd">        One input for the root mean squared calculation.(eq. z velocity) </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    unorm : array </span>
+<span class="sd">       The root mean squared of x, y, and z.</span>
+<span class="sd">       </span>
+<span class="sd">    Example </span>
+<span class="sd">    -------</span>
+<span class="sd">    If the inputs are [1,2,3], [4,5,6], and [7,8,9] the code take the </span>
+<span class="sd">    cordinationg value from each array and calculates the root mean squared. </span>
+<span class="sd">    The resulting output is [ 8.1240384,  9.64365076, 11.22497216].</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)),</span> <span class="s1">&#39;x must be an array&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)),</span> <span class="s1">&#39;y must be an array&#39;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">z</span><span class="p">,(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)),</span> <span class="s1">&#39;z must be an array&#39;</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nb">len</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span><span class="nb">len</span> <span class="p">(</span><span class="n">z</span><span class="p">)]),</span> <span class="p">(</span><span class="s1">&#39;lengths of arrays must&#39;</span>
+                                                        <span class="o">+</span><span class="s1">&#39; match&#39;</span><span class="p">)</span>
+
+    <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span> 
+    <span class="n">unorm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">unorm</span></div>
     
 </pre></div>
 

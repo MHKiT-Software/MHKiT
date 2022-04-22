@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tidal Module &mdash; MHKiT v0.3.1 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.5.1 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                v0.3.1
+                v0.5.1
               </div>
             
           
@@ -100,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -116,6 +117,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
 </ul>
 </li>
@@ -244,60 +246,15 @@ load NOAA velocity/ direction data</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.io.request_noaa_data" title="mhkit.tidal.io.request_noaa_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_noaa_data</span></code></a></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">request_noaa_data</span></code></p></td>
 <td><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a get request into a pandas DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.io.read_noaa_json" title="mhkit.tidal.io.read_noaa_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_noaa_json</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_noaa_json</span></code></p></td>
 <td><p>Returns site DataFrame and metadata from a json saved from the request_noaa_data :param filename: filename with path of json file to load :type filename: string</p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.tidal.io"></span><dl class="py function">
-<dt id="mhkit.tidal.io.request_noaa_data">
-<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">request_noaa_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">station</span></em>, <em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">start_date</span></em>, <em class="sig-param"><span class="n">end_date</span></em>, <em class="sig-param"><span class="n">proxy</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">write_json</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/io.html#request_noaa_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
-get request into a pandas DataFrame. NOAA sets max of 31 days between start and end date.
-See <a class="reference external" href="https://co-ops.nos.noaa.gov/api/">https://co-ops.nos.noaa.gov/api/</a> for options. All times are reported as GMT and metric
-units are returned for data.</p>
-<p>The request URL prints to the screen.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>station</strong> (<em>str</em>) – NOAA current station number (e.g. ‘cp0101’)</p></li>
-<li><p><strong>parameter</strong> (<em>str</em>) – NOAA paramter (e.g. ‘’ for Discharge, cubic feet per second)</p></li>
-<li><p><strong>start_date</strong> (<em>str</em>) – Start date in the format yyyyMMdd</p></li>
-<li><p><strong>end_date</strong> (<em>str</em>) – End date in the format yyyyMMdd</p></li>
-<li><p><strong>proxy</strong> (<em>dict</em><em> or </em><em>None</em>) – To request data from behind a firewall, define a dictionary of proxy settings,
-for example {“http”: ‘localhost:8080’}</p></li>
-<li><p><strong>write_json</strong> (<em>str</em><em> or </em><em>None</em>) – Name of json file to write data</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns named according to the parameter’s
-variable description</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="mhkit.tidal.io.read_noaa_json">
-<code class="sig-prename descclassname">mhkit.tidal.io.</code><code class="sig-name descname">read_noaa_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/io.html#read_noaa_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns site DataFrame and metadata from a json saved from the
-request_noaa_data
-:param filename: filename with path of json file to load
-:type filename: string</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><strong>data</strong> (<em>DataFrame</em>) – Timeseries Site data of direction and speed</p></li>
-<li><p><strong>metadata</strong> (<em>dictionary</em>) – Site metadata</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
+<span class="target" id="module-mhkit.tidal.io"></span></div>
 <div class="section" id="resource">
 <h2>Resource<a class="headerlink" href="#resource" title="Permalink to this headline">¶</a></h2>
 <p>The resource module allows the user to calculate the ebb and flood directions
@@ -552,6 +509,12 @@ and related metrics.</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_velocity_duration_curve</span></code></p></td>
 <td><p>Plots velocity vs exceedance probability as a Velocity Duration Curve (VDC)</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.tidal.graphics.tidal_phase_probability" title="mhkit.tidal.graphics.tidal_phase_probability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tidal_phase_probability</span></code></a></p></td>
+<td><p>Discretizes the tidal series speed by bin size and returns a plot of the probability for each bin in the flood or ebb tidal phase.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.tidal.graphics.tidal_phase_exceedance" title="mhkit.tidal.graphics.tidal_phase_exceedance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tidal_phase_exceedance</span></code></a></p></td>
+<td><p>Returns a stacked area plot of the exceedance probability for the flood and ebb tidal phases.</p></td>
+</tr>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.tidal.graphics"></span><dl class="py function">
@@ -604,14 +567,14 @@ and information box on plot</p></li>
 
 <dl class="py function">
 <dt id="mhkit.tidal.graphics.plot_current_timeseries">
-<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_current_timeseries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directions</span></em>, <em class="sig-param"><span class="n">speeds</span></em>, <em class="sig-param"><span class="n">principal_direction</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_current_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_current_timeseries" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">plot_current_timeseries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directions</span></em>, <em class="sig-param"><span class="n">velocities</span></em>, <em class="sig-param"><span class="n">principal_direction</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#plot_current_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.plot_current_timeseries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a plot of velocity from an array of direction and speed
 data in the direction of the supplied principal_direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>direction</strong> (<em>array-like</em>) – Time-series of directions [degrees]</p></li>
-<li><p><strong>speed</strong> (<em>array-like</em>) – Time-series of speeds [m/s]</p></li>
+<li><p><strong>directions</strong> (<em>array-like</em>) – Time-series of directions [degrees]</p></li>
+<li><p><strong>velocities</strong> (<em>array-like</em>) – Time-series of speeds [m/s]</p></li>
 <li><p><strong>principal_direction</strong> (<em>float</em>) – Direction to compute the velocity in [degrees]</p></li>
 <li><p><strong>label</strong> (<em>string</em>) – Label to use in the legend</p></li>
 <li><p><strong>ax</strong> (<em>matplotlib axes object</em>) – Axes for plotting.  If None, then a new figure with a single
@@ -620,6 +583,48 @@ axes is used.</p></li>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ax</strong> (<em>figure</em>) – Time-series plot of current-speed velocity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.graphics.tidal_phase_probability">
+<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">tidal_phase_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directions</span></em>, <em class="sig-param"><span class="n">velocities</span></em>, <em class="sig-param"><span class="n">flood</span></em>, <em class="sig-param"><span class="n">ebb</span></em>, <em class="sig-param"><span class="n">bin_size</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#tidal_phase_probability"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.tidal_phase_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discretizes the tidal series speed by bin size and returns a plot
+of the probability for each bin in the flood or ebb tidal phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directions</strong> (<em>array-like</em>) – Time-series of directions [degrees]</p></li>
+<li><p><strong>speed</strong> (<em>array-like</em>) – Time-series of speeds [m/s]</p></li>
+<li><p><strong>flood</strong> (<em>float</em><em> or </em><em>int</em>) – Principal component of flow in the flood direction [degrees]</p></li>
+<li><p><strong>ebb</strong> (<em>float</em><em> or </em><em>int</em>) – Principal component of flow in the ebb direction [degrees]</p></li>
+<li><p><strong>bin_size</strong> (<em>float</em>) – Speed bin size. Optional. Deaful = 0.1 m/s</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.tidal.graphics.tidal_phase_exceedance">
+<code class="sig-prename descclassname">mhkit.tidal.graphics.</code><code class="sig-name descname">tidal_phase_exceedance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directions</span></em>, <em class="sig-param"><span class="n">velocities</span></em>, <em class="sig-param"><span class="n">flood</span></em>, <em class="sig-param"><span class="n">ebb</span></em>, <em class="sig-param"><span class="n">bin_size</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/tidal/graphics.html#tidal_phase_exceedance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.tidal.graphics.tidal_phase_exceedance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a stacked area plot of the exceedance probability for the
+flood and ebb tidal phases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directions</strong> (<em>array-like</em>) – Time-series of directions [degrees]</p></li>
+<li><p><strong>velocities</strong> (<em>array-like</em>) – Time-series of speeds [m/s]</p></li>
+<li><p><strong>flood</strong> (<em>float</em><em> or </em><em>int</em>) – Principal component of flow in the flood direction [degrees]</p></li>
+<li><p><strong>ebb</strong> (<em>float</em><em> or </em><em>int</em>) – Principal component of flow in the ebb direction [degrees]</p></li>
+<li><p><strong>bin_size</strong> (<em>float</em>) – Speed bin size. Optional. Deaful = 0.1 m/s</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ax</strong> (<em>figure</em>)</p>
 </dd>
 </dl>
 </dd></dl>

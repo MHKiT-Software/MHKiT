@@ -59,19 +59,19 @@ MHKiT is developed as a collaboration between the National Renewable Energy Labo
 `MHKiT-Python Contributors <https://github.com/MHKiT-Software/MHKiT-Python/graphs/contributors>`_ page and the
 `MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.
 
-- Matthew Boyd (NREL)
-- Frederick Driscoll (NREL)
 - Rebecca Fao (NREL - PI)
-- Budi Gunawan (Sandia - PI)
-- Hristo Ivanov (NREL)
-- Katherine Klise (Sandia)
-- Alex McVey (NREL)
-- James McVey (PNNL)
-- Carlos Michelen (Sandia)
 - Sterling Olson (Sandia)
+- Matthew Boyd (NREL)
+- James McVey (PNNL)
+- Hristo Ivanov (NREL)
+- Alex McVey (NREL)
+- Katherine Klise (Sandia)
 - Kelley Ruehl (Sandia)
-- Timothy Shippert (PNNL)
-- Chitra Sivaraman (PNNL - PI)
+- Carlos Michelen (Sandia)
+- Emily Browning (Sandia)
+- Frederick Driscoll (NREL)
+- Budi Gunawan (Sandia - PI)
+
 
 Funding
 ================

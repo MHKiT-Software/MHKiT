@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Loads Module &mdash; MHKiT v0.3.1 documentation</title>
+  <title>Loads Module &mdash; MHKiT v0.5.1 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Utils Module" href="api.utils.html" />
+    <link rel="next" title="Dolfyn Module" href="api.dolfyn.html" />
     <link rel="prev" title="Power Module" href="api.power.html" /> 
 </head>
 
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                v0.3.1
+                v0.5.1
               </div>
             
           
@@ -100,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tidal.html">Tidal Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -112,8 +113,10 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Loads Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#general">General</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#graphics">Graphics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extreme">Extreme</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">Dolfyn Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
 </ul>
 </li>
@@ -406,6 +409,374 @@ of Fatigue, 82 (2016) 757-765</cite></p></li>
 </dd></dl>
 
 </div>
+<div class="section" id="extreme">
+<h2>Extreme<a class="headerlink" href="#extreme" title="Permalink to this headline">¶</a></h2>
+<p>The extreme submodule contains functions to calculate peak distribution.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.global_peaks" title="mhkit.loads.extreme.global_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_peaks</span></code></a></p></td>
+<td><p>Find the global peaks of a zero-centered response time-series.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.number_of_short_term_peaks" title="mhkit.loads.extreme.number_of_short_term_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_short_term_peaks</span></code></a></p></td>
+<td><p>Estimate the number of peaks in a specified period.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.peaks_distribution_weibull" title="mhkit.loads.extreme.peaks_distribution_weibull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peaks_distribution_weibull</span></code></a></p></td>
+<td><p>Estimate the peaks distribution by fitting a Weibull distribution to the peaks of the response.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.peaks_distribution_weibull_tail_fit" title="mhkit.loads.extreme.peaks_distribution_weibull_tail_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peaks_distribution_weibull_tail_fit</span></code></a></p></td>
+<td><p>Estimate the peaks distribution using the Weibull tail fit method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.peaks_distribution_peaks_over_threshold" title="mhkit.loads.extreme.peaks_distribution_peaks_over_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peaks_distribution_peaks_over_threshold</span></code></a></p></td>
+<td><p>Estimate the peaks distribution using the peaks over threshold method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.ste_peaks" title="mhkit.loads.extreme.ste_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ste_peaks</span></code></a></p></td>
+<td><p>Estimate the short-term extreme distribution from the peaks distribution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.block_maxima" title="mhkit.loads.extreme.block_maxima"><code class="xref py py-obj docutils literal notranslate"><span class="pre">block_maxima</span></code></a></p></td>
+<td><p>Find the block maxima of a time-series.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.ste_block_maxima_gev" title="mhkit.loads.extreme.ste_block_maxima_gev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ste_block_maxima_gev</span></code></a></p></td>
+<td><p>Approximate the short-term extreme distribution using the block maxima method and the Generalized Extreme Value distribution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.ste_block_maxima_gumbel" title="mhkit.loads.extreme.ste_block_maxima_gumbel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ste_block_maxima_gumbel</span></code></a></p></td>
+<td><p>Approximate the short-term extreme distribution using the block maxima method and the Gumbel (right) distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.short_term_extreme" title="mhkit.loads.extreme.short_term_extreme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">short_term_extreme</span></code></a></p></td>
+<td><p>Approximate the short-term  extreme distribution from a timeseries of the response using chosen method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.full_seastate_long_term_extreme" title="mhkit.loads.extreme.full_seastate_long_term_extreme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full_seastate_long_term_extreme</span></code></a></p></td>
+<td><p>Return the long-term extreme distribution of a response of interest using the full sea state approach.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.mler_coefficients" title="mhkit.loads.extreme.mler_coefficients"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mler_coefficients</span></code></a></p></td>
+<td><p>Calculate MLER (most likely extreme response) coefficients from a sea state spectrum and a response RAO.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.mler_simulation" title="mhkit.loads.extreme.mler_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mler_simulation</span></code></a></p></td>
+<td><p>Define the simulation parameters that are used in various MLER functionalities.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.loads.extreme.mler_wave_amp_normalize" title="mhkit.loads.extreme.mler_wave_amp_normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mler_wave_amp_normalize</span></code></a></p></td>
+<td><p>Function that renormalizes the incoming amplitude of the MLER wave to the desired peak height (peak to MSL).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.loads.extreme.mler_export_time_series" title="mhkit.loads.extreme.mler_export_time_series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mler_export_time_series</span></code></a></p></td>
+<td><p>Generate the wave amplitude time series at X0 from the calculated MLER coefficients</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-mhkit.loads.extreme"></span><dl class="py function">
+<dt id="mhkit.loads.extreme.global_peaks">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">global_peaks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#global_peaks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.global_peaks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the global peaks of a zero-centered response time-series.</p>
+<p>The global peaks are the maxima between consecutive zero
+up-crossings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>np.array</em>) – Time array.</p></li>
+<li><p><strong>data</strong> (<em>np.array</em>) – Response time-series.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>t_peaks</strong> (<em>np.array</em>) – Time array for peaks</p></li>
+<li><p><strong>peaks</strong> (<em>np.array</em>) – Peak values of the response time-series</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.number_of_short_term_peaks">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">number_of_short_term_peaks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">t_st</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#number_of_short_term_peaks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.number_of_short_term_peaks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the number of peaks in a specified period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – Number of peaks in analyzed timeseries.</p></li>
+<li><p><strong>t</strong> (<em>float</em>) – Length of time of analyzed timeseries.</p></li>
+<li><p><strong>t_st</strong> (<em>float</em>) – Short-term period for which to estimate the number of peaks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>n_st</strong> (<em>float</em>) – Number of peaks in short term period.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.peaks_distribution_weibull">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">peaks_distribution_weibull</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#peaks_distribution_weibull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.peaks_distribution_weibull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the peaks distribution by fitting a Weibull
+distribution to the peaks of the response.</p>
+<p>The fitted parameters can be accessed through the <cite>params</cite> field of
+the returned distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.array</em>) – Global peaks.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>peaks</strong> (<em>scipy.stats.rv_frozen</em>) – Probability distribution of the peaks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.peaks_distribution_weibull_tail_fit">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">peaks_distribution_weibull_tail_fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#peaks_distribution_weibull_tail_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.peaks_distribution_weibull_tail_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the peaks distribution using the Weibull tail fit
+method.</p>
+<p>The fitted parameters can be accessed through the <cite>params</cite> field of
+the returned distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.array</em>) – Global peaks.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>peaks</strong> (<em>scipy.stats.rv_frozen</em>) – Probability distribution of the peaks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.peaks_distribution_peaks_over_threshold">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">peaks_distribution_peaks_over_threshold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#peaks_distribution_peaks_over_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.peaks_distribution_peaks_over_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the peaks distribution using the peaks over threshold
+method.</p>
+<p>This fits a generalized Pareto distribution to all the peaks above
+the specified threshold. The distribution is only defined for values
+above the threshold and therefore cannot be used to obtain integral
+metrics such as the expected value. A typical choice of threshold is
+1.4 standard deviations above the mean. The peaks over threshold
+distribution can be accessed through the <cite>pot</cite> field of the returned
+peaks distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.array</em>) – Global peaks.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Threshold value. Only peaks above this value will be used.
+Default value calculated as: <cite>np.mean(x) + 1.4 * np.std(x)</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>peaks</strong> (<em>scipy.stats.rv_frozen</em>) – Probability distribution of the peaks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.ste_peaks">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">ste_peaks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">peaks_distribution</span></em>, <em class="sig-param"><span class="n">npeaks</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#ste_peaks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.ste_peaks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the short-term extreme distribution from the peaks
+distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>peaks_distribution</strong> (<em>scipy.stats.rv_frozen</em>) – Probability distribution of the peaks.</p></li>
+<li><p><strong>npeaks</strong> (<em>float</em>) – Number of peaks in short term period.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ste</strong> (<em>scipy.stats.rv_frozen</em>) – Short-term extreme distribution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.block_maxima">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">block_maxima</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">t_st</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#block_maxima"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.block_maxima" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the block maxima of a time-series.</p>
+<p>The timeseries (t,x) is divided into blocks of length t_st, and the
+maxima of each bloock is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>np.array</em>) – Time array.</p></li>
+<li><p><strong>x</strong> (<em>np.array</em>) – global peaks timeseries.</p></li>
+<li><p><strong>t_st</strong> (<em>float</em>) – Short-term period.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>block_maxima</strong> (<em>np.array</em>) – Block maxima (i.e. largest peak in each block).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.ste_block_maxima_gev">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">ste_block_maxima_gev</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block_maxima</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#ste_block_maxima_gev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.ste_block_maxima_gev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximate the short-term extreme distribution using the block
+maxima method and the Generalized Extreme Value distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>block_maxima</strong> (<em>np.array</em>) – Block maxima (i.e. largest peak in each block).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ste</strong> (<em>scipy.stats.rv_frozen</em>) – Short-term extreme distribution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.ste_block_maxima_gumbel">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">ste_block_maxima_gumbel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block_maxima</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#ste_block_maxima_gumbel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.ste_block_maxima_gumbel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximate the short-term extreme distribution using the block
+maxima method and the Gumbel (right) distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>block_maxima</strong> (<em>np.array</em>) – Block maxima (i.e. largest peak in each block).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ste</strong> (<em>scipy.stats.rv_frozen</em>) – Short-term extreme distribution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.ste">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">ste</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">t_st</span></em>, <em class="sig-param"><span class="n">method</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#ste"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.ste" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <cite>short_term_extreme</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.short_term_extreme">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">short_term_extreme</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">t_st</span></em>, <em class="sig-param"><span class="n">method</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#short_term_extreme"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.short_term_extreme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximate the short-term  extreme distribution from a
+timeseries of the response using chosen method.</p>
+<p>The availabe methods are: ‘peaks_weibull’, ‘peaks_weibull_tail_fit’,
+‘peaks_over_threshold’, ‘block_maxima_gev’, and ‘block_maxima_gumbel’.
+For the block maxima methods the timeseries needs to be many times
+longer than the short-term period. For the peak-fitting methods the
+timeseries can be of arbitrary length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>np.array</em>) – Time array.</p></li>
+<li><p><strong>data</strong> (<em>np.array</em>) – Response timeseries.</p></li>
+<li><p><strong>t_st</strong> (<em>float</em>) – Short-term period.</p></li>
+<li><p><strong>method</strong> (<em>string</em>) – Method for estimating the short-term extreme distribution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ste</strong> (<em>scipy.stats.rv_frozen</em>) – Short-term extreme distribution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.full_seastate_long_term_extreme">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">full_seastate_long_term_extreme</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ste</span></em>, <em class="sig-param"><span class="n">weights</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#full_seastate_long_term_extreme"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.full_seastate_long_term_extreme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the long-term extreme distribution of a response of
+interest using the full sea state approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ste</strong> (<em>list</em><em>[</em><em>scipy.stats.rv_frozen</em><em>]</em>) – Short-term extreme distribution of the quantity of interest for
+each sample sea state.</p></li>
+<li><p><strong>weights</strong> (<em>list</em><em>[</em><em>floats</em><em>]</em>) – The weights from the full sea state sampling</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ste</strong> (<em>scipy.stats.rv_frozen</em>) – Short-term extreme distribution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.mler_coefficients">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">mler_coefficients</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rao</span></em>, <em class="sig-param"><span class="n">wave_spectrum</span></em>, <em class="sig-param"><span class="n">response_desired</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#mler_coefficients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.mler_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate MLER (most likely extreme response) coefficients from a
+sea state spectrum and a response RAO.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rao</strong> (<em>numpy ndarray</em>) – Response amplitude operator.</p></li>
+<li><p><strong>wave_spectrum</strong> (<em>pd.DataFrame</em>) – Wave spectral density [m^2/Hz] indexed by frequency [Hz].</p></li>
+<li><p><strong>response_desired</strong> (<em>int</em><em> or </em><em>float</em>) – Desired response, units should correspond to a motion RAO or
+units of force for a force RAO.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mler</strong> (<em>pd.DataFrame</em>) – DataFrame containing conditioned wave spectral amplitude
+coefficient [m^2-s], and Phase [rad] indexed by freq [Hz].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.mler_simulation">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">mler_simulation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#mler_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.mler_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the simulation parameters that are used in various MLER
+functionalities.</p>
+<p>See <cite>extreme_response_contour_example.ipynb</cite> example for how this is
+useful. If no input is given, then default values are returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> (<em>dict</em><em> (</em><em>optional</em><em>)</em>) – Simulation parameters.
+Keys:
+—–
+‘startTime’: starting time [s]
+‘endTime’: ending time [s]
+‘dT’: time-step size [s]
+‘T0’: time of maximum event [s]
+‘startx’: start of simulation space [m]
+‘endX’: end of simulation space [m]
+‘dX’: horizontal spacing [m]
+‘X’: position of maximum event [m]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sim</strong> (<em>dict</em>) – Simulation parameters including spatial and time calculated
+arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.mler_wave_amp_normalize">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">mler_wave_amp_normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wave_amp</span></em>, <em class="sig-param"><span class="n">mler</span></em>, <em class="sig-param"><span class="n">sim</span></em>, <em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#mler_wave_amp_normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.mler_wave_amp_normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that renormalizes the incoming amplitude of the MLER wave
+to the desired peak height (peak to MSL).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wave_amp</strong> (<em>float</em>) – Desired wave amplitude (peak to MSL).</p></li>
+<li><p><strong>mler</strong> (<em>pd.DataFrame</em>) – MLER coefficients generated by ‘mler_coefficients’ function.</p></li>
+<li><p><strong>sim</strong> (<em>dict</em>) – Simulation parameters formatted by output from
+‘mler_simulation’.</p></li>
+<li><p><strong>k</strong> (<em>numpy ndarray</em>) – Wave number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mler_norm</strong> (<em>pd.DataFrame</em>) – MLER coefficients</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mhkit.loads.extreme.mler_export_time_series">
+<code class="sig-prename descclassname">mhkit.loads.extreme.</code><code class="sig-name descname">mler_export_time_series</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rao</span></em>, <em class="sig-param"><span class="n">mler</span></em>, <em class="sig-param"><span class="n">sim</span></em>, <em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/loads/extreme.html#mler_export_time_series"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mhkit.loads.extreme.mler_export_time_series" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the wave amplitude time series at X0 from the calculated
+MLER coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rao</strong> (<em>numpy ndarray</em>) – Response amplitude operator.</p></li>
+<li><p><strong>mler</strong> (<em>pd.DataFrame</em>) – MLER coefficients dataframe generated from an MLER function.</p></li>
+<li><p><strong>sim</strong> (<em>dict</em>) – Simulation parameters formatted by output from
+‘mler_simulation’.</p></li>
+<li><p><strong>k</strong> (<em>numpy ndarray</em>) – Wave number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mler_ts</strong> (<em>pd.DataFrame</em>) – Time series of wave height [m] and linear response [*] indexed
+by time [s].</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -416,7 +787,7 @@ of Fatigue, 82 (2016) 757-765</cite></p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.utils.html" class="btn btn-neutral float-right" title="Utils Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api.dolfyn.html" class="btn btn-neutral float-right" title="Dolfyn Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="api.power.html" class="btn btn-neutral float-left" title="Power Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

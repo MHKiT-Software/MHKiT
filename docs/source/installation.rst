@@ -26,7 +26,7 @@ Refer to the `Python website <https://www.python.org/>`_ for information on usin
 
 Requirements
 ^^^^^^^^^^^^^^^
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.6+) <https://www.python.org/>`_  and has the following Python packages dependencies:
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.7+) <https://www.python.org/>`_  and has the following Python packages dependencies:
 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `NumPy <http://www.numpy.org>`_: used for data storage and analysis
@@ -144,16 +144,16 @@ You should see something similar to the following::
 	home: '/Library/Frameworks/Python.framework/Versions/3.7'
 	isloaded: 1
 
-If the resulting Python version is 3.6+, skip to the Install the 
+If the resulting Python version is 3.7+, skip to the Install the 
 MHKiT-MATLAB Toolbox section.
 
-If the resulting Python version is not 3.6+ in a system terminal 
+If the resulting Python version is not 3.7+ in a system terminal 
 window and type::
 
     python -c "import sys; print(sys.executable)"
 
 If the resulting path to the python executable (path_to_exe) indicates 
-Python 3.6+, copy the path and in the MATLAB terminal run::
+Python 3.7+, copy the path and in the MATLAB terminal run::
 
     pyversion('<path_to_exe>')
 
