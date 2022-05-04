@@ -136,10 +136,15 @@ The motion correction submodule contains tools to correct
 Nortek Vector ADV-IMU data using the onboard IMU, if 
 equipped. Requires proper setup prior to collecting data.
 
-.. automodule:: mhkit.dolfyn.adv.motion
+.. autosummary::
+	:nosignatures:
+  
+	~mhkit.dolfyn.adv.motion.correct_motion
+  
+.. automodule:: mhkit.dolfyn.adv.motion.correct_motion
     :members:
     :undoc-members:
-    :show-inheritance:v
+    :show-inheritance:
 
 
 Velocity Analysis
