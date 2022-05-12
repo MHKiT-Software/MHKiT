@@ -157,6 +157,13 @@ be called from `VelBinner`.
 	:nosignatures:
 	
 	~mhkit.dolfyn.velocity.VelBinner
+	~mhkit.dolfyn.binned.TimeBinner.reshape
+	~mhkit.dolfyn.binned.TimeBinner.demean
+	~mhkit.dolfyn.binned.TimeBinner.detrend 
+	~mhkit.dolfyn.binned.TimeBinner.demean
+	~mhkit.dolfyn.binned.TimeBinner.mean 
+	~mhkit.dolfyn.binned.TimeBinner.var
+	~mhkit.dolfyn.binned.TimeBinner.std 
 	~mhkit.dolfyn.binned.TimeBinner.do_avg
 	~mhkit.dolfyn.binned.TimeBinner.do_var
 	~mhkit.dolfyn.binned.TimeBinner.reshape
