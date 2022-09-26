@@ -7,7 +7,7 @@ binary Nortek or TRDI files.
       
 **Instrument datafiles** are processed and returned as an 
 xarray dataset.  
-    
+
 .. This doesn't generate anything
 .. automodule:: mhkit.dolfyn
     :members:
@@ -46,7 +46,7 @@ ADV data. It contains:
 	~mhkit.dolfyn.adv.motion.correct_motion
 	~mhkit.dolfyn.velocity.VelBinner
 	~mhkit.dolfyn.adv.turbulence.ADVBinner
-	~mhkit.dolfyn.adv.turbulence.calc_turbulence
+	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
 
 
 IO
@@ -82,6 +82,7 @@ to a new coordinate system.
    ~mhkit.dolfyn.rotate.api.rotate2
    ~mhkit.dolfyn.rotate.api.calc_principal_heading
    ~mhkit.dolfyn.rotate.api.set_declination
+   ~mhkit.dolfyn.rotate.api.set_inst2head_rotmat
  
 .. automodule:: mhkit.dolfyn.rotate.api
     :members:
@@ -158,25 +159,16 @@ be called from `VelBinner`.
 	
 	~mhkit.dolfyn.velocity.VelBinner
 	~mhkit.dolfyn.binned.TimeBinner.reshape
-	~mhkit.dolfyn.binned.TimeBinner.demean
 	~mhkit.dolfyn.binned.TimeBinner.detrend 
 	~mhkit.dolfyn.binned.TimeBinner.demean
 	~mhkit.dolfyn.binned.TimeBinner.mean 
-	~mhkit.dolfyn.binned.TimeBinner.var
-	~mhkit.dolfyn.binned.TimeBinner.std 
-	~mhkit.dolfyn.binned.TimeBinner.do_avg
-	~mhkit.dolfyn.binned.TimeBinner.do_var
-	~mhkit.dolfyn.binned.TimeBinner.reshape
-	~mhkit.dolfyn.binned.TimeBinner.calc_coh
-	~mhkit.dolfyn.binned.TimeBinner.calc_phase_angle
-	~mhkit.dolfyn.binned.TimeBinner.calc_acov
-	~mhkit.dolfyn.binned.TimeBinner.calc_xcov
-	~mhkit.dolfyn.velocity.VelBinner.do_tke
-	~mhkit.dolfyn.velocity.VelBinner.calc_tke
-	~mhkit.dolfyn.velocity.VelBinner.calc_stress
-	~mhkit.dolfyn.velocity.VelBinner.calc_psd
-	~mhkit.dolfyn.velocity.VelBinner.calc_csd
-	~mhkit.dolfyn.binned.TimeBinner.calc_freq
+	~mhkit.dolfyn.binned.TimeBinner.variance
+	~mhkit.dolfyn.binned.TimeBinner.standard_deviation
+	~mhkit.dolfyn.binned.VelBinner.bin_average
+	~mhkit.dolfyn.binned.VelBinner.bin_variance
+	~mhkit.dolfyn.binned.VelBinner.autocovariance
+	~mhkit.dolfyn.velocity.VelBinner.turbulent_kinetic_energy
+	~mhkit.dolfyn.velocity.VelBinner.power_spectral_density
 
 .. automodule:: mhkit.dolfyn.binned
     :members:
@@ -198,11 +190,13 @@ beyond those described in `VelBinner`.
 	:nosignatures:
 
 	~mhkit.dolfyn.adv.turbulence.ADVBinner
-	~mhkit.dolfyn.adv.turbulence.calc_turbulence
-	~mhkit.dolfyn.adv.turbulence.ADVBinner.calc_epsilon_LT83
-	~mhkit.dolfyn.adv.turbulence.ADVBinner.calc_epsilon_SF
-	~mhkit.dolfyn.adv.turbulence.ADVBinner.calc_epsilon_TE01
-	~mhkit.dolfyn.adv.turbulence.ADVBinner.calc_L_int
+	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
+	~mhkit.dolfyn.adv.turbulence.reynolds_stress
+	~mhkit.dolfyn.adv.turbulence.cross_spectral_density
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_SF
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_TE01
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.integral_length_scales
 
 .. automodule:: mhkit.dolfyn.adv.turbulence
     :members:
@@ -220,25 +214,20 @@ FFT-based Functions:
 
 .. autosummary::
 	:nosignatures:
-	
-	~mhkit.dolfyn.tools.psd.psd
-	~mhkit.dolfyn.tools.psd.cpsd
-	~mhkit.dolfyn.tools.psd.cpsd_quasisync
-	~mhkit.dolfyn.tools.psd.coherence
-	~mhkit.dolfyn.tools.psd.phase_angle
-	~mhkit.dolfyn.tools.psd.psd_freq
+
+	~mhkit.dolfyn.tools.psd.fft_frequency
+	~mhkit.dolfyn.tools.psd.psd_1D
+	~mhkit.dolfyn.tools.psd.cpsd_1D
+	~mhkit.dolfyn.tools.psd.cpsd_quasisync_1D
 
 Other Functions:
 
 .. autosummary::
 	:nosignatures:
 	
-	~mhkit.dolfyn.tools.misc.detrend
+	~mhkit.dolfyn.tools.misc.detrend_array
 	~mhkit.dolfyn.tools.misc.group
 	~mhkit.dolfyn.tools.misc.slice1d_along_axis
-	~mhkit.dolfyn.tools.misc.fillgaps
-	~mhkit.dolfyn.tools.misc.interpgaps
-	~mhkit.dolfyn.tools.misc.medfiltnan
 	~mhkit.dolfyn.tools.misc.convert_degrees
 
 .. automodule:: mhkit.dolfyn.tools.psd
