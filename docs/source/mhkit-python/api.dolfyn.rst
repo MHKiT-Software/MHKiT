@@ -3,22 +3,40 @@
 DOLfYN Module
 ^^^^^^^^^^^^^
 The DOLfYN module contains a set of functions to analyze 
-binary Nortek or TRDI files. 
-      
-**Instrument datafiles** are processed and returned as an 
-xarray dataset.  
+binary Nortek or TRDI files. **Instrument datafiles** are 
+processed and returned as an xarray dataset.  
 
-.. This doesn't generate anything
-.. automodule:: mhkit.dolfyn
-    :members:
-    :no-undoc-members:
-    :show-inheritance:
+There a couple ways to start using the dolfyn module. The
+first way is to import the entire module using 
+`import mhkit.dolfyn as dolfyn`.
+Many functions are directly available from the main dolfyn 
+import:
 
+.. autosummary::
+	:nosignatures:
+
+	~mhkit.dolfyn.io.api.read
+	~mhkit.dolfyn.io.api.read_example
+	~mhkit.dolfyn.io.api.save
+	~mhkit.dolfyn.io.api.load
+	~mhkit.dolfyn.io.api.save_mat
+	~mhkit.dolfyn.io.api.load_mat
+	~mhkit.dolfyn.rotate.api.rotate2
+	~mhkit.dolfyn.rotate.api.calc_principal_heading
+	~mhkit.dolfyn.rotate.api.set_declination
+	~mhkit.dolfyn.rotate.api.set_inst2head_rotmat
+	~mhkit.dolfyn.rotate.base.euler2orient
+	~mhkit.dolfyn.rotate.base.orient2euler
+	~mhkit.dolfyn.rotate.base.quaternion2orient
+	~mhkit.dolfyn.velocity.VelBinner
 
 ADP Module
 """"""""""
-This module contains routines for reading and working with 
-ADP/ADCP data. It contains:
+The other two ways are to import the instrument-specific
+modules.
+The ADP module contains routines for reading and working with 
+ADP/ADCP data and is import using 
+`from mhkit.dolfyn.adp import api`. It contains:
 
 .. autosummary::
 	:nosignatures:
@@ -32,8 +50,9 @@ ADP/ADCP data. It contains:
 
 ADV Module
 """"""""""
-This module contains routines for reading and working with 
-ADV data. It contains:
+The ADV module contains routines for reading and working with 
+ADV data and is import using 
+`from mhkit.dolfyn.adv import api`. It contains:
 
 .. autosummary::
 	:nosignatures:
@@ -74,17 +93,35 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
 Rotate
 """"""
 The rotate submodule contains tools to rotate a dataset 
-to a new coordinate system. 
+to different coordinate systems. When a file is read into 
+dolfyn, the data will be stored in the same coordinate 
+system it was saved in. The different coordinate systems 
+are "beam" <-> "inst" <-> "earth" <-> "principal". "Beam" 
+and "inst" are manufacturer/instrument specific and refer 
+to the along-beam (either 3 or 4 beams) and instrument (XYZ)
+reference frame. Instrument reference frames differ across
+sensors, but the rotate code takes this into account when 
+rotating into the "earth" frame, defined as East-North-Up 
+(ENU). The earth frame can then be rotated to the principal
+axes, defined as streamwise-cross_stream-vertical.
 
 .. autosummary::
-   :nosignatures:
+	:nosignatures:
 
-   ~mhkit.dolfyn.rotate.api.rotate2
-   ~mhkit.dolfyn.rotate.api.calc_principal_heading
-   ~mhkit.dolfyn.rotate.api.set_declination
-   ~mhkit.dolfyn.rotate.api.set_inst2head_rotmat
+	~mhkit.dolfyn.rotate.api.rotate2
+	~mhkit.dolfyn.rotate.api.calc_principal_heading
+	~mhkit.dolfyn.rotate.api.set_declination
+	 ~mhkit.dolfyn.rotate.api.set_inst2head_rotmat
+	~mhkit.dolfyn.rotate.base.euler2orient
+	~mhkit.dolfyn.rotate.base.orient2euler
+	~mhkit.dolfyn.rotate.base.quaternion2orient
  
 .. automodule:: mhkit.dolfyn.rotate.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+.. automodule:: mhkit.dolfyn.rotate.base
     :members:
     :undoc-members:
     :show-inheritance:
@@ -104,9 +141,9 @@ ADP-specific functions:
 	~mhkit.dolfyn.adp.clean.find_surface
 	~mhkit.dolfyn.adp.clean.find_surface_from_P
 	~mhkit.dolfyn.adp.clean.nan_beyond_surface
-	~mhkit.dolfyn.adp.clean.val_exceeds_thresh
 	~mhkit.dolfyn.adp.clean.correlation_filter
 	~mhkit.dolfyn.adp.clean.medfilt_orient
+	~mhkit.dolfyn.adp.clean.val_exceeds_thresh
 	~mhkit.dolfyn.adp.clean.fillgaps_time
 	~mhkit.dolfyn.adp.clean.fillgaps_depth
   
@@ -116,16 +153,17 @@ ADV-specific functions:
 	:nosignatures:
   
 	~mhkit.dolfyn.adv.clean.clean_fill
+	~mhkit.dolfyn.adv.clean.fill_nan_ensemble_mean
 	~mhkit.dolfyn.adv.clean.spike_thresh
 	~mhkit.dolfyn.adv.clean.range_limit
 	~mhkit.dolfyn.adv.clean.GN2002
-	
-.. automodule:: mhkit.dolfyn.adv.clean
+
+.. automodule:: mhkit.dolfyn.adp.clean
     :members:
     :undoc-members:
     :show-inheritance:
-
-.. automodule:: mhkit.dolfyn.adp.clean
+	
+.. automodule:: mhkit.dolfyn.adv.clean
     :members:
     :undoc-members:
     :show-inheritance:
@@ -135,7 +173,8 @@ Motion Correction
 """""""""""""""""
 The motion correction submodule contains tools to correct
 Nortek Vector ADV-IMU data using the onboard IMU, if 
-equipped. Requires proper setup prior to collecting data.
+equipped. Requires `proper setup <https://dolfyn.readthedocs.io/en/stable/motion-correction.html>`_
+prior to collecting data.
 
 .. autosummary::
 	:nosignatures:
@@ -215,10 +254,10 @@ FFT-based Functions:
 .. autosummary::
 	:nosignatures:
 
-	~mhkit.dolfyn.tools.psd.fft_frequency
-	~mhkit.dolfyn.tools.psd.psd_1D
-	~mhkit.dolfyn.tools.psd.cpsd_1D
-	~mhkit.dolfyn.tools.psd.cpsd_quasisync_1D
+	~mhkit.dolfyn.tools.fft.fft_frequency
+	~mhkit.dolfyn.tools.fft.psd_1D
+	~mhkit.dolfyn.tools.fft.cpsd_1D
+	~mhkit.dolfyn.tools.fft.cpsd_quasisync_1D
 
 Other Functions:
 
@@ -229,8 +268,11 @@ Other Functions:
 	~mhkit.dolfyn.tools.misc.group
 	~mhkit.dolfyn.tools.misc.slice1d_along_axis
 	~mhkit.dolfyn.tools.misc.convert_degrees
+	~mhkit.dolfyn.tools.misc.fillgaps
+	~mhkit.dolfyn.tools.misc.interpgaps
+	~mhkit.dolfyn.tools.misc.medfiltnan
 
-.. automodule:: mhkit.dolfyn.tools.psd
+.. automodule:: mhkit.dolfyn.tools.fft
     :members:
     :undoc-members:
     :show-inheritance:
