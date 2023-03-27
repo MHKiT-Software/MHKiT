@@ -55,22 +55,33 @@ MHKiT is open-source marine renewable energy (MRE) software, developed in Python
 
 Developers
 ================
-MHKiT is developed as a collaboration between the National Renewable Energy Laboratory (NREL), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (SNL). The core development team is listed below.  Additional contributors can be found on the
-`MHKiT-Python Contributors <https://github.com/MHKiT-Software/MHKiT-Python/graphs/contributors>`_ page and the
-`MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.
+MHKiT is developed as a collaboration between the National Renewable Energy Laboratory (NREL), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (Sandia, SNL). 
+
+Current members of the core development team include:
 
 - Rebecca Fao (NREL - PI)
 - Sterling Olson (Sandia)
-- Matthew Boyd (NREL)
 - James McVey (PNNL)
 - Hristo Ivanov (NREL)
+- Carlos Michelen (Sandia)
+- Emily Browning (Sandia)
+- Adam Keester (Sandia)
+- Cesar Castillo (Sandia)
+- Budi Gunawan (Sandia - PI)
+
+Former members of the core development team include:
+
+- Matthew Boyd (NREL)
 - Alex McVey (NREL)
 - Katherine Klise (Sandia)
 - Kelley Ruehl (Sandia)
-- Carlos Michelen (Sandia)
-- Emily Browning (Sandia)
 - Frederick Driscoll (NREL)
-- Budi Gunawan (Sandia - PI)
+
+
+.. Note: here we could call out specific external (or lab-internal) staff that have contributed significantly
+MHKiT has had many additional contributors. An extensive list of contributors can be found on the
+`MHKiT-Python Contributors <https://github.com/MHKiT-Software/MHKiT-Python/graphs/contributors>`_ page and the
+`MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.
 
 
 Funding
