@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.river.io.usgs &mdash; MHKiT v0.5.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+              <div class="version">
+                v0.5.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qc.html">QC Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../wave.html">Wave Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../river.html">River Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tidal.html">Tidal Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../power.html">Power Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils.html">Utils Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.river.io.usgs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.river.io.usgs</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">_read_usgs_json</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;timeSeries&#39;</span><span class="p">])):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">site_name</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;timeSeries&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;variable&#39;</span><span class="p">][</span><span class="s1">&#39;variableDescription&#39;</span><span class="p">]</span> <span class="c1">#text[&#39;value&#39;][&#39;timeSeries&#39;][i][&#39;sourceInfo&#39;][&#39;siteName&#39;]</span>
+            <span class="n">site_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;timeSeries&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+            <span class="n">site_data</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;dateTime&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">site_data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">site_data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">site_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">site_name</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">site_data</span><span class="p">[</span><span class="n">site_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">site_data</span><span class="p">[</span><span class="n">site_name</span><span class="p">])</span>
+            <span class="n">site_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">del</span> <span class="n">site_data</span><span class="p">[</span><span class="s1">&#39;qualifiers&#39;</span><span class="p">]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">combine_first</span><span class="p">(</span><span class="n">site_data</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+     
+    <span class="k">return</span> <span class="n">data</span> <span class="c1"># we could also extract metadata and return that here</span>
+
+<div class="viewcode-block" id="read_usgs_file"><a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.usgs.read_usgs_file">[docs]</a><span class="k">def</span> <span class="nf">read_usgs_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a USGS JSON data file (from https://waterdata.usgs.gov/nwis)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name : str</span>
+<span class="sd">        Name of USGS JSON data file</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : pandas DataFrame </span>
+<span class="sd">        Data indexed by datetime with columns named according to the parameter&#39;s </span>
+<span class="sd">        variable description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_read_usgs_json</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">data</span> </div>
+
+
+<div class="viewcode-block" id="request_usgs_data"><a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.usgs.request_usgs_data">[docs]</a><span class="k">def</span> <span class="nf">request_usgs_data</span><span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> 
+                      <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;Daily&#39;</span><span class="p">,</span> <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_json</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads USGS data directly from https://waterdata.usgs.gov/nwis using a </span>
+<span class="sd">    GET request</span>
+<span class="sd">    </span>
+<span class="sd">    The request URL prints to the screen.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    station : str</span>
+<span class="sd">        USGS station number (e.g. &#39;08313000&#39;)</span>
+<span class="sd">    parameter : str</span>
+<span class="sd">        USGS paramter ID (e.g. &#39;00060&#39; for Discharge, cubic feet per second)</span>
+<span class="sd">    start_date : str</span>
+<span class="sd">        Start date in the format &#39;YYYY-MM-DD&#39; (e.g. &#39;2018-01-01&#39;)</span>
+<span class="sd">    end_date : str</span>
+<span class="sd">        End date in the format &#39;YYYY-MM-DD&#39; (e.g. &#39;2018-12-31&#39;)</span>
+<span class="sd">    data_type : str</span>
+<span class="sd">        Data type, options include &#39;Daily&#39; (return the mean daily value) and </span>
+<span class="sd">        &#39;Instantaneous&#39;.</span>
+<span class="sd">    proxy : dict or None</span>
+<span class="sd">         To request data from behind a firewall, define a dictionary of proxy settings, </span>
+<span class="sd">         for example {&quot;http&quot;: &#39;localhost:8080&#39;}</span>
+<span class="sd">    write_json : str or None</span>
+<span class="sd">        Name of json file to write data</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : pandas DataFrame </span>
+<span class="sd">        Data indexed by datetime with columns named according to the parameter&#39;s </span>
+<span class="sd">        variable description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Daily&#39;</span><span class="p">,</span> <span class="s1">&#39;Instantaneous&#39;</span><span class="p">],</span> <span class="s1">&#39;data_type must be Daily or Instantaneous&#39;</span>
+    
+    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s1">&#39;Daily&#39;</span><span class="p">:</span>
+        <span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://waterservices.usgs.gov/nwis/dv&#39;</span>
+        <span class="n">api_query</span> <span class="o">=</span> <span class="s1">&#39;/?format=json&amp;sites=&#39;</span><span class="o">+</span><span class="n">station</span><span class="o">+</span> \
+                    <span class="s1">&#39;&amp;startDT=&#39;</span><span class="o">+</span><span class="n">start_date</span><span class="o">+</span><span class="s1">&#39;&amp;endDT=&#39;</span><span class="o">+</span><span class="n">end_date</span><span class="o">+</span> \
+                    <span class="s1">&#39;&amp;statCd=00003&#39;</span><span class="o">+</span> \
+                    <span class="s1">&#39;&amp;parameterCd=&#39;</span><span class="o">+</span><span class="n">parameter</span><span class="o">+</span><span class="s1">&#39;&amp;siteStatus=all&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://waterservices.usgs.gov/nwis/iv&#39;</span>
+        <span class="n">api_query</span> <span class="o">=</span> <span class="s1">&#39;/?format=json&amp;sites=&#39;</span><span class="o">+</span><span class="n">station</span><span class="o">+</span> \
+                    <span class="s1">&#39;&amp;startDT=&#39;</span><span class="o">+</span><span class="n">start_date</span><span class="o">+</span><span class="s1">&#39;&amp;endDT=&#39;</span><span class="o">+</span><span class="n">end_date</span><span class="o">+</span> \
+                    <span class="s1">&#39;&amp;parameterCd=&#39;</span><span class="o">+</span><span class="n">parameter</span><span class="o">+</span><span class="s1">&#39;&amp;siteStatus=all&#39;</span>
+            
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data request URL: &#39;</span><span class="p">,</span> <span class="n">data_url</span><span class="o">+</span><span class="n">api_query</span><span class="p">)</span>
+    
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">data_url</span><span class="o">+</span><span class="n">api_query</span><span class="p">,</span><span class="n">proxies</span><span class="o">=</span><span class="n">proxy</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">write_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">write_json</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_read_usgs_json</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">data</span> </div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-164358105-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

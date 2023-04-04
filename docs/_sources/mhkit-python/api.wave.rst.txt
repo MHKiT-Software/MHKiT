@@ -91,7 +91,15 @@ WEC-Sim Data
 WPTO Hindcast Data
 ++++++++++++++++++
    
-.. automodule:: mhkit.wave.io.hindcast
+.. automodule:: mhkit.wave.io.hindcast.hindcast
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+WIND Toolkit Data
++++++++++++++++++
+   
+.. automodule:: mhkit.wave.io.hindcast.wind_toolkit
     :members:
     :undoc-members:
     :show-inheritance:
@@ -126,6 +134,7 @@ The following functions can be used to compute wave metrics from spectra:
    ~mhkit.wave.resource.spectral_bandwidth
    ~mhkit.wave.resource.spectral_width
    ~mhkit.wave.resource.energy_flux
+   ~mhkit.wave.resource.energy_period_to_peak_period
    ~mhkit.wave.resource.wave_celerity
    ~mhkit.wave.resource.wave_number
    ~mhkit.wave.resource.depth_regime
