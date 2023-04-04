@@ -3,6 +3,26 @@
 Release Notes
 =============
 
+MHKiT-Python v0.6.0
+-------------------
+MHKiT-Python v0.5.0 adds the following modules and capabilities to MHKiT-Python:
+
+ * Test Suite Restructure: improved the ability to run and edit tests by breaking them out from single files into folders containing tests for specific parts of each submodule
+ * Added a metocean module which can pull data from the wind_toolkit with 4 regions and 1-hr or 5-min data
+ * Two DOLfYN updates address bug fixes, clean up, and some feature expansion:
+    - ADV skipped timesteps, max gap, and attributes
+    - error in integral length scale calculation
+    - error in despiking function
+    - move Reynolds stress and cross-spectral density calculations to ADV folder
+    - prevent inaccurate TKE calculation from ADCP velocity input
+ * Delft3D z-calculation, timestep, and new example notebook comparing ADV, and D3D river transect data
+ * WEC-Sim v5.0 support
+ * Return period added for contours
+ * Provide a function to convert from Te to Tp using ITTC approximation
+ * General upkeep and compatibility maintenance
+ * General Bug Fixes
+
+
 MHKiT-Python v0.5.0 & MHKiT-Matlab v0.4.0
 -----------------------------------------
 MHKiT-Python v0.5.0 adds the following modules and capabilities to MHKiT-Python:
@@ -16,7 +36,7 @@ MHKiT-Python v0.5.0 adds the following modules and capabilities to MHKiT-Python:
  * Include the last day in CDIP requests and file timezone issues with CDIP
  * Upgrades to processing numpy and pandas version to maintain compatability
 
-MHKiT-Matlab v0.4.0 adds the following modules and capabilities to MHKiT-Python:
+MHKiT-Matlab v0.4.0 adds the following modules and capabilities to MHKiT-MATLAB:
 
  * Updated Jonswap spectrum to match IEC guidance
  * `cdip <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html#io>`_ Module: functions for downloading and converting CDiP data into MHKIT formats.
