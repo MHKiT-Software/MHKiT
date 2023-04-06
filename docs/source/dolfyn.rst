@@ -1,10 +1,10 @@
 .. _dolfyn:
 
-Dolfyn Module
+DOLfYN Module
 ====================
-The dolfyn module contains a set of functions to injest binary Nortek or RDI files. Only available in MHKiT-Python in v0.5.0.
+The dolfyn (Doppler Oceanography Library for pYthoN) module contains a set of functions to injest binary Nortek or RDI files. Only available in MHKiT-Python in v0.5.0 or later.
 
-The Dolfyn module contains the following submodules:
+The dolfyn module contains the following submodules:
 
 * ``adp``: Contains functions to process, clean and analyze ADCP data
 * ``adv``: Contains functions to process, clean and analyze ADV data

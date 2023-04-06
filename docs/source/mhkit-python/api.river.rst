@@ -28,12 +28,17 @@ load USGS discharge and Delft3D data.
    ~mhkit.river.io.d3d.variable_interpolation
    ~mhkit.river.io.d3d.get_all_data_points
    ~mhkit.river.io.d3d.turbulent_intensity
-   
-.. automodule:: mhkit.river.io
+ 
+.. automodule:: mhkit.river.io.d3d
     :members:
     :undoc-members:
     :show-inheritance:
     
+.. automodule:: mhkit.river.io.usgs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Resource
 """"""""""""
 The resource submodule uses discharge data to compute 

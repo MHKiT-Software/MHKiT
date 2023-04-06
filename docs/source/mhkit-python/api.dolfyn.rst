@@ -35,7 +35,7 @@ ADP Module
 The other two ways are to import the instrument-specific
 modules.
 The ADP module contains routines for reading and working with 
-ADP/ADCP data and is import using 
+ADP/ADCP data and is imported using 
 `from mhkit.dolfyn.adp import api`. It contains:
 
 .. autosummary::
@@ -46,12 +46,16 @@ ADP/ADCP data and is import using
 	~mhkit.dolfyn.rotate.api.rotate2
 	~mhkit.dolfyn.adp.clean
 	~mhkit.dolfyn.velocity.VelBinner
-
+    
+.. automodule:: mhkit.dolfyn.adp.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 ADV Module
 """"""""""
 The ADV module contains routines for reading and working with 
-ADV data and is import using 
+ADV data and is imported using 
 `from mhkit.dolfyn.adv import api`. It contains:
 
 .. autosummary::
@@ -67,6 +71,10 @@ ADV data and is import using
 	~mhkit.dolfyn.adv.turbulence.ADVBinner
 	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
 
+.. automodule:: mhkit.dolfyn.adv.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 IO
 ""
@@ -88,7 +96,26 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
     :members:
     :undoc-members:
     :show-inheritance:
-
+    
+.. automodule:: mhkit.dolfyn.io.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+.. automodule:: mhkit.dolfyn.io.nortek
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+.. automodule:: mhkit.dolfyn.io.nortek2
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+.. automodule:: mhkit.dolfyn.io.rdi
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Rotate
 """"""
