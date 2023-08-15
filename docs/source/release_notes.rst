@@ -3,9 +3,29 @@
 Release Notes
 =============
 
+MHKiT-Python v0.7.0
+-------------------
+MHKiT-Python v0.7.0 adds the following modules and capabilities to MHKiT-Python:
+
+ * Mooring Module: We are pleased to introduce the new mooring module. This addition primarily supports outputs from MoorDyn. Within this module, users can:
+    - Import data
+    - Calculate lay length
+    - Visualize mooring line movements in 2D and 3D with graphical animations.
+    - Accompanying this module is an example notebook to guide users on its functionalities.
+ * Dolfyn Module Revamp: The Dolfyn module has been overhauled. Enhancements include:
+    - Turbulence calculation capability
+    - Performance measures for tidal power as outlined in IEC/TS 6200-200.
+ * New Contributions: A big shoutout to our community member, @mbruggs, for adding the ability to compute surface elevation using IFFT.
+ * NDBC Buoy Metadata: Users can now fetch NDBC buoy metadata directly through MHKiT.
+ * Delft3D Module Update: Stay up to date with support for the latest Delft3D NetCDF format.
+ * Provide a function to convert from Te to Tp using ITTC approximation
+ * General upkeep and compatibility maintenance
+ * General Bug Fixes
+
+
 MHKiT-Python v0.6.0
 -------------------
-MHKiT-Python v0.5.0 adds the following modules and capabilities to MHKiT-Python:
+MHKiT-Python v0.6.0 adds the following modules and capabilities to MHKiT-Python:
 
  * Test Suite Restructure: improved the ability to run and edit tests by breaking them out from single files into folders containing tests for specific parts of each submodule
  * Added a metocean module which can pull data from the wind_toolkit with 4 regions and 1-hr or 5-min data
@@ -42,6 +62,7 @@ MHKiT-Matlab v0.4.0 adds the following modules and capabilities to MHKiT-MATLAB:
  * `cdip <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html#io>`_ Module: functions for downloading and converting CDiP data into MHKIT formats.
  * `WPTO hindcast <https://mhkit-software.github.io/MHKiT/mhkit-matlab/api.wave.html#io>`_ Module: functions for downloading and converting WPTO Hindcast data into MHKIT formats
  * Fixed a bug in the wave elevation function 
+
 
 MHKiT v0.4.0
 -------------

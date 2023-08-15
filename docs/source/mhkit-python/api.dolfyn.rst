@@ -28,6 +28,7 @@ import:
 	~mhkit.dolfyn.rotate.base.euler2orient
 	~mhkit.dolfyn.rotate.base.orient2euler
 	~mhkit.dolfyn.rotate.base.quaternion2orient
+	~mhkit.dolfyn.rotate.base.calc_tilt
 	~mhkit.dolfyn.velocity.VelBinner
 
 ADP Module
@@ -142,6 +143,7 @@ axes, defined as streamwise-cross_stream-vertical.
 	~mhkit.dolfyn.rotate.base.euler2orient
 	~mhkit.dolfyn.rotate.base.orient2euler
 	~mhkit.dolfyn.rotate.base.quaternion2orient
+	~mhkit.dolfyn.rotate.base.calc_tilt
  
 .. automodule:: mhkit.dolfyn.rotate.api
     :members:

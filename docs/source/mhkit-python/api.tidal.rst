@@ -74,6 +74,8 @@ the tip speed ratio and power coefficient from a blade/rotor type device.
    ~mhkit.tidal.performance.multiple_circular
    ~mhkit.tidal.performance.tip_speed_ratio
    ~mhkit.tidal.performance.power_coefficient
+   ~mhkit.tidal.performance.power_curve
+   ~mhkit.tidal.performance.device_efficiency
    
    
 .. automodule:: mhkit.tidal.performance
@@ -87,6 +89,8 @@ the tip speed ratio and power coefficient from a blade/rotor type device.
 .. autofunction:: mhkit.tidal.performance.multiple_circular
 .. autofunction:: mhkit.tidal.performance.tip_speed_ratio
 .. autofunction:: mhkit.tidal.performance.power_coefficient
+.. autofunction:: mhkit.tidal.performance.power_curve
+.. autofunction:: mhkit.tidal.performance.device_efficiency
 
 	
 Graphics

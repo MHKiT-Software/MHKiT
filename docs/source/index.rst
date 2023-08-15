@@ -20,6 +20,7 @@
    power.rst
    loads.rst
    dolfyn.rst
+   mooring.rst
    utils.rst
    python.rst
    matlab.rst

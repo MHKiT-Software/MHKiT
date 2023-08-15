@@ -41,6 +41,7 @@ and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ 
    ~mhkit.wave.io.ndbc.to_datetime_index
    ~mhkit.wave.io.ndbc.dates_to_datetime
    ~mhkit.wave.io.ndbc.parameter_units 
+   ~mhkit.wave.io.ndbc.get_buoy_metadata
    ~mhkit.wave.io.wecsim.read_output
    ~mhkit.wave.io.swan.read_table
    ~mhkit.wave.io.swan.read_block
