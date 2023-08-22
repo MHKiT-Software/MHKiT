@@ -28,7 +28,7 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
   ```bash
   pip uninstall mhkit
   cd MHKiT-Python
-  pip install .
+  pip install -e .
   ```
    **NOTE:** After building the documentation (see below) be sure to reinstall your MHKiT-Python distribution from pypi (e.g. `pip install mhkit`) or from your fork of the repository as an editable package (e.g. `pip install -e /path/to/my/fork/of/MHKiT-Python`)
 
