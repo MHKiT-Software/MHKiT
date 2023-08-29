@@ -28,7 +28,6 @@ import:
 	~mhkit.dolfyn.rotate.base.euler2orient
 	~mhkit.dolfyn.rotate.base.orient2euler
 	~mhkit.dolfyn.rotate.base.quaternion2orient
-	~mhkit.dolfyn.rotate.base.calc_tilt
 	~mhkit.dolfyn.velocity.VelBinner
 
 ADP Module
@@ -45,13 +44,10 @@ ADP/ADCP data and is imported using
 	~mhkit.dolfyn.io.api.read
 	~mhkit.dolfyn.io.api.load
 	~mhkit.dolfyn.rotate.api.rotate2
+	~mhkit.dolfyn.rotate.api.calc_principal_heading
 	~mhkit.dolfyn.adp.clean
 	~mhkit.dolfyn.velocity.VelBinner
-    
-.. automodule:: mhkit.dolfyn.adp.api
-    :members:
-    :undoc-members:
-    :show-inheritance:
+	~mhkit.dolfyn.adp.turbulence.ADPBinner
 
 ADV Module
 """"""""""
@@ -65,17 +61,13 @@ ADV data and is imported using
 	~mhkit.dolfyn.io.api.read
 	~mhkit.dolfyn.io.api.load
 	~mhkit.dolfyn.rotate.api.rotate2
-	~mhkit.dolfyn.adv.clean
+	~mhkit.dolfyn.rotate.api.calc_principal_heading
 	~mhkit.dolfyn.rotate.api.set_inst2head_rotmat
+	~mhkit.dolfyn.adv.clean
 	~mhkit.dolfyn.adv.motion.correct_motion
 	~mhkit.dolfyn.velocity.VelBinner
 	~mhkit.dolfyn.adv.turbulence.ADVBinner
 	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
-
-.. automodule:: mhkit.dolfyn.adv.api
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 IO
 ""
@@ -259,8 +251,8 @@ beyond those described in `VelBinner`.
 
 	~mhkit.dolfyn.adv.turbulence.ADVBinner
 	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
-	~mhkit.dolfyn.adv.turbulence.reynolds_stress
-	~mhkit.dolfyn.adv.turbulence.cross_spectral_density
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.reynolds_stress
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.cross_spectral_density
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_SF
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_TE01

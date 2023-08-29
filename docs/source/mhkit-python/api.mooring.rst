@@ -24,25 +24,11 @@ load MoorDyn data and convert it to xarray:
     :undoc-members:
     :show-inheritance:
     
-Main
-""""""""""""
-The main module contains the core of the mooring module. 
-It contains a function to calculate lay length of a mooring line.
-
-.. autosummary::
-   :nosignatures:
-
-   ~mhkit.mooring.main.read_moordyn
-   
-.. automodule:: mhkit.mooring.main
-    :members:
-    :undoc-members:
-    :show-inheritance:
 	
 Graphics
 """"""""""""
-The graphics submodule contains functions to plot tidal resource data 
-and related metrics.
+The graphics submodule contains functions to visualize 
+mooring lines.
 
 .. autosummary::
    :nosignatures:
