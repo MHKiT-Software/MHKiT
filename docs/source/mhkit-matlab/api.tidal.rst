@@ -73,8 +73,7 @@ Functions                                    Description
 .. mat:automodule:: mhkit.river.performance
     :members:
     :undoc-members:
-    :show-inheritance:     
-    :noindex:
+    :show-inheritance:
 
 .. Note::
 	Tidal device functions are the same as the River device functions

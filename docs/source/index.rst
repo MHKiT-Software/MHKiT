@@ -20,6 +20,7 @@
    power.rst
    loads.rst
    dolfyn.rst
+   mooring.rst
    utils.rst
    python.rst
    matlab.rst
@@ -79,6 +80,7 @@ Former members of the core development team include:
 
 
 .. Note: here we could call out specific external (or lab-internal) staff that have contributed significantly
+
 MHKiT has had many additional contributors. An extensive list of contributors can be found on the
 `MHKiT-Python Contributors <https://github.com/MHKiT-Software/MHKiT-Python/graphs/contributors>`_ page and the
 `MHKiT-MATLAB Contributors <https://github.com/MHKiT-Software/MHKiT-MATLAB/graphs/contributors>`_ page.

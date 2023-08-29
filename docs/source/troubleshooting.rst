@@ -6,8 +6,9 @@ This section provides solutions to common issues wherever possible.
 There are some known issues with various configurations of Python packages, Matlab versions, and operating systems. 
 
 
-For all issues, please enusure MHKiT and its dependencies are up to date. 
-To ensure this :
+For all issues, please ensure MHKiT and its dependencies are up to date. 
+To ensure this:
+
 For Python: 
     ```pip install mhkit --upgrade``` or ```pip install -e . ``` from your local clone
 
