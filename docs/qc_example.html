@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MHKiT Quality Control Module &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -83,8 +85,12 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -132,14 +138,14 @@
              
   <section id="MHKiT-Quality-Control-Module">
 <h1>MHKiT Quality Control Module<a class="headerlink" href="#MHKiT-Quality-Control-Module" title="Permalink to this heading"></a></h1>
-<p>The following example runs a simple quality control analysis on wave elevation data using the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.qc.html">MHKiT QC module</a>. The data file used in this example is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\MHKiT\examples\data</a> directory.</p>
+<p>The following example runs a simple quality control analysis on wave elevation data using the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.qc.html">MHKiT QC module</a>. The data file used in this example is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\\MHKiT\\examples\\data</a> directory.</p>
 <p>Start by importing the necessary Python packages and MHKiT modules.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
-from mhkit import qc, utils
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">qc</span><span class="p">,</span> <span class="n">utils</span>
 </pre></div>
 </div>
 </div>
@@ -151,14 +157,14 @@ from mhkit import qc, utils
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load data from the csv file into a DataFrame
-data = pd.read_csv(&#39;data/qc/wave_elevation_data.csv&#39;, index_col=&#39;Time&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data from the csv file into a DataFrame</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/qc/wave_elevation_data.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
 
-# Plot the data
-data.plot(figsize=(15,5), ylim=(-60,60))
+<span class="c1"># Plot the data</span>
+<span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
 
-# Print the first 5 rows of data
-print(data.head())
+<span class="c1"># Print the first 5 rows of data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -188,11 +194,11 @@ Time
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the index to datetime
-data.index = utils.index_to_datetime(data.index, origin=&#39;2019-05-20&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the index to datetime</span>
+<span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">index_to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;2019-05-20&#39;</span><span class="p">)</span>
 
-# Print the first 5 rows of data
-print(data.head())
+<span class="c1"># Print the first 5 rows of data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -229,11 +235,11 @@ Time
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define expected frequency of the data, in seconds
-frequency = 0.002
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define expected frequency of the data, in seconds</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="mf">0.002</span>
 
-# Run the timestamp quality control test
-results = qc.check_timestamp(data, frequency)
+<span class="c1"># Run the timestamp quality control test</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -242,11 +248,11 @@ results = qc.check_timestamp(data, frequency)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot cleaned data
-results[&#39;cleaned_data&#39;].plot(figsize=(15,5), ylim=(-60,60))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot cleaned data</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
 
-# Print the first 5 rows of the cleaned data
-print(results[&#39;cleaned_data&#39;].head())
+<span class="c1"># Print the first 5 rows of the cleaned data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -274,8 +280,8 @@ print(results[&#39;cleaned_data&#39;].head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print the first 5 rows of the mask
-print(results[&#39;mask&#39;].head())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the first 5 rows of the mask</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -296,9 +302,9 @@ print(results[&#39;mask&#39;].head())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print the test results summary
-# The summary is transposed (using .T) so that it is easier to read.
-print(results[&#39;test_results&#39;].T)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the test results summary</span>
+<span class="c1"># The summary is transposed (using .T) so that it is easier to read.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -332,17 +338,17 @@ Error Flag              Missing timestamp
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define corrupt values
-corrupt_values = [-999]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define corrupt values</span>
+<span class="n">corrupt_values</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">999</span><span class="p">]</span>
 
-# Run the corrupt data quality control test
-results = qc.check_corrupt(results[&#39;cleaned_data&#39;], corrupt_values)
+<span class="c1"># Run the corrupt data quality control test</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">check_corrupt</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="n">corrupt_values</span><span class="p">)</span>
 
-# Plot cleaned data
-results[&#39;cleaned_data&#39;].plot(figsize=(15,5), ylim=(-60,60))
+<span class="c1"># Plot cleaned data</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
 
-# Print test results summary
-print(results[&#39;test_results&#39;].T)
+<span class="c1"># Print test results summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -374,17 +380,17 @@ Error Flag                   Corrupt data                Corrupt data
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define expected lower and upper bound ([lower bound, upper bound])
-expected_bounds = [-50, 50]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define expected lower and upper bound ([lower bound, upper bound])</span>
+<span class="n">expected_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
 
-# Run expected range quality control test
-results = qc.check_range(results[&#39;cleaned_data&#39;], expected_bounds)
+<span class="c1"># Run expected range quality control test</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">check_range</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="n">expected_bounds</span><span class="p">)</span>
 
-# Plot cleaned data
-results[&#39;cleaned_data&#39;].plot(figsize=(15,5), ylim=(-60,60))
+<span class="c1"># Plot cleaned data</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
 
-# Print test results summary
-print(results[&#39;test_results&#39;].T)
+<span class="c1"># Print test results summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -423,20 +429,20 @@ Error Flag         Data &gt; upper bound, 50
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define expected lower bound (no upper bound is specified in this example)
-expected_bound = [0.001, None]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define expected lower bound (no upper bound is specified in this example)</span>
+<span class="n">expected_bound</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
-# Define the moving window, in seconds
-window = 0.02
+<span class="c1"># Define the moving window, in seconds</span>
+<span class="n">window</span> <span class="o">=</span> <span class="mf">0.02</span>
 
-# Run the delta quality control test
-results = qc.check_delta(results[&#39;cleaned_data&#39;], expected_bound, window)
+<span class="c1"># Run the delta quality control test</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">qc</span><span class="o">.</span><span class="n">check_delta</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">],</span> <span class="n">expected_bound</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span>
 
-# Plot cleaned data
-results[&#39;cleaned_data&#39;].plot(figsize=(15,5), ylim=(-60,60))
+<span class="c1"># Plot cleaned data</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">))</span>
 
-# Print test results summary
-print(results[&#39;test_results&#39;].T)
+<span class="c1"># Print test results summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;test_results&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -469,8 +475,8 @@ Error Flag     Delta &lt; lower bound, 0.001
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Extract final cleaned data for MHKiT analysis
-cleaned_data = results[&#39;cleaned_data&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract final cleaned data for MHKiT analysis</span>
+<span class="n">cleaned_data</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>

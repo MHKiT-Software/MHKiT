@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loads Module &mdash; MHKiT v0.5.1 documentation</title>
+  <title>Loads Module &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
@@ -12,9 +12,10 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -37,7 +38,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -58,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../matlab.html">MHKiT-MATLAB</a><ul class="current">
@@ -125,6 +127,10 @@
 <h2>General<a class="headerlink" href="#general" title="Permalink to this heading"></a></h2>
 <p>The graphics submodule contains functions to compute loads related metrics.</p>
 <table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Functions</p></th>
 <th class="head"><p>Description</p></th>
@@ -143,58 +149,6 @@
 </tbody>
 </table>
 <span class="target" id="module-mhkit.loads.general"></span><dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.loads.general.bin_statistics">
-<span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">bin_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bin_against</span></em>, <em class="sig-param"><span class="pre">bin_edges</span></em>, <em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.bin_statistics" title="Permalink to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Bins calculated statistics against data signal (or channel)
-according to IEC TS 62600-3:2020 ED1.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">Strucutre</span> <span class="pre">or</span> <span class="pre">Table</span> <span class="pre">with</span> <span class="pre">handles-</span> <span class="pre">data.data</span> <span class="pre">and</span> <span class="pre">data.time</span></code></span>) – data.data contains a vector or matrix containing time-series
-statistics of variables</p></li>
-<li><p><strong>bin_against</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Data signal to bin data against (ie. current speed)</p></li>
-<li><p><strong>bin_edges</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Bin edges with consistent step size.</p></li>
-<li><p><strong>data_signal</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">(optional)</span></code></span>) – List of data signal(s) to bin, default = all data signals</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p><strong>bins</strong> (<em>structure</em>)</p>
-<p>bins.averages = means of each bin</p>
-<p>bins.std = standard deviation of each bin</p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.loads.general.blade_moments">
-<span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">blade_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">blade_coefficients</span></em>, <em class="sig-param"><span class="pre">flap_offset</span></em>, <em class="sig-param"><span class="pre">flap_raw</span></em>, <em class="sig-param"><span class="pre">edge_offset</span></em>, <em class="sig-param"><span class="pre">edge_raw</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.blade_moments" title="Permalink to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Transfer function for deriving blade flap and edge moments using blade matrix.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>blade_coefficients</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Derived blade calibration coefficients listed in order of D1, D2, D3, D4</p></li>
-<li><p><strong>flap_offset</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Derived offset of raw flap signal obtained during calibration process</p></li>
-<li><p><strong>flap_raw</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Raw strain signal of blade in the flapwise direction</p></li>
-<li><p><strong>edge_offset</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Derived offset of raw edge signal obtained during calibration process</p></li>
-<li><p><strong>edge_raw</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Raw strain signal of blade in the edgewise direction</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>M_flap</strong> (<em>vector</em>) – Blade flapwise moment in SI units</p></li>
-<li><p><strong>M_edge</strong> (<em>vector</em>) – Blade edgewise moment in SI units</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
 <dt class="sig sig-object mat" id="mhkit.loads.general.damage_equivalent_load">
 <span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">damage_equivalent_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data_signal</span></em>, <em class="sig-param"><span class="pre">m</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.damage_equivalent_load" title="Permalink to this definition"></a></dt>
 <dd><blockquote>
@@ -212,7 +166,7 @@ of Fatigue, 82 (2016) 757-765</cite></p></li>
 </ul>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_signal</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Data signal being analyzed</p></li>
 <li><p><strong>m</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Fatigue slope factor of material</p></li>
@@ -222,8 +176,60 @@ to call: get_DELs(data,chan_info,”bin_num”,binNum)</p></li>
 to call: get_DELs(data,chan_info,”data_length”,t)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>DEL</strong> (<em>Structure</em>) – Damage equivalent load of signal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.loads.general.bin_statistics">
+<span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">bin_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bin_against</span></em>, <em class="sig-param"><span class="pre">bin_edges</span></em>, <em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.bin_statistics" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Bins calculated statistics against data signal (or channel)
+according to IEC TS 62600-3:2020 ED1.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">Strucutre</span> <span class="pre">or</span> <span class="pre">Table</span> <span class="pre">with</span> <span class="pre">handles-</span> <span class="pre">data.data</span> <span class="pre">and</span> <span class="pre">data.time</span></code></span>) – data.data contains a vector or matrix containing time-series
+statistics of variables</p></li>
+<li><p><strong>bin_against</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Data signal to bin data against (ie. current speed)</p></li>
+<li><p><strong>bin_edges</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Bin edges with consistent step size.</p></li>
+<li><p><strong>data_signal</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">(optional)</span></code></span>) – List of data signal(s) to bin, default = all data signals</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>bins</strong> (<em>structure</em>)</p>
+<p>bins.averages = means of each bin</p>
+<p>bins.std = standard deviation of each bin</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.loads.general.blade_moments">
+<span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">blade_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">blade_coefficients</span></em>, <em class="sig-param"><span class="pre">flap_offset</span></em>, <em class="sig-param"><span class="pre">flap_raw</span></em>, <em class="sig-param"><span class="pre">edge_offset</span></em>, <em class="sig-param"><span class="pre">edge_raw</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.blade_moments" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Transfer function for deriving blade flap and edge moments using blade matrix.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blade_coefficients</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Derived blade calibration coefficients listed in order of D1, D2, D3, D4</p></li>
+<li><p><strong>flap_offset</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Derived offset of raw flap signal obtained during calibration process</p></li>
+<li><p><strong>flap_raw</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Raw strain signal of blade in the flapwise direction</p></li>
+<li><p><strong>edge_offset</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Derived offset of raw edge signal obtained during calibration process</p></li>
+<li><p><strong>edge_raw</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Raw strain signal of blade in the edgewise direction</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>M_flap</strong> (<em>vector</em>) – Blade flapwise moment in SI units</p></li>
+<li><p><strong>M_edge</strong> (<em>vector</em>) – Blade edgewise moment in SI units</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -234,6 +240,10 @@ to call: get_DELs(data,chan_info,”data_length”,t)</p></li>
 <p>The graphics submodule contains functions to plot loads data and related metrics.
 The functions are designed to work in parallel with the <a class="reference internal" href="../mhkit-python/api.loads.html#module-mhkit.loads.general" title="mhkit.loads.general"><code class="xref py py-class docutils literal notranslate"><span class="pre">general</span></code></a> submodule.</p>
 <table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 58%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Functions</p></th>
 <th class="head"><p>Description</p></th>
@@ -255,7 +265,7 @@ The functions are designed to work in parallel with the <a class="reference inte
 <div><p>Plot showing standard binned statistics of single variable</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bin_centers</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – x-axis bin center values</p></li>
 <li><p><strong>bin_mean</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Binned mean statistical values of variable</p></li>
@@ -274,7 +284,7 @@ to call: binplotter(bcenters,bmean,bmax,bmin,bstdmean,bstdmax,bstdmin,”title�
 to call: binplotter(bcenters,bmean,bmax,bmin,bstdmean,bstdmax,bstdmin,”savepath”,savepath)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>figure</strong> (<em>figure</em>)</p>
 </dd>
 </dl>
@@ -287,7 +297,7 @@ to call: binplotter(bcenters,bmean,bmax,bmin,bstdmean,bstdmax,bstdmin,”savepat
 <div><p>Plot showing standard raw statistics of variable</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – vector of x-axis values</p></li>
 <li><p><strong>y_mean</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Vector of mean values</p></li>
@@ -305,7 +315,7 @@ to call: statplotter(x,y_mean,y_max,y_min,”title”,title)</p></li>
 to call: statplotter(x,y_mean,y_max,y_min,”savepath”,savepath)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>figure</strong> (<em>figure</em>) – scatter plot of statistics</p>
 </dd>
 </dl>

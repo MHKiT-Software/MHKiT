@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MHKiT Tidal Module &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -86,8 +88,12 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -135,14 +141,14 @@
              
   <section id="MHKiT-Tidal-Module">
 <h1>MHKiT Tidal Module<a class="headerlink" href="#MHKiT-Tidal-Module" title="Permalink to this heading"></a></h1>
-<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.tidal.html">MHKiT tidal module</a> by stepping through the calculation of the velocity duration curve. The data file used in this example is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\MHKiT\examples\data</a> directory.</p>
+<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.tidal.html">MHKiT tidal module</a> by stepping through the calculation of the velocity duration curve. The data file used in this example is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\\MHKiT\\examples\\data</a> directory.</p>
 <p>Start by importing the necessary MHKiT module.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
-from mhkit import tidal
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">tidal</span>
 <br/></pre></div>
 </div>
 </div>
@@ -154,14 +160,14 @@ from mhkit import tidal
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load tidal data, South Hampton Shoal LB 6
-data, metadata = tidal.io.noaa.read_noaa_json(&#39;data/tidal/s08010.json&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load tidal data, South Hampton Shoal LB 6</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">noaa</span><span class="o">.</span><span class="n">read_noaa_json</span><span class="p">(</span><span class="s1">&#39;data/tidal/s08010.json&#39;</span><span class="p">)</span>
 
-# Convert discharge data from cm/s to m/s
-data.s = data.s / 100
+<span class="c1"># Convert discharge data from cm/s to m/s</span>
+<span class="n">data</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="mi">100</span>
 
-# Print data
-print(data)
+<span class="c1"># Print data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -192,9 +198,9 @@ print(data)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#data, metadata = tidal.io.noaa.request_noaa_data(station=&#39;s08010&#39;, parameter=&#39;currents&#39;,
-#                               start_date=&#39;20161101&#39;, end_date=&#39;20180401&#39;,
-#                               proxy=None, write_json=`data/s08010.json`)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#data, metadata = tidal.io.noaa.request_noaa_data(station=&#39;s08010&#39;, parameter=&#39;currents&#39;,</span>
+<span class="c1">#                               start_date=&#39;20161101&#39;, end_date=&#39;20180401&#39;,</span>
+<span class="c1">#                               proxy=None, write_json=`data/s08010.json`)</span>
 </pre></div>
 </div>
 </div>
@@ -207,15 +213,15 @@ print(data)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Specify histogram bin width for directions to calculate the principal flow directions
-width_direction = 1   # in degrees
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify histogram bin width for directions to calculate the principal flow directions</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># in degrees</span>
 
-# Compute two principal flow directions
-direction1, direction2 = tidal.resource.principal_flow_directions(data.d, width_direction)
+<span class="c1"># Compute two principal flow directions</span>
+<span class="n">direction1</span><span class="p">,</span> <span class="n">direction2</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">principal_flow_directions</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">)</span>
 
-# Set flood and ebb directions based on site knowledge
-flood = direction1 # Flow into
-ebb = direction2 # Flow out
+<span class="c1"># Set flood and ebb directions based on site knowledge</span>
+<span class="n">flood</span> <span class="o">=</span> <span class="n">direction1</span> <span class="c1"># Flow into</span>
+<span class="n">ebb</span> <span class="o">=</span> <span class="n">direction2</span> <span class="c1"># Flow out</span>
 </pre></div>
 </div>
 </div>
@@ -224,7 +230,7 @@ ebb = direction2 # Flow out
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax = tidal.graphics.plot_current_timeseries(data.d, data.s, flood)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_current_timeseries</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -240,11 +246,11 @@ ebb = direction2 # Flow out
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Slice December of 2017 out of the full dataset
-dec17_data = data.loc[&#39;2017-12-01&#39;:&#39;2017-12-31&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Slice December of 2017 out of the full dataset</span>
+<span class="n">dec17_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2017-12-01&#39;</span><span class="p">:</span><span class="s1">&#39;2017-12-31&#39;</span><span class="p">]</span>
 
-# Plot December of 2017 as current timeseries
-ax = tidal.graphics.plot_current_timeseries(dec17_data.d, dec17_data.s, flood)
+<span class="c1"># Plot December of 2017 as current timeseries</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_current_timeseries</span><span class="p">(</span><span class="n">dec17_data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">dec17_data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -263,13 +269,13 @@ ax = tidal.graphics.plot_current_timeseries(dec17_data.d, dec17_data.s, flood)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the joint probability bin widths
-width_direction = 1   # in degrees
-width_velocity  = 0.1 # in m/s
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the joint probability bin widths</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># in degrees</span>
+<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># in m/s</span>
 
-# Plot the joint probability distribution
-ax = tidal.graphics.plot_joint_probability_distribution(data.d, data.s, \
-        width_direction, width_velocity, metadata=metadata, flood=flood, ebb=ebb)
+<span class="c1"># Plot the joint probability distribution</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_joint_probability_distribution</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> \
+        <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -296,13 +302,13 @@ ax = tidal.graphics.plot_joint_probability_distribution(data.d, data.s, \
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Define bin sizes
-width_direction = 10   # in degrees
-width_velocity  = 0.25 # in m/s
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define bin sizes</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1"># in degrees</span>
+<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mf">0.25</span> <span class="c1"># in m/s</span>
 
-# Create a rose plot
-ax = tidal.graphics.plot_rose(data.d, data.s, width_direction, \
-          width_velocity, metadata=metadata, flood=flood, ebb=ebb)
+<span class="c1"># Create a rose plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">width_direction</span><span class="p">,</span> \
+          <span class="n">width_velocity</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -321,11 +327,11 @@ ax = tidal.graphics.plot_rose(data.d, data.s, width_direction, \
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate exceedance probability of data
-data[&#39;F&#39;] = tidal.resource.exceedance_probability(data.s)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate exceedance probability of data</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">exceedance_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
 
-# Plot the velocity duration curve (VDC)
-ax = tidal.graphics.plot_velocity_duration_curve(data.s, data.F)
+<span class="c1"># Plot the velocity duration curve (VDC)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -344,7 +350,7 @@ ax = tidal.graphics.plot_velocity_duration_curve(data.s, data.F)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tidal.graphics.tidal_phase_probability(data.d, data.s, flood, ebb)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tidal_phase_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -368,7 +374,7 @@ ax = tidal.graphics.plot_velocity_duration_curve(data.s, data.F)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tidal.graphics.tidal_phase_exceedance(data.d, data.s, flood, ebb)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tidal</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tidal_phase_exceedance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

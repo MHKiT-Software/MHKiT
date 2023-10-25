@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MHKiT Power Module &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -83,8 +85,12 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -138,9 +144,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-import pandas as pd
-from mhkit import power, utils
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">power</span><span class="p">,</span> <span class="n">utils</span>
 </pre></div>
 </div>
 </div>
@@ -152,12 +158,12 @@ from mhkit import power, utils
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Read in time-series data of voltage (V) and current (I)
-power_data = pd.read_csv(&#39;data/power/2020224_181521_PowRaw.csv&#39;,skip_blank_lines=True,index_col=&#39;Time_UTC&#39;)
-# Convert the time index to type &quot;datetime&quot;
-power_data.index=pd.to_datetime(power_data.index)
-# Display the data
-power_data.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read in time-series data of voltage (V) and current (I)</span>
+<span class="n">power_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/power/2020224_181521_PowRaw.csv&#39;</span><span class="p">,</span><span class="n">skip_blank_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Time_UTC&#39;</span><span class="p">)</span>
+<span class="c1"># Convert the time index to type &quot;datetime&quot;</span>
+<span class="n">power_data</span><span class="o">.</span><span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">power_data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="c1"># Display the data</span>
+<span class="n">power_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -262,17 +268,17 @@ power_data.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># First seperate the voltage and current time-series into seperate dataFrames
-voltage = power_data[[&#39;MODAQ_Va_V&#39;, &#39;MODAQ_Vb_V&#39;, &#39;MODAQ_Vc_V&#39;]]
-current = power_data[[&#39;MODAQ_Ia_I&#39;,&#39;MODAQ_Ib_I&#39;,&#39;MODAQ_Ic_I&#39;]]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First seperate the voltage and current time-series into seperate dataFrames</span>
+<span class="n">voltage</span> <span class="o">=</span> <span class="n">power_data</span><span class="p">[[</span><span class="s1">&#39;MODAQ_Va_V&#39;</span><span class="p">,</span> <span class="s1">&#39;MODAQ_Vb_V&#39;</span><span class="p">,</span> <span class="s1">&#39;MODAQ_Vc_V&#39;</span><span class="p">]]</span>
+<span class="n">current</span> <span class="o">=</span> <span class="n">power_data</span><span class="p">[[</span><span class="s1">&#39;MODAQ_Ia_I&#39;</span><span class="p">,</span><span class="s1">&#39;MODAQ_Ib_I&#39;</span><span class="p">,</span><span class="s1">&#39;MODAQ_Ic_I&#39;</span><span class="p">]]</span>
 
-# Set the power factor for the system
-power_factor = 0.96
+<span class="c1"># Set the power factor for the system</span>
+<span class="n">power_factor</span> <span class="o">=</span> <span class="mf">0.96</span>
 
-# Compute the instantaneous AC power in watts
-ac_power = power.characteristics.ac_power_three_phase(voltage, current, power_factor)
-# Display the result
-ac_power.Power.plot(figsize=(15,5),title=&#39;AC Power&#39;).set(xlabel=&#39;Time&#39;,ylabel=&#39;Power [W]&#39;);
+<span class="c1"># Compute the instantaneous AC power in watts</span>
+<span class="n">ac_power</span> <span class="o">=</span> <span class="n">power</span><span class="o">.</span><span class="n">characteristics</span><span class="o">.</span><span class="n">ac_power_three_phase</span><span class="p">(</span><span class="n">voltage</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">power_factor</span><span class="p">)</span>
+<span class="c1"># Display the result</span>
+<span class="n">ac_power</span><span class="o">.</span><span class="n">Power</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;AC Power&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Power [W]&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -291,14 +297,14 @@ ac_power.Power.plot(figsize=(15,5),title=&#39;AC Power&#39;).set(xlabel=&#39;Tim
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute the instantaneous frequency
-inst_freq = power.characteristics.instantaneous_frequency(voltage)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute the instantaneous frequency</span>
+<span class="n">inst_freq</span> <span class="o">=</span> <span class="n">power</span><span class="o">.</span><span class="n">characteristics</span><span class="o">.</span><span class="n">instantaneous_frequency</span><span class="p">(</span><span class="n">voltage</span><span class="p">)</span>
 
-# Display the result
-inst_freq.plot(figsize=(15,5), ylim=(0,100),
-               title=&#39;Instantaneous Frequency&#39;).set(xlabel=&#39;Time [s]&#39;,
-                                                    ylabel=&#39;Frequency [Hz]&#39;);
-inst_freq.head()
+<span class="c1"># Display the result</span>
+<span class="n">inst_freq</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span>
+               <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Instantaneous Frequency&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time [s]&#39;</span><span class="p">,</span>
+                                                    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">);</span>
+<span class="n">inst_freq</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -381,22 +387,22 @@ inst_freq.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the nominal sampling frequency
-sample_freq = 50000   #[Hz]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the nominal sampling frequency</span>
+<span class="n">sample_freq</span> <span class="o">=</span> <span class="mi">50000</span>   <span class="c1">#[Hz]</span>
 
-# Set the frequency of the grid the device would be conected to
-grid_freq = 60        #[Hz]
+<span class="c1"># Set the frequency of the grid the device would be conected to</span>
+<span class="n">grid_freq</span> <span class="o">=</span> <span class="mi">60</span>        <span class="c1">#[Hz]</span>
 
-# Set the rated current of the device
-rated_current = 18.8  # [Amps]
+<span class="c1"># Set the rated current of the device</span>
+<span class="n">rated_current</span> <span class="o">=</span> <span class="mf">18.8</span>  <span class="c1"># [Amps]</span>
 
-# Calculate the harmonics
-harmonics = power.quality.harmonics(current, sample_freq, grid_freq)
+<span class="c1"># Calculate the harmonics</span>
+<span class="n">harmonics</span> <span class="o">=</span> <span class="n">power</span><span class="o">.</span><span class="n">quality</span><span class="o">.</span><span class="n">harmonics</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">sample_freq</span><span class="p">,</span> <span class="n">grid_freq</span><span class="p">)</span>
 
-# Plot the results
-harmonics.plot(figsize=(15,5),xlim=(0,900),
-               title=&#39;Current Harmonics&#39;).set(ylabel=&#39;Harmonic Amplitude&#39;,
-                                              xlabel=&#39;Frequency [Hz]&#39;);
+<span class="c1"># Plot the results</span>
+<span class="n">harmonics</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">900</span><span class="p">),</span>
+               <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Current Harmonics&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Harmonic Amplitude&#39;</span><span class="p">,</span>
+                                              <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -414,10 +420,10 @@ harmonics.plot(figsize=(15,5),xlim=(0,900),
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calcualte Harmonic Subgroups
-h_s = power.quality.harmonic_subgroups(harmonics,grid_freq)
-# Display the results
-h_s.head()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcualte Harmonic Subgroups</span>
+<span class="n">h_s</span> <span class="o">=</span> <span class="n">power</span><span class="o">.</span><span class="n">quality</span><span class="o">.</span><span class="n">harmonic_subgroups</span><span class="p">(</span><span class="n">harmonics</span><span class="p">,</span><span class="n">grid_freq</span><span class="p">)</span>
+<span class="c1"># Display the results</span>
+<span class="n">h_s</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -492,9 +498,9 @@ h_s.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Finally we can compute the total harmonic current distortion as a percentage
-THCD=power.quality.total_harmonic_current_distortion(h_s,rated_current)
-THCD
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Finally we can compute the total harmonic current distortion as a percentage</span>
+<span class="n">THCD</span><span class="o">=</span><span class="n">power</span><span class="o">.</span><span class="n">quality</span><span class="o">.</span><span class="n">total_harmonic_current_distortion</span><span class="p">(</span><span class="n">h_s</span><span class="p">,</span><span class="n">rated_current</span><span class="p">)</span>
+<span class="n">THCD</span>
 </pre></div>
 </div>
 </div>

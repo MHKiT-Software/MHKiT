@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Utils Module &mdash; MHKiT v0.5.1 documentation</title>
+  <title>Utils Module &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
@@ -12,9 +12,10 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -22,7 +23,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MHKiT Quality Control Module" href="../qc_example.html" />
-    <link rel="prev" title="DOLfYN Module" href="api.dolfyn.html" /> 
+    <link rel="prev" title="Mooring Module" href="api.mooring.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,7 +38,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -58,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -69,6 +71,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.mooring.html">Mooring Module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Utils Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#mhkit.utils.get_statistics"><code class="docutils literal notranslate"><span class="pre">get_statistics()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#mhkit.utils.vector_statistics"><code class="docutils literal notranslate"><span class="pre">vector_statistics()</span></code></a></li>
@@ -126,6 +129,10 @@
 <p>The utils module includes helper functions. The module currently contains a single function to help users
 convert numeric indexes to datetime indexes.  Additional helper functions could be added at a later date.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.utils.get_statistics" title="mhkit.utils.get_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_statistics</span></code></a></p></td>
 <td><p>Calculate mean, max, min and stdev statistics of continuous data for a given statistical window.</p></td>
@@ -152,7 +159,7 @@ given statistical window. Default length of statistical window (period) is
 based on IEC TS 62600-3:2020 ED1. Also allows calculation of statistics for multiple statistical
 windows of continuous data and accounts for vector/directional channels.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data indexed by datetime with columns of data to be analyzed</p></li>
 <li><p><strong>freq</strong> (<em>float/int</em>) – Sample rate of data [Hz]</p></li>
@@ -160,7 +167,7 @@ windows of continuous data and accounts for vector/directional channels.</p>
 <li><p><strong>vector_channels</strong> (<em>string</em><em> or </em><em>list</em><em> (</em><em>optional</em><em>)</em>) – List of vector/directional channel names formatted in deg (0-360)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>means,maxs,mins,stdevs</strong> (<em>pandas DataFrame</em>) – Calculated statistical values from the data, indexed by the first timestamp</p>
 </dd>
 </dl>
@@ -172,10 +179,10 @@ windows of continuous data and accounts for vector/directional channels.</p>
 <dd><p>Function used to calculate statistics for vector/directional channels based on
 routine from Campbell data logger and Yamartino algorithm</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>pandas Series</em><em>, </em><em>numpy array</em><em>, </em><em>list</em>) – Vector channel to calculate statistics on [deg, 0-360]</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>vector_avg</strong> (<em>numpy array</em>) – Vector mean statistic</p></li>
 <li><p><strong>vector_std</strong> (<em>numpy array</em>) – Vector standard deviation statistic</p></li>
@@ -190,10 +197,10 @@ routine from Campbell data logger and Yamartino algorithm</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.utils.</span></span><span class="sig-name descname"><span class="pre">unwrap_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#unwrap_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.utils.unwrap_vector" title="Permalink to this definition"></a></dt>
 <dd><p>Function used to unwrap vectors into 0-360 deg range</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>pandas Series</em><em>, </em><em>numpy array</em><em>, </em><em>list</em>) – Data points to be unwrapped [deg]</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>data</strong> (<em>numpy array</em>) – Data points unwrapped between 0-360 deg</p>
 </dd>
 </dl>
@@ -204,10 +211,10 @@ routine from Campbell data logger and Yamartino algorithm</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.utils.</span></span><span class="sig-name descname"><span class="pre">matlab_to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matlab_datenum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#matlab_to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.utils.matlab_to_datetime" title="Permalink to this definition"></a></dt>
 <dd><p>Convert MATLAB datenum format to Python datetime</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>matlab_datenum</strong> (<em>numpy array</em>) – MATLAB datenum to be converted</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>DateTimeIndex</em>) – Python datetime values</p>
 </dd>
 </dl>
@@ -218,10 +225,10 @@ routine from Campbell data logger and Yamartino algorithm</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.utils.</span></span><span class="sig-name descname"><span class="pre">excel_to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">excel_num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#excel_to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.utils.excel_to_datetime" title="Permalink to this definition"></a></dt>
 <dd><p>Convert Excel datenum format to Python datetime</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>excel_num</strong> (<em>numpy array</em>) – Excel datenums to be converted</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>DateTimeIndex</em>) – Python datetime values</p>
 </dd>
 </dl>
@@ -232,14 +239,14 @@ routine from Campbell data logger and Yamartino algorithm</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.utils.</span></span><span class="sig-name descname"><span class="pre">magnitude_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#magnitude_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.utils.magnitude_phase" title="Permalink to this definition"></a></dt>
 <dd><p>Retuns magnitude and phase in two or three dimensions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>array_like</em>) – x-component</p></li>
 <li><p><strong>y</strong> (<em>array_like</em>) – y-component</p></li>
 <li><p><strong>z</strong> (<em>array_like</em>) – z-component defined positive up. (Optional) Default None.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>mag</strong> (<em>float or array</em>) – magnitude of the vector</p></li>
 <li><p><strong>theta</strong> (<em>float or array</em>) – radians from the x-axis</p></li>
@@ -256,14 +263,14 @@ returned when z is passed.</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.utils.</span></span><span class="sig-name descname"><span class="pre">unorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/utils.html#unorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.utils.unorm" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the root mean squared value given three arrays.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>array</em>) – One input for the root mean squared calculation.(eq. x velocity)</p></li>
 <li><p><strong>y</strong> (<em>array</em>) – One input for the root mean squared calculation.(eq. y velocity)</p></li>
 <li><p><strong>z</strong> (<em>array</em>) – One input for the root mean squared calculation.(eq. z velocity)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>unorm</strong> (<em>array</em>) – The root mean squared of x, y, and z.</p>
 </dd>
 </dl>
@@ -279,7 +286,7 @@ The resulting output is [ 8.1240384,  9.64365076, 11.22497216].</p>
 <dd><p>Convert DataFrame index from int/float to datetime,
 rounds datetime to the nearest millisecond</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>pandas Index</em>) – DataFrame index in int or float</p></li>
 <li><p><strong>unit</strong> (<em>str</em><em>, </em><em>optional</em>) – Units of the original index</p></li>
@@ -289,7 +296,7 @@ The origin can also be defined using a datetime string in a similar
 format (i.e. ‘2019-05-17 16:05:45’)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>pandas Index</em> – DataFrame index in datetime</p>
 </dd>
 </dl>
@@ -301,7 +308,7 @@ format (i.e. ‘2019-05-17 16:05:45’)</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="api.dolfyn.html" class="btn btn-neutral float-left" title="DOLfYN Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.mooring.html" class="btn btn-neutral float-left" title="Mooring Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../qc_example.html" class="btn btn-neutral float-right" title="MHKiT Quality Control Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

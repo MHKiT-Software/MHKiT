@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Extreme Conditions Modeling - Full Sea State Approach &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -78,8 +80,12 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -146,12 +152,12 @@ sea state to obtain the long-term extreme. This is a sum of the products of the 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit.wave import resource, contours, graphics
-from mhkit.loads import extreme
-import matplotlib.pyplot as plt
-from mhkit.wave.io import ndbc
-import pandas as pd
-import numpy as np
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit.wave</span> <span class="kn">import</span> <span class="n">resource</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">from</span> <span class="nn">mhkit.loads</span> <span class="kn">import</span> <span class="n">extreme</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mhkit.wave.io</span> <span class="kn">import</span> <span class="n">ndbc</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -162,45 +168,45 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>parameter = &#39;swden&#39;
-buoy_number = &#39;46022&#39;
-ndbc_available_data = ndbc.available_data(parameter, buoy_number)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameter</span> <span class="o">=</span> <span class="s1">&#39;swden&#39;</span>
+<span class="n">buoy_number</span> <span class="o">=</span> <span class="s1">&#39;46022&#39;</span>
+<span class="n">ndbc_available_data</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">available_data</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">buoy_number</span><span class="p">)</span>
 
-years_of_interest = ndbc_available_data[ndbc_available_data.year &lt; 2013]
+<span class="n">years_of_interest</span> <span class="o">=</span> <span class="n">ndbc_available_data</span><span class="p">[</span><span class="n">ndbc_available_data</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;</span> <span class="mi">2013</span><span class="p">]</span>
 
-filenames = years_of_interest[&#39;filename&#39;]
-ndbc_requested_data = ndbc.request_data(parameter, filenames)
+<span class="n">filenames</span> <span class="o">=</span> <span class="n">years_of_interest</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+<span class="n">ndbc_requested_data</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">request_data</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span>
 
-ndbc_data = {}
-for year in ndbc_requested_data:
-    year_data = ndbc_requested_data[year]
-    ndbc_data[year] = ndbc.to_datetime_index(parameter, year_data)
+<span class="n">ndbc_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">ndbc_requested_data</span><span class="p">:</span>
+    <span class="n">year_data</span> <span class="o">=</span> <span class="n">ndbc_requested_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+    <span class="n">ndbc_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">to_datetime_index</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">year_data</span><span class="p">)</span>
 
-Hm0_list = []
-Te_list = []
+<span class="n">Hm0_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Te_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-# Iterate over each year and save the result in the initalized dictionary
-for year in ndbc_data:
-    year_data = ndbc_data[year]
-    Hm0_list.append(resource.significant_wave_height(year_data.T))
-    Te_list.append(resource.energy_period(year_data.T))
+<span class="c1"># Iterate over each year and save the result in the initalized dictionary</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">ndbc_data</span><span class="p">:</span>
+    <span class="n">year_data</span> <span class="o">=</span> <span class="n">ndbc_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+    <span class="n">Hm0_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">significant_wave_height</span><span class="p">(</span><span class="n">year_data</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">Te_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_period</span><span class="p">(</span><span class="n">year_data</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
 
-# Concatenate list of Series into a single DataFrame
-Te = pd.concat(Te_list, axis=0)
-Hm0 = pd.concat(Hm0_list, axis=0)
-Hm0_Te = pd.concat([Hm0, Te], axis=1)
+<span class="c1"># Concatenate list of Series into a single DataFrame</span>
+<span class="n">Te</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Te_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Hm0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">Hm0_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Hm0_Te</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-# Drop any NaNs created from the calculation of Hm0 or Te
-Hm0_Te.dropna(inplace=True)
-# Sort the DateTime index
-Hm0_Te.sort_index(inplace=True)
+<span class="c1"># Drop any NaNs created from the calculation of Hm0 or Te</span>
+<span class="n">Hm0_Te</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Sort the DateTime index</span>
+<span class="n">Hm0_Te</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-Hm0_Te_clean = Hm0_Te[Hm0_Te.Hm0 &lt; 20]
+<span class="n">Hm0_Te_clean</span> <span class="o">=</span> <span class="n">Hm0_Te</span><span class="p">[</span><span class="n">Hm0_Te</span><span class="o">.</span><span class="n">Hm0</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">]</span>
 
-Hm0 = Hm0_Te_clean.Hm0.values
-Te = Hm0_Te_clean.Te.values
+<span class="n">Hm0</span> <span class="o">=</span> <span class="n">Hm0_Te_clean</span><span class="o">.</span><span class="n">Hm0</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Te</span> <span class="o">=</span> <span class="n">Hm0_Te_clean</span><span class="o">.</span><span class="n">Te</span><span class="o">.</span><span class="n">values</span>
 
-dt = (Hm0_Te_clean.index[2]-Hm0_Te_clean.index[1]).seconds
+<span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">Hm0_Te_clean</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">Hm0_Te_clean</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">seconds</span>
 </pre></div>
 </div>
 </div>
@@ -218,15 +224,15 @@ dt = (Hm0_Te_clean.index[2]-Hm0_Te_clean.index[1]).seconds
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># return levels
-levels = np.array([0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 50, 100])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># return levels</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
 
-# points per return level interval
-npoints = 20
+<span class="c1"># points per return level interval</span>
+<span class="n">npoints</span> <span class="o">=</span> <span class="mi">20</span>
 
-# Create samples
-sample_hs, sample_te, sample_weights = contours.samples_full_seastate(
-    Hm0, Te, npoints, levels, dt)
+<span class="c1"># Create samples</span>
+<span class="n">sample_hs</span><span class="p">,</span> <span class="n">sample_te</span><span class="p">,</span> <span class="n">sample_weights</span> <span class="o">=</span> <span class="n">contours</span><span class="o">.</span><span class="n">samples_full_seastate</span><span class="p">(</span>
+    <span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">npoints</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -235,26 +241,26 @@ sample_hs, sample_te, sample_weights = contours.samples_full_seastate(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create the contours
-Te_contours = []
-Hm0_contours = []
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the contours</span>
+<span class="n">Te_contours</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Hm0_contours</span> <span class="o">=</span> <span class="p">[]</span>
 
-for period in levels:
-    copula = contours.environmental_contours(
-        Hm0, Te, dt, period, &#39;PCA&#39;, return_PCA=True)
-    Hm0_contours.append(copula[&#39;PCA_x1&#39;])
-    Te_contours.append(copula[&#39;PCA_x2&#39;])
+<span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">:</span>
+    <span class="n">copula</span> <span class="o">=</span> <span class="n">contours</span><span class="o">.</span><span class="n">environmental_contours</span><span class="p">(</span>
+        <span class="n">Hm0</span><span class="p">,</span> <span class="n">Te</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="s1">&#39;PCA&#39;</span><span class="p">,</span> <span class="n">return_PCA</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Hm0_contours</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copula</span><span class="p">[</span><span class="s1">&#39;PCA_x1&#39;</span><span class="p">])</span>
+    <span class="n">Te_contours</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copula</span><span class="p">[</span><span class="s1">&#39;PCA_x2&#39;</span><span class="p">])</span>
 
-# plot
-fig, ax = plt.subplots(figsize=(8, 4))
+<span class="c1"># plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
-labels = [f&quot;{period}-year Contour&quot; for period in levels]
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">-year Contour&quot;</span> <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">]</span>
 
-ax = graphics.plot_environmental_contour(
-    sample_te, sample_hs, Te_contours, Hm0_contours,
-    data_label=&#39;Samples&#39;, contour_label=labels,
-    x_label=&#39;Energy Period, $Te$ [s]&#39;,
-    y_label=&#39;Sig. wave height, $Hm0$ [m]&#39;, ax=ax)
+<span class="n">ax</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_environmental_contour</span><span class="p">(</span>
+    <span class="n">sample_te</span><span class="p">,</span> <span class="n">sample_hs</span><span class="p">,</span> <span class="n">Te_contours</span><span class="p">,</span> <span class="n">Hm0_contours</span><span class="p">,</span>
+    <span class="n">data_label</span><span class="o">=</span><span class="s1">&#39;Samples&#39;</span><span class="p">,</span> <span class="n">contour_label</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s1">&#39;Energy Period, $Te$ [s]&#39;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s1">&#39;Sig. wave height, $Hm0$ [m]&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -280,32 +286,32 @@ interest (can be thought as a proxy for heave motion in this example). Wave elev
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># create the short-term extreme distribution for each sample sea state
-t_st = 3.0 * 60.0 * 60.0
-gamma = 3.3
-t_sim = 1.0 * 60.0 * 60.0
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the short-term extreme distribution for each sample sea state</span>
+<span class="n">t_st</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">*</span> <span class="mf">60.0</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mf">3.3</span>
+<span class="n">t_sim</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">*</span> <span class="mf">60.0</span>
 
-ste_all = []
-i = 0
-n = len(sample_hs)
-for hs, te in zip(sample_hs, sample_te):
-    tp = te / (0.8255 + 0.03852*gamma - 0.005537*gamma**2 + 0.0003154*gamma**3)
-    i += 1
-    print(f&quot;Sea state {i}/{n}. (Hs, Te) = ({hs} m, {te} s). Tp = {tp} s&quot;)
-    # time &amp; frequency arrays
-    f0 = 1.0/t_sim
-    T_min = tp/10.0  # s
-    f_max = 1.0/T_min
-    Nf = int(f_max/f0)
-    time = np.linspace(0, t_sim, 2*Nf+1)
-    f = np.linspace(f0, f_max, Nf)
-    # spectrum
-    S = resource.jonswap_spectrum(f, tp, hs, gamma)
-    # 1-hour elevation time-series
-    data = resource.surface_elevation(S, time).values.squeeze()
-    # 3-hour extreme distribution
-    ste = extreme.short_term_extreme(time, data, t_st, &#39;peaks_weibull_tail_fit&#39;)
-    ste_all.append(ste)
+<span class="n">ste_all</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_hs</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hs</span><span class="p">,</span> <span class="n">te</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sample_hs</span><span class="p">,</span> <span class="n">sample_te</span><span class="p">):</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">te</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.8255</span> <span class="o">+</span> <span class="mf">0.03852</span><span class="o">*</span><span class="n">gamma</span> <span class="o">-</span> <span class="mf">0.005537</span><span class="o">*</span><span class="n">gamma</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.0003154</span><span class="o">*</span><span class="n">gamma</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sea state </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">. (Hs, Te) = (</span><span class="si">{</span><span class="n">hs</span><span class="si">}</span><span class="s2"> m, </span><span class="si">{</span><span class="n">te</span><span class="si">}</span><span class="s2"> s). Tp = </span><span class="si">{</span><span class="n">tp</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+    <span class="c1"># time &amp; frequency arrays</span>
+    <span class="n">f0</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">t_sim</span>
+    <span class="n">T_min</span> <span class="o">=</span> <span class="n">tp</span><span class="o">/</span><span class="mf">10.0</span>  <span class="c1"># s</span>
+    <span class="n">f_max</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">T_min</span>
+    <span class="n">Nf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f_max</span><span class="o">/</span><span class="n">f0</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_sim</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Nf</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">f_max</span><span class="p">,</span> <span class="n">Nf</span><span class="p">)</span>
+    <span class="c1"># spectrum</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">jonswap_spectrum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+    <span class="c1"># 1-hour elevation time-series</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">surface_elevation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="c1"># 3-hour extreme distribution</span>
+    <span class="n">ste</span> <span class="o">=</span> <span class="n">extreme</span><span class="o">.</span><span class="n">short_term_extreme</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">t_st</span><span class="p">,</span> <span class="s1">&#39;peaks_weibull_tail_fit&#39;</span><span class="p">)</span>
+    <span class="n">ste_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ste</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -524,7 +530,7 @@ Sea state 200/200. (Hs, Te) = (0.08514972661072973 m, 3.7868424627988535 s). Tp 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lte = extreme.full_seastate_long_term_extreme(ste_all, sample_weights)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lte</span> <span class="o">=</span> <span class="n">extreme</span><span class="o">.</span><span class="n">full_seastate_long_term_extreme</span><span class="p">(</span><span class="n">ste_all</span><span class="p">,</span> <span class="n">sample_weights</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -534,11 +540,11 @@ Sea state 200/200. (Hs, Te) = (0.08514972661072973 m, 3.7868424627988535 s). Tp 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>t_st_hr = t_st/(60.0*60.0)
-t_return_yr = 100.0
-x_t = extreme.return_year_value(lte.ppf, t_return_yr, t_st_hr)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t_st_hr</span> <span class="o">=</span> <span class="n">t_st</span><span class="o">/</span><span class="p">(</span><span class="mf">60.0</span><span class="o">*</span><span class="mf">60.0</span><span class="p">)</span>
+<span class="n">t_return_yr</span> <span class="o">=</span> <span class="mf">100.0</span>
+<span class="n">x_t</span> <span class="o">=</span> <span class="n">extreme</span><span class="o">.</span><span class="n">return_year_value</span><span class="p">(</span><span class="n">lte</span><span class="o">.</span><span class="n">ppf</span><span class="p">,</span> <span class="n">t_return_yr</span><span class="p">,</span> <span class="n">t_st_hr</span><span class="p">)</span>
 
-print(f&quot;100-year elevation: {x_t} m&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;100-year elevation: </span><span class="si">{</span><span class="n">x_t</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -555,30 +561,30 @@ print(f&quot;100-year elevation: {x_t} m&quot;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x = np.linspace(0, 20, 1000)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 
-fig, ax = plt.subplots()
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
-# plot survival function
-ax.semilogy(x, lte.sf(x))
+<span class="c1"># plot survival function</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lte</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-# format plot
-plt.grid(True, which=&quot;major&quot;, linestyle=&quot;:&quot;)
-ax.tick_params(axis=&quot;both&quot;, which=&quot;major&quot;, direction=&quot;in&quot;)
-ax.xaxis.set_ticks_position(&#39;both&#39;)
-ax.yaxis.set_ticks_position(&#39;both&#39;)
-plt.minorticks_off()
-ax.set_xticks([0, 5, 10, 15, 20])
-ax.set_yticks(1.0*10.0**(-1*np.arange(11)))
-ax.set_xlabel(&quot;elevation [m]&quot;)
-ax.set_ylabel(&quot;survival function (1-cdf)&quot;)
-ax.set_xlim([0, x[-1]])
-ylim = [1e-10, 1]
-ax.set_ylim(ylim)
+<span class="c1"># format plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="mf">10.0</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;elevation [m]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;survival function (1-cdf)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
 
-# 100-year return level
-ax.plot([0, x[-1]], [s_t, s_t], &#39;--&#39;, color=&quot;0.5&quot;, linewidth=1)
-ax.plot([x_t, x_t], ylim, &#39;--&#39;, color=&quot;0.5&quot;, linewidth=1)
+<span class="c1"># 100-year return level</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">s_t</span><span class="p">,</span> <span class="n">s_t</span><span class="p">],</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x_t</span><span class="p">,</span> <span class="n">x_t</span><span class="p">],</span> <span class="n">ylim</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>

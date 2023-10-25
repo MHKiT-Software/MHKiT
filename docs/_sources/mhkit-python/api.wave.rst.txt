@@ -41,13 +41,14 @@ and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ 
    ~mhkit.wave.io.ndbc.to_datetime_index
    ~mhkit.wave.io.ndbc.dates_to_datetime
    ~mhkit.wave.io.ndbc.parameter_units 
+   ~mhkit.wave.io.ndbc.get_buoy_metadata
    ~mhkit.wave.io.wecsim.read_output
    ~mhkit.wave.io.swan.read_table
    ~mhkit.wave.io.swan.read_block
    ~mhkit.wave.io.swan.dictionary_of_block_to_table
    ~mhkit.wave.io.swan.block_to_table
-   ~mhkit.wave.io.hindcast.request_wpto_point_data
-   ~mhkit.wave.io.hindcast.request_wpto_directional_spectrum
+   ~mhkit.wave.io.hindcast.hindcast.request_wpto_point_data
+   ~mhkit.wave.io.hindcast.hindcast.request_wpto_directional_spectrum
    ~mhkit.wave.io.cdip.request_netCDF
    ~mhkit.wave.io.cdip.request_parse_workflow
    ~mhkit.wave.io.cdip.get_netcdf_variables

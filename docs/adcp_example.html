@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reading ADCP Data with MHKiT &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -24,7 +25,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Reading ADV Data with MHKiT" href="adv_example.html" />
+    <link rel="next" title="Comparing Transect Data at the Tanana River Test Site" href="ADCP_Delft3D_TRTS_example.html" />
     <link rel="prev" title="Delft3D IO Module" href="Delft3D_example.html" /> 
 </head>
 
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -78,6 +80,9 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Reading ADCP Data with MHKiT</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Read-Raw-Instrument-Data">Read Raw Instrument Data</a></li>
@@ -89,6 +94,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#Saving-and-Loading-DOLfYN-datasets">Saving and Loading DOLfYN datasets</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -144,8 +150,8 @@ required</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit import dolfyn
-from mhkit.dolfyn.adp import api
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">dolfyn</span>
+<span class="kn">from</span> <span class="nn">mhkit.dolfyn.adp</span> <span class="kn">import</span> <span class="n">api</span>
 </pre></div>
 </div>
 </div>
@@ -163,7 +169,7 @@ from mhkit.dolfyn.adp import api
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds = dolfyn.read(&#39;data/dolfyn/Sig1000_tidal.ad2cp&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;data/dolfyn/Sig1000_tidal.ad2cp&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -181,8 +187,8 @@ Reading file data/dolfyn/Sig1000_tidal.ad2cp ...
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># print the dataset
-ds
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print the dataset</span>
+<span class="n">ds</span>
 </pre></div>
 </div>
 </div>
@@ -798,8 +804,8 @@ Attributes: (12/33)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds_dolfyn = ds.velds
-ds_dolfyn
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_dolfyn</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">velds</span>
+<span class="n">ds_dolfyn</span>
 </pre></div>
 </div>
 </div>
@@ -847,7 +853,7 @@ below the water surface.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds[&#39;vel&#39;][1].plot()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -871,8 +877,8 @@ below the water surface.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># The ADCP transducers were measured to be 0.6 m from the feet of the lander
-api.clean.set_range_offset(ds, 0.6)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The ADCP transducers were measured to be 0.6 m from the feet of the lander</span>
+<span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">set_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -881,7 +887,7 @@ api.clean.set_range_offset(ds, 0.6)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds.range
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">range</span>
 </pre></div>
 </div>
 </div>
@@ -1264,8 +1270,8 @@ Attributes:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>api.clean.find_surface_from_P(ds, salinity=31)
-ds = api.clean.nan_beyond_surface(ds)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">find_surface_from_P</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">salinity</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">nan_beyond_surface</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1273,7 +1279,7 @@ ds = api.clean.nan_beyond_surface(ds)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds[&#39;vel&#39;][1].plot()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1303,8 +1309,8 @@ ds = api.clean.nan_beyond_surface(ds)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
-ds[&#39;corr&#39;].sel(beam=1, range=slice(0,10)).plot()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">ds</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">beam</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1330,7 +1336,7 @@ ds[&#39;corr&#39;].sel(beam=1, range=slice(0,10)).plot()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds = api.clean.correlation_filter(ds, thresh=50)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">correlation_filter</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1338,7 +1344,7 @@ ds[&#39;corr&#39;].sel(beam=1, range=slice(0,10)).plot()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds[&#39;vel&#39;][1].plot()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1371,8 +1377,8 @@ new dataset.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dolfyn.set_declination(ds, 15.8, inplace=True) # 15.8 deg East
-dolfyn.rotate2(ds, &#39;earth&#39;, inplace=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dolfyn</span><span class="o">.</span><span class="n">set_declination</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="mf">15.8</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># 15.8 deg East</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1389,8 +1395,8 @@ Data is already in the earth coordinate system
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds.attrs[&#39;principal_heading&#39;] = dolfyn.calc_principal_heading(ds[&#39;vel&#39;].mean(&#39;range&#39;))
-ds_streamwise = dolfyn.rotate2(ds, &#39;principal&#39;, inplace=False)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;principal_heading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">calc_principal_heading</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">))</span>
+<span class="n">ds_streamwise</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;principal&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1404,8 +1410,8 @@ ds_streamwise = dolfyn.rotate2(ds, &#39;principal&#39;, inplace=False)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_tool = api.VelBinner(n_bin=ds.fs*300, fs=ds.fs)
-ds_avg = avg_tool.bin_average(ds)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_tool</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">VelBinner</span><span class="p">(</span><span class="n">n_bin</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="o">*</span><span class="mi">300</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="p">)</span>
+<span class="n">ds_avg</span> <span class="o">=</span> <span class="n">avg_tool</span><span class="o">.</span><span class="n">bin_average</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1413,7 +1419,7 @@ ds_avg = avg_tool.bin_average(ds)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds_avg
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_avg</span>
 </pre></div>
 </div>
 </div>
@@ -3123,10 +3129,10 @@ Attributes: (12/40)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds_avg[&#39;U_mag&#39;] = ds_avg.velds.U_mag
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;U_mag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_avg</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_mag</span>
 
-ds_avg[&#39;U_dir&#39;] = ds_avg.velds.U_dir
-ds_avg[&#39;U_dir&#39;].values = dolfyn.tools.misc.convert_degrees(ds_avg[&#39;U_dir&#39;].values, tidal_mode=True)
+<span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;U_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_avg</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_dir</span>
+<span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;U_dir&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">convert_degrees</span><span class="p">(</span><span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;U_dir&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tidal_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -3138,24 +3144,24 @@ ds_avg[&#39;U_dir&#39;].values = dolfyn.tools.misc.convert_degrees(ds_avg[&#39;U
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
-from matplotlib import pyplot as plt
-import matplotlib.dates as dt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">dt</span>
 
-ax = plt.figure(figsize=(12,8)).add_axes([.14, .14, .8, .74])
-# Plot flow speed
-t =  dolfyn.time.dt642date(ds_avg[&#39;time&#39;])
-plt.pcolormesh(t, ds_avg[&#39;range&#39;], ds_avg[&#39;U_mag&#39;], cmap=&#39;Blues&#39;, shading=&#39;nearest&#39;)
-# Plot the water surface
-ax.plot(t, ds_avg[&#39;depth&#39;])
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">.14</span><span class="p">,</span> <span class="mf">.14</span><span class="p">,</span> <span class="mf">.8</span><span class="p">,</span> <span class="mf">.74</span><span class="p">])</span>
+<span class="c1"># Plot flow speed</span>
+<span class="n">t</span> <span class="o">=</span>  <span class="n">dolfyn</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt642date</span><span class="p">(</span><span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">],</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;U_mag&#39;</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="c1"># Plot the water surface</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">])</span>
 
-# Set up time on x-axis
-ax.set_xlabel(&#39;Time&#39;)
-ax.xaxis.set_major_formatter(dt.DateFormatter(&#39;%H:%M&#39;))
+<span class="c1"># Set up time on x-axis</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%H:%M&#39;</span><span class="p">))</span>
 
-ax.set_ylabel(&#39;Altitude [m]&#39;)
-ax.set_ylim([0, 12])
-plt.colorbar(label=&#39;Speed [m/s]&#39;)
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Altitude [m]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Speed [m/s]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -3179,19 +3185,19 @@ plt.colorbar(label=&#39;Speed [m/s]&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax = plt.figure(figsize=(12,8)).add_axes([.14, .14, .8, .74])
-# Plot flow direction
-plt.pcolormesh(t, ds_avg[&#39;range&#39;], ds_avg[&#39;U_dir&#39;], cmap=&#39;twilight&#39;, shading=&#39;nearest&#39;)
-# Plot the water surface
-ax.plot(t, ds_avg[&#39;depth&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">.14</span><span class="p">,</span> <span class="mf">.14</span><span class="p">,</span> <span class="mf">.8</span><span class="p">,</span> <span class="mf">.74</span><span class="p">])</span>
+<span class="c1"># Plot flow direction</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">],</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;U_dir&#39;</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;twilight&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="c1"># Plot the water surface</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">])</span>
 
-# set up time on x-axis
-ax.set_xlabel(&#39;Time&#39;)
-ax.xaxis.set_major_formatter(dt.DateFormatter(&#39;%H:%M&#39;))
+<span class="c1"># set up time on x-axis</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%H:%M&#39;</span><span class="p">))</span>
 
-ax.set_ylabel(&#39;Altitude [m]&#39;)
-ax.set_ylim([0, 12]);
-plt.colorbar(label=&#39;Horizontal Vel Dir [deg CW from true N]&#39;);
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Altitude [m]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">]);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Horizontal Vel Dir [deg CW from true N]&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -3211,9 +3217,9 @@ plt.colorbar(label=&#39;Horizontal Vel Dir [deg CW from true N]&#39;);
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Uncomment these lines to save and load to your current working directory
-#dolfyn.save(ds, &#39;your_data.nc&#39;)
-#ds_saved = dolfyn.load(&#39;your_data.nc&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment these lines to save and load to your current working directory</span>
+<span class="c1">#dolfyn.save(ds, &#39;your_data.nc&#39;)</span>
+<span class="c1">#ds_saved = dolfyn.load(&#39;your_data.nc&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -3225,7 +3231,7 @@ plt.colorbar(label=&#39;Horizontal Vel Dir [deg CW from true N]&#39;);
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Delft3D_example.html" class="btn btn-neutral float-left" title="Delft3D IO Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="adv_example.html" class="btn btn-neutral float-right" title="Reading ADV Data with MHKiT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ADCP_Delft3D_TRTS_example.html" class="btn btn-neutral float-right" title="Comparing Transect Data at the Tanana River Test Site" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

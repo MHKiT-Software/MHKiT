@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MHKiT Metocean Data &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -23,7 +24,9 @@
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Delft3D IO Module" href="Delft3D_example.html" />
+    <link rel="prev" title="Directional Wave Spectrum from NDBC Buoys" href="directional_waves.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,7 +51,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -59,8 +62,55 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python.html">MHKiT-Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="python.html#examples">Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="qc_example.html">MHKiT Quality Control Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wave_example.html">MHKiT Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="river_example.html">MHKiT River Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_example.html">MHKiT Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_example.html">MHKiT Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads_example.html">MHKiT Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environmental_contours_example.html">MHKiT Environmental Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWAN_example.html">MHKiT SWAN Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Query-available-NDBC-data">Query available NDBC data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Select-years-of-interest">Select years of interest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Request-Data-from-NDBC">Request Data from NDBC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Convert-the-DataFrames-to-DateTime-Index">Convert the DataFrames to DateTime Index</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Included-Variables:">Included Variables:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Setting-up-Access-to-WIND-Toolkit">Setting up Access to WIND Toolkit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Choose-input-parameters">Choose input parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Visualize-WIND-Toolkit-Region">Visualize WIND Toolkit Region</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Request-data-from-the-WIND-Toolkit">Request data from the WIND Toolkit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-the-hourly-mean-wind-speeds-on-January-11,-2018">Plot the hourly mean wind speeds on January 11, 2018</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Create-a-mean-wind-speed-wind-rose-for-January-11,-2018">Create a mean wind speed wind rose for January 11, 2018</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-vertical-temperature-profile">Plot vertical temperature profile</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_full_sea_state_example.html">Extreme Conditions Modeling - Full Sea State Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="short_term_extremes_example.html">MHKit Short-term Extreme Loads</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#online-forum">Online Forum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#software-tests">Software Tests</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="matlab.html">MHKiT-MATLAB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
@@ -84,6 +134,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="python.html">MHKiT-Python</a></li>
       <li class="breadcrumb-item active">MHKiT Metocean Data</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/metocean_example.ipynb.txt" rel="nofollow"> View page source</a>
@@ -111,11 +162,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit.wave.io import ndbc
-from mhkit.wave.io.hindcast import wind_toolkit
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit.wave.io</span> <span class="kn">import</span> <span class="n">ndbc</span>
+<span class="kn">from</span> <span class="nn">mhkit.wave.io.hindcast</span> <span class="kn">import</span> <span class="n">wind_toolkit</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -137,10 +188,10 @@ to only return data associated with this site.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Specify the parameter as continuous wind speeds and the buoy number to be 46022
-ndbc_dict = {&#39;parameter&#39;:&#39;cwind&#39;,&#39;buoy_number&#39;:&#39;46022&#39;}
-available_data = ndbc.available_data(ndbc_dict[&#39;parameter&#39;], ndbc_dict[&#39;buoy_number&#39;])
-available_data
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify the parameter as continuous wind speeds and the buoy number to be 46022</span>
+<span class="n">ndbc_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;parameter&#39;</span><span class="p">:</span><span class="s1">&#39;cwind&#39;</span><span class="p">,</span><span class="s1">&#39;buoy_number&#39;</span><span class="p">:</span><span class="s1">&#39;46022&#39;</span><span class="p">}</span>
+<span class="n">available_data</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">available_data</span><span class="p">(</span><span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;parameter&#39;</span><span class="p">],</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;buoy_number&#39;</span><span class="p">])</span>
+<span class="n">available_data</span>
 </pre></div>
 </div>
 </div>
@@ -324,9 +375,9 @@ only contains the year 2018.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Slice the available data to only include 2018 and more recent
-years_of_interest = available_data[available_data.year == 2018]
-years_of_interest
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Slice the available data to only include 2018 and more recent</span>
+<span class="n">years_of_interest</span> <span class="o">=</span> <span class="n">available_data</span><span class="p">[</span><span class="n">available_data</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">years_of_interest</span>
 <br/></pre></div>
 </div>
 </div>
@@ -377,10 +428,10 @@ years_of_interest
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get dictionary of parameter data by year
-ndbc_dict[&#39;filenames&#39;] = years_of_interest[&#39;filename&#39;]
-requested_data = ndbc.request_data(ndbc_dict[&#39;parameter&#39;], ndbc_dict[&#39;filenames&#39;])
-requested_data
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get dictionary of parameter data by year</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;filenames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_of_interest</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+<span class="n">requested_data</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">request_data</span><span class="p">(</span><span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;parameter&#39;</span><span class="p">],</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;filenames&#39;</span><span class="p">])</span>
+<span class="n">requested_data</span>
 </pre></div>
 </div>
 </div>
@@ -416,14 +467,14 @@ setting this as the DataFrame Index and removing the NDBC date/ time columns. Th
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the header dates to a Datetime Index and remove NOAA date columns for each year
-ndbc_dict[&#39;2018&#39;] = ndbc.to_datetime_index(ndbc_dict[&#39;parameter&#39;], requested_data[&#39;2018&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the header dates to a Datetime Index and remove NOAA date columns for each year</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">to_datetime_index</span><span class="p">(</span><span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;parameter&#39;</span><span class="p">],</span> <span class="n">requested_data</span><span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">])</span>
 
-# Replace 99, 999, 9999 with NaN
-ndbc_dict[&#39;2018&#39;] = ndbc_dict[&#39;2018&#39;].replace({99.0:np.NaN, 999:np.NaN, 9999:np.NaN})
+<span class="c1"># Replace 99, 999, 9999 with NaN</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="mf">99.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">999</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">9999</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span>
 
-# Display DataFrame of 46022 data from 2018
-ndbc_dict[&#39;2018&#39;]
+<span class="c1"># Display DataFrame of 46022 data from 2018</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -570,6 +621,11 @@ ndbc_dict[&#39;2018&#39;]
 <li><p>Dataset variables included are indexed by <strong>‘lat_lon’</strong> (latitude and longitude), and a <strong>‘time_interval’</strong>. The following variables can be accessed through the <code class="docutils literal notranslate"><span class="pre">request_wtk_point_data</span></code> function and are available at both ‘5-minute’ and ‘1-hour’ time intervals and in all offshore regions:</p></li>
 </ul>
 <table class="docutils align-default">
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 18%" />
+<col style="width: 36%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable Name</p></th>
 <th class="head"><p>Units</p></th>
@@ -648,9 +704,9 @@ can be used to easily combine an array of elevations with a parameter name to cr
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Input parameters for site of interest
-temperatures = wind_toolkit.elevation_to_string(&#39;temperature&#39;,[2, 20, 40, 60, 80, 100, 120, 140, 160])
-temperatures
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Input parameters for site of interest</span>
+<span class="n">temperatures</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">elevation_to_string</span><span class="p">(</span><span class="s1">&#39;temperature&#39;</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">160</span><span class="p">])</span>
+<span class="n">temperatures</span>
 </pre></div>
 </div>
 </div>
@@ -675,11 +731,11 @@ temperatures
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wtk_inputs = {&#39;time_interval&#39;:&#39;1-hour&#39;,
-              &#39;wind_parameters&#39;:[&#39;windspeed_10m&#39;,&#39;winddirection_10m&#39;],
-              &#39;temp_parameters&#39;:temperatures,
-              &#39;year&#39;:[2018],
-              &#39;lat_lon&#39;:(40.748, -124.527)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wtk_inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;time_interval&#39;</span><span class="p">:</span><span class="s1">&#39;1-hour&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;wind_parameters&#39;</span><span class="p">:[</span><span class="s1">&#39;windspeed_10m&#39;</span><span class="p">,</span><span class="s1">&#39;winddirection_10m&#39;</span><span class="p">],</span>
+              <span class="s1">&#39;temp_parameters&#39;</span><span class="p">:</span><span class="n">temperatures</span><span class="p">,</span>
+              <span class="s1">&#39;year&#39;</span><span class="p">:[</span><span class="mi">2018</span><span class="p">],</span>
+              <span class="s1">&#39;lat_lon&#39;</span><span class="p">:(</span><span class="mf">40.748</span><span class="p">,</span> <span class="o">-</span><span class="mf">124.527</span><span class="p">)}</span>
 </pre></div>
 </div>
 </div>
@@ -692,8 +748,8 @@ temperatures
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>requested_region = wind_toolkit.region_selection(wtk_inputs[&#39;lat_lon&#39;])
-requested_region
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">requested_region</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">region_selection</span><span class="p">(</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;lat_lon&#39;</span><span class="p">])</span>
+<span class="n">requested_region</span>
 </pre></div>
 </div>
 </div>
@@ -710,7 +766,7 @@ requested_region
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wind_toolkit.plot_region(requested_region,lat_lon=wtk_inputs[&#39;lat_lon&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wind_toolkit</span><span class="o">.</span><span class="n">plot_region</span><span class="p">(</span><span class="n">requested_region</span><span class="p">,</span><span class="n">lat_lon</span><span class="o">=</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;lat_lon&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -739,10 +795,10 @@ requested_region
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wtk_wind, wtk_metadata = wind_toolkit.request_wtk_point_data(
-    wtk_inputs[&#39;time_interval&#39;],wtk_inputs[&#39;wind_parameters&#39;],
-    wtk_inputs[&#39;lat_lon&#39;],wtk_inputs[&#39;year&#39;])
-wtk_wind
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wtk_wind</span><span class="p">,</span> <span class="n">wtk_metadata</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">request_wtk_point_data</span><span class="p">(</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;time_interval&#39;</span><span class="p">],</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;wind_parameters&#39;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;lat_lon&#39;</span><span class="p">],</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">])</span>
+<span class="n">wtk_wind</span>
 </pre></div>
 </div>
 </div>
@@ -851,22 +907,22 @@ wtk_wind
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get WIND Toolkit and NDBC wind data for 2018-01-11
-ndbc_hourly_data = ndbc_dict[&#39;2018&#39;][&#39;2018-01-11&#39;].resample(&#39;h&#39;).nearest()
-wtk_hourly_wind = wtk_wind[&#39;2018-01-11&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get WIND Toolkit and NDBC wind data for 2018-01-11</span>
+<span class="n">ndbc_hourly_data</span> <span class="o">=</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">][</span><span class="s1">&#39;2018-01-11&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">nearest</span><span class="p">()</span>
+<span class="n">wtk_hourly_wind</span> <span class="o">=</span> <span class="n">wtk_wind</span><span class="p">[</span><span class="s1">&#39;2018-01-11&#39;</span><span class="p">]</span>
 
-# Plot the timeseries
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.set_xlabel(&#39;Time, UTC (h)&#39;)
-ax.set_ylabel(&#39;Speed (m/s)&#39;)
-ax.set_title(&#39;Hourly mean wind speeds on January 11, 2018&#39;)
-ax.grid()
-ax.set_ylim([5, 14])
-ax.set_xlim([0, 24])
-line1 = ax.plot(ndbc_hourly_data.index.hour,ndbc_hourly_data[&#39;WSPD&#39;].values,&#39;o&#39;,label=&#39;NDBC 4m wind speed&#39;)
-line2 = ax.plot(wtk_hourly_wind.index.hour,wtk_hourly_wind[&#39;windspeed_10m_0&#39;].values,&#39;x&#39;,label=&#39;WIND Toolkit 10m wind speed&#39;)
-ax.legend()
+<span class="c1"># Plot the timeseries</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time, UTC (h)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Speed (m/s)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Hourly mean wind speeds on January 11, 2018&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">])</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ndbc_hourly_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span><span class="n">ndbc_hourly_data</span><span class="p">[</span><span class="s1">&#39;WSPD&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;NDBC 4m wind speed&#39;</span><span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wtk_hourly_wind</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span><span class="n">wtk_hourly_wind</span><span class="p">[</span><span class="s1">&#39;windspeed_10m_0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;WIND Toolkit 10m wind speed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <br/></pre></div>
 </div>
 </div>
@@ -894,13 +950,13 @@ ax.legend()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the rose bin widths
-width_direction = 10 # in degrees
-width_velocity  = 1  # in m/s
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the rose bin widths</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># in degrees</span>
+<span class="n">width_velocity</span>  <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># in m/s</span>
 
-# Plot the wind rose
-ax = ndbc.plot_rose(ndbc_hourly_data[&#39;WDIR&#39;],ndbc_hourly_data[&#39;WSPD&#39;],
-                     width_direction,width_velocity)
+<span class="c1"># Plot the wind rose</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">ndbc_hourly_data</span><span class="p">[</span><span class="s1">&#39;WDIR&#39;</span><span class="p">],</span><span class="n">ndbc_hourly_data</span><span class="p">[</span><span class="s1">&#39;WSPD&#39;</span><span class="p">],</span>
+                     <span class="n">width_direction</span><span class="p">,</span><span class="n">width_velocity</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -915,8 +971,8 @@ ax = ndbc.plot_rose(ndbc_hourly_data[&#39;WDIR&#39;],ndbc_hourly_data[&#39;WSPD&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax2 = ndbc.plot_rose(wtk_hourly_wind[&#39;winddirection_10m_0&#39;],wtk_hourly_wind[&#39;windspeed_10m_0&#39;],
-                     width_direction,width_velocity)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax2</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">plot_rose</span><span class="p">(</span><span class="n">wtk_hourly_wind</span><span class="p">[</span><span class="s1">&#39;winddirection_10m_0&#39;</span><span class="p">],</span><span class="n">wtk_hourly_wind</span><span class="p">[</span><span class="s1">&#39;windspeed_10m_0&#39;</span><span class="p">],</span>
+                     <span class="n">width_direction</span><span class="p">,</span><span class="n">width_velocity</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -935,33 +991,33 @@ ax = ndbc.plot_rose(ndbc_hourly_data[&#39;WDIR&#39;],ndbc_hourly_data[&#39;WSPD&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wtk_temp, wtk_metadata = wind_toolkit.request_wtk_point_data(
-    wtk_inputs[&#39;time_interval&#39;],wtk_inputs[&#39;temp_parameters&#39;],
-    wtk_inputs[&#39;lat_lon&#39;],wtk_inputs[&#39;year&#39;])
-# wtk_temp = wtk_temp.shift(-7) # optionally UTC to local time
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wtk_temp</span><span class="p">,</span> <span class="n">wtk_metadata</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">request_wtk_point_data</span><span class="p">(</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;time_interval&#39;</span><span class="p">],</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;temp_parameters&#39;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;lat_lon&#39;</span><span class="p">],</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">])</span>
+<span class="c1"># wtk_temp = wtk_temp.shift(-7) # optionally UTC to local time</span>
 
-# Pick times corresponding to stable and unstable temperature profiles
-stable_temp = wtk_temp.at_time(&#39;2018-01-11 03:00:00&#39;).values[0]
-unstable_temp = wtk_temp.at_time(&#39;2018-01-11 15:00:00&#39;).values[0]
+<span class="c1"># Pick times corresponding to stable and unstable temperature profiles</span>
+<span class="n">stable_temp</span> <span class="o">=</span> <span class="n">wtk_temp</span><span class="o">.</span><span class="n">at_time</span><span class="p">(</span><span class="s1">&#39;2018-01-11 03:00:00&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">unstable_temp</span> <span class="o">=</span> <span class="n">wtk_temp</span><span class="o">.</span><span class="n">at_time</span><span class="p">(</span><span class="s1">&#39;2018-01-11 15:00:00&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-# Find heights from temperature DataFrame columns
-heights = []
-for s in wtk_temp.keys():
-    s = s.removeprefix(&#39;temperature_&#39;)
-    s = s.removesuffix(&#39;m_0&#39;)
-    heights.append(float(s))
-heights = np.array(heights)
+<span class="c1"># Find heights from temperature DataFrame columns</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">wtk_temp</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s1">&#39;temperature_&#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s1">&#39;m_0&#39;</span><span class="p">)</span>
+    <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span>
 
-# Plot the profiles
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.set_xlabel(&#39;Temperature (C)&#39;)
-ax.set_ylabel(&#39;Height (m)&#39;)
-ax.set_title(&#39;Temperature profiles from January 11, 2018&#39;)
-ax.grid()
-line1 = ax.plot(stable_temp,heights,&#39;o-&#39;,label=&#39;time=03:00:00 UTC&#39;)
-line2 = ax.plot(unstable_temp,heights,&#39;x-&#39;,label=&#39;time=15:00:00 UTC&#39;)
-ax.legend()
+<span class="c1"># Plot the profiles</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Temperature (C)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Height (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Temperature profiles from January 11, 2018&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stable_temp</span><span class="p">,</span><span class="n">heights</span><span class="p">,</span><span class="s1">&#39;o-&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;time=03:00:00 UTC&#39;</span><span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">unstable_temp</span><span class="p">,</span><span class="n">heights</span><span class="p">,</span><span class="s1">&#39;x-&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;time=15:00:00 UTC&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -997,7 +1053,10 @@ WARNING:urllib3.connectionpool:Retrying (Retry(total=4, connect=10, read=10, red
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="directional_waves.html" class="btn btn-neutral float-left" title="Directional Wave Spectrum from NDBC Buoys" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Delft3D_example.html" class="btn btn-neutral float-right" title="Delft3D IO Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

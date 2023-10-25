@@ -22,6 +22,7 @@ API Documentation
    mhkit-python/api.power
    mhkit-python/api.loads
    mhkit-python/api.dolfyn
+   mhkit-python/api.mooring
    mhkit-python/api.utils
 
 Examples
@@ -43,13 +44,18 @@ Jupyter notebook examples of MHKiT-Python are included below:
    WPTO_hindcast_example.ipynb
    cdip_example.ipynb
    PacWave_resource_characterization_example.ipynb
+   directional_waves.ipynb
+   metocean_example.ipynb
    Delft3D_example.ipynb
+   tidal_performance_example.ipynb
    adcp_example.ipynb
+   ADCP_Delft3D_TRTS_example.ipynb
    adv_example.ipynb
    extreme_response_MLER_example.ipynb
    extreme_response_contour_example.ipynb
    extreme_response_full_sea_state_example.ipynb
    short_term_extremes_example.ipynb
+   mooring_example.ipynb
 
    
 

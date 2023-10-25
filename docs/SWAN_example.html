@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MHKiT SWAN Example &mdash; MHKiT v0.7.0 documentation</title>
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -88,8 +90,12 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -137,31 +143,31 @@
              
   <section id="MHKiT-SWAN-Example">
 <h1>MHKiT SWAN Example<a class="headerlink" href="#MHKiT-SWAN-Example" title="Permalink to this heading"></a></h1>
-<p>This example notebook demonstrates the input and plotting of output data from the software <a class="reference external" href="http://swanmodel.sourceforge.net/">Simulating WAves Nearshore (SWAN)</a> using MHKiT. In this example the <a class="reference external" href="https://github.com/SNL-WaterPower/SNL-SWAN">SNL-SWAN</a> tutorial was run for a wave energy converter. The output was written in ASCII and binary (<a href="#id1"><span class="problematic" id="id2">*</span></a>.mat) files. This MHKiT example notebook demonstrates how to import these different files into MHKiT and plot the output data. First, we will import the
+<p>This example notebook demonstrates the input and plotting of output data from the software <a class="reference external" href="http://swanmodel.sourceforge.net/">Simulating WAves Nearshore (SWAN)</a> using MHKiT. In this example the <a class="reference external" href="https://github.com/SNL-WaterPower/SNL-SWAN">SNL-SWAN</a> tutorial was run for a wave energy converter. The output was written in ASCII and binary (*.mat) files. This MHKiT example notebook demonstrates how to import these different files into MHKiT and plot the output data. First, we will import the
 MHKiT SWAN package and the other Python packages needed for this example. Secondly, we will create an operating system independent path to the folder housing the SWAN data used in this example <code class="docutils literal notranslate"><span class="pre">swan_data_folder</span></code> using the <code class="docutils literal notranslate"><span class="pre">join</span></code> funtion.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit.wave.io import swan
-import matplotlib.pyplot as plt
-from os.path import join
-import pandas as pd
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit.wave.io</span> <span class="kn">import</span> <span class="n">swan</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-swan_data_folder = join(&#39;data&#39;,&#39;wave&#39;,&#39;swan&#39;)
+<span class="n">swan_data_folder</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;wave&#39;</span><span class="p">,</span><span class="s1">&#39;swan&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <section id="Supported-SWAN-Output-Files">
 <h2>Supported SWAN Output Files<a class="headerlink" href="#Supported-SWAN-Output-Files" title="Permalink to this heading"></a></h2>
-<p>MHKiT currenlty supports block and table SWAN output files in ASCII or binary (<a href="#id3"><span class="problematic" id="id4">*</span></a>.mat) files. Detailed descriptions of these file types may be found in the <a class="reference external" href="http://swanmodel.sourceforge.net/download/zip/swanuse.pdf">SWAN User Manual</a>. In the following cells, SWAN table and block data will be imported, discussed, and plotted. Three SWAN output files will be imported: 1. An ASCII table file (‘SWANOUT.DAT’), 2. An ASCII block file (‘SWANOUTBlock.DAT’) 3. A binary block file (‘SWANOUT.mat’)</p>
+<p>MHKiT currenlty supports block and table SWAN output files in ASCII or binary (*.mat) files. Detailed descriptions of these file types may be found in the <a class="reference external" href="http://swanmodel.sourceforge.net/download/zip/swanuse.pdf">SWAN User Manual</a>. In the following cells, SWAN table and block data will be imported, discussed, and plotted. Three SWAN output files will be imported: 1. An ASCII table file (‘SWANOUT.DAT’), 2. An ASCII block file (‘SWANOUTBlock.DAT’) 3. A binary block file (‘SWANOUT.mat’)</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_table_file = join(swan_data_folder, &#39;SWANOUT.DAT&#39;)
-swan_block_file = join(swan_data_folder, &#39;SWANOUTBlock.DAT&#39;)
-swan_block_mat_file = join(swan_data_folder, &#39;SWANOUT.mat&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_table_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">swan_data_folder</span><span class="p">,</span> <span class="s1">&#39;SWANOUT.DAT&#39;</span><span class="p">)</span>
+<span class="n">swan_block_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">swan_data_folder</span><span class="p">,</span> <span class="s1">&#39;SWANOUTBlock.DAT&#39;</span><span class="p">)</span>
+<span class="n">swan_block_mat_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">swan_data_folder</span><span class="p">,</span> <span class="s1">&#39;SWANOUT.mat&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -178,8 +184,8 @@ requires that for block data written in ASCII format that the file was written w
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_table, metadata_table = swan.read_table(swan_table_file)
-swan_table
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_table</span><span class="p">,</span> <span class="n">metadata_table</span> <span class="o">=</span> <span class="n">swan</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">swan_table_file</span><span class="p">)</span>
+<span class="n">swan_table</span>
 </pre></div>
 </div>
 </div>
@@ -324,7 +330,7 @@ swan_table
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>metadata_table
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_table</span>
 </pre></div>
 </div>
 </div>
@@ -350,8 +356,8 @@ wave height at each point. In the last code block, the metadata Dictionary is wr
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_block, metadata_block = swan.read_block(swan_block_file)
-swan_block.keys()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_block</span><span class="p">,</span> <span class="n">metadata_block</span> <span class="o">=</span> <span class="n">swan</span><span class="o">.</span><span class="n">read_block</span><span class="p">(</span><span class="n">swan_block_file</span><span class="p">)</span>
+<span class="n">swan_block</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -368,7 +374,7 @@ dict_keys([&#39;Significant wave height&#39;, &#39;Average wave direction&#39;, 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_block[&#39;Significant wave height&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_block</span><span class="p">[</span><span class="s1">&#39;Significant wave height&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -692,7 +698,7 @@ dict_keys([&#39;Significant wave height&#39;, &#39;Average wave direction&#39;, 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>metadata_block
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_block</span>
 </pre></div>
 </div>
 </div>
@@ -729,8 +735,8 @@ height (‘Hsig’) we can see that the indices and columns are the same as the 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_block_mat, metadata_block_mat = swan.read_block(swan_block_mat_file)
-swan_block_mat.keys()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_block_mat</span><span class="p">,</span> <span class="n">metadata_block_mat</span> <span class="o">=</span> <span class="n">swan</span><span class="o">.</span><span class="n">read_block</span><span class="p">(</span><span class="n">swan_block_mat_file</span><span class="p">)</span>
+<span class="n">swan_block_mat</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -747,7 +753,7 @@ dict_keys([&#39;Hsig&#39;, &#39;Dir&#39;, &#39;RTpeak&#39;, &#39;TDir&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_block_mat[&#39;Hsig&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_block_mat</span><span class="p">[</span><span class="s1">&#39;Hsig&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1071,7 +1077,7 @@ dict_keys([&#39;Hsig&#39;, &#39;Dir&#39;, &#39;RTpeak&#39;, &#39;TDir&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>metadata_block_mat
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata_block_mat</span>
 </pre></div>
 </div>
 </div>
@@ -1092,9 +1098,9 @@ dict_keys([&#39;Hsig&#39;, &#39;Dir&#39;, &#39;RTpeak&#39;, &#39;TDir&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>swan_block_as_table = swan.dictionary_of_block_to_table(swan_block)
-swan_block_mat_as_table = swan.dictionary_of_block_to_table(swan_block_mat)
-swan_block_as_table
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swan_block_as_table</span> <span class="o">=</span> <span class="n">swan</span><span class="o">.</span><span class="n">dictionary_of_block_to_table</span><span class="p">(</span><span class="n">swan_block</span><span class="p">)</span>
+<span class="n">swan_block_mat_as_table</span> <span class="o">=</span> <span class="n">swan</span><span class="o">.</span><span class="n">dictionary_of_block_to_table</span><span class="p">(</span><span class="n">swan_block_mat</span><span class="p">)</span>
+<span class="n">swan_block_as_table</span>
 </pre></div>
 </div>
 </div>
@@ -1242,11 +1248,11 @@ swan_block_as_table
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure()
-plt.tricontourf(swan_table.Xp, swan_table.Yp,
-                swan_table.Hsig, levels=256)
-cbar = plt.colorbar()
-cbar.set_label(&#39;Significant wave height [m]&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">swan_table</span><span class="o">.</span><span class="n">Xp</span><span class="p">,</span> <span class="n">swan_table</span><span class="o">.</span><span class="n">Yp</span><span class="p">,</span>
+                <span class="n">swan_table</span><span class="o">.</span><span class="n">Hsig</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Significant wave height [m]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1261,12 +1267,12 @@ cbar.set_label(&#39;Significant wave height [m]&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure()
-plt.tricontourf(swan_block_mat_as_table.x, swan_block_mat_as_table.y,
-                swan_block_mat_as_table.Hsig,
-                levels=256, cmap=&#39;viridis&#39;)
-cbar = plt.colorbar()
-cbar.set_label(&#39;Significant wave height [m]&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">swan_block_mat_as_table</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">swan_block_mat_as_table</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+                <span class="n">swan_block_mat_as_table</span><span class="o">.</span><span class="n">Hsig</span><span class="p">,</span>
+                <span class="n">levels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Significant wave height [m]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1281,12 +1287,12 @@ cbar.set_label(&#39;Significant wave height [m]&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure()
-plt.tricontourf(swan_block_as_table.x, swan_block_as_table.y,
-                swan_block_as_table[&#39;Significant wave height&#39;],
-                levels=256, cmap=&#39;viridis&#39;)
-cbar = plt.colorbar()
-cbar.set_label(&#39;Significant wave height [m]&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">swan_block_as_table</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">swan_block_as_table</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+                <span class="n">swan_block_as_table</span><span class="p">[</span><span class="s1">&#39;Significant wave height&#39;</span><span class="p">],</span>
+                <span class="n">levels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Significant wave height [m]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1305,11 +1311,11 @@ cbar.set_label(&#39;Significant wave height [m]&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure()
-plt.imshow(swan_block_mat[&#39;Hsig&#39;])
-plt.gca().invert_yaxis()
-cbar = plt.colorbar()
-cbar.set_label(&#39;Significant wave height [m]&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">swan_block_mat</span><span class="p">[</span><span class="s1">&#39;Hsig&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Significant wave height [m]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
