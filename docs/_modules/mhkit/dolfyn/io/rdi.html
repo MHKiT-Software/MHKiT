@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.dolfyn.io.rdi &mdash; MHKiT v0.5.1 documentation</title>
+  <title>mhkit.dolfyn.io.rdi &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
@@ -11,9 +11,10 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -55,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -135,13 +137,12 @@
 <span class="sd">    ds : xarray.Dataset</span>
 <span class="sd">      An xarray dataset from the binary instrument data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Start debugger logging</span>
     <span class="k">if</span> <span class="n">debug_level</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="n">logfile</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.log&#39;</span><span class="p">)</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.dolfyn.log&#39;</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">logfile</span><span class="p">),</span>
                             <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span>
                             <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">,</span>
@@ -164,35 +165,41 @@
         <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">userdata</span><span class="p">:</span>
             <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">userdata</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="s1">&#39;time_gps&#39;</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">]:</span>
-            <span class="c1"># GPS data not necessarily sampling at the same rate as ADCP DAQ.</span>
-            <span class="n">dat</span> <span class="o">=</span> <span class="n">_remove_gps_duplicates</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-
-        <span class="c1"># Create xarray dataset from upper level dictionary</span>
-        <span class="c1"># print(&#39;Time in dat&#39;, dat[&#39;coords&#39;][&#39;time&#39;])</span>
+        <span class="c1"># Pass one if only one ds returned</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]):</span>
             <span class="k">continue</span>
+
+        <span class="c1"># GPS data not necessarily sampling at the same rate as ADCP DAQ.</span>
+        <span class="k">if</span> <span class="s1">&#39;time_gps&#39;</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">]:</span>
+            <span class="n">dat</span> <span class="o">=</span> <span class="n">_remove_gps_duplicates</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+
+        <span class="c1"># Convert time coords to dt64</span>
+        <span class="n">t_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_coords</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">][</span><span class="n">ky</span><span class="p">])</span>
+
+        <span class="c1"># Convert time vars to dt64</span>
+        <span class="n">t_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_data</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">][</span><span class="n">ky</span><span class="p">])</span>
+
+        <span class="c1"># Create xarray dataset from upper level dictionary</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">_create_dataset</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">_set_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ref_frame</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s1">&#39;hdwtime_gps&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">hdwtime_gps</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;seconds since 1970-01-01 00:00:00&#39;</span>
-
         <span class="c1"># Create orientation matrices</span>
         <span class="k">if</span> <span class="s1">&#39;beam2inst_orientmat&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
-            <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;beam2inst_orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">_calc_beam_orientmat</span><span class="p">(</span>
-                <span class="n">ds</span><span class="o">.</span><span class="n">beam_angle</span><span class="p">,</span>
-                <span class="n">ds</span><span class="o">.</span><span class="n">beam_pattern</span> <span class="o">==</span> <span class="s1">&#39;convex&#39;</span><span class="p">),</span>
-                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-                        <span class="s1">&#39;x*&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]},</span>
-                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;x*&#39;</span><span class="p">])</span>
+            <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;beam2inst_orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">_calc_beam_orientmat</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">beam_angle</span><span class="p">,</span>
+                                     <span class="n">ds</span><span class="o">.</span><span class="n">beam_pattern</span> <span class="o">==</span> <span class="s1">&#39;convex&#39;</span><span class="p">),</span>
+                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+                        <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]},</span>
+                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">],</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Rotation Matrix&#39;</span><span class="p">})</span>
 
         <span class="k">if</span> <span class="s1">&#39;orientmat&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
-            <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">_calc_orientmat</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span>
-                                           <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;earth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">],</span>
-                                                   <span class="s1">&#39;inst&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">],</span>
-                                                   <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]},</span>
-                                           <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="s1">&#39;inst&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">])</span>
+            <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_calc_orientmat</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
         <span class="c1"># Check magnetic declination if provided via software and/or userdata</span>
         <span class="n">_set_rdi_declination</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -203,17 +210,6 @@
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># (not ENR or ENS) or WinRiver files</span>
             <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;vel_gps_corrected&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="c1"># Convert time coords to dt64</span>
-        <span class="n">t_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span> <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_coords</span><span class="p">:</span>
-            <span class="n">dt</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
-            <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">ky</span><span class="p">:</span> <span class="n">dt</span><span class="p">})</span>
-
-        <span class="c1"># Convert time vars to dt64</span>
-        <span class="n">t_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_data</span><span class="p">:</span>
-            <span class="n">dt</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">])</span>
-            <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dt</span>
         <span class="n">dss</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ds</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -488,7 +484,8 @@
 
     <span class="k">def</span> <span class="nf">init_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">outd</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data_vars&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;coords&#39;</span><span class="p">:</span> <span class="p">{},</span>
-                <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+                <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
         <span class="n">outd</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;inst_make&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TRDI&#39;</span>
         <span class="n">outd</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;inst_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ADCP&#39;</span>
         <span class="n">outd</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">,</span> <span class="p">]</span>
@@ -496,7 +493,8 @@
         <span class="n">outd</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;has_imu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
             <span class="n">outdbb</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data_vars&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;coords&#39;</span><span class="p">:</span> <span class="p">{},</span>
-                      <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+                      <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                      <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
             <span class="n">outdbb</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;inst_make&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TRDI&#39;</span>
             <span class="n">outdbb</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;inst_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ADCP&#39;</span>
             <span class="n">outdbb</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">,</span> <span class="p">]</span>
@@ -1164,6 +1162,9 @@
                            <span class="s1">&#39;speed_made_good_gps&#39;</span><span class="p">,</span>
                            <span class="s1">&#39;dir_made_good_gps&#39;</span><span class="p">,</span>
                            <span class="s1">&#39;flags_gps&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;pitch_gps&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;roll_gps&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;heading_gps&#39;</span><span class="p">,</span>
                            <span class="p">]</span>
         <span class="c1"># UTC date time</span>
         <span class="n">utim</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -1200,7 +1201,11 @@
         <span class="n">time_adcp</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
             <span class="n">milliseconds</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">read_ui32</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)))</span>
 
-        <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ens</span><span class="o">.</span><span class="n">pitch_gps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">15</span>
+        <span class="n">ens</span><span class="o">.</span><span class="n">roll_gps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">15</span>
+        <span class="n">ens</span><span class="o">.</span><span class="n">heading_gps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">15</span>
+
+        <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nbyte</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">76</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>

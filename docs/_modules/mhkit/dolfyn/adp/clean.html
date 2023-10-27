@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.dolfyn.adp.clean &mdash; MHKiT v0.5.1 documentation</title>
+  <title>mhkit.dolfyn.adp.clean &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
@@ -11,9 +11,10 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -55,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -194,9 +196,12 @@
         <span class="n">dfilt</span><span class="p">[</span><span class="n">dfilt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">dfilt</span>
 
-    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                               <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span></div>
-
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span>
+                               <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+                               <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
+                                      <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Depth&#39;</span><span class="p">,</span>
+                                      <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="s1">&#39;depth&#39;</span><span class="p">,</span>
+                                      <span class="s1">&#39;positive&#39;</span><span class="p">:</span> <span class="s1">&#39;down&#39;</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="find_surface_from_P"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.find_surface_from_P">[docs]</a><span class="k">def</span> <span class="nf">find_surface_from_P</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -221,41 +226,56 @@
 <span class="sd">    Requires that the instrument&#39;s pressure sensor was calibrated/zeroed</span>
 <span class="sd">    before deployment to remove atmospheric pressure.</span>
 
-<span class="sd">    Calculates seawater density at normal atmospheric pressure according</span>
-<span class="sd">    to the UNESCO 1981 equation of state. Does not include hydrostatic pressure.</span>
+<span class="sd">    Calculates seawater density using a linear approximation of the sea</span>
+<span class="sd">    water equation of state:</span>
+
+<span class="sd">    .. math:: \\rho - \\rho_0 = -\\alpha (T-T_0) + \\beta (S-S_0) + \\kappa P</span>
+
+<span class="sd">    Where :math:`\\rho` is water density, :math:`T` is water temperature,</span>
+<span class="sd">    :math:`P` is water pressure, :math:`S` is practical salinity, </span>
+<span class="sd">    :math:`\\alpha` is the thermal expansion coefficient, :math:`\\beta` is </span>
+<span class="sd">    the haline contraction coefficient, and :math:`\\kappa` is adiabatic </span>
+<span class="sd">    compressibility.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Density calcation</span>
-    <span class="n">T</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">salinity</span>
-    <span class="c1"># standard mean ocean water</span>
-    <span class="n">rho_smow</span> <span class="o">=</span> <span class="mf">999.842594</span> <span class="o">+</span> <span class="mf">6.793953e-2</span><span class="o">*</span><span class="n">T</span> <span class="o">-</span> <span class="mf">9.095290e-3</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> \
-        <span class="mf">1.001685e-4</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mf">1.120083e-6</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="mf">6.536332e-9</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">5</span>
-    <span class="c1"># at water surface</span>
-    <span class="n">B1</span> <span class="o">=</span> <span class="mf">8.2449e-1</span> <span class="o">-</span> <span class="mf">4.0899e-3</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="mf">7.6438e-5</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">8.2467e-7</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="mf">5.3875e-9</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">4</span>
-    <span class="n">C1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">5.7246e-3</span> <span class="o">+</span> <span class="mf">1.0227e-4</span><span class="o">*</span><span class="n">T</span> <span class="o">-</span> <span class="mf">1.6546e-6</span><span class="o">*</span><span class="n">T</span><span class="o">**</span><span class="mi">2</span>
-    <span class="n">d0</span> <span class="o">=</span> <span class="mf">4.8314e-4</span>
-    <span class="n">rho_atm0</span> <span class="o">=</span> <span class="n">rho_smow</span> <span class="o">+</span> <span class="n">B1</span><span class="o">*</span><span class="n">S</span> <span class="o">+</span> <span class="n">C1</span><span class="o">*</span><span class="n">S</span><span class="o">**</span><span class="mf">1.5</span> <span class="o">+</span> <span class="n">d0</span><span class="o">*</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># temperature, degC</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">salinity</span>  <span class="c1"># practical salinity</span>
+    <span class="n">rho0</span> <span class="o">=</span> <span class="mi">1027</span>  <span class="c1"># kg/m^3</span>
+    <span class="n">T0</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># degC</span>
+    <span class="n">S0</span> <span class="o">=</span> <span class="mi">35</span>  <span class="c1"># psu assumed equivalent to ppt</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># thermal expansion coefficient, kg/m^3/degC</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mf">0.78</span>  <span class="c1"># haline contraction coefficient, kg/m^3/ppt</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mf">4.5e-3</span>  <span class="c1"># adiabatic compressibility, kg/m^3/dbar</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">rho0</span> <span class="o">-</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">T0</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="n">S</span><span class="o">-</span><span class="n">S0</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span><span class="o">*</span><span class="n">P</span>
 
     <span class="c1"># Depth = pressure (conversion from dbar to MPa) / water weight</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">pressure</span><span class="o">*</span><span class="mi">10000</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">9.81</span><span class="o">*</span><span class="n">rho_atm0</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">pressure</span><span class="o">*</span><span class="mi">10000</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">9.81</span><span class="o">*</span><span class="n">rho</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;h_deploy&#39;</span><span class="p">):</span>
         <span class="n">d</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">h_deploy</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Water depth to seafloor&quot;</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Depth to Seafloor&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Water depth to ADCP&quot;</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Depth to Instrument&quot;</span>
 
     <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;water_density&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="n">rho_atm0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span>
+        <span class="n">rho</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
-        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;kg/m^3&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Water density according to UNESCO 1981 equation of state&#39;</span><span class="p">})</span>
-    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                               <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">})</span></div>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;kg m-3&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Water Density&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="s1">&#39;sea_water_density&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Water density from linear approximation of sea water equation of state&#39;</span><span class="p">})</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+               <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="s1">&#39;depth&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;positive&#39;</span><span class="p">:</span> <span class="s1">&#39;down&#39;</span><span class="p">})</span></div>
 
 
-<div class="viewcode-block" id="nan_beyond_surface"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.nan_beyond_surface">[docs]</a><span class="k">def</span> <span class="nf">nan_beyond_surface</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="nan_beyond_surface"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.nan_beyond_surface">[docs]</a><span class="k">def</span> <span class="nf">nan_beyond_surface</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">beam_angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Mask the values of 3D data (vel, amp, corr, echo) that are beyond the surface.</span>
 
@@ -265,6 +285,8 @@
 <span class="sd">      The adcp dataset to clean</span>
 <span class="sd">    val : nan or numeric</span>
 <span class="sd">      Specifies the value to set the bad values to. Default is `numpy.nan`</span>
+<span class="sd">    beam_angle : int</span>
+<span class="sd">      ADCP beam inclination angle. Default = dataset.attrs[&#39;beam_angle&#39;]</span>
 <span class="sd">    inplace : bool</span>
 <span class="sd">      When True the existing data object is modified. When False</span>
 <span class="sd">      a copy is returned. Default = False</span>
@@ -287,13 +309,12 @@
     <span class="c1"># Get all variables with &#39;range&#39; coordinate</span>
     <span class="n">var</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="s1">&#39;range&#39;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)]</span>
 
-    <span class="k">if</span> <span class="s1">&#39;nortek&#39;</span> <span class="ow">in</span> <span class="n">_make_model</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
-        <span class="n">beam_angle</span> <span class="o">=</span> <span class="mi">25</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>  <span class="c1"># TRDI</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">beam_angle</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">beam_angle</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">beam_angle</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">beam_angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;beam_angle&#39;</span><span class="p">):</span>
+            <span class="n">beam_angle</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">beam_angle</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&#39;beam_angle` not found in dataset attributes. &quot;</span>\
+                            <span class="s2">&quot;Please supply the ADCP&#39;s beam angle.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Surface interference distance calculated from distance of transducers to surface</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;h_deploy&#39;</span><span class="p">):</span>

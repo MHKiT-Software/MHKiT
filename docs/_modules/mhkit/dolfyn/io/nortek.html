@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.dolfyn.io.nortek &mdash; MHKiT v0.5.1 documentation</title>
+  <title>mhkit.dolfyn.io.nortek &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
@@ -11,9 +11,10 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -55,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -91,17 +93,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for mhkit.dolfyn.io.nortek</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">nortek_defs</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_find_userdata</span><span class="p">,</span> <span class="n">_create_dataset</span><span class="p">,</span> <span class="n">_handle_nan</span><span class="p">,</span> <span class="n">_abspath</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_find_userdata</span><span class="p">,</span> <span class="n">_create_dataset</span><span class="p">,</span> <span class="n">_handle_nan</span><span class="p">,</span> <span class="n">_abspath</span>
 <span class="kn">from</span> <span class="nn">..tools</span> <span class="kn">import</span> <span class="n">misc</span> <span class="k">as</span> <span class="n">tbx</span>
 <span class="kn">from</span> <span class="nn">..rotate.vector</span> <span class="kn">import</span> <span class="n">_calc_omat</span>
 <span class="kn">from</span> <span class="nn">..rotate.base</span> <span class="kn">import</span> <span class="n">_set_coords</span>
@@ -139,7 +140,7 @@
         <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="n">logfile</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.log&#39;</span><span class="p">)</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.dolfyn.log&#39;</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">logfile</span><span class="p">),</span>
                             <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span>
                             <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">,</span>
@@ -169,7 +170,7 @@
                           <span class="s2">&quot;look for 0 values in &#39;status</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">tag</span><span class="p">))</span>
             <span class="n">tdat</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">_fill_time_gaps</span><span class="p">(</span>
                 <span class="n">tdat</span><span class="p">,</span> <span class="n">sample_rate_hz</span><span class="o">=</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">][</span><span class="s1">&#39;fs&#39;</span><span class="p">])</span>
-        <span class="n">coords</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">tdat</span>
+        <span class="n">coords</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">tdat</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">)</span>
 
     <span class="c1"># Apply rotation matrix and declination</span>
     <span class="n">rotmat</span> <span class="o">=</span> <span class="kc">None</span>
@@ -187,21 +188,16 @@
     <span class="n">ds</span> <span class="o">=</span> <span class="n">_set_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ref_frame</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="s1">&#39;orientmat&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
-        <span class="n">omat</span> <span class="o">=</span> <span class="n">_calc_omat</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;heading&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pitch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;roll&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                          <span class="n">ds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orientation_down&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">omat</span><span class="p">,</span>
-                                       <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;earth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">],</span>
-                                               <span class="s1">&#39;inst&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">],</span>
-                                               <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]},</span>
-                                       <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="s1">&#39;inst&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">])</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_calc_omat</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+                                     <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;heading&#39;</span><span class="p">],</span>
+                                     <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pitch&#39;</span><span class="p">],</span>
+                                     <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;roll&#39;</span><span class="p">],</span>
+                                     <span class="n">ds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orientation_down&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
     <span class="k">if</span> <span class="n">rotmat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rot</span><span class="o">.</span><span class="n">set_inst2head_rotmat</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">rotmat</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">declin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rot</span><span class="o">.</span><span class="n">set_declination</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">declin</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64[us]&#39;</span><span class="p">)</span>
 
     <span class="c1"># Close handler</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
@@ -213,9 +209,8 @@
 
 
 <span class="k">def</span> <span class="nf">_bcd2char</span><span class="p">(</span><span class="n">cBCD</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Taken from the Nortek System Integrator</span>
-<span class="sd">    Manual &quot;Example Program&quot; Chapter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Taken from the Nortek System Integrator Manual </span>
+<span class="sd">    &quot;Example Program&quot; Chapter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cBCD</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cBCD</span><span class="p">,</span> <span class="mi">153</span><span class="p">)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">cBCD</span> <span class="o">&amp;</span> <span class="mi">15</span><span class="p">)</span>
@@ -235,7 +230,8 @@
 
 
 <span class="k">class</span> <span class="nc">_NortekReader</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for reading reading nortek binary files.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for reading reading nortek binary files.</span>
 <span class="sd">    This reader currently only supports AWAC and Vector data formats.</span>
 
 <span class="sd">    Parameters</span>
@@ -378,7 +374,8 @@
 
     <span class="k">def</span> <span class="nf">init_ADV</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">dat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data_vars&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;coords&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="p">{},</span>
-                           <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+                           <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                           <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
         <span class="n">da</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">]</span>
         <span class="n">dv</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">]</span>
         <span class="n">da</span><span class="p">[</span><span class="s1">&#39;inst_make&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Nortek&#39;</span>
@@ -399,7 +396,8 @@
 
     <span class="k">def</span> <span class="nf">init_AWAC</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="n">dat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data_vars&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;coords&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;attrs&#39;</span><span class="p">:</span> <span class="p">{},</span>
-                           <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+                           <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                           <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="p">{}}</span>
         <span class="n">da</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">]</span>
         <span class="n">dv</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">]</span>
         <span class="n">da</span><span class="p">[</span><span class="s1">&#39;inst_make&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Nortek&#39;</span>
@@ -711,6 +709,9 @@
                 <span class="k">if</span> <span class="n">nm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">va</span><span class="o">.</span><span class="n">group</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">va</span><span class="o">.</span><span class="n">group</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">va</span><span class="o">.</span><span class="n">_empty_array</span><span class="p">(</span><span class="o">**</span><span class="n">shape_args</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">va</span><span class="o">.</span><span class="n">units</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">va</span><span class="o">.</span><span class="n">long_name</span>
+                    <span class="k">if</span> <span class="n">va</span><span class="o">.</span><span class="n">standard_name</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;standard_name&#39;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">va</span><span class="o">.</span><span class="n">standard_name</span>
 
     <span class="k">def</span> <span class="nf">read_vec_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
         <span class="c1"># ID: 0x10 = 16</span>
@@ -773,7 +774,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;checkdata&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">checknow</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_sci_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vardict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the data to scientific units accordint to vardict.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the data to scientific units accordint to vardict.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -781,6 +783,7 @@
 <span class="sd">          The variable definitions in the :class:`&lt;VarAttrs&gt;` specify</span>
 <span class="sd">          how to scale each data variable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">vd</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">vardict</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="n">vd</span><span class="o">.</span><span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">dat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
@@ -800,6 +803,8 @@
             <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">][</span><span class="s1">&#39;PressureMSB&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">65536</span> <span class="o">+</span>
             <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">][</span><span class="s1">&#39;PressureLSW&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">))</span> <span class="o">/</span> <span class="mf">1000.</span>
         <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">][</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;dbar&#39;</span>
+        <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">][</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Pressure&#39;</span>
+        <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;standard_name&#39;</span><span class="p">][</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sea_water_pressure&#39;</span>
 
         <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;PressureMSB&#39;</span><span class="p">)</span>
         <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;PressureLSW&#39;</span><span class="p">)</span>
@@ -917,6 +922,21 @@
     <span class="k">def</span> <span class="nf">read_microstrain</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read ADV microstrain sensor (IMU) data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">update_defs</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">orientmat</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">imu_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;accel&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;m s-2&#39;</span><span class="p">,</span> <span class="s1">&#39;Acceleration&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;angrt&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;rad s-1&#39;</span><span class="p">,</span> <span class="s1">&#39;Angular Velocity&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;mag&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;gauss&#39;</span><span class="p">,</span> <span class="s1">&#39;Compass&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;orientmat&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation Matrix&#39;</span><span class="p">]}</span>
+            <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">imu_data</span><span class="p">:</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">ky</span><span class="p">:</span> <span class="n">imu_data</span><span class="p">[</span><span class="n">ky</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">ky</span><span class="p">:</span> <span class="n">imu_data</span><span class="p">[</span><span class="n">ky</span><span class="p">][</span><span class="mi">1</span><span class="p">]})</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">mag</span><span class="p">:</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;mag&#39;</span><span class="p">)</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;mag&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">orientmat</span><span class="p">:</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;orientmat&#39;</span><span class="p">)</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;orientmat&#39;</span><span class="p">)</span>
+
         <span class="c1"># 0x71 = 113</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;First &quot;microstrain data&quot; block &#39;</span>
@@ -953,8 +973,7 @@
                 <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accel&#39;</span><span class="p">,</span> <span class="s1">&#39;angrt&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rv</span><span class="p">):</span>
                     <span class="n">da</span><span class="p">[</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
-                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;accel&#39;</span><span class="p">:</span> <span class="s1">&#39;m/s^2&#39;</span><span class="p">,</span>
-                                     <span class="s1">&#39;angrt&#39;</span><span class="p">:</span> <span class="s1">&#39;rad/s&#39;</span><span class="p">})</span>
+                <span class="n">update_defs</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">orientmat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">ahrsid</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">204</span><span class="p">,</span> <span class="mi">210</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_orient_dnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accel&#39;</span><span class="p">,</span> <span class="s1">&#39;angrt&#39;</span><span class="p">,</span> <span class="s1">&#39;mag&#39;</span><span class="p">,</span> <span class="s1">&#39;orientmat&#39;</span><span class="p">]</span>
@@ -970,11 +989,9 @@
                 <span class="k">if</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>
                     <span class="n">dv</span><span class="p">[</span><span class="s1">&#39;orientmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tbx</span><span class="o">.</span><span class="n">_nans</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span>
                                                 <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;accel&#39;</span><span class="p">:</span> <span class="s1">&#39;m/s^2&#39;</span><span class="p">,</span>
-                                     <span class="s1">&#39;angrt&#39;</span><span class="p">:</span> <span class="s1">&#39;rad/s&#39;</span><span class="p">,</span>
-                                     <span class="s1">&#39;mag&#39;</span><span class="p">:</span> <span class="s1">&#39;gauss&#39;</span><span class="p">})</span>
+                <span class="n">update_defs</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">orientmat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="k">elif</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">211</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">211</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_orient_dnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;angrt&#39;</span><span class="p">,</span> <span class="s1">&#39;accel&#39;</span><span class="p">,</span> <span class="s1">&#39;mag&#39;</span><span class="p">]</span>
                 <span class="n">dv</span><span class="p">[</span><span class="s1">&#39;angrt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tbx</span><span class="o">.</span><span class="n">_nans</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samp_guess</span><span class="p">),</span>
                                         <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
@@ -985,9 +1002,8 @@
                 <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;angrt&#39;</span><span class="p">,</span> <span class="s1">&#39;accel&#39;</span><span class="p">,</span> <span class="s1">&#39;mag&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rv</span><span class="p">):</span>
                     <span class="n">da</span><span class="p">[</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
-                <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;accel&#39;</span><span class="p">:</span> <span class="s1">&#39;m/s^2&#39;</span><span class="p">,</span>
-                                     <span class="s1">&#39;angrt&#39;</span><span class="p">:</span> <span class="s1">&#39;rad/s&#39;</span><span class="p">,</span>
-                                     <span class="s1">&#39;mag&#39;</span><span class="p">:</span> <span class="s1">&#39;gauss&#39;</span><span class="p">})</span>
+                <span class="n">update_defs</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">orientmat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
         <span class="n">byts</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">if</span> <span class="n">ahrsid</span> <span class="o">==</span> <span class="mi">195</span><span class="p">:</span>  <span class="c1"># 0xc3</span>
             <span class="n">byts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>

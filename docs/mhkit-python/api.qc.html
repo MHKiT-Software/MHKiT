@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QC Module &mdash; MHKiT v0.5.1 documentation</title>
+  <title>QC Module &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
@@ -12,9 +12,10 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -37,7 +38,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -58,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -77,6 +79,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.mooring.html">Mooring Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
 </ul>
 </li>
@@ -123,6 +126,10 @@
 <span id="apidoc-python-qc"></span><h1>QC Module<a class="headerlink" href="#qc-module" title="Permalink to this heading"></a></h1>
 <p>The QC module includes quality control functions from Pecos, see <a class="reference external" href="https://pecos.readthedocs.io">https://pecos.readthedocs.io</a> for more details.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.qc.check_timestamp" title="mhkit.qc.check_timestamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_timestamp</span></code></a></p></td>
 <td><p>Check time series for missing, non-monotonic and duplicate timestamps</p></td>
@@ -150,7 +157,7 @@
 <dd><p>Check time series for missing, non-monotonic and duplicate
 timestamps</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data used in the quality control test, indexed by datetime</p></li>
 <li><p><strong>frequency</strong> (<em>int</em><em> or </em><em>float</em>) – Expected time series frequency, in seconds</p></li>
@@ -169,7 +176,7 @@ interval (specified in frequency) and the DataFrame is not
 reindexed.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>dictionary</em> – Results include cleaned data, mask, and test results summary</p>
 </dd>
 </dl>
@@ -180,7 +187,7 @@ reindexed.</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_missing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_failures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pecos/monitoring.html#check_missing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.qc.check_missing" title="Permalink to this definition"></a></dt>
 <dd><p>Check for missing data</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data used in the quality control test, indexed by datetime</p></li>
 <li><p><strong>key</strong> (<em>string</em><em>, </em><em>optional</em>) – Data column name or translation dictionary key. If not specified,
@@ -189,7 +196,7 @@ all columns are used in the test.</p></li>
 default = 1</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>dictionary</em> – Results include cleaned data, mask, and test results summary</p>
 </dd>
 </dl>
@@ -200,7 +207,7 @@ default = 1</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_corrupt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrupt_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_failures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pecos/monitoring.html#check_corrupt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.qc.check_corrupt" title="Permalink to this definition"></a></dt>
 <dd><p>Check for corrupt data</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data used in the quality control test, indexed by datetime</p></li>
 <li><p><strong>corrupt_values</strong> (<em>list</em><em> of </em><em>int</em><em> or </em><em>floats</em>) – List of corrupt data values</p></li>
@@ -210,7 +217,7 @@ all columns are used in the test.</p></li>
 default = 1</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>dictionary</em> – Results include cleaned data, mask, and test results summary</p>
 </dd>
 </dl>
@@ -221,7 +228,7 @@ default = 1</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_failures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pecos/monitoring.html#check_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.qc.check_range" title="Permalink to this definition"></a></dt>
 <dd><p>Check for data that is outside expected range</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data used in the quality control test, indexed by datetime</p></li>
 <li><p><strong>bound</strong> (<em>list</em><em> of </em><em>floats</em>) – [lower bound, upper bound], None can be used in place of a lower
@@ -232,7 +239,7 @@ all columns are used in the test.</p></li>
 default = 1</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>dictionary</em> – Results include cleaned data, mask, and test results summary</p>
 </dd>
 </dl>
@@ -244,7 +251,7 @@ default = 1</p></li>
 <dd><p>Check for stagnant data and/or abrupt changes in the data using the
 difference between max and min values (delta) within a rolling window</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data used in the quality control test, indexed by datetime</p></li>
 <li><p><strong>bound</strong> (<em>list</em><em> of </em><em>floats</em>) – [lower bound, upper bound], None can be used in place of a lower
@@ -266,7 +273,7 @@ deltas</p></li>
 default = 1</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>dictionary</em> – Results include cleaned data, mask, and test results summary</p>
 </dd>
 </dl>
@@ -279,7 +286,7 @@ default = 1</p></li>
 <p>The upper and lower bounds are specified in standard deviations.
 Data normalized using (data-mean)/std.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas DataFrame</em>) – Data used in the quality control test, indexed by datetime</p></li>
 <li><p><strong>bound</strong> (<em>list</em><em> of </em><em>floats</em>) – [lower bound, upper bound], None can be used in place of a lower
@@ -296,7 +303,7 @@ all columns are used in the test.</p></li>
 default = 1</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>dictionary</em> – Results include cleaned data, mask, and test results summary</p>
 </dd>
 </dl>

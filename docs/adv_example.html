@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading ADV Data with MHKiT &mdash; MHKiT v0.5.1 documentation</title>
+  <title>Reading ADV Data with MHKiT &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -25,7 +26,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="MLER example" href="extreme_response_MLER_example.html" />
-    <link rel="prev" title="Reading ADCP Data with MHKiT" href="adcp_example.html" /> 
+    <link rel="prev" title="Comparing Transect Data at the Tanana River Test Site" href="ADCP_Delft3D_TRTS_example.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,7 +41,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -78,8 +80,12 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Reading ADV Data with MHKiT</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Read-Raw-Instrument-Data">Read Raw Instrument Data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#QC'ing-Data">QC’ing Data</a></li>
@@ -142,8 +148,8 @@ stresses) of the measured flowfield</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit import dolfyn
-from mhkit.dolfyn.adv import api
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">dolfyn</span>
+<span class="kn">from</span> <span class="nn">mhkit.dolfyn.adv</span> <span class="kn">import</span> <span class="n">api</span>
 </pre></div>
 </div>
 </div>
@@ -160,7 +166,7 @@ from mhkit.dolfyn.adv import api
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds = dolfyn.read(&#39;data/dolfyn/vector_data01.VEC&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;data/dolfyn/vector_data01.VEC&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -178,8 +184,8 @@ Reading file data/dolfyn/vector_data01.VEC ...
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># print the dataset
-ds
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print the dataset</span>
+<span class="n">ds</span>
 </pre></div>
 </div>
 </div>
@@ -620,8 +626,8 @@ Attributes: (12/39)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds_dolfyn = ds.velds
-ds_dolfyn
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_dolfyn</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">velds</span>
+<span class="n">ds_dolfyn</span>
 </pre></div>
 </div>
 </div>
@@ -657,17 +663,17 @@ ds_dolfyn
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Clean the file using the Goring+Nikora method:
-mask = api.clean.GN2002(ds.vel, npt=5000)
-# Replace bad datapoints via cubic spline interpolation
-ds[&#39;vel&#39;] = api.clean.clean_fill(ds[&#39;vel&#39;], mask, npt=12, method=&#39;cubic&#39;, max_gap=None)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean the file using the Goring+Nikora method:</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">GN2002</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="c1"># Replace bad datapoints via cubic spline interpolation</span>
+<span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">clean_fill</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">],</span> <span class="n">mask</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">,</span> <span class="n">max_gap</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-print(&#39;Percent of data containing spikes: {0:.2f}%&#39;.format(100*mask.mean()))
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Percent of data containing spikes: </span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">mask</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
 
-# If interpolation isn&#39;t desired:
-ds_nan = ds.copy(deep=True)
-ds_nan.coords[&#39;mask&#39;] = ((&#39;dir&#39;,&#39;time&#39;), ~mask)
-ds_nan[&#39;vel&#39;] = ds_nan[&#39;vel&#39;].where(ds_nan[&#39;mask&#39;])
+<span class="c1"># If interpolation isn&#39;t desired:</span>
+<span class="n">ds_nan</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_nan</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;dir&#39;</span><span class="p">,</span><span class="s1">&#39;time&#39;</span><span class="p">),</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span>
+<span class="n">ds_nan</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_nan</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds_nan</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -690,11 +696,11 @@ new dataset.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># First set the magnetic declination
-dolfyn.set_declination(ds, declin=10, inplace=True) # declination points 10 degrees East
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First set the magnetic declination</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">set_declination</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">declin</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># declination points 10 degrees East</span>
 
-# Rotate that data from the instrument to earth frame (ENU):
-dolfyn.rotate2(ds, &#39;earth&#39;, inplace=True)
+<span class="c1"># Rotate that data from the instrument to earth frame (ENU):</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -705,8 +711,8 @@ dolfyn.rotate2(ds, &#39;earth&#39;, inplace=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds.attrs[&#39;principal_heading&#39;] = dolfyn.calc_principal_heading(ds[&#39;vel&#39;])
-dolfyn.rotate2(ds, &#39;principal&#39;, inplace=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;principal_heading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">calc_principal_heading</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">])</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;principal&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -724,10 +730,10 @@ dolfyn.rotate2(ds, &#39;principal&#39;, inplace=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>binner = api.ADVBinner(n_bin=9600, fs=ds.fs, n_fft=2048)
-ds_binned = binner(ds, freq_units=&quot;Hz&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binner</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">ADVBinner</span><span class="p">(</span><span class="n">n_bin</span><span class="o">=</span><span class="mi">9600</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">)</span>
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">binner</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">)</span>
 
-ds_binned = api.turbulence_statistics(ds, n_bin=9600, fs=ds.fs, n_fft=2048, freq_units=&quot;Hz&quot;)
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">turbulence_statistics</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="mi">9600</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -740,14 +746,14 @@ shortcut for turbulence intensity. This particular shortcut requires a dataset c
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate the variance of each variable in the dataset and add to the averaged dataset
-ds_binned = binner.bin_variance(ds, out_ds=ds_binned)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the variance of each variable in the dataset and add to the averaged dataset</span>
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">bin_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="o">=</span><span class="n">ds_binned</span><span class="p">)</span>
 
-# Calculate the cross power spectral density
-ds_binned[&#39;csd&#39;] = binner.cross_spectral_density(ds[&#39;vel&#39;], freq_units=&#39;Hz&#39;, n_fft_coh=2048)
+<span class="c1"># Calculate the cross power spectral density</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s1">&#39;csd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">cross_spectral_density</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vel&#39;</span><span class="p">],</span> <span class="n">freq_units</span><span class="o">=</span><span class="s1">&#39;Hz&#39;</span><span class="p">,</span> <span class="n">n_fft_coh</span><span class="o">=</span><span class="mi">2048</span><span class="p">)</span>
 
-# Calculated the turbulence intensity (requires a binned dataset)
-ds_binned[&#39;TI&#39;] = ds_binned.velds.I
+<span class="c1"># Calculated the turbulence intensity (requires a binned dataset)</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s1">&#39;TI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_binned</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">I</span>
 </pre></div>
 </div>
 </div>
@@ -756,14 +762,14 @@ ds_binned[&#39;TI&#39;] = ds_binned.velds.I
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
-%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 
-plt.figure()
-plt.loglog(ds_binned[&#39;freq&#39;], ds_binned[&#39;psd&#39;].sel(S=&#39;Sxx&#39;).mean(dim=&#39;time&#39;))
-plt.xlabel(&#39;Frequency [Hz]&#39;)
-plt.ylabel(&#39;Energy Density $\mathrm{[m^2/s^s/Hz]}$&#39;)
-plt.title(&#39;Streamwise Direction&#39;)
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">],</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s1">&#39;psd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="s1">&#39;Sxx&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Density $\mathrm{[m^2/s^s/Hz]}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Streamwise Direction&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -792,9 +798,9 @@ Text(0.5, 1.0, &#39;Streamwise Direction&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Uncomment these lines to save and load to your current working directory
-#dolfyn.save(ds, &#39;your_data.nc&#39;)
-#ds_saved = dolfyn.load(&#39;your_data.nc&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment these lines to save and load to your current working directory</span>
+<span class="c1">#dolfyn.save(ds, &#39;your_data.nc&#39;)</span>
+<span class="c1">#ds_saved = dolfyn.load(&#39;your_data.nc&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -805,7 +811,7 @@ Text(0.5, 1.0, &#39;Streamwise Direction&#39;)
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="adcp_example.html" class="btn btn-neutral float-left" title="Reading ADCP Data with MHKiT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ADCP_Delft3D_TRTS_example.html" class="btn btn-neutral float-left" title="Comparing Transect Data at the Tanana River Test Site" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="extreme_response_MLER_example.html" class="btn btn-neutral float-right" title="MLER example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

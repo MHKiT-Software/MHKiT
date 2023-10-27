@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.dolfyn.binned &mdash; MHKiT v0.5.1 documentation</title>
+  <title>mhkit.dolfyn.binned &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/mhkit.css" type="text/css" />
@@ -11,9 +11,10 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -55,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -136,27 +138,29 @@
         <span class="k">if</span> <span class="n">n_fft_coh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_fft_coh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_fft</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">n_fft_coh</span> <span class="o">&gt;</span> <span class="n">n_bin</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n_fft_coh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_fft_coh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;n_fft_coh must be smaller than or equal to n_bin, &quot;</span>
-                          <span class="s2">&quot;setting n_fft_coh = n_bin/6&quot;</span><span class="p">)</span>
+                          <span class="s2">&quot;setting n_fft_coh = n_bin&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_outshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inshape</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns `outshape` (the &#39;reshape&#39;d shape) for an `inshape` array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns `outshape` (the &#39;reshape&#39;d shape) for an `inshape` array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n_bin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_nbin</span><span class="p">(</span><span class="n">n_bin</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">inshape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inshape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">n_bin</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">+</span> <span class="n">n_pad</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">_outshape_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inshape</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns `outshape` (the fft &#39;reshape&#39;d shape) for an `inshape` array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns `outshape` (the fft &#39;reshape&#39;d shape) for an `inshape` array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n_fft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_nfft</span><span class="p">(</span><span class="n">n_fft</span><span class="p">)</span>
         <span class="n">n_bin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_nbin</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">inshape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inshape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">n_bin</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">_parse_fs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">fs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">fs</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span>
+        <span class="k">if</span> <span class="n">fs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span>
+        <span class="k">return</span> <span class="n">fs</span>
 
     <span class="k">def</span> <span class="nf">_parse_nbin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">n_bin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -166,11 +170,19 @@
     <span class="k">def</span> <span class="nf">_parse_nfft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">n_fft</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_fft</span>
+        <span class="k">if</span> <span class="n">n_fft</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_bin</span><span class="p">:</span>
+            <span class="n">n_fft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_bin</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;n_fft must be smaller than n_bin, setting n_fft = n_bin&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_fft</span>
 
     <span class="k">def</span> <span class="nf">_parse_nfft_coh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_fft_coh</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">n_fft_coh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_fft_coh</span>
+        <span class="k">if</span> <span class="n">n_fft_coh</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_bin</span><span class="p">:</span>
+            <span class="n">n_fft_coh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_bin</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;n_fft_coh must be smaller than or equal to n_bin, &quot;</span>
+                          <span class="s2">&quot;setting n_fft_coh = n_bin&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_fft_coh</span>
 
     <span class="k">def</span> <span class="nf">_check_ds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="p">):</span>
@@ -229,7 +241,8 @@
         <span class="k">return</span> <span class="n">out_ds</span>
 
     <span class="k">def</span> <span class="nf">_new_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function for setting up a new xarray.DataArray regardless of how </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function for setting up a new xarray.DataArray regardless of how </span>
 <span class="sd">        many dimensions the input data-array has</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">dims</span>
@@ -279,6 +292,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">n_bin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_nbin</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">n_bin</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;n_bin is larger than length of input array&#39;</span><span class="p">)</span>
         <span class="n">npd0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_pad</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">npd1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">n_pad</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">shp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outshape</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">)</span>
@@ -294,6 +309,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">inds</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]))</span> <span class="o">*</span> <span class="n">n_bin</span> <span class="o">//</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
                     <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="c1"># If there are too many indices, drop one bin</span>
+            <span class="k">if</span> <span class="n">inds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[:</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)]</span>
+                <span class="n">shp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span>
             <span class="n">n_bin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
             <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">npd0</span><span class="p">:</span><span class="n">n_bin</span> <span class="o">+</span> <span class="n">npd0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">inds</span><span class="p">]</span>
                                            <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
@@ -406,7 +426,7 @@
 <span class="sd">        out : numpy.ndarray</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanvar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanvar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TimeBinner.standard_deviation"><a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.binned.TimeBinner.standard_deviation">[docs]</a>    <span class="k">def</span> <span class="nf">standard_deviation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -427,7 +447,7 @@
 <span class="sd">        out : numpy.ndarray</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_psd_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                   <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

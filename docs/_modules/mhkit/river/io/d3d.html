@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.river.io.d3d &mdash; MHKiT v0.5.1 documentation</title>
+  <title>mhkit.river.io.d3d &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
@@ -11,9 +11,10 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -55,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -276,20 +278,31 @@
         <span class="n">v</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">time_index</span><span class="p">,:],</span> <span class="kc">False</span><span class="p">)</span>
         
     <span class="c1">#waterdepth </span>
-    <span class="n">cords_to_layers</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FlowElem_xcc FlowElem_ycc&#39;</span><span class="p">:{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;laydim&#39;</span><span class="p">,</span> 
-                                    <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_cc&#39;</span><span class="p">][:]},</span>
-                       <span class="s1">&#39;FlowLink_xu FlowLink_yu&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;wdim&#39;</span><span class="p">,</span> 
-                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_w&#39;</span><span class="p">][:]}}</span>
+    <span class="k">if</span> <span class="s2">&quot;mesh2d&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mesh2d_face_x mesh2d_face_y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;mesh2d_nLayers&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;mesh2d_layer_sigma&#39;</span><span class="p">][:]},</span>
+                       <span class="s1">&#39;mesh2d_edge_x mesh2d_edge_y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;mesh2d_nInterfaces&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;mesh2d_interface_sigma&#39;</span><span class="p">][:]}}</span>
+        <span class="n">bottom_depth</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;mesh2d_waterdepth&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">waterlevel</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;mesh2d_s1&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FlowElem_xcc FlowElem_ycc&#39;</span><span class="p">:{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;laydim&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_cc&#39;</span><span class="p">][:]},</span>
+                           <span class="s1">&#39;FlowLink_xu FlowLink_yu&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;wdim&#39;</span><span class="p">,</span> 
+                                   <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_w&#39;</span><span class="p">][:]}}</span>
+        <span class="n">bottom_depth</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">waterlevel</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        
     <span class="n">layer_dim</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
-    
     
     <span class="n">cord_sys</span><span class="o">=</span> <span class="n">cords_to_layers</span><span class="p">[</span><span class="n">layer_dim</span><span class="p">][</span><span class="s1">&#39;coords&#39;</span><span class="p">]</span>
     <span class="n">layer_percentages</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">cord_sys</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1">#accumulative</span>
-    <span class="n">bottom_depth</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
-    <span class="n">waterlevel</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">layer_dim</span> <span class="o">==</span> <span class="s1">&#39;FlowLink_xu FlowLink_yu&#39;</span><span class="p">:</span>
         <span class="c1">#interpolate </span>
-        <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="n">x_laydim</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span> 
         <span class="n">y_laydim</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">points_laydim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_laydim</span><span class="p">,</span> <span class="n">y_laydim</span><span class="p">)])</span>
@@ -557,10 +570,16 @@
     <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_time_index</span><span class="p">,</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;time_index must be less than&#39;</span>
                                       <span class="o">+</span><span class="s1">&#39;the max time index </span><span class="si">{max_time_index}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="n">cords_to_layers</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FlowElem_xcc FlowElem_ycc&#39;</span><span class="p">:{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;laydim&#39;</span><span class="p">,</span> 
-                                    <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_cc&#39;</span><span class="p">][:]},</span>
-                       <span class="s1">&#39;FlowLink_xu FlowLink_yu&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;wdim&#39;</span><span class="p">,</span> 
-                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_w&#39;</span><span class="p">][:]}}</span>
+    <span class="k">if</span> <span class="s2">&quot;mesh2d&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mesh2d_face_x mesh2d_face_y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;mesh2d_nLayers&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;mesh2d_layer_sigma&#39;</span><span class="p">][:]},</span>
+                       <span class="s1">&#39;mesh2d_edge_x mesh2d_edge_y&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;mesh2d_nInterfaces&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;mesh2d_interface_sigma&#39;</span><span class="p">][:]}}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FlowElem_xcc FlowElem_ycc&#39;</span><span class="p">:{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;laydim&#39;</span><span class="p">,</span> 
+                                <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_cc&#39;</span><span class="p">][:]},</span>
+                           <span class="s1">&#39;FlowLink_xu FlowLink_yu&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;wdim&#39;</span><span class="p">,</span> 
+                                   <span class="s1">&#39;coords&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;LayCoord_w&#39;</span><span class="p">][:]}}</span>
 
     <span class="n">layer_dim</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
     
@@ -608,26 +627,26 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: NetCDF4 object </span>
+<span class="sd">    data : NetCDF4 object </span>
 <span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
 <span class="sd">       stress, generated by running a Delft3D model.</span>
-<span class="sd">    points: string, DataFrame  </span>
+<span class="sd">    points : string, DataFrame  </span>
 <span class="sd">        Points to interpolate data onto. </span>
-<span class="sd">          &#39;cells&#39;: interpolates all data onto velocity coordinate system (Default).</span>
-<span class="sd">          &#39;faces&#39;: interpolates all data onto the TKE coordinate system.</span>
-<span class="sd">          DataFrame of x, y, and z coordinates: Interpolates data onto user </span>
-<span class="sd">          provided points. </span>
-<span class="sd">    time_index: int </span>
+<span class="sd">            &#39;cells&#39;: interpolates all data onto velocity coordinate system (Default).</span>
+<span class="sd">            &#39;faces&#39;: interpolates all data onto the TKE coordinate system.</span>
+<span class="sd">            DataFrame of x, y, and z coordinates: Interpolates data onto user </span>
+<span class="sd">            provided points. </span>
+<span class="sd">    time_index : int </span>
 <span class="sd">        An integer to pull the time step from the dataset. Default is</span>
 <span class="sd">        late time step -1.  </span>
-<span class="sd">    intermediate_values: boolean (optional)</span>
+<span class="sd">    intermediate_values : boolean (optional)</span>
 <span class="sd">        If false the function will return position and turbulent intensity values. </span>
 <span class="sd">        If true the function will return position(x,y,z) and values need to calculate</span>
 <span class="sd">        turbulent intensity (ucx, uxy, uxz and turkin1) in a Dataframe.  Default False.</span>
 <span class="sd">   </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">      TI_data: Dataframe</span>
+<span class="sd">    TI_data : Dataframe</span>
 <span class="sd">        If intermediate_values is true all values are output. </span>
 <span class="sd">        If intermediate_values is equal to false only turbulent_intesity and </span>
 <span class="sd">        x, y, and z variables are output.  </span>

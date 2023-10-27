@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DOLfYN Module &mdash; MHKiT v0.5.1 documentation</title>
+  <title>DOLfYN Module &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/mhkit.css" type="text/css" />
@@ -12,9 +12,10 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -23,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Utils Module" href="api.utils.html" />
+    <link rel="next" title="Mooring Module" href="api.mooring.html" />
     <link rel="prev" title="Loads Module" href="api.loads.html" /> 
 </head>
 
@@ -39,7 +40,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -60,6 +61,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../python.html#installation">Installation</a></li>
@@ -83,6 +85,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#time">Time</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api.mooring.html">Mooring Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
 </ul>
 </li>
@@ -136,6 +139,10 @@ first way is to import the entire module using
 Many functions are directly available from the main dolfyn
 import:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.read" title="mhkit.dolfyn.io.api.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
 <td><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI (.000, .PD0, .ENX, etc.) data file.</p></td>
@@ -189,6 +196,10 @@ The ADP module contains routines for reading and working with
 ADP/ADCP data and is imported using
 <cite>from mhkit.dolfyn.adp import api</cite>. It contains:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.read" title="mhkit.dolfyn.io.api.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
 <td><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI (.000, .PD0, .ENX, etc.) data file.</p></td>
@@ -199,21 +210,31 @@ ADP/ADCP data and is imported using
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.rotate2" title="mhkit.dolfyn.rotate.api.rotate2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate2</span></code></a></p></td>
 <td><p>Rotate a dataset to a new coordinate system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adp.clean" title="mhkit.dolfyn.adp.clean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.calc_principal_heading" title="mhkit.dolfyn.rotate.api.calc_principal_heading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_principal_heading</span></code></a></p></td>
+<td><p>Compute the principal angle of the horizontal velocity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adp.clean" title="mhkit.dolfyn.adp.clean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean</span></code></a></p></td>
 <td><p>Module containing functions to clean data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.velocity.VelBinner" title="mhkit.dolfyn.velocity.VelBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VelBinner</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.velocity.VelBinner" title="mhkit.dolfyn.velocity.VelBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VelBinner</span></code></a></p></td>
 <td><p>This is the base binning (averaging) tool.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ADPBinner</span></code></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.dolfyn.adp.api"></span></section>
+</section>
 <section id="adv-module">
 <h2>ADV Module<a class="headerlink" href="#adv-module" title="Permalink to this heading"></a></h2>
 <p>The ADV module contains routines for reading and working with
 ADV data and is imported using
 <cite>from mhkit.dolfyn.adv import api</cite>. It contains:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.read" title="mhkit.dolfyn.io.api.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
 <td><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI (.000, .PD0, .ENX, etc.) data file.</p></td>
@@ -224,33 +245,40 @@ ADV data and is imported using
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.rotate2" title="mhkit.dolfyn.rotate.api.rotate2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate2</span></code></a></p></td>
 <td><p>Rotate a dataset to a new coordinate system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adv.clean" title="mhkit.dolfyn.adv.clean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean</span></code></a></p></td>
-<td><p>Module containing functions to clean data</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.calc_principal_heading" title="mhkit.dolfyn.rotate.api.calc_principal_heading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_principal_heading</span></code></a></p></td>
+<td><p>Compute the principal angle of the horizontal velocity.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.set_inst2head_rotmat" title="mhkit.dolfyn.rotate.api.set_inst2head_rotmat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_inst2head_rotmat</span></code></a></p></td>
 <td><p>Set the instrument to head rotation matrix for the Nortek ADV if it hasn't already been set through a '.userdata.json' file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adv.motion.correct_motion" title="mhkit.dolfyn.adv.motion.correct_motion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_motion</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adv.clean" title="mhkit.dolfyn.adv.clean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean</span></code></a></p></td>
+<td><p>Module containing functions to clean data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adv.motion.correct_motion" title="mhkit.dolfyn.adv.motion.correct_motion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_motion</span></code></a></p></td>
 <td><p>This function performs motion correction on an IMU-ADV data object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.velocity.VelBinner" title="mhkit.dolfyn.velocity.VelBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VelBinner</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.velocity.VelBinner" title="mhkit.dolfyn.velocity.VelBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VelBinner</span></code></a></p></td>
 <td><p>This is the base binning (averaging) tool.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.ADVBinner" title="mhkit.dolfyn.adv.turbulence.ADVBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ADVBinner</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.ADVBinner" title="mhkit.dolfyn.adv.turbulence.ADVBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ADVBinner</span></code></a></p></td>
 <td><p>A class that builds upon <cite>VelBinner</cite> for calculating turbulence statistics and velocity spectra from ADV data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.turbulence_statistics" title="mhkit.dolfyn.adv.turbulence.turbulence_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">turbulence_statistics</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.turbulence_statistics" title="mhkit.dolfyn.adv.turbulence.turbulence_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">turbulence_statistics</span></code></a></p></td>
 <td><p>Functional version of <cite>ADVBinner</cite> that computes a suite of turbulence statistics for the input dataset, and returns a <cite>binned</cite> data object.</p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="module-mhkit.dolfyn.adv.api"></span></section>
+</section>
 <section id="io">
 <h2>IO<a class="headerlink" href="#io" title="Permalink to this heading"></a></h2>
 <p>The io submodule contains the following functions to read
 binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
 (.000, .PD0, .ENX, etc.) data file.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.io.api.read" title="mhkit.dolfyn.io.api.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
 <td><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI (.000, .PD0, .ENX, etc.) data file.</p></td>
@@ -278,7 +306,7 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
 <dd><p>Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI
 (.000, .PD0, .ENX, etc.) data file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>string</em>) – Filename of instrument file to read.</p></li>
 <li><p><strong>userdata</strong> (True, False, or string of userdata.json filename (default <code class="docutils literal notranslate"><span class="pre">True</span></code>)) – Whether to read the ‘&lt;base-filename&gt;.userdata.json’ file.</p></li>
@@ -287,7 +315,7 @@ Default is None, read entire file</p></li>
 <li><p><strong>**kwargs</strong> (<em>dict</em>) – Passed to instrument-specific parser.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from instrument datafile.</p>
 </dd>
 </dl>
@@ -298,7 +326,7 @@ Default is None, read entire file</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">read_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#read_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.read_example" title="Permalink to this definition"></a></dt>
 <dd><p>Read an ADCP or ADV datafile from the examples directory.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – <p>A few available files:</p>
 <blockquote>
 <div><p>AWAC_test01.wpr
@@ -312,7 +340,7 @@ winriver02.PD0</p>
 </div></blockquote>
 </p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data.</p>
 </dd>
 </dl>
@@ -323,7 +351,7 @@ winriver02.PD0</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NETCDF4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'netcdf4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.save" title="Permalink to this definition"></a></dt>
 <dd><p>Save xarray dataset as netCDF (.nc).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Dataset to save</p></li>
 <li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.nc’ extension</p></li>
@@ -335,6 +363,7 @@ Default is False</p></li>
 </dl>
 <p class="rubric">Notes</p>
 <p>Drops ‘config’ lines.</p>
+<p>Rewrites variable encoding dict</p>
 <p>More detailed compression options can be specified by specifying
 ‘encoding’ in kwargs. The values in encoding will take precedence
 over whatever is set according to the compression option above.
@@ -346,10 +375,10 @@ See the xarray.to_netcdf documentation for more details.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.load" title="Permalink to this definition"></a></dt>
 <dd><p>Load xarray dataset from netCDF (.nc)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.nc’ extension</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data.</p>
 </dd>
 </dl>
@@ -360,9 +389,9 @@ See the xarray.to_netcdf documentation for more details.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.api.</span></span><span class="sig-name descname"><span class="pre">save_mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datenum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/api.html#save_mat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.api.save_mat" title="Permalink to this definition"></a></dt>
 <dd><p>Save xarray dataset as a MATLAB (.mat) file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Data to save</p></li>
+<li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Dataset to save</p></li>
 <li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.mat’ extension</p></li>
 <li><p><strong>datenum</strong> (<em>bool</em>) – If true, converts time to datenum. If false, time will be saved
 in “epoch time”.</p></li>
@@ -385,14 +414,14 @@ in “epoch time”.</p></li>
 <p>A .mat file must contain the fields: {vars, coords, config, units},
 where ‘coords’ contain the dimensions of all variables in ‘vars’.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.mat’ extension</p></li>
 <li><p><strong>datenum</strong> (<em>bool</em>) – If true, converts time from datenum. If false, converts time from
 “epoch time”.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data.</p>
 </dd>
 </dl>
@@ -407,7 +436,7 @@ where ‘coords’ contain the dimensions of all variables in ‘vars’.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.nortek.</span></span><span class="sig-name descname"><span class="pre">read_nortek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_checksum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/nortek.html#read_nortek"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.nortek.read_nortek" title="Permalink to this definition"></a></dt>
 <dd><p>Read a classic Nortek (AWAC and Vector) datafile</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>string</em>) – Filename of Nortek file to read.</p></li>
 <li><p><strong>userdata</strong> (<em>bool</em><em>, or </em><em>string</em><em> of </em><em>userdata.json filename</em>) – Whether to read the ‘&lt;base-filename&gt;.userdata.json’ file.
@@ -418,7 +447,7 @@ Default = True</p></li>
 Default is None, read entire file</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data</p>
 </dd>
 </dl>
@@ -429,7 +458,7 @@ Default is None, read entire file</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.nortek2.</span></span><span class="sig-name descname"><span class="pre">read_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rebuild_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/nortek2.html#read_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.nortek2.read_signature" title="Permalink to this definition"></a></dt>
 <dd><p>Read a Nortek Signature (.ad2cp) datafile</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>string</em>) – The filename of the file to load.</p></li>
 <li><p><strong>userdata</strong> (<em>bool</em>) – To search for and use a .userdata.json or not</p></li>
@@ -440,7 +469,7 @@ Default = False</p></li>
 <li><p><strong>debug</strong> (<em>bool</em>) – Logs debugger ouput if true. Default = False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data</p>
 </dd>
 </dl>
@@ -451,7 +480,7 @@ Default = False</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.io.rdi.</span></span><span class="sig-name descname"><span class="pre">read_rdi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmdas_search</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winriver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/io/rdi.html#read_rdi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.io.rdi.read_rdi" title="Permalink to this definition"></a></dt>
 <dd><p>Read a TRDI binary data file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>string</em>) – Filename of TRDI file to read.</p></li>
 <li><p><strong>userdata</strong> (<em>True</em><em>, </em><em>False</em><em>, or </em><em>string</em><em> of </em><em>userdata.json filename</em>) – Whether to read the ‘&lt;base-filename&gt;.userdata.json’ file. Default = True</p></li>
@@ -464,7 +493,7 @@ block.  The byte offsets are sometimes incorrect. Default = False</p></li>
 for debugging. Default = False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – An xarray dataset from the binary instrument data</p>
 </dd>
 </dl>
@@ -486,6 +515,10 @@ rotating into the “earth” frame, defined as East-North-Up
 (ENU). The earth frame can then be rotated to the principal
 axes, defined as streamwise-cross_stream-vertical.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.api.rotate2" title="mhkit.dolfyn.rotate.api.rotate2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate2</span></code></a></p></td>
 <td><p>Rotate a dataset to a new coordinate system.</p></td>
@@ -508,6 +541,9 @@ axes, defined as streamwise-cross_stream-vertical.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.base.quaternion2orient" title="mhkit.dolfyn.rotate.base.quaternion2orient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion2orient</span></code></a></p></td>
 <td><p>Calculate orientation from Nortek AHRS quaternions, where q = [W, X, Y, Z] instead of the standard q = [X, Y, Z, W] = [q1, q2, q3, q4]</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.rotate.base.calc_tilt" title="mhkit.dolfyn.rotate.base.calc_tilt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_tilt</span></code></a></p></td>
+<td><p>Calculate &quot;tilt&quot;, the vertical inclination, from pitch and roll.</p></td>
+</tr>
 </tbody>
 </table>
 <span class="target" id="module-mhkit.dolfyn.rotate.api"></span><dl class="py function">
@@ -515,7 +551,7 @@ axes, defined as streamwise-cross_stream-vertical.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">rotate2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'earth'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#rotate2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.rotate2" title="Permalink to this definition"></a></dt>
 <dd><p>Rotate a dataset to a new coordinate system.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xr.Dataset</em>) – The dolfyn dataset (ADV or ADCP) to rotate.</p></li>
 <li><p><strong>out_frame</strong> (<em>string {'beam'</em><em>, </em><em>'inst'</em><em>, </em><em>'earth'</em><em>, </em><em>'principal'}</em>) – The coordinate system to rotate the data into.</p></li>
@@ -523,7 +559,7 @@ axes, defined as streamwise-cross_stream-vertical.</p>
 Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset or None</em>) – Returns a new rotated dataset <strong>when ``inplace=False``</strong>, otherwise
 returns None.</p>
 </dd>
@@ -549,14 +585,14 @@ the principal direction.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">calc_principal_heading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tidal_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#calc_principal_heading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.calc_principal_heading" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the principal angle of the horizontal velocity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vel</strong> (<em>np.ndarray</em><em> (</em><em>2</em><em>,</em><em>...</em><em>,</em><em>Nt</em><em>)</em><em>, or </em><em>(</em><em>3</em><em>,</em><em>...</em><em>,</em><em>Nt</em><em>)</em>) – The 2D or 3D velocity array (3rd-dim is ignored in this calculation)</p></li>
 <li><p><strong>tidal_mode</strong> (<em>bool</em>) – If true, range is set from 0 to +/-180 degrees. If false, range is 0 to
 360 degrees. Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>p_heading</strong> (<em>float or ndarray</em>) – The principal heading in degrees clockwise from North.</p>
 </dd>
 </dl>
@@ -584,7 +620,7 @@ using a vector method.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.api.</span></span><span class="sig-name descname"><span class="pre">set_declination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">declin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/api.html#set_declination"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.api.set_declination" title="Permalink to this definition"></a></dt>
 <dd><p>Set the magnetic declination</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (xarray.Dataset or <code class="xref py py-class docutils literal notranslate"><span class="pre">dolfyn.velocity.Velocity</span></code>) – The input dataset or velocity class</p></li>
 <li><p><strong>declination</strong> (<em>float</em>) – The value of the magnetic declination in degrees (positive
@@ -593,7 +629,7 @@ values specify that Magnetic North is clockwise from True North)</p></li>
 Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset or None</em>) – Returns a new dataset with declination set <strong>when
 ``inplace=False``</strong>, otherwise returns None.</p>
 </dd>
@@ -627,7 +663,7 @@ dat.rotate2(‘earth’) will yield a data object in the new
 <dd><p>Set the instrument to head rotation matrix for the Nortek ADV if it
 hasn’t already been set through a ‘.userdata.json’ file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The data set to assign inst2head_rotmat</p></li>
 <li><p><strong>rotmat</strong> (<em>float</em>) – 3x3 rotation matrix</p></li>
@@ -635,7 +671,7 @@ hasn’t already been set through a ‘.userdata.json’ file.</p>
 Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset or None</em>) – Returns a new dataset with inst2head_rotmat set <strong>when
 ``inplace=False``</strong>, otherwise returns None.</p>
 </dd>
@@ -660,7 +696,7 @@ because in DOLfYN the orientation matrix is organized for
 rotation from EARTH –&gt; INST, while the wiki’s matrices are organized for
 rotation from INST –&gt; EARTH.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>heading</strong> (<em>numpy.ndarray</em>) – The heading angle.</p></li>
 <li><p><strong>pitch</strong> (<em>numpy.ndarray</em>) – The pitch angle.</p></li>
@@ -668,7 +704,7 @@ rotation from INST –&gt; EARTH.</p>
 <li><p><strong>units</strong> (<em>str</em>) – Units in degrees or radians.  is ‘degrees’</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><p><strong>omat</strong> (<em>numpy.ndarray (3x3xtime)</em>) – The orientation matrix of the data. The returned orientation
 matrix obeys the following conventions:</p>
 <blockquote>
@@ -697,10 +733,10 @@ instrument’s x-axis</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.base.</span></span><span class="sig-name descname"><span class="pre">orient2euler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/base.html#orient2euler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.base.orient2euler" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate DOLfYN-defined euler angles from the orientation matrix.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>omat</strong> (<em>numpy.ndarray</em>) – The orientation matrix</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>heading</strong> (<em>numpy.ndarray</em>) – The heading angle. Heading is defined as the direction the x-axis points,
 positive clockwise from North (this is <em>opposite</em> the right-hand-rule
@@ -721,10 +757,10 @@ right-hand-rule around the instrument’s x-axis.</p></li>
 <dd><p>Calculate orientation from Nortek AHRS quaternions, where q = [W, X, Y, Z]
 instead of the standard q = [X, Y, Z, W] = [q1, q2, q3, q4]</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>quaternions</strong> (<em>xarray.DataArray</em>) – Quaternion dataArray from the raw dataset</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>orientmat</strong> (<em>numpy.ndarray</em>) – The earth2inst rotation maxtrix as calculated from the quaternions</p>
 </dd>
 </dl>
@@ -734,6 +770,23 @@ instead of the standard q = [X, Y, Z, W] = [q1, q2, q3, q4]</p>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="mhkit.dolfyn.rotate.base.calc_tilt">
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.rotate.base.</span></span><span class="sig-name descname"><span class="pre">calc_tilt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pitch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roll</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/rotate/base.html#calc_tilt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.rotate.base.calc_tilt" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate “tilt”, the vertical inclination, from pitch and roll.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>roll</strong> (<em>numpy.ndarray</em><em> or </em><em>xarray.DataArray</em>) – Instrument roll in degrees</p></li>
+<li><p><strong>pitch</strong> (<em>numpy.ndarray</em><em> or </em><em>xarray.DataArray</em>) – Instrument pitch in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tilt</strong> (<em>numpy.ndarray</em>) – Vertical inclination of the instrument in degrees</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="cleaning-data">
 <h2>Cleaning Data<a class="headerlink" href="#cleaning-data" title="Permalink to this heading"></a></h2>
@@ -741,6 +794,10 @@ instead of the standard q = [X, Y, Z, W] = [q1, q2, q3, q4]</p>
 specific to ADCP and ADVs.</p>
 <p>ADP-specific functions:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adp.clean.set_range_offset" title="mhkit.dolfyn.adp.clean.set_range_offset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_range_offset</span></code></a></p></td>
 <td><p>Adds an instrument's height above seafloor (for an up-facing instrument) or depth below water surface (for a down-facing instrument) to the range coordinate.</p></td>
@@ -773,6 +830,10 @@ specific to ADCP and ADVs.</p>
 </table>
 <p>ADV-specific functions:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.clean.clean_fill" title="mhkit.dolfyn.adv.clean.clean_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_fill</span></code></a></p></td>
 <td><p>Interpolate over mask values in timeseries data using the specified method</p></td>
@@ -800,13 +861,13 @@ or depth below water surface (for a down-facing instrument) to the range
 coordinate. Also adds an attribute to the Dataset with the current
 “h_deploy” distance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The adcp dataset to ajust ‘range’ on</p></li>
 <li><p><strong>h_deploy</strong> (<em>numeric</em>) – Deployment location in the water column, in [m]</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>None, operates “in place”</em></p>
 </dd>
 </dl>
@@ -827,7 +888,7 @@ the surface and downward-facing ADCP’s transducers.</p>
 <dd><p>Find the surface (water level or seafloor) from amplitude data and
 adds the variable “depth” to the input Dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The full adcp dataset</p></li>
 <li><p><strong>thresh</strong> (<em>int</em>) – Specifies the threshold used in detecting the surface. Default = 10
@@ -837,7 +898,7 @@ be considered a surface hit)</p></li>
 Default is None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><em>None, operates “in place”</em></p>
 </dd>
 </dl>
@@ -850,13 +911,13 @@ Default is None</p></li>
 are used to calculate seawater density, which is in turn used with the
 pressure data to calculate depth.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The full adcp dataset</p></li>
 <li><p><strong>salinity</strong> (<em>numeric</em>) – Water salinity in psu. Default = 35</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><em>None, operates “in place” and adds the variables “water_density” and</em></p></li>
 <li><p><em>”depth” to the input dataset.</em></p></li>
@@ -867,24 +928,32 @@ pressure data to calculate depth.</p>
 <p class="rubric">Notes</p>
 <p>Requires that the instrument’s pressure sensor was calibrated/zeroed
 before deployment to remove atmospheric pressure.</p>
-<p>Calculates seawater density at normal atmospheric pressure according
-to the UNESCO 1981 equation of state. Does not include hydrostatic pressure.</p>
+<p>Calculates seawater density using a linear approximation of the sea
+water equation of state:</p>
+<div class="math notranslate nohighlight">
+\[\rho - \rho_0 = -\alpha (T-T_0) + \beta (S-S_0) + \kappa P\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\rho\)</span> is water density, <span class="math notranslate nohighlight">\(T\)</span> is water temperature,
+<span class="math notranslate nohighlight">\(P\)</span> is water pressure, <span class="math notranslate nohighlight">\(S\)</span> is practical salinity,
+<span class="math notranslate nohighlight">\(\alpha\)</span> is the thermal expansion coefficient, <span class="math notranslate nohighlight">\(\beta\)</span> is
+the haline contraction coefficient, and <span class="math notranslate nohighlight">\(\kappa\)</span> is adiabatic
+compressibility.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mhkit.dolfyn.adp.clean.nan_beyond_surface">
-<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adp.clean.</span></span><span class="sig-name descname"><span class="pre">nan_beyond_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">nan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adp/clean.html#nan_beyond_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adp.clean.nan_beyond_surface" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adp.clean.</span></span><span class="sig-name descname"><span class="pre">nan_beyond_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">nan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam_angle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adp/clean.html#nan_beyond_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adp.clean.nan_beyond_surface" title="Permalink to this definition"></a></dt>
 <dd><p>Mask the values of 3D data (vel, amp, corr, echo) that are beyond the surface.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The adcp dataset to clean</p></li>
 <li><p><strong>val</strong> (<em>nan</em><em> or </em><em>numeric</em>) – Specifies the value to set the bad values to. Default is <cite>numpy.nan</cite></p></li>
+<li><p><strong>beam_angle</strong> (<em>int</em>) – ADCP beam inclination angle. Default = dataset.attrs[‘beam_angle’]</p></li>
 <li><p><strong>inplace</strong> (<em>bool</em>) – When True the existing data object is modified. When False
 a copy is returned. Default = False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Sets the adcp dataset where relevant arrays with values greater than <cite>depth</cite>
 set to NaN</p>
 </dd>
@@ -900,7 +969,7 @@ set to NaN</p>
 <dd><p>Filters out data where correlation is below a threshold in the
 along-beam correlation data.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The adcp dataset to clean.</p></li>
 <li><p><strong>thresh</strong> (<em>numeric</em>) – The maximum value of correlation to screen, in counts or %.
@@ -909,7 +978,7 @@ Default = 50</p></li>
 a copy is returned. Default = False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Elements in velocity, correlation, and amplitude are removed if below the
 correlation threshold</p>
 </dd>
@@ -923,14 +992,14 @@ correlation threshold</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adp.clean.</span></span><span class="sig-name descname"><span class="pre">medfilt_orient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfilt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adp/clean.html#medfilt_orient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adp.clean.medfilt_orient" title="Permalink to this definition"></a></dt>
 <dd><p>Median filters the orientation data (heading-pitch-roll or quaternions)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The adcp dataset to clean</p></li>
 <li><p><strong>nfilt</strong> (<em>numeric</em>) – The length of the median-filtering kernel. Must be odd.
 Default = 7</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The adcp dataset with the filtered orientation data</p>
 </dd>
 </dl>
@@ -947,14 +1016,14 @@ Default = 7</p></li>
 and assign “val” to the velocity data where the threshold is
 exceeded.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>var</strong> (<em>xarray.DataArray</em>) – Variable to clean</p></li>
 <li><p><strong>thresh</strong> (<em>numeric</em>) – The maximum value of velocity to screen. Default = 5</p></li>
 <li><p><strong>val</strong> (<em>nan</em><em> or </em><em>numeric</em>) – Specifies the value to set the bad values to. Default is <cite>numpy.nan</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The adcp dataset with datapoints beyond thresh are set to <cite>val</cite></p>
 </dd>
 </dl>
@@ -965,14 +1034,14 @@ exceeded.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adp.clean.</span></span><span class="sig-name descname"><span class="pre">fillgaps_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cubic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adp/clean.html#fillgaps_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adp.clean.fillgaps_time" title="Permalink to this definition"></a></dt>
 <dd><p>Fill gaps (nan values) in var across time using the specified method</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>var</strong> (<em>xarray.DataArray</em>) – The variable to clean</p></li>
 <li><p><strong>method</strong> (<em>string</em>) – Interpolation method to use. Default is ‘cubic’</p></li>
 <li><p><strong>maxgap</strong> (<em>numeric</em>) – Maximum gap of missing data to interpolate across. Default is None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>xarray.DataArray</em>) – The input DataArray ‘var’ with gaps in ‘var’ interpolated across time</p>
 </dd>
 </dl>
@@ -987,14 +1056,14 @@ exceeded.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adp.clean.</span></span><span class="sig-name descname"><span class="pre">fillgaps_depth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cubic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adp/clean.html#fillgaps_depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adp.clean.fillgaps_depth" title="Permalink to this definition"></a></dt>
 <dd><p>Fill gaps (nan values) in var along the depth profile using the specified method</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>var</strong> (<em>xarray.DataArray</em>) – The variable to clean</p></li>
 <li><p><strong>method</strong> (<em>string</em>) – Interpolation method to use. Default is ‘cubic’</p></li>
 <li><p><strong>maxgap</strong> (<em>numeric</em>) – Maximum gap of missing data to interpolate across. Default is None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>xarray.DataArray</em>) – The input DataArray ‘var’ with gaps in ‘var’ interpolated across depth</p>
 </dd>
 </dl>
@@ -1010,7 +1079,7 @@ exceeded.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adv.clean.</span></span><span class="sig-name descname"><span class="pre">clean_fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cubic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/clean.html#clean_fill"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.clean.clean_fill" title="Permalink to this definition"></a></dt>
 <dd><p>Interpolate over mask values in timeseries data using the specified method</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>u</strong> (<em>xarray.DataArray</em>) – The dataArray to clean.</p></li>
 <li><p><strong>mask</strong> (<em>bool</em>) – Logical tensor of elements to “nan” out (from <cite>spikeThresh</cite>, <cite>rangeLimit</cite>,
@@ -1021,7 +1090,7 @@ interpolation occurs over</p></li>
 <li><p><strong>maxgap</strong> (<em>numeric</em>) – Maximum gap of missing data to interpolate across. Default is None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>da</strong> (<em>xarray.DataArray</em>) – The dataArray with nan’s filled in</p>
 </dd>
 </dl>
@@ -1036,7 +1105,7 @@ interpolation occurs over</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.adv.clean.</span></span><span class="sig-name descname"><span class="pre">fill_nan_ensemble_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/clean.html#fill_nan_ensemble_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.clean.fill_nan_ensemble_mean" title="Permalink to this definition"></a></dt>
 <dd><p>Fill missing values with the ensemble mean.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>u</strong> (<em>xarray.DataArray</em><em> (</em><em>...</em><em>, </em><em>time</em><em>)</em>) – The dataArray to clean. Can be 1D or 2D.</p></li>
 <li><p><strong>mask</strong> (<em>bool</em>) – Logical tensor of elements to “nan” out (from <cite>spikeThresh</cite>, <cite>rangeLimit</cite>,
@@ -1045,7 +1114,7 @@ or <cite>GN2002</cite>) and replace</p></li>
 <li><p><strong>window</strong> (<em>int</em>) – Size of window in seconds used to calculate ensemble means</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>da</strong> (<em>xarray.DataArray</em>) – The dataArray with nan’s filled in</p>
 </dd>
 </dl>
@@ -1059,13 +1128,13 @@ or <cite>GN2002</cite>) and replace</p></li>
 <dd><p>Returns a logical vector where a spike in <cite>u</cite> of magnitude greater than
 <cite>thresh</cite> occurs. Both ‘Negative’ and ‘positive’ spikes are found.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>u</strong> (<em>xarray.DataArray</em>) – The timeseries data to clean.</p></li>
 <li><p><strong>thresh</strong> (<em>int</em>) – Magnitude of velocity spike, must be positive. Default = 10</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>mask</strong> (<em>numpy.ndarray</em>) – Logical vector with spikes labeled as ‘True’</p>
 </dd>
 </dl>
@@ -1077,13 +1146,13 @@ or <cite>GN2002</cite>) and replace</p></li>
 <dd><p>Returns a logical vector that is True where the values of <cite>u</cite> are
 outside of <cite>range</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>u</strong> (<em>xarray.DataArray</em>) – The timeseries data to clean.</p></li>
 <li><p><strong>range</strong> (<em>list</em>) – Min and max magnitudes beyond which are masked. Default is [-5, 5]</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>mask</strong> (<em>numpy.ndarray</em>) – Logical vector with spikes labeled as ‘True’</p>
 </dd>
 </dl>
@@ -1095,13 +1164,13 @@ outside of <cite>range</cite>.</p>
 <dd><p>The Goring &amp; Nikora 2002 ‘despiking’ method, with Wahl2003 correction.
 Returns a logical vector that is true where spikes are identified.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>u</strong> (<em>xarray.DataArray</em>) – The velocity array (1D or 3D) to clean.</p></li>
 <li><p><strong>npt</strong> (<em>int</em>) – The number of points over which to perform the method. Default = 5000</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>mask</strong> (<em>numpy.ndarray</em>) – Logical vector with spikes labeled as ‘True’</p>
 </dd>
 </dl>
@@ -1115,6 +1184,10 @@ Nortek Vector ADV-IMU data using the onboard IMU, if
 equipped. Requires <a class="reference external" href="https://dolfyn.readthedocs.io/en/stable/motion-correction.html">proper setup</a>
 prior to collecting data.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#module-mhkit.dolfyn.adv.motion.correct_motion" title="mhkit.dolfyn.adv.motion.correct_motion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_motion</span></code></a></p></td>
 <td><p>This function performs motion correction on an IMU-ADV data object.</p></td>
@@ -1125,46 +1198,45 @@ prior to collecting data.</p>
 object. The IMU and ADV data should be tightly synchronized and
 contained in a single data object.</p>
 <dl class="field-list">
-<dt class="field-odd">param ds<span class="colon">:</span></dt>
+<dt class="field-odd">param ds</dt>
 <dd class="field-odd"><p>Cleaned ADV dataset in “inst” coordinates</p>
 </dd>
-<dt class="field-even">type ds<span class="colon">:</span></dt>
+<dt class="field-even">type ds</dt>
 <dd class="field-even"><p>xarray.Dataset</p>
 </dd>
-<dt class="field-odd">param accel_filtfreq<span class="colon">:</span></dt>
+<dt class="field-odd">param accel_filtfreq</dt>
 <dd class="field-odd"><p>the frequency at which to high-pass filter the acceleration
 sigal to remove low-frequency drift.</p>
 </dd>
-<dt class="field-even">type accel_filtfreq<span class="colon">:</span></dt>
+<dt class="field-even">type accel_filtfreq</dt>
 <dd class="field-even"><p>float</p>
 </dd>
-<dt class="field-odd">param vel_filtfreq<span class="colon">:</span></dt>
+<dt class="field-odd">param vel_filtfreq</dt>
 <dd class="field-odd"><p>a second frequency to high-pass filter the integrated
 acceleration.  Optional, default = 1/3 of <cite>accel_filtfreq</cite></p>
 </dd>
-<dt class="field-even">type vel_filtfreq<span class="colon">:</span></dt>
+<dt class="field-even">type vel_filtfreq</dt>
 <dd class="field-even"><p>float</p>
 </dd>
-<dt class="field-odd">param to_earth<span class="colon">:</span></dt>
+<dt class="field-odd">param to_earth</dt>
 <dd class="field-odd"><p>All variables in the ds.props[‘rotate_vars’] list will be
 rotated into either the earth frame (to_earth=True) or the
 instrument frame (to_earth=False). Optional, default = True</p>
 </dd>
-<dt class="field-even">type to_earth<span class="colon">:</span></dt>
+<dt class="field-even">type to_earth</dt>
 <dd class="field-even"><p>bool</p>
 </dd>
-<dt class="field-odd">param separate_probes<span class="colon">:</span></dt>
+<dt class="field-odd">param separate_probes</dt>
 <dd class="field-odd"><p>a flag to perform motion-correction at the probe tips, and
 perform motion correction in beam-coordinates, then transform
 back into XYZ/earth coordinates. This correction seems to be
 lower than the noise levels of the ADV, so the default is to not
-use it (False).
-Optional, default = False</p>
+use it (False).</p>
 </dd>
-<dt class="field-even">type separate_probes<span class="colon">:</span></dt>
+<dt class="field-even">type separate_probes</dt>
 <dd class="field-even"><p>bool</p>
 </dd>
-<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dt class="field-odd">returns</dt>
 <dd class="field-odd"><ul>
 <li><p><em>This function returns None, it operates on the input data object,</em></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ds</span></code>. The following attributes are added to <cite>ds</cite> – <code class="docutils literal notranslate"><span class="pre">velraw</span></code> is the uncorrected velocity</p>
@@ -1222,6 +1294,10 @@ remove that sigal from the ADV sigal in post-processing.</p>
 <cite>VelBinner</cite> class. Below is a list of functions that can
 be called from <cite>VelBinner</cite>.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.velocity.VelBinner" title="mhkit.dolfyn.velocity.VelBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VelBinner</span></code></a></p></td>
 <td><p>This is the base binning (averaging) tool.</p></td>
@@ -1261,7 +1337,7 @@ be called from <cite>VelBinner</cite>.</p>
 <span class="sig-name descname"><span class="pre">reshape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/binned.html#TimeBinner.reshape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.binned.TimeBinner.reshape" title="Permalink to this definition"></a></dt>
 <dd><p>Reshape the array <cite>arr</cite> to shape (…,n,n_bin+n_pad).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>numpy.ndarray</em>) – </p></li>
 <li><p><strong>n_pad</strong> (<em>int</em>) – Is used to add <cite>n_pad</cite>/2 points from the end of the previous
@@ -1273,7 +1349,7 @@ this case, the array shape will be (…,`n`,`n_pad`+`n_bin`)</p></li>
 <li><p><strong>n_bin</strong> (<em>int</em>) – Override this binner’s n_bin. Default is <cite>binner.n_bin</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
 </dl>
@@ -1293,7 +1369,7 @@ example:
 <dd><p>Reshape the array <cite>arr</cite> to shape (…,n,n_bin+n_pad)
 and remove the best-fit trend line from each bin.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>numpy.ndarray</em>) – </p></li>
 <li><p><strong>axis</strong> (<em>int</em>) – Axis along which to take mean. Default = -1</p></li>
@@ -1307,7 +1383,7 @@ Default = 0</p></li>
 <li><p><strong>n_bin</strong> (<em>int</em>) – Override this binner’s n_bin. Default is <cite>binner.n_bin</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
 </dl>
@@ -1319,7 +1395,7 @@ Default = 0</p></li>
 <dd><p>Reshape the array <cite>arr</cite> to shape (…,n,n_bin+n_pad)
 and remove the mean from each bin.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>numpy.ndarray</em>) – </p></li>
 <li><p><strong>axis</strong> (<em>int</em>) – Axis along which to take mean. Default = -1</p></li>
@@ -1333,7 +1409,7 @@ Default = 0</p></li>
 <li><p><strong>n_bin</strong> (<em>int</em>) – Override this binner’s n_bin. Default is <cite>binner.n_bin</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
 </dl>
@@ -1345,14 +1421,14 @@ Default = 0</p></li>
 <dd><p>Reshape the array <cite>arr</cite> to shape (…,n,n_bin+n_pad)
 and take the mean of each bin along the specified <cite>axis</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>numpy.ndarray</em>) – </p></li>
 <li><p><strong>axis</strong> (<em>int</em>) – Axis along which to take mean. Default = -1</p></li>
 <li><p><strong>n_bin</strong> (<em>int</em>) – Override this binner’s n_bin. Default is <cite>binner.n_bin</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
 </dl>
@@ -1364,14 +1440,14 @@ and take the mean of each bin along the specified <cite>axis</cite>.</p>
 <dd><p>Reshape the array <cite>arr</cite> to shape (…,n,n_bin+n_pad)
 and take the variance of each bin along the specified <cite>axis</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>numpy.ndarray</em>) – </p></li>
 <li><p><strong>axis</strong> (<em>int</em>) – Axis along which to take variance. Default = -1</p></li>
 <li><p><strong>n_bin</strong> (<em>int</em>) – Override this binner’s n_bin. Default is <cite>binner.n_bin</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
 </dl>
@@ -1384,14 +1460,14 @@ and take the variance of each bin along the specified <cite>axis</cite>.</p>
 and take the standard deviation of each bin along the
 specified <cite>axis</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>numpy.ndarray</em>) – </p></li>
 <li><p><strong>axis</strong> (<em>int</em>) – Axis along which to take std dev. Default = -1</p></li>
 <li><p><strong>n_bin</strong> (<em>int</em>) – Override this binner’s n_bin. Default is <cite>binner.n_bin</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
 </dl>
@@ -1419,14 +1495,14 @@ variables can depend on the details of the measurement
 <span class="sig-name descname"><span class="pre">rotate2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'earth'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#Velocity.rotate2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.Velocity.rotate2" title="Permalink to this definition"></a></dt>
 <dd><p>Rotate the dataset to a new coordinate system.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>out_frame</strong> (<em>string {'beam'</em><em>, </em><em>'inst'</em><em>, </em><em>'earth'</em><em>, </em><em>'principal'}</em>) – The coordinate system to rotate the data into.</p></li>
 <li><p><strong>inplace</strong> (<em>bool</em>) – When True the existing data object is modified. When False
 a copy is returned. Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset or None</em>) – Returns the rotated dataset <strong>when ``inplace=False``</strong>, otherwise
 returns None.</p>
 </dd>
@@ -1452,7 +1528,7 @@ the principal direction.</p>
 <span class="sig-name descname"><span class="pre">set_declination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">declin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#Velocity.set_declination"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.Velocity.set_declination" title="Permalink to this definition"></a></dt>
 <dd><p>Set the magnetic declination</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>declination</strong> (<em>float</em>) – The value of the magnetic declination in degrees (positive
 values specify that Magnetic North is clockwise from True North)</p></li>
@@ -1460,7 +1536,7 @@ values specify that Magnetic North is clockwise from True North)</p></li>
 a copy is returned. Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset or None</em>) – Returns the rotated dataset <strong>when ``inplace=False``</strong>, otherwise
 returns None.</p>
 </dd>
@@ -1502,14 +1578,14 @@ dat.rotate2(‘earth’) will yield a data object in the new
 <dd><p>Set the instrument to head rotation matrix for the Nortek ADV if it
 hasn’t already been set through a ‘.userdata.json’ file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rotmat</strong> (<em>float</em>) – 3x3 rotation matrix</p></li>
 <li><p><strong>inplace</strong> (<em>bool</em>) – When True the existing data object is rotated. When False
 a copy is returned that is rotated. Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> (<em>xarray.Dataset or None</em>) – Returns the rotated dataset <strong>when ``inplace=False``</strong>, otherwise
 returns None.</p>
 </dd>
@@ -1527,10 +1603,10 @@ coordinate system).</p>
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#Velocity.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.Velocity.save" title="Permalink to this definition"></a></dt>
 <dd><p>Save the data object (underlying xarray dataset) as netCDF (.nc).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>str</em>) – Filename and/or path with the ‘.nc’ extension</p></li>
-<li><p><strong>**kwargs</strong> (these are passed directly to <code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code>.) – </p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – These are passed directly to <code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1617,8 +1693,10 @@ depending on the coordinate system of the data object
 <dl class="py property">
 <dt class="sig sig-object py" id="mhkit.dolfyn.velocity.Velocity.U_dir">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U_dir</span></span><a class="headerlink" href="#mhkit.dolfyn.velocity.Velocity.U_dir" title="Permalink to this definition"></a></dt>
-<dd><p>Angle of horizontal velocity vector, degrees counterclockwise from
-X/East/streamwise. Direction is ‘to’, as opposed to ‘from’.</p>
+<dd><p>Angle of horizontal velocity vector. Direction is ‘to’,
+as opposed to ‘from’. This function calculates angle as
+“degrees CCW from X/East/streamwise” and then converts it to
+“degrees CW from X/North/streamwise”.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1709,22 +1787,41 @@ example:</p>
 <span class="n">avg</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">bin_average</span><span class="p">(</span><span class="n">rawdat</span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.tke">
+<span class="sig-name descname"><span class="pre">tke</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;xarray.DataArray</span> <span class="pre">'tke'</span> <span class="pre">(tke:</span> <span class="pre">3)&gt;</span> <span class="pre">array(['upup_',</span> <span class="pre">'vpvp_',</span> <span class="pre">'wpwp_'],</span> <span class="pre">dtype='&lt;U5')</span> <span class="pre">Dimensions</span> <span class="pre">without</span> <span class="pre">coordinates:</span> <span class="pre">tke</span> <span class="pre">Attributes:</span>&#160;&#160;&#160;&#160; <span class="pre">units:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160;&#160;&#160; <span class="pre">long_name:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Turbulent</span> <span class="pre">Kinetic</span> <span class="pre">Energy</span> <span class="pre">Vector</span> <span class="pre">Components</span>&#160;&#160;&#160;&#160; <span class="pre">coverage_content_type:</span>&#160; <span class="pre">coordinate</span></em><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.tke" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.tau">
+<span class="sig-name descname"><span class="pre">tau</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;xarray.DataArray</span> <span class="pre">'tau'</span> <span class="pre">(tau:</span> <span class="pre">3)&gt;</span> <span class="pre">array(['upvp_',</span> <span class="pre">'upwp_',</span> <span class="pre">'vpwp_'],</span> <span class="pre">dtype='&lt;U5')</span> <span class="pre">Dimensions</span> <span class="pre">without</span> <span class="pre">coordinates:</span> <span class="pre">tau</span> <span class="pre">Attributes:</span>&#160;&#160;&#160;&#160; <span class="pre">units:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160;&#160;&#160; <span class="pre">long_name:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Reynolds</span> <span class="pre">Stress</span> <span class="pre">Vector</span> <span class="pre">Components</span>&#160;&#160;&#160;&#160; <span class="pre">coverage_content_type:</span>&#160; <span class="pre">coordinate</span></em><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.tau" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.S">
+<span class="sig-name descname"><span class="pre">S</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;xarray.DataArray</span> <span class="pre">'S'</span> <span class="pre">(S:</span> <span class="pre">3)&gt;</span> <span class="pre">array(['Sxx',</span> <span class="pre">'Syy',</span> <span class="pre">'Szz'],</span> <span class="pre">dtype='&lt;U3')</span> <span class="pre">Dimensions</span> <span class="pre">without</span> <span class="pre">coordinates:</span> <span class="pre">S</span> <span class="pre">Attributes:</span>&#160;&#160;&#160;&#160; <span class="pre">units:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160;&#160;&#160; <span class="pre">long_name:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Power</span> <span class="pre">Spectral</span> <span class="pre">Density</span> <span class="pre">Vector</span> <span class="pre">Components</span>&#160;&#160;&#160;&#160; <span class="pre">coverage_content_type:</span>&#160; <span class="pre">coordinate</span></em><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.S" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.C">
+<span class="sig-name descname"><span class="pre">C</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;xarray.DataArray</span> <span class="pre">'C'</span> <span class="pre">(C:</span> <span class="pre">3)&gt;</span> <span class="pre">array(['Cxy',</span> <span class="pre">'Cxz',</span> <span class="pre">'Cyz'],</span> <span class="pre">dtype='&lt;U3')</span> <span class="pre">Dimensions</span> <span class="pre">without</span> <span class="pre">coordinates:</span> <span class="pre">C</span> <span class="pre">Attributes:</span>&#160;&#160;&#160;&#160; <span class="pre">units:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160;&#160;&#160; <span class="pre">long_name:</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Cross-Spectral</span> <span class="pre">Density</span> <span class="pre">Vector</span> <span class="pre">Components</span>&#160;&#160;&#160;&#160; <span class="pre">coverage_content_type:</span>&#160; <span class="pre">coordinate</span></em><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.C" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.bin_average">
-<span class="sig-name descname"><span class="pre">bin_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.bin_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.bin_average" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">bin_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.bin_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.bin_average" title="Permalink to this definition"></a></dt>
 <dd><p>Bin the dataset and calculate the ensemble averages of each
 variable.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>raw_ds</strong> (<em>xarray.Dataset</em>) – The raw data structure to be binned</p></li>
 <li><p><strong>out_ds</strong> (<em>xarray.Dataset</em>) – The bin’d (output) data object to which averaged data is added.</p></li>
 <li><p><strong>names</strong> (<em>list</em><em> of </em><em>strings</em>) – The names of variables to be averaged.  If <cite>names</cite> is None,
 all data in <cite>raw_ds</cite> will be binned.</p></li>
-<li><p><strong>noise</strong> (<em>list</em><em> or </em><em>numpy.ndarray</em>) – instrument’s doppler noise in same units as velocity</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out_ds</strong> (<em>xarray.Dataset</em>) – The new (or updated when out_ds is not None) dataset
 with the averages of all the variables in raw_ds.</p>
 </dd>
@@ -1745,7 +1842,7 @@ AttributeError.</p>
 <dd><p>Bin the dataset and calculate the ensemble variances of each
 variable. Complementary to <cite>bin_average()</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>raw_ds</strong> (<em>xarray.Dataset</em>) – The raw data structure to be binned.</p></li>
 <li><p><strong>out_ds</strong> (<em>xarray.Dataset</em>) – The binned (output) dataset to which variance data is added,
@@ -1754,7 +1851,7 @@ nominally dataset output from <cite>bin_average()</cite></p></li>
 <cite>names</cite> is None, all data in <cite>raw_ds</cite> will be binned.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out_ds</strong> (<em>xarray.Dataset</em>) – The new (or updated when out_ds is not None) dataset
 with the variance of all the variables in raw_ds.</p>
 </dd>
@@ -1774,13 +1871,13 @@ AttributeError.</p>
 <span class="sig-name descname"><span class="pre">autocovariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.autocovariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.autocovariance" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the auto-covariance of the raw-signal <cite>veldat</cite></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>veldat</strong> (<em>xarray.DataArray</em>) – The raw dataArray of which to calculate auto-covariance</p></li>
 <li><p><strong>n_bin</strong> (<em>float</em>) – Number of data elements to use</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>da</strong> (<em>xarray.DataArray</em>) – The auto-covariance of veldat</p>
 </dd>
 </dl>
@@ -1795,35 +1892,34 @@ sides (to return a ‘quartered’ covariance).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.turbulent_kinetic_energy">
-<span class="sig-name descname"><span class="pre">turbulent_kinetic_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detrend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.turbulent_kinetic_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.turbulent_kinetic_energy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">turbulent_kinetic_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detrend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.turbulent_kinetic_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.turbulent_kinetic_energy" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the turbulent kinetic energy (TKE) (variances
 of u,v,w).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>veldat</strong> (<em>xarray.DataArray</em>) – Velocity data array from ADV or single beam from ADCP.
 The last dimension is assumed to be time.</p></li>
-<li><p><strong>noise</strong> (<em>float</em>) – a three-element vector of the noise levels of the
-velocity data for ach component of velocity.</p></li>
-<li><p><strong>detrend</strong> (<em>bool</em>) – detrend the velocity data (True), or simply de-mean it
+<li><p><strong>noise</strong> (<em>float</em><em> or </em><em>array-like</em>) – A vector of the noise levels of the velocity data with
+the same first dimension as the velocity vector.</p></li>
+<li><p><strong>detrend</strong> (<em>bool</em><em> (</em><em>default: False</em><em>)</em>) – Detrend the velocity data (True), or simply de-mean it
 (False), prior to computing tke. Note: the psd routines
 use detrend, so if you want to have the same amount of
-variance here as there use <code class="docutils literal notranslate"><span class="pre">detrend=True</span></code>.
-Default = False</p></li>
+variance here as there use <code class="docutils literal notranslate"><span class="pre">detrend=True</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ds</strong> (<em>xarray.DataArray</em>) – dataArray containing u’u’_, v’v’_ and w’w’_</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tke_vec</strong> (<em>xarray.DataArray</em>) – dataArray containing u’u’_, v’v’_ and w’w’_</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mhkit.dolfyn.velocity.VelBinner.power_spectral_density">
-<span class="sig-name descname"><span class="pre">power_spectral_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rad/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hann'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_fft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.power_spectral_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.power_spectral_density" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">power_spectral_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rad/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hann'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_fft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/velocity.html#VelBinner.power_spectral_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.velocity.VelBinner.power_spectral_density" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the power spectral density of velocity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>veldat</strong> (<em>xr.DataArray</em>) – The raw velocity data (of dims ‘dir’ and ‘time’).</p></li>
 <li><p><strong>freq_units</strong> (<em>string</em>) – Frequency units of the returned spectra in either Hz or rad/s
@@ -1831,17 +1927,18 @@ Default = False</p></li>
 <li><p><strong>fs</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – The sample rate. Default is <cite>binner.fs</cite></p></li>
 <li><p><strong>window</strong> (<em>string</em><em> or </em><em>array</em>) – Specify the window function.
 Options: 1, None, ‘hann’, ‘hamm’</p></li>
-<li><p><strong>noise</strong> (<em>list</em><em>(</em><em>3 floats</em><em>) </em><em>(</em><em>optional</em><em>)</em>) – Noise level of each component’s velocity measurement.
-Default = 0</p></li>
-<li><p><strong>n_bin</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The bin-size Default: from the binner).</p></li>
-<li><p><strong>n_fft</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The fft size Default: from the binner).</p></li>
-<li><p><strong>n_pad</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of values to pad with zero Default: 0)</p></li>
+<li><p><strong>noise</strong> (<em>float</em><em> or </em><em>array-like</em>) – A vector of the noise levels of the velocity data with
+the same first dimension as the velocity vector.
+Default = 0.</p></li>
+<li><p><strong>n_bin</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The bin-size. Default: from the binner.</p></li>
+<li><p><strong>n_fft</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The fft size. Default: from the binner.</p></li>
+<li><p><strong>n_pad</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of values to pad with zero. Default = 0.</p></li>
 <li><p><strong>step</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – Controls amount of overlap in fft. Default: the step size is
 chosen to maximize data use, minimize nens, and have a
 minimum of 50% overlap.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>psd</strong> (<em>xarray.DataArray (3, M, N_FFT)</em>) – The spectra in the ‘u’, ‘v’, and ‘w’ directions.</p>
 </dd>
 </dl>
@@ -1855,12 +1952,22 @@ minimum of 50% overlap.</p></li>
 <p>Functions for analyzing ADV data via the <cite>ADVBinner</cite> class,
 beyond those described in <cite>VelBinner</cite>.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.ADVBinner" title="mhkit.dolfyn.adv.turbulence.ADVBinner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ADVBinner</span></code></a></p></td>
 <td><p>A class that builds upon <cite>VelBinner</cite> for calculating turbulence statistics and velocity spectra from ADV data</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.turbulence_statistics" title="mhkit.dolfyn.adv.turbulence.turbulence_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">turbulence_statistics</span></code></a></p></td>
 <td><p>Functional version of <cite>ADVBinner</cite> that computes a suite of turbulence statistics for the input dataset, and returns a <cite>binned</cite> data object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.reynolds_stress" title="mhkit.dolfyn.adv.turbulence.ADVBinner.reynolds_stress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reynolds_stress</span></code></a></p></td>
+<td><p>Calculate the specific Reynolds stresses (cross-covariances of u,v,w in m^2/s^2)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.cross_spectral_density" title="mhkit.dolfyn.adv.turbulence.ADVBinner.cross_spectral_density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_spectral_density</span></code></a></p></td>
+<td><p>Calculate the cross-spectral density of velocity components.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83" title="mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dissipation_rate_LT83</span></code></a></p></td>
 <td><p>Calculate the dissipation rate from the PSD</p></td>
@@ -1883,7 +1990,7 @@ beyond those described in <cite>VelBinner</cite>.</p>
 <p>A class that builds upon <cite>VelBinner</cite> for calculating turbulence
 statistics and velocity spectra from ADV data</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_bin</strong> (<em>int</em>) – The length of each <cite>bin</cite>, in number of points, for this averaging
 operator.</p></li>
@@ -1899,20 +2006,21 @@ Optional, default <cite>n_fft_coh</cite> = <cite>n_fft</cite></p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="mhkit.dolfyn.adv.turbulence.ADVBinner.reynolds_stress">
 <span class="sig-name descname"><span class="pre">reynolds_stress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detrend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.reynolds_stress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.reynolds_stress" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate Reynolds stresses (cross-covariances of u,v,w in m^2/s^2)</p>
+<dd><p>Calculate the specific Reynolds stresses
+(cross-covariances of u,v,w in m^2/s^2)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>veldat</strong> (<em>xr.DataArray</em>) – A velocity data array. The last dimension is assumed
 to be time.</p></li>
-<li><p><strong>detrend</strong> (<em>bool</em>) – detrend the velocity data (True), or simply de-mean it
+<li><p><strong>detrend</strong> (<em>bool</em>) – Detrend the velocity data (True), or simply de-mean it
 (False), prior to computing stress. Note: the psd routines
 use detrend, so if you want to have the same amount of
 variance here as there use <code class="docutils literal notranslate"><span class="pre">detrend=True</span></code>.
 Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>xarray.DataArray</em>)</p>
 </dd>
 </dl>
@@ -1923,7 +2031,7 @@ Default = True</p></li>
 <span class="sig-name descname"><span class="pre">cross_spectral_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">veldat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rad/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hann'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_fft_coh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.cross_spectral_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.cross_spectral_density" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the cross-spectral density of velocity components.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>veldat</strong> (<em>xarray.DataArray</em>) – The raw 3D velocity data.</p></li>
 <li><p><strong>freq_units</strong> (<em>string</em>) – Frequency units of the returned spectra in either Hz or rad/s
@@ -1935,7 +2043,7 @@ Options: 1, None, ‘hann’, ‘hamm’</p></li>
 <li><p><strong>n_fft_coh</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The fft size. Default = <cite>binner.n_fft_coh</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>csd</strong> (<em>xarray.DataArray (3, M, N_FFT)</em>) – The first-dimension of the cross-spectrum is the three
 different cross-spectra: ‘uv’, ‘uw’, ‘vw’.</p>
 </dd>
@@ -1943,11 +2051,80 @@ different cross-spectra: ‘uv’, ‘uw’, ‘vw’.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="mhkit.dolfyn.adv.turbulence.ADVBinner.doppler_noise_level">
+<span class="sig-name descname"><span class="pre">doppler_noise_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pct_fN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.doppler_noise_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.doppler_noise_level" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate bias due to Doppler noise using the noise floor
+of the velocity spectra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>psd</strong> (<em>xarray.DataArray</em><em> (</em><em>dir</em><em>, </em><em>time</em><em>, </em><em>f</em><em>)</em>) – The ADV power spectral density of velocity (auto-spectra)</p></li>
+<li><p><strong>pct_fN</strong> (<em>float</em>) – Percent of Nyquist frequency to calculate characeristic frequency</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>doppler_noise (xarray.DataArray)</em> – Doppler noise level in units of m/s</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Approximates bias from</p>
+<p>where :math: <cite>sigma_{noise}</cite> is the bias due to Doppler noise,
+<cite>N</cite> is the constant variance or spectral density, and <cite>f_{c}</cite>
+is the characteristic frequency.</p>
+<p>The characteristic frequency is then found as</p>
+<p>where <cite>f_{s}/2</cite> is the Nyquist frequency.</p>
+<p>Richard, Jean-Baptiste, et al. “Method for identification of Doppler noise
+levels in turbulent flow measurements dedicated to tidal energy.” International
+Journal of Marine Energy 3 (2013): 52-64.</p>
+<p>Thiébaut, Maxime, et al. “Investigating the flow dynamics and turbulence at a
+tidal-stream energy site in a highly energetic estuary.” Renewable Energy 195
+(2022): 252-262.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhkit.dolfyn.adv.turbulence.ADVBinner.check_turbulence_cascade_slope">
+<span class="sig-name descname"><span class="pre">check_turbulence_cascade_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[6.28,</span> <span class="pre">12.57]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.check_turbulence_cascade_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.check_turbulence_cascade_slope" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates the slope of the PSD, the power spectra
+of velocity, within the given frequency range. The purpose of this
+function is to check that the region of the PSD containing the
+isotropic turbulence cascade decreases at a rate of <span class="math notranslate nohighlight">\(f^{-5/3}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>psd</strong> (<em>xarray.DataArray</em><em> (</em><em>[</em><em>time</em><em>,</em><em>] </em><em>freq</em><em>)</em>) – The power spectral density (1D or 2D)</p></li>
+<li><p><strong>freq_range</strong> (<em>iterable</em><em>(</em><em>2</em><em>) </em><em>(</em><em>default:</em><em> [</em><em>6.28</em><em>, </em><em>12.57</em><em>]</em><em>)</em>) – The range over which the isotropic turbulence cascade occurs, in
+units of the psd frequency vector (Hz or rad/s)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(m, b)</strong> (<em>tuple (slope, y-intercept)</em>) – A tuple containing the coefficients of the log-adjusted linear
+regression between PSD and frequency</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Calculates slope based on the <cite>standard</cite> formula for dissipation:</p>
+<div class="math notranslate nohighlight">
+\[S(k) = \alpha \epsilon^{2/3} k^{-5/3} + N\]</div>
+<p>The slope of the isotropic turbulence cascade, which should be
+equal to <span class="math notranslate nohighlight">\(k^{-5/3}\)</span> or <span class="math notranslate nohighlight">\(f^{-5/3}\)</span>, where k and f are
+the wavenumber and frequency vectors, is estimated using linear
+regression with a log transformation:</p>
+<div class="math notranslate nohighlight">
+\[log10(y) = m*log10(x) + b\]</div>
+<p>Which is equivalent to</p>
+<div class="math notranslate nohighlight">
+\[y = 10^{b} x^{m}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(y\)</span> is S(k) or S(f), <span class="math notranslate nohighlight">\(x\)</span> is k or f, <span class="math notranslate nohighlight">\(m\)</span>
+is the slope (ideally -5/3), and <span class="math notranslate nohighlight">\(10^{b}\)</span> is the intercept of
+y at x^m=1.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83">
 <span class="sig-name descname"><span class="pre">dissipation_rate_LT83</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">psd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U_mag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[6.28,</span> <span class="pre">12.57]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.dissipation_rate_LT83"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the dissipation rate from the PSD</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>psd</strong> (<em>xarray.DataArray</em><em> (</em><em>...</em><em>,</em><em>time</em><em>,</em><em>f</em><em>)</em>) – The power spectral density</p></li>
 <li><p><strong>U_mag</strong> (<em>xarray.DataArray</em><em> (</em><em>...</em><em>,</em><em>time</em><em>)</em>) – The bin-averaged horizontal velocity [m/s] (from dataset shortcut)</p></li>
@@ -1956,7 +2133,7 @@ of the psd frequency vector (Hz or rad/s).
 Default = [6.28, 12.57] rad/s</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>epsilon</strong> (<em>xarray.DataArray (…,n_time)</em>) – dataArray of the dissipation rate</p>
 </dd>
 </dl>
@@ -1984,10 +2161,9 @@ by a random wave field”. JPO, 1983, vol13, pp2000-2007.</p>
 <span class="sig-name descname"><span class="pre">dissipation_rate_SF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U_mag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[2.0,</span> <span class="pre">4.0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.dissipation_rate_SF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_SF" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate dissipation rate using the “structure function” (SF) method</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vel_raw</strong> (<em>xarray.DataArray</em>) – The raw velocity data (with dimension time) upon
-which to perform the SF technique.</p></li>
+<li><p><strong>vel_raw</strong> (<em>xarray.DataArray</em><em> (</em><em>time</em><em>)</em>) – The raw velocity data upon which to perform the SF technique.</p></li>
 <li><p><strong>U_mag</strong> (<em>xarray.DataArray</em>) – The bin-averaged horizontal velocity (from dataset shortcut)</p></li>
 <li><p><strong>fs</strong> (<em>float</em>) – The sample rate of <cite>vel_raw</cite> [Hz]</p></li>
 <li><p><strong>freq_range</strong> (<em>iterable</em><em>(</em><em>2</em><em>)</em>) – The frequency range over which to compute the SF [Hz]
@@ -1996,7 +2172,7 @@ turbulence cascade falls).
 Default = [2., 4.] Hz</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>epsilon</strong> (<em>xarray.DataArray</em>) – dataArray of the dissipation rate</p>
 </dd>
 </dl>
@@ -2007,7 +2183,7 @@ Default = [2., 4.] Hz</p></li>
 <span class="sig-name descname"><span class="pre">dissipation_rate_TE01</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dat_raw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dat_avg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[6.28,</span> <span class="pre">12.57]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.dissipation_rate_TE01"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_TE01" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the dissipation rate according to TE01.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dat_raw</strong> (<em>xarray.Dataset</em>) – The raw (off the instrument) adv dataset</p></li>
 <li><p><strong>dat_avg</strong> (<em>xarray.Dataset</em>) – The bin-averaged adv dataset (calc’d from ‘calc_turbulence’ or
@@ -2029,14 +2205,14 @@ the Surf Zone”. JPO, 2001, vol31, pp2403-2417.</p>
 <span class="sig-name descname"><span class="pre">integral_length_scales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_cov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U_mag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/adv/turbulence.html#ADVBinner.integral_length_scales"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.adv.turbulence.ADVBinner.integral_length_scales" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate integral length scales.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a_cov</strong> (<em>xarray.DataArray</em>) – The auto-covariance array (i.e. computed using <cite>autocovariance</cite>).</p></li>
 <li><p><strong>U_mag</strong> (<em>xarray.DataArray</em>) – The bin-averaged horizontal velocity (from dataset shortcut)</p></li>
-<li><p><strong>fs</strong> (<em>float</em>) – The raw sample rate</p></li>
+<li><p><strong>fs</strong> (<em>numeric</em>) – The raw sample rate</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>L_int</strong> (<em>numpy.ndarray (…, n_time)</em>) – The integral length scale (T_int*U_mag).</p>
 </dd>
 </dl>
@@ -2054,7 +2230,7 @@ auto-covariance falls to 1/e.</p>
 <dd><p>Functional version of <cite>ADVBinner</cite> that computes a suite of turbulence
 statistics for the input dataset, and returns a <cite>binned</cite> data object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds_raw</strong> (<em>xarray.Dataset</em>) – The raw adv datset to <cite>bin</cite>, average and compute
 turbulence statistics of.</p></li>
@@ -2063,7 +2239,7 @@ turbulence statistics of.</p></li>
 <li><p><strong>window</strong> (<em>string</em><em> or </em><em>array</em>) – The window to use for calculating spectra.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><p><strong>ds</strong> (<em>xarray.Dataset</em>) – Returns an ‘binned’ (i.e. ‘averaged’) data object. All
 fields (variables) of the input data object are averaged in n_bin
 chunks. This object also computes the following items over
@@ -2099,6 +2275,10 @@ stored here. These functions are used throughout DOLfYN’s
 core code and may also be helpful to users in general.</p>
 <p>FFT-based Functions:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.tools.fft.fft_frequency" title="mhkit.dolfyn.tools.fft.fft_frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft_frequency</span></code></a></p></td>
 <td><p>Compute the frequency vector for a given <cite>nfft</cite> and <cite>fs</cite>.</p></td>
@@ -2116,6 +2296,10 @@ core code and may also be helpful to users in general.</p>
 </table>
 <p>Other Functions:</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.tools.misc.detrend_array" title="mhkit.dolfyn.tools.misc.detrend_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detrend_array</span></code></a></p></td>
 <td><p>Remove a linear trend from arr.</p></td>
@@ -2145,7 +2329,7 @@ core code and may also be helpful to users in general.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.fft.</span></span><span class="sig-name descname"><span class="pre">fft_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nfft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/fft.html#fft_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.fft.fft_frequency" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the frequency vector for a given <cite>nfft</cite> and <cite>fs</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fs</strong> (<em>float</em>) – The sampling frequency (e.g. samples/sec)</p></li>
 <li><p><strong>nfft</strong> (<em>int</em>) – The number of samples in a window.</p></li>
@@ -2153,7 +2337,7 @@ core code and may also be helpful to users in general.</p>
 Default = False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>freq</strong> (<em>numpy.ndarray</em>) – The frequency vector, in same units as ‘fs’</p>
 </dd>
 </dl>
@@ -2164,7 +2348,7 @@ Default = False</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.fft.</span></span><span class="sig-name descname"><span class="pre">cpsd_quasisync_1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hann'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/fft.html#cpsd_quasisync_1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.fft.cpsd_quasisync_1D" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the cross power spectral density (CPSD) of the signals <cite>a</cite> and <cite>b</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The first signal.</p></li>
 <li><p><strong>b</strong> (<em>numpy.ndarray</em>) – The second signal.</p></li>
@@ -2176,7 +2360,7 @@ Default = False</p></li>
 - a length(nfft) array : use this as the window directly.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>cpsd</strong> (<em>numpy.ndarray</em>) – The cross-spectral density of <cite>a</cite> and <cite>b</cite>.</p>
 </dd>
 </dl>
@@ -2207,7 +2391,7 @@ series, respectively).</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.fft.</span></span><span class="sig-name descname"><span class="pre">cpsd_1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hann'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/fft.html#cpsd_1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.fft.cpsd_1D" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the cross power spectral density (CPSD) of the signals <cite>a</cite> and <cite>b</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The first signal.</p></li>
 <li><p><strong>b</strong> (<em>numpy.ndarray</em>) – The second signal.</p></li>
@@ -2225,7 +2409,7 @@ By default, <cite>step</cite> is calculated to maximize data use, have
 at least 50% overlap and minimize the number of ensembles.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>cpsd</strong> (<em>numpy.ndarray</em>) – The cross-spectral density of <cite>a</cite> and <cite>b</cite>.</p>
 </dd>
 </dl>
@@ -2254,7 +2438,7 @@ definition of correlation.)</p>
 <p>The units of the spectra is the product of the units of <cite>a</cite> and
 <cite>b</cite>, divided by the units of fs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The first signal, as a 1D vector</p></li>
 <li><p><strong>nfft</strong> (<em>int</em>) – The number of points in the fft.</p></li>
@@ -2271,7 +2455,7 @@ By default, <cite>step</cite> is calculated to maximize data use, have
 at least 50% overlap and minimize the number of ensembles.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>cpsd</strong> (<em>numpy.ndarray</em>) – The cross-spectral density of <cite>a</cite> and <cite>b</cite>.</p>
 </dd>
 </dl>
@@ -2289,7 +2473,7 @@ routine.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">detrend_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#detrend_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.detrend_array" title="Permalink to this definition"></a></dt>
 <dd><p>Remove a linear trend from arr.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>array_like</em>) – The array from which to remove a linear trend.</p></li>
 <li><p><strong>axis</strong> (<em>int</em>) – The axis along which to operate.</p></li>
@@ -2308,14 +2492,14 @@ arrays, and is also faster than linalg.lstsq methods.</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.group" title="Permalink to this definition"></a></dt>
 <dd><p>Find continuous segments in a boolean array.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bl</strong> (<em>numpy.ndarray</em><em> (</em><em>dtype='bool'</em><em>)</em>) – The input boolean array.</p></li>
 <li><p><strong>min_length</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – Specifies the minimum number of continuous points to consider a
 <cite>group</cite> (i.e. that will be returned).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>np.ndarray(slices,)</em>) – a vector of slice objects, which indicate the continuous
 sections where <cite>bl</cite> is True.</p>
 </dd>
@@ -2331,13 +2515,13 @@ return the same two indices for the beginning and end.</p>
 <dd><p>Return an iterator object for looping over 1-D slices, along <code class="docutils literal notranslate"><span class="pre">axis</span></code>, of
 an array of shape arr_shape.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr_shape</strong> (<em>tuple</em><em>,</em><em>list</em>) – Shape of the array over which the slices will be made.</p></li>
 <li><p><strong>axis</strong> (<em>integer</em>) – Axis along which <cite>arr</cite> is sliced.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>Iterator</strong> (<em>object</em>) – The iterator object returns slice objects which slices arrays of
 shape arr_shape into 1-D arrays.</p>
 </dd>
@@ -2354,14 +2538,14 @@ shape arr_shape into 1-D arrays.</p>
 <dd><p>Converts between the ‘cartesian angle’ (counter-clockwise from East) and
 the ‘polar angle’ in (degrees clockwise from North)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>deg</strong> (<em>float</em><em> or </em><em>array-like</em>) – Number or array in ‘degrees CCW from East’ or ‘degrees CW from North’</p></li>
 <li><p><strong>tidal_mode</strong> (<em>bool</em>) – If true, range is set from 0 to +/-180 degrees. If false, range is 0 to
 360 degrees. Default = True</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>float or array-like</em>) – Input data transformed to ‘degrees CW from North’ or
 ‘degrees CCW from East’, respectively (based on <cite>deg</cite>)</p>
 </dd>
@@ -2376,7 +2560,7 @@ and ‘CW from N’</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.tools.misc.</span></span><span class="sig-name descname"><span class="pre">fillgaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrapFlg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/tools/misc.html#fillgaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.tools.misc.fillgaps" title="Permalink to this definition"></a></dt>
 <dd><p>Linearly fill NaN value in an array.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The array to be filled.</p></li>
 <li><p><strong>maxgap</strong> (<em>numpy.ndarray</em><em> (</em><em>optional: inf</em><em>)</em>) – The maximum gap to fill.</p></li>
@@ -2405,7 +2589,7 @@ _interpgaps.</p>
 <dd><p>Fill gaps (NaN values) in <code class="docutils literal notranslate"><span class="pre">a</span></code> by linear interpolation along
 dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code> with the point spacing specified in <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>numpy.ndarray</em>) – The array containing NaN values to be filled.</p></li>
 <li><p><strong>t</strong> (<em>numpy.ndarray</em><em> (</em><em>len</em><em>(</em><em>t</em><em>) </em><em>== a.shape</em><em>[</em><em>dim</em><em>]</em><em>)</em>) – Independent variable of the points in <code class="docutils literal notranslate"><span class="pre">a</span></code>, e.g. timestep</p></li>
@@ -2431,7 +2615,7 @@ array.</p></li>
 <dd><p>Do a running median filter of the data. Regions where more than
 <code class="docutils literal notranslate"><span class="pre">thresh</span></code> fraction of the points are NaN are set to NaN.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<em>numpy.ndarray</em>) – 2D array containing data to be filtered.</p></li>
 <li><p><strong>kernel_size</strong> (<em>numpy.ndarray</em><em> or </em><em>list</em><em>, </em><em>optional</em>) – A scalar or a list of length 2, giving the size of the median
@@ -2441,7 +2625,7 @@ the size in each dimension.</p></li>
 <li><p><strong>thresh</strong> (<em>int</em>) – Maximum gap in <em>a</em> to filter over</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>out</strong> (<em>numpy.ndarray</em>) – 2D array of same size containing filtered data</p>
 </dd>
 </dl>
@@ -2457,6 +2641,10 @@ the size in each dimension.</p></li>
 <p>The time submodule contains functions to modify the format
 of the stored time between a variety of time formats.</p>
 <table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mhkit.dolfyn.time.epoch2dt64" title="mhkit.dolfyn.time.epoch2dt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch2dt64</span></code></a></p></td>
 <td><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to numpy.datetime64 array</p></td>
@@ -2493,10 +2681,10 @@ of the stored time between a variety of time formats.</p>
 <dd><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to
 numpy.datetime64 array</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>ep_time</strong> (<em>xarray.DataArray</em>) – Time coordinate data-array or single time element</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>numpy.datetime64</em>) – The converted datetime64 array</p>
 </dd>
 </dl>
@@ -2508,10 +2696,10 @@ numpy.datetime64 array</p>
 <dd><p>Convert numpy.datetime64 array to epoch time
 (seconds since 1/1/1970 00:00:00)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dt64</strong> (<em>numpy.datetime64</em>) – Single or array of datetime64 object(s)</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>float</em>) – Epoch time (seconds since 1/1/1970 00:00:00)</p>
 </dd>
 </dl>
@@ -2522,10 +2710,10 @@ numpy.datetime64 array</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2dt64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2dt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2dt64" title="Permalink to this definition"></a></dt>
 <dd><p>Convert numpy.datetime64 array to list of datetime objects</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>time</strong> (<em>datetime.datetime</em>) – The converted datetime object</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dt64</strong> (<em>numpy.datetime64</em>) – Single or array of datetime64 object(s)</p>
 </dd>
 </dl>
@@ -2536,10 +2724,10 @@ numpy.datetime64 array</p>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">dt642date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#dt642date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.dt642date" title="Permalink to this definition"></a></dt>
 <dd><p>Convert numpy.datetime64 array to list of datetime objects</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dt64</strong> (<em>numpy.datetime64</em>) – Single or array of datetime64 object(s)</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>datetime.datetime</em>) – The converted datetime object</p>
 </dd>
 </dl>
@@ -2551,21 +2739,21 @@ numpy.datetime64 array</p>
 <dd><p>Convert from epoch time (seconds since 1/1/1970 00:00:00) to a list
 of datetime objects</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ep_time</strong> (<em>xarray.DataArray</em>) – Time coordinate data-array or single time element</p></li>
 <li><p><strong>offset_hr</strong> (<em>int</em>) – Number of hours to offset time by (e.g. UTC -7 hours = PDT)</p></li>
 <li><p><strong>to_str</strong> (<em>logical</em>) – Converts datetime object to a readable string</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>datetime.datetime</em>) – The converted datetime object or list(strings)</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>The specific time instance is set during deployment, usually sync’d to the
-deployment computer. The time seen by <a href="#id3"><span class="problematic" id="id4">|dlfn|</span></a> is in the timezone of the
-deployment computer, which is unknown to <a href="#id5"><span class="problematic" id="id6">|dlfn|</span></a>.</p>
+deployment computer. The time seen by DOLfYN is in the timezone of the
+deployment computer, which is unknown to DOLfYN.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -2573,14 +2761,14 @@ deployment computer, which is unknown to <a href="#id5"><span class="problematic
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2str" title="Permalink to this definition"></a></dt>
 <dd><p>Convert list of datetime objects to legible strings</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dt</strong> (<em>datetime.datetime</em>) – Single or list of datetime object(s)</p></li>
 <li><p><strong>format_str</strong> (<em>string</em>) – Timestamp string formatting. Default is ‘%Y-%m-%d %H:%M:%S.%f’
 See datetime.strftime documentation for timestamp string formatting.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>string</em>) – Converted timestamps</p>
 </dd>
 </dl>
@@ -2591,10 +2779,10 @@ See datetime.strftime documentation for timestamp string formatting.</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2epoch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2epoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2epoch" title="Permalink to this definition"></a></dt>
 <dd><p>Convert list of datetime objects to epoch time</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dt</strong> (<em>datetime.datetime</em>) – Single or list of datetime object(s)</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>float</em>) – Datetime converted to epoch time (seconds since 1/1/1970 00:00:00)</p>
 </dd>
 </dl>
@@ -2605,10 +2793,10 @@ See datetime.strftime documentation for timestamp string formatting.</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">date2matlab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#date2matlab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.date2matlab" title="Permalink to this definition"></a></dt>
 <dd><p>Convert list of datetime objects to MATLAB datenum</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dt</strong> (<em>datetime.datetime</em>) – List of datetime objects</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> (<em>float</em>) – List of timestamps in MATLAB datnum format</p>
 </dd>
 </dl>
@@ -2619,10 +2807,10 @@ See datetime.strftime documentation for timestamp string formatting.</p></li>
 <span class="sig-prename descclassname"><span class="pre">mhkit.dolfyn.time.</span></span><span class="sig-name descname"><span class="pre">matlab2date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matlab_dn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mhkit/dolfyn/time.html#matlab2date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mhkit.dolfyn.time.matlab2date" title="Permalink to this definition"></a></dt>
 <dd><p>Convert MATLAB datenum to list of datetime objects</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>matlab_dn</strong> (<em>float</em>) – List of timestamps in MATLAB datnum format</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dt</strong> (<em>datetime.datetime</em>) – List of datetime objects</p>
 </dd>
 </dl>
@@ -2636,7 +2824,7 @@ See datetime.strftime documentation for timestamp string formatting.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="api.loads.html" class="btn btn-neutral float-left" title="Loads Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api.utils.html" class="btn btn-neutral float-right" title="Utils Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api.mooring.html" class="btn btn-neutral float-right" title="Mooring Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

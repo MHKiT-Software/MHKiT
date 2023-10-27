@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.tidal.resource &mdash; MHKiT v0.5.1 documentation</title>
+  <title>mhkit.tidal.resource &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/mhkit.css" type="text/css" />
@@ -11,9 +11,10 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -55,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../matlab.html">MHKiT-MATLAB</a></li>
@@ -168,21 +170,27 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    directions: pd.Series or numpy array</span>
-<span class="sd">        Directions in degrees with 0 degrees specified as true north</span>
+<span class="sd">    directions: pandas.Series or numpy.ndarray</span>
+<span class="sd">        Flow direction in degrees CW from North, from 0 to 360</span>
 <span class="sd">    width_dir: float </span>
 <span class="sd">        Width of directional bins for histogram in degrees</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    ebb: float</span>
-<span class="sd">        Principal ebb direction in degrees</span>
-<span class="sd">    flood: float</span>
-<span class="sd">        Principal flood direction in degrees</span>
+<span class="sd">    principal directions: tuple(float,float)</span>
+<span class="sd">        Principal directions 1 and 2 in degrees</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    One must determine which principal direction is flood and which is </span>
+<span class="sd">    ebb based on knowledge of the measurement site.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-        <span class="n">directions</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span> 
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">directions</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">directions</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">directions</span><span class="o">&lt;=</span><span class="mi">360</span><span class="p">),</span>
+           <span class="s1">&#39;flood must be between 0 and 360 degrees&#39;</span><span class="p">)</span>
+
     <span class="c1"># Number of directional bins </span>
     <span class="n">N_dir</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">360</span><span class="o">/</span><span class="n">width_dir</span><span class="p">)</span>
     <span class="c1"># Compute directional histogram</span>
@@ -197,7 +205,7 @@
         <span class="n">H0to180</span>    <span class="o">=</span> <span class="n">H1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span> 
         <span class="n">H180to360</span>  <span class="o">=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
         <span class="n">H0to180</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="o">+=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
-        <span class="n">H180to180</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">H180to360</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">H1</span><span class="p">[</span><span class="n">N_dir</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
         <span class="c1">#Add the two</span>
         <span class="n">H180</span> <span class="o">=</span> <span class="n">H0to180</span> <span class="o">+</span> <span class="n">H180to360</span>
     <span class="k">else</span><span class="p">:</span>
@@ -231,7 +239,8 @@
     <span class="n">Hd2</span> <span class="o">=</span> <span class="n">Hd2</span> <span class="o">*</span> <span class="mi">100</span> <span class="c1"># [%]</span>
     <span class="c1"># Principal Directions average of the 2 bins</span>
     <span class="n">PrincipalDirection1</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dir1_edges</span><span class="p">[</span><span class="n">Hd1</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span><span class="o">+</span> <span class="n">dir1_edges</span><span class="p">[</span><span class="n">Hd1</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">PrincipalDirection2</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dir2_edges</span><span class="p">[</span><span class="n">Hd2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span><span class="o">+</span> <span class="n">dir2_edges</span><span class="p">[</span><span class="n">Hd2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mf">180.</span>
+    <span class="n">PrincipalDirection2</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dir2_edges</span><span class="p">[</span><span class="n">Hd2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span><span class="o">+</span> <span class="n">dir2_edges</span><span class="p">[</span><span class="n">Hd2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mf">180.0</span>
+
     <span class="k">return</span> <span class="n">PrincipalDirection1</span><span class="p">,</span> <span class="n">PrincipalDirection2</span> </div>
     
 

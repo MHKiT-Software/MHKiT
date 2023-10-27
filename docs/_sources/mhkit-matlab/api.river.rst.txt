@@ -64,7 +64,6 @@ Functions                                    Description
 .. mat:automodule:: mhkit.river.performance
     :members:
     :undoc-members:
-    :noindex:
 	
    
 Graphics

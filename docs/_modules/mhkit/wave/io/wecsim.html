@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.wave.io.wecsim &mdash; MHKiT v0.7.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+              <div class="version">
+                v0.7.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../qc.html">QC Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../wave.html">Wave Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../river.html">River Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tidal.html">Tidal Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../power.html">Power Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mooring.html">Mooring Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils.html">Utils Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.wave.io.wecsim</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.wave.io.wecsim</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.io</span> <span class="k">as</span> <span class="nn">sio</span>
+
+
+<div class="viewcode-block" id="read_output"><a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.wecsim.read_output">[docs]</a><span class="k">def</span> <span class="nf">read_output</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads the wecSim response class once &#39;output&#39; has been saved to a `.mat` </span>
+<span class="sd">    structure. </span>
+<span class="sd">    </span>
+<span class="sd">    NOTE: Python is unable to import MATLAB objects. </span>
+<span class="sd">    MATLAB must be used to save the wecSim object as a structure. </span>
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    file_name: string</span>
+<span class="sd">        Name of wecSim output file saved as a `.mat` structure</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ws_output: dict </span>
+<span class="sd">        Dictionary of pandas DataFrames, indexed by time (s)      </span>
+<span class="sd">              </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">ws_data</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">ws_data</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span>
+
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim wave class</span>
+    <span class="c1">#         type: &#39;&#39;</span>
+    <span class="c1">#         time: [iterations x 1 double]</span>
+    <span class="c1">#    elevation: [iterations x 1 double]</span>
+    <span class="c1">######################################</span>
+    <span class="k">try</span><span class="p">:</span>              
+        <span class="n">wave</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;wave&#39;</span><span class="p">]</span>
+        <span class="n">wave_type</span> <span class="o">=</span> <span class="n">wave</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  
+        <span class="n">time</span> <span class="o">=</span> <span class="n">wave</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="n">elevation</span> <span class="o">=</span> <span class="n">wave</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;elevation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        
+        <span class="c1">######################################</span>
+        <span class="c1">## create wave_output DataFrame</span>
+        <span class="c1">######################################</span>
+        <span class="n">wave_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+        <span class="n">wave_output</span> <span class="o">=</span> <span class="n">wave_output</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span> 
+        <span class="n">wave_output</span><span class="p">[</span><span class="s1">&#39;elevation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">elevation</span>        
+        <span class="n">wave_output</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">wave_type</span>
+    
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;wave class not used&quot;</span><span class="p">)</span> 
+        <span class="n">wave_output</span> <span class="o">=</span> <span class="p">[]</span>      
+    
+    
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim body class</span>
+    <span class="c1">#                       name: &#39;&#39;</span>
+    <span class="c1">#                       time: [iterations x 1 double]</span>
+    <span class="c1">#                   position: [iterations x 6 double]</span>
+    <span class="c1">#                   velocity: [iterations x 6 double]</span>
+    <span class="c1">#               acceleration: [iterations x 6 double]</span>
+    <span class="c1">#                 forceTotal: [iterations x 6 double]</span>
+    <span class="c1">#            forceExcitation: [iterations x 6 double]</span>
+    <span class="c1">#      forceRadiationDamping: [iterations x 6 double]</span>
+    <span class="c1">#             forceAddedMass: [iterations x 6 double]</span>
+    <span class="c1">#             forceRestoring: [iterations x 6 double]</span>
+    <span class="c1">#     forceMorisonAndViscous: [iterations x 6 double]</span>
+    <span class="c1">#         forceLinearDamping: [iterations x 6 double]</span>
+    <span class="c1">######################################    </span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">bodies</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;bodies&#39;</span><span class="p">]</span>
+        <span class="n">num_bodies</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  
+        <span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>   
+        <span class="n">time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">acceleration</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceTotal</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceExcitation</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceRadiationDamping</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceAddedMass</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceRestoring</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceMorisonAndViscous</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceLinearDamping</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+            <span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">position</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">acceleration</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;acceleration&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">forceTotal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceTotal&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">forceExcitation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceExcitation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">forceRadiationDamping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceRadiationDamping&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">forceAddedMass</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceAddedMass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">forceRestoring</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceRestoring&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Format in WEC-Sim responseClass &gt;= v4.2 </span>
+                <span class="n">forceMorisonAndViscous</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceMorisonAndViscous&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># Format in WEC-Sim responseClass &lt;= v4.1</span>
+                <span class="n">forceMorisonAndViscous</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceMorrisonAndViscous&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>
+            <span class="n">forceLinearDamping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceLinearDamping&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">body</span><span class="p">])</span>    
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">num_bodies</span> <span class="o">=</span> <span class="mi">0</span>         
+        
+    <span class="c1">######################################</span>
+    <span class="c1">## create body_output DataFrame</span>
+    <span class="c1">######################################            </span>
+    <span class="k">def</span> <span class="nf">_write_body_output</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>                
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;position_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;velocity_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;acceleration_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acceleration</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>            
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceTotal_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceTotal</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceExcitation_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceExcitation</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceRadiationDamping_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceRadiationDamping</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceAddedMass_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceAddedMass</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceRestoring_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceRestoring</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceMorisonAndViscous_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceMorisonAndViscous</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_body</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceLinearDamping_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceLinearDamping</span><span class="p">[</span><span class="n">body</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>                            
+        <span class="k">return</span> <span class="n">tmp_body</span>
+
+    <span class="k">if</span> <span class="n">num_bodies</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">body_output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+            <span class="n">tmp_body</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+            <span class="n">tmp_body</span> <span class="o">=</span> <span class="n">tmp_body</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span> 
+            <span class="n">tmp_body</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="n">body</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_bodies</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">body_output</span> <span class="o">=</span> <span class="n">_write_body_output</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">num_bodies</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">body_output</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;body</span><span class="si">{</span><span class="n">body</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_write_body_output</span><span class="p">(</span><span class="n">body</span><span class="p">)</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;body class not used&quot;</span><span class="p">)</span> 
+        <span class="n">body_output</span> <span class="o">=</span> <span class="p">[]</span>    
+
+
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim pto class</span>
+    <span class="c1">#                      name: &#39;&#39;</span>
+    <span class="c1">#                      time: [iterations x 1 double]</span>
+    <span class="c1">#                  position: [iterations x 6 double]</span>
+    <span class="c1">#                  velocity: [iterations x 6 double]</span>
+    <span class="c1">#              acceleration: [iterations x 6 double]</span>
+    <span class="c1">#                forceTotal: [iterations x 6 double]</span>
+    <span class="c1">#            forceActuation: [iterations x 6 double]</span>
+    <span class="c1">#           forceConstraint: [iterations x 6 double]</span>
+    <span class="c1">#    forceInternalMechanics: [iterations x 6 double]</span>
+    <span class="c1">#    powerInternalMechanics: [iterations x 6 double]</span>
+    <span class="c1">######################################</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ptos</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;ptos&#39;</span><span class="p">]</span>
+        <span class="n">num_ptos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> 
+        <span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>   
+        <span class="n">time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">acceleration</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceTotal</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceActuation</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceConstraint</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceInternalMechanics</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">powerInternalMechanics</span><span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pto</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_ptos</span><span class="p">):</span>
+            <span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  
+            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>
+            <span class="n">position</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>
+            <span class="n">acceleration</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;acceleration&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>
+            <span class="n">forceTotal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceTotal&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>        
+            <span class="n">forceActuation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceActuation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>        
+            <span class="n">forceConstraint</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceConstraint&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>        
+            <span class="n">forceInternalMechanics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceInternalMechanics&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>        
+            <span class="n">powerInternalMechanics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ptos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;powerInternalMechanics&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">pto</span><span class="p">])</span>        
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">num_ptos</span> <span class="o">=</span> <span class="mi">0</span>         
+        
+    <span class="c1">######################################</span>
+    <span class="c1">## create pto_output DataFrame</span>
+    <span class="c1">######################################      </span>
+    <span class="k">def</span> <span class="nf">_write_pto_output</span><span class="p">(</span><span class="n">pto</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>                
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;position_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;velocity_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;acceleration_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acceleration</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>                 
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceTotal_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceTotal</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>            
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceTotal_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceTotal</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>     
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceActuation_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceActuation</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>                 
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceConstraint_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceConstraint</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>            
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceInternalMechanics_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceInternalMechanics</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>     
+            <span class="n">tmp_pto</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;powerInternalMechanics_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">powerInternalMechanics</span><span class="p">[</span><span class="n">pto</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tmp_pto</span>
+
+    <span class="k">if</span> <span class="n">num_ptos</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">pto_output</span> <span class="o">=</span> <span class="p">{}</span>     
+        <span class="k">for</span> <span class="n">pto</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_ptos</span><span class="p">):</span>
+            <span class="n">tmp_pto</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+            <span class="n">tmp_pto</span> <span class="o">=</span> <span class="n">tmp_pto</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span> 
+            <span class="n">tmp_pto</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="n">pto</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_ptos</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  
+                <span class="n">pto_output</span> <span class="o">=</span> <span class="n">_write_pto_output</span><span class="p">(</span><span class="n">pto</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">num_ptos</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pto_output</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;pto</span><span class="si">{</span><span class="n">pto</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_write_pto_output</span><span class="p">(</span><span class="n">pto</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pto class not used&quot;</span><span class="p">)</span> 
+        <span class="n">pto_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim constraint class</span>
+    <span class="c1">#                       </span>
+    <span class="c1">#            name: &#39;&#39;</span>
+    <span class="c1">#            time: [iterations x 1 double]</span>
+    <span class="c1">#        position: [iterations x 6 double]</span>
+    <span class="c1">#        velocity: [iterations x 6 double]</span>
+    <span class="c1">#    acceleration: [iterations x 6 double]</span>
+    <span class="c1"># forceConstraint: [iterations x 6 double]</span>
+    <span class="c1">######################################    </span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;constraints&#39;</span><span class="p">]</span>
+        <span class="n">num_constraints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+        <span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>   
+        <span class="n">time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">acceleration</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceConstraint</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_constraints</span><span class="p">):</span>
+            <span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">constraint</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">constraint</span><span class="p">])</span>
+            <span class="n">position</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">constraint</span><span class="p">])</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">constraint</span><span class="p">])</span>
+            <span class="n">acceleration</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;acceleration&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">constraint</span><span class="p">])</span>
+            <span class="n">forceConstraint</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceConstraint&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">constraint</span><span class="p">])</span>        
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">num_constraints</span> <span class="o">=</span> <span class="mi">0</span> 
+        
+    <span class="c1">######################################</span>
+    <span class="c1">## create constraint_output DataFrame</span>
+    <span class="c1">######################################    </span>
+    <span class="k">def</span> <span class="nf">_write_constraint_output</span><span class="p">(</span><span class="n">constraint</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>                
+            <span class="n">tmp_constraint</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;position_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">constraint</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_constraint</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;velocity_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">[</span><span class="n">constraint</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_constraint</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;acceleration_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acceleration</span><span class="p">[</span><span class="n">constraint</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>            
+            <span class="n">tmp_constraint</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceConstraint_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceConstraint</span><span class="p">[</span><span class="n">constraint</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tmp_constraint</span>
+
+    <span class="k">if</span> <span class="n">num_constraints</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">constraint_output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_constraints</span><span class="p">):</span>
+            <span class="n">tmp_constraint</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+            <span class="n">tmp_constraint</span> <span class="o">=</span> <span class="n">tmp_constraint</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span> 
+            <span class="n">tmp_constraint</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="n">constraint</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_constraints</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">constraint_output</span> <span class="o">=</span> <span class="n">_write_constraint_output</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">num_constraints</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">constraint_output</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;constraint</span><span class="si">{</span><span class="n">constraint</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_write_constraint_output</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span>         
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;constraint class not used&quot;</span><span class="p">)</span> 
+        <span class="n">constraint_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim mooring class</span>
+    <span class="c1"># </span>
+    <span class="c1">#         name: &#39;&#39;</span>
+    <span class="c1">#         time: [iterations x 1 double]</span>
+    <span class="c1">#     position: [iterations x 6 double]</span>
+    <span class="c1">#     velocity: [iterations x 6 double]</span>
+    <span class="c1"># forceMooring: [iterations x 6 double]</span>
+    <span class="c1">######################################</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">moorings</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;mooring&#39;</span><span class="p">]</span>
+        <span class="n">num_moorings</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">moorings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+        <span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>   
+        <span class="n">time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceMooring</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">mooring</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_moorings</span><span class="p">):</span>
+            <span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moorings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">mooring</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moorings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">mooring</span><span class="p">])</span>
+            <span class="n">position</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moorings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">mooring</span><span class="p">])</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moorings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">mooring</span><span class="p">])</span>
+            <span class="n">forceMooring</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">moorings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceMooring&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">mooring</span><span class="p">])</span>    
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">num_moorings</span> <span class="o">=</span> <span class="mi">0</span> 
+
+    <span class="c1">######################################</span>
+    <span class="c1">## create mooring_output DataFrame</span>
+    <span class="c1">######################################    </span>
+    <span class="k">def</span> <span class="nf">_write_mooring_output</span><span class="p">(</span><span class="n">mooring</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>                
+            <span class="n">tmp_mooring</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;position_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">mooring</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_mooring</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;velocity_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">[</span><span class="n">mooring</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_mooring</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceMooring_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceMooring</span><span class="p">[</span><span class="n">mooring</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tmp_mooring</span>
+
+    <span class="k">if</span> <span class="n">num_moorings</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>   
+        <span class="n">mooring_output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">mooring</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_moorings</span><span class="p">):</span>
+            <span class="n">tmp_mooring</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+            <span class="n">tmp_mooring</span> <span class="o">=</span> <span class="n">tmp_mooring</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span> 
+            <span class="n">tmp_mooring</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="n">mooring</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_moorings</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>   
+                <span class="n">mooring_output</span> <span class="o">=</span> <span class="n">_write_mooring_output</span><span class="p">(</span><span class="n">mooring</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">num_moorings</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>   
+                <span class="n">mooring_output</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;mooring</span><span class="si">{</span><span class="n">mooring</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_write_mooring_output</span><span class="p">(</span><span class="n">mooring</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mooring class not used&quot;</span><span class="p">)</span> 
+        <span class="n">mooring_output</span> <span class="o">=</span> <span class="p">[]</span>
+        
+    
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim moorDyn class</span>
+    <span class="c1">#</span>
+    <span class="c1">#    Lines: [1×1 struct]</span>
+    <span class="c1">#    Line1: [1×1 struct]</span>
+    <span class="c1">#    Line2: [1×1 struct]</span>
+    <span class="c1">#    Line3: [1×1 struct]</span>
+    <span class="c1">#    Line4: [1×1 struct]</span>
+    <span class="c1">#    Line5: [1×1 struct]</span>
+    <span class="c1">#    Line6: [1×1 struct]  </span>
+    <span class="c1">######################################</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">moorDyn</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;moorDyn&#39;</span><span class="p">]</span>       
+        <span class="n">num_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">moorDyn</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>    <span class="c1"># number of moorDyn lines</span>
+      
+        <span class="n">Lines</span> <span class="o">=</span>  <span class="n">moorDyn</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Lines&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>      
+        <span class="n">signals</span> <span class="o">=</span> <span class="n">Lines</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
+        <span class="n">num_signals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Lines</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>      
+        <span class="n">time</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">Lines</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+        <span class="n">Lines</span> <span class="o">=</span> <span class="n">Lines</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>       
+        <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_signals</span><span class="p">):</span>
+            <span class="n">Lines</span><span class="p">[</span><span class="n">signals</span><span class="p">[</span><span class="n">signal</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span>        
+        <span class="n">moorDyn_output</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Lines&#39;</span><span class="p">:</span> <span class="n">Lines</span><span class="p">}</span>
+
+        <span class="n">Line_num_output</span> <span class="o">=</span> <span class="p">{}</span>  
+        <span class="k">for</span> <span class="n">line_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_lines</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+          <span class="n">tmp_moordyn</span> <span class="o">=</span>  <span class="n">moorDyn</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="sa">f</span><span class="s1">&#39;Line</span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+          <span class="n">signals</span> <span class="o">=</span> <span class="n">tmp_moordyn</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
+          <span class="n">num_signals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_moordyn</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+          <span class="n">data</span> <span class="o">=</span> <span class="n">tmp_moordyn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+          <span class="n">time</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+          <span class="n">tmp_moordyn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+          <span class="n">tmp_moordyn</span> <span class="o">=</span> <span class="n">tmp_moordyn</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>       
+          <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_signals</span><span class="p">):</span>
+            <span class="n">tmp_moordyn</span><span class="p">[</span><span class="n">signals</span><span class="p">[</span><span class="n">signal</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span>              
+          <span class="n">Line_num_output</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Line</span><span class="si">{</span><span class="n">line_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_moordyn</span>
+        
+        <span class="n">moorDyn_output</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Line_num_output</span><span class="p">)</span>
+      
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;moorDyn class not used&quot;</span><span class="p">)</span> 
+        <span class="n">moorDyn_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim ptosim class</span>
+    <span class="c1"># </span>
+    <span class="c1">#                 name: &#39;&#39;</span>
+    <span class="c1">#             pistonCF: [1×1 struct]</span>
+    <span class="c1">#            pistonNCF: [1×1 struct]</span>
+    <span class="c1">#           checkValve: [1×1 struct]</span>
+    <span class="c1">#                valve: [1×1 struct]</span>
+    <span class="c1">#          accumulator: [1×2 struct]</span>
+    <span class="c1">#       hydraulicMotor: [1×1 struct]</span>
+    <span class="c1">#      rotaryGenerator: [1×1 struct]</span>
+    <span class="c1">#    pmLinearGenerator: [1×1 struct]</span>
+    <span class="c1">#    pmRotaryGenerator: [1×1 struct]</span>
+    <span class="c1">#      motionMechanism: [1×1 struct]</span>
+    <span class="c1">######################################    </span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ptosim</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;ptosim&#39;</span><span class="p">]</span>  
+        <span class="n">num_ptosim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ptosim</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   <span class="c1"># number of ptosim  </span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ptosim class output not supported at this time&quot;</span><span class="p">)</span> 
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ptosim class not used&quot;</span><span class="p">)</span> 
+        <span class="n">ptosim_output</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    
+    <span class="c1">######################################</span>
+    <span class="c1">## import wecSim cable class</span>
+    <span class="c1"># </span>
+    <span class="c1">#       name: &#39;&#39;</span>
+    <span class="c1">#       time: [iterations x 1 double]</span>
+    <span class="c1">#   position: [iterations x 6 double]</span>
+    <span class="c1">#   velocity: [iterations x 6 double]</span>
+    <span class="c1"># forcecable: [iterations x 6 double]</span>
+    <span class="c1">######################################</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cables</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;cables&#39;</span><span class="p">]</span>
+        <span class="n">num_cables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+        <span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>   
+        <span class="n">time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">velocity</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">acceleration</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forcetotal</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceactuation</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forceconstraint</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">cable</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cables</span><span class="p">):</span>
+            <span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>   
+            <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+            <span class="n">position</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+            <span class="n">acceleration</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;acceleration&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+            <span class="n">forcetotal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceTotal&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+            <span class="n">forceactuation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceActuation&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+            <span class="n">forceconstraint</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cables</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;forceConstraint&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">cable</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">num_cables</span> <span class="o">=</span> <span class="mi">0</span> 
+
+    <span class="c1">######################################</span>
+    <span class="c1">## create cable_output DataFrame</span>
+    <span class="c1">######################################    </span>
+    <span class="k">def</span> <span class="nf">_write_cable_output</span><span class="p">(</span><span class="n">cable</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>                
+            <span class="n">tmp_cable</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;position_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">cable</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_cable</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;velocity_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">[</span><span class="n">cable</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_cable</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;acceleration_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acceleration</span><span class="p">[</span><span class="n">cable</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_cable</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forcetotal_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forcetotal</span><span class="p">[</span><span class="n">cable</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_cable</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceactuation_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceactuation</span><span class="p">[</span><span class="n">cable</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+            <span class="n">tmp_cable</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;forceconstraint_dof</span><span class="si">{</span><span class="n">dof</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">forceconstraint</span><span class="p">[</span><span class="n">cable</span><span class="p">][:,</span><span class="n">dof</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tmp_cable</span>
+
+    <span class="k">if</span> <span class="n">num_cables</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>   
+        <span class="n">cable_output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">cable</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cables</span><span class="p">):</span>
+            <span class="n">tmp_cable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>   
+            <span class="n">tmp_cable</span> <span class="o">=</span> <span class="n">tmp_cable</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span> 
+            <span class="n">tmp_cable</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="n">cable</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">num_cables</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>   
+                <span class="n">cable_output</span> <span class="o">=</span> <span class="n">_write_cable_output</span><span class="p">(</span><span class="n">cable</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">num_cables</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>   
+                <span class="n">cable_output</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;cable</span><span class="si">{</span><span class="n">cable</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_write_cable_output</span><span class="p">(</span><span class="n">cable</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cable class not used&quot;</span><span class="p">)</span> 
+        <span class="n">cable_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+
+    <span class="c1">######################################</span>
+    <span class="c1">## create wecSim output DataFrame of Dict</span>
+    <span class="c1">######################################</span>
+    <span class="n">ws_output</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;wave&#39;</span> <span class="p">:</span> <span class="n">wave_output</span><span class="p">,</span> 
+                 <span class="s1">&#39;bodies&#39;</span> <span class="p">:</span> <span class="n">body_output</span><span class="p">,</span>
+                 <span class="s1">&#39;ptos&#39;</span> <span class="p">:</span> <span class="n">pto_output</span><span class="p">,</span>
+                 <span class="s1">&#39;constraints&#39;</span> <span class="p">:</span> <span class="n">constraint_output</span><span class="p">,</span>                 
+                 <span class="s1">&#39;mooring&#39;</span> <span class="p">:</span> <span class="n">mooring_output</span><span class="p">,</span>
+                  <span class="s1">&#39;moorDyn&#39;</span><span class="p">:</span> <span class="n">moorDyn_output</span><span class="p">,</span> 
+                  <span class="s1">&#39;ptosim&#39;</span> <span class="p">:</span> <span class="n">ptosim_output</span><span class="p">,</span>
+                  <span class="s1">&#39;cables&#39;</span><span class="p">:</span> <span class="n">cable_output</span>
+                 <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ws_output</span> </div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-164358105-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

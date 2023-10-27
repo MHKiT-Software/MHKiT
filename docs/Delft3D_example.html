@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Delft3D IO Module &mdash; MHKiT v0.5.1 documentation</title>
+  <title>Delft3D IO Module &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -25,7 +26,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Reading ADCP Data with MHKiT" href="adcp_example.html" />
-    <link rel="prev" title="PacWave Resource Assessment" href="PacWave_resource_characterization_example.html" /> 
+    <link rel="prev" title="MHKiT Metocean Data" href="metocean_example.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,7 +41,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -78,6 +80,9 @@
 <li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Delft3D IO Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Loading-Data-from-Delft3D-as-a-NetCDF">Loading Data from Delft3D as a NetCDF</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Seconds-Run-and-Time-Index">Seconds Run and Time Index</a></li>
@@ -90,6 +95,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -145,39 +151,39 @@ of 0.7m, a thrust coefficient of 0.72, and a power coefficient of 0.45. The simu
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from os.path import abspath, dirname, join, normpath, relpath
-from mhkit.river.io import d3d
-from math import isclose
-import scipy.interpolate as interp
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import netCDF4
-plt.rcParams.update({&#39;font.size&#39;: 15}) # Set font size of plots title and labels
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">normpath</span><span class="p">,</span> <span class="n">relpath</span>
+<span class="kn">from</span> <span class="nn">mhkit.river.io</span> <span class="kn">import</span> <span class="n">d3d</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">isclose</span>
+<span class="kn">import</span> <span class="nn">scipy.interpolate</span> <span class="k">as</span> <span class="nn">interp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">netCDF4</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span> <span class="c1"># Set font size of plots title and labels</span>
 </pre></div>
 </div>
 </div>
 <section id="Loading-Data-from-Delft3D-as-a-NetCDF">
 <h2>Loading Data from Delft3D as a NetCDF<a class="headerlink" href="#Loading-Data-from-Delft3D-as-a-NetCDF" title="Permalink to this heading"></a></h2>
-<p>A NetCDF file has been saved in the <a class="reference external" href="https://github.com/browniea/MHKiT-Python/tree/d3d/examples/data/river/d3d">\MHKiT-Pythonexamplesdatariverd3d</a> directory of a simple flume case with a turbine for reference data. Here we are inputting strings for the file path <code class="docutils literal notranslate"><span class="pre">datadir</span></code>, and file name <code class="docutils literal notranslate"><span class="pre">filename</span></code>, so the NetCDF file can be saved as a NetCDF object using the python pack <code class="docutils literal notranslate"><span class="pre">netCDF4</span></code> under the variable <code class="docutils literal notranslate"><span class="pre">d3d_data</span></code>.</p>
+<p>A NetCDF file has been saved in the <a class="reference external" href="https://github.com/browniea/MHKiT-Python/tree/d3d/examples/data/river/d3d">\MHKiT-Python\examples\data\river\d3d</a> directory of a simple flume case with a turbine for reference data. Here we are inputting strings for the file path <code class="docutils literal notranslate"><span class="pre">datadir</span></code>, and file name <code class="docutils literal notranslate"><span class="pre">filename</span></code>, so the NetCDF file can be saved as a NetCDF object using the python pack <code class="docutils literal notranslate"><span class="pre">netCDF4</span></code> under the variable <code class="docutils literal notranslate"><span class="pre">d3d_data</span></code>.</p>
 <p>There are many variables saved in the NetCDF object <code class="docutils literal notranslate"><span class="pre">d3d_data</span></code>. The function <code class="docutils literal notranslate"><span class="pre">d3d_data.variables.keys()</span></code> returns a dictionary of the available data. Here we look at the dictionary keys output to see all the variables.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Downloading Data
-datadir = normpath(join(relpath(join(&#39;data&#39;, &#39;river&#39;, &#39;d3d&#39;))))
-filename= &#39;turbineTest_map.nc&#39;
-d3d_data = netCDF4.Dataset(join(datadir,filename))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Downloading Data</span>
+<span class="n">datadir</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">relpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;river&#39;</span><span class="p">,</span> <span class="s1">&#39;d3d&#39;</span><span class="p">))))</span>
+<span class="n">filename</span><span class="o">=</span> <span class="s1">&#39;turbineTest_map.nc&#39;</span>
+<span class="n">d3d_data</span> <span class="o">=</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span><span class="n">filename</span><span class="p">))</span>
 
-# Printing variable and description
-for var in d3d_data.variables.keys():
-    try:
-        d3d_data[var].long_name
-    except:
-        print(f&#39;&quot;{var}&quot;&#39;)
-    else:
-        print(f&#39;&quot;{var}&quot;: {d3d_data[var].long_name}&#39;)
+<span class="c1"># Printing variable and description</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">d3d_data</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d3d_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">long_name</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1">&quot;: </span><span class="si">{</span><span class="n">d3d_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">long_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -248,8 +254,8 @@ for var in d3d_data.variables.keys():
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>time= d3d.get_all_time(d3d_data)
-print(time)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time</span><span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">get_all_time</span><span class="p">(</span><span class="n">d3d_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -266,9 +272,9 @@ print(time)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>seconds_run = 62
-time_index=d3d._convert_time(d3d_data,seconds_run=seconds_run)
-print(time_index)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seconds_run</span> <span class="o">=</span> <span class="mi">62</span>
+<span class="n">time_index</span><span class="o">=</span><span class="n">d3d</span><span class="o">.</span><span class="n">_convert_time</span><span class="p">(</span><span class="n">d3d_data</span><span class="p">,</span><span class="n">seconds_run</span><span class="o">=</span><span class="n">seconds_run</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -299,14 +305,14 @@ default setting). If an integer outside of the valid range is entered the code w
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Getting variable data
-variable= &#39;ucx&#39;
-var_data_df= d3d.get_all_data_points(d3d_data, variable, time_index=4)
-print(var_data_df)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Getting variable data</span>
+<span class="n">variable</span><span class="o">=</span> <span class="s1">&#39;ucx&#39;</span>
+<span class="n">var_data_df</span><span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">get_all_data_points</span><span class="p">(</span><span class="n">d3d_data</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var_data_df</span><span class="p">)</span>
 
-# Setting plot limits
-max_plot_vel= 1.25
-min_plot_vel=0.5
+<span class="c1"># Setting plot limits</span>
+<span class="n">max_plot_vel</span><span class="o">=</span> <span class="mf">1.25</span>
+<span class="n">min_plot_vel</span><span class="o">=</span><span class="mf">0.5</span>
 </pre></div>
 </div>
 </div>
@@ -340,24 +346,24 @@ and <code class="docutils literal notranslate"><span class="pre">waterdepth</spa
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use rectangular grid min and max to find flume centerline
-xmin=var_data_df.x.max()
-xmax=var_data_df.x.min()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use rectangular grid min and max to find flume centerline</span>
+<span class="n">xmin</span><span class="o">=</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">xmax</span><span class="o">=</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
-ymin=var_data_df.y.max()
-ymax=var_data_df.y.min()
+<span class="n">ymin</span><span class="o">=</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">ymax</span><span class="o">=</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
-waterdepth_min=var_data_df.waterdepth.max()
-waterdepth_max=var_data_df.waterdepth.min()
+<span class="n">waterdepth_min</span><span class="o">=</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">waterdepth</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">waterdepth_max</span><span class="o">=</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">waterdepth</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
-# Creating one array and 2 points
-x = np.linspace(xmin, xmax)
-y = np.mean([ymin,ymax])
-waterdepth = np.mean([waterdepth_min,waterdepth_max])
+<span class="c1"># Creating one array and 2 points</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">ymin</span><span class="p">,</span><span class="n">ymax</span><span class="p">])</span>
+<span class="n">waterdepth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">waterdepth_min</span><span class="p">,</span><span class="n">waterdepth_max</span><span class="p">])</span>
 
-# Creating an array of points
-cline_points = d3d.create_points(x, y, waterdepth)
-cline_points.head()
+<span class="c1"># Creating an array of points</span>
+<span class="n">cline_points</span> <span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">create_points</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">waterdepth</span><span class="p">)</span>
+<span class="n">cline_points</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -429,21 +435,21 @@ cline_points.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Interpolate raw data onto the centerline
-cline_variable = interp.griddata(
-    var_data_df[[&#39;x&#39;,&#39;y&#39;,&#39;waterdepth&#39;]],
-    var_data_df[variable],
-    cline_points[[&#39;x&#39;,&#39;y&#39;,&#39;waterdepth&#39;]]
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate raw data onto the centerline</span>
+<span class="n">cline_variable</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+    <span class="n">var_data_df</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]],</span>
+    <span class="n">var_data_df</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span>
+    <span class="n">cline_points</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]]</span>
+<span class="p">)</span>
 
-# Plotting
-plt.figure(figsize=(12,5))
-plt.plot(x, cline_variable)
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cline_variable</span><span class="p">)</span>
 
-plt.grid()
-plt.xlabel(&#39;x (m)&#39;)
-plt.ylabel(&#39;$u_x$ [m/s]&#39; )
-plt.title(f&#39;Centerline Velocity at: {var_data_df.time[1]} s&#39;)
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u_x$ [m/s]&#39;</span> <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Centerline Velocity at: </span><span class="si">{</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -473,27 +479,27 @@ layer 2 is approximately the middle layer. <code class="docutils literal notrans
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get layer data
-layer = 2
-layer_data = d3d.get_layer_data(d3d_data, variable, layer)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get layer data</span>
+<span class="n">layer</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">layer_data</span> <span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">get_layer_data</span><span class="p">(</span><span class="n">d3d_data</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span>
 
-# Plotting
-plt.figure(figsize=(12,4))
-contour_plot = plt.tricontourf(
-    layer_data.x,
-    layer_data.y,
-    layer_data.v,
-    vmin=min_plot_vel,
-    vmax=max_plot_vel,
-    levels=np.linspace(min_plot_vel,max_plot_vel,10)
-)
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">contour_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span>
+    <span class="n">layer_data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+    <span class="n">layer_data</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">layer_data</span><span class="o">.</span><span class="n">v</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">min_plot_vel</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">max_plot_vel</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_plot_vel</span><span class="p">,</span><span class="n">max_plot_vel</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 
-cbar = plt.colorbar(contour_plot)
-cbar.set_label(&#39;$u_x$ [m/s]&#39;)
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour_plot</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;$u_x$ [m/s]&#39;</span><span class="p">)</span>
 
-plt.xlabel(&#39;x [m]&#39;)
-plt.ylabel(&#39;y [m]&#39;)
-plt.title(f&#39;Velocity on Layer {layer} at Time: {layer_data.time[1]} s&#39;)
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x [m]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y [m]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Velocity on Layer </span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s1"> at Time: </span><span class="si">{</span><span class="n">layer_data</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -522,13 +528,13 @@ Text(0.5, 1.0, &#39;Velocity on Layer 2 at Time: 240.0 s&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create x-y plane at z level midpoint
-x2 = np.linspace(xmin, xmax, num=100)
-y_contour = np.linspace(ymin, ymax, num=40)
-z2 = np.mean([waterdepth_min,waterdepth_max])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create x-y plane at z level midpoint</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y_contour</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">waterdepth_min</span><span class="p">,</span><span class="n">waterdepth_max</span><span class="p">])</span>
 
-contour_points = d3d.create_points(x2, y_contour, z2)
-contour_points
+<span class="n">contour_points</span> <span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">create_points</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y_contour</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span>
+<span class="n">contour_points</span>
 </pre></div>
 </div>
 </div>
@@ -645,11 +651,11 @@ contour_points
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contour_variable = interp.griddata(
-    var_data_df[[&#39;x&#39;,&#39;y&#39;,&#39;waterdepth&#39;]],
-    var_data_df[variable],
-    contour_points[[&#39;x&#39;,&#39;y&#39;,&#39;waterdepth&#39;]]
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">contour_variable</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+    <span class="n">var_data_df</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]],</span>
+    <span class="n">var_data_df</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span>
+    <span class="n">contour_points</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;waterdepth&#39;</span><span class="p">]]</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -658,23 +664,23 @@ contour_points
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plotting
-plt.figure(figsize=(12,4))
-contour_plot = plt.tricontourf(
-    contour_points.x,
-    contour_points.y,
-    contour_variable,
-    vmin=min_plot_vel,
-    vmax=max_plot_vel,
-    levels=np.linspace(min_plot_vel,max_plot_vel,10)
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">contour_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span>
+    <span class="n">contour_points</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+    <span class="n">contour_points</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">contour_variable</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">min_plot_vel</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">max_plot_vel</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_plot_vel</span><span class="p">,</span><span class="n">max_plot_vel</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 
-plt.xlabel(&#39;x (m)&#39;)
-plt.ylabel(&#39;y (m)&#39;)
-plt.title(f&#39;Velocity on x-y Plane&#39;)
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Velocity on x-y Plane&#39;</span><span class="p">)</span>
 
-cbar= plt.colorbar(contour_plot)
-cbar.set_label(f&#39;$u_x$ [m/s]&#39;)
+<span class="n">cbar</span><span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour_plot</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$u_x$ [m/s]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -696,35 +702,35 @@ calculates and outputs the turbulent intensity, <code class="docutils literal no
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculating turbulent intensity
-TI=d3d.turbulent_intensity(
-   d3d_data,
-   points=contour_points,
-   intermediate_values=True
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculating turbulent intensity</span>
+<span class="n">TI</span><span class="o">=</span><span class="n">d3d</span><span class="o">.</span><span class="n">turbulent_intensity</span><span class="p">(</span>
+   <span class="n">d3d_data</span><span class="p">,</span>
+   <span class="n">points</span><span class="o">=</span><span class="n">contour_points</span><span class="p">,</span>
+   <span class="n">intermediate_values</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 
-# Creating new plot limits
-max_plot_TI=27
-min_plot_TI=0
+<span class="c1"># Creating new plot limits</span>
+<span class="n">max_plot_TI</span><span class="o">=</span><span class="mi">27</span>
+<span class="n">min_plot_TI</span><span class="o">=</span><span class="mi">0</span>
 
-# Plotting
-plt.figure(figsize=(12,4))
-contour_plot = plt.tricontourf(
-    TI.x,
-    TI.y,
-    TI.turbulent_intensity,
-    vmin=min_plot_TI,
-    vmax=max_plot_TI,
-    levels=np.linspace(min_plot_TI,max_plot_TI,10)
-)
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">contour_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span>
+    <span class="n">TI</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+    <span class="n">TI</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">TI</span><span class="o">.</span><span class="n">turbulent_intensity</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">min_plot_TI</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">max_plot_TI</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_plot_TI</span><span class="p">,</span><span class="n">max_plot_TI</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 
-plt.xlabel(&#39;x (m)&#39;)
-plt.ylabel(&#39;y (m)&#39;)
-plt.title(&#39;Turbulent Intensity&#39;)
-cbar= plt.colorbar(contour_plot)
-cbar.set_label(&#39;Turbulent Intensity [%]&#39;)
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Turbulent Intensity&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour_plot</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Turbulent Intensity [%]&#39;</span><span class="p">)</span>
 
-TI
+<span class="n">TI</span>
 </pre></div>
 </div>
 </div>
@@ -916,39 +922,39 @@ points provided
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>variables= [&#39;turkin1&#39;, &#39;ucx&#39;, &#39;ucy&#39;, &#39;ucz&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">,</span> <span class="s1">&#39;ucx&#39;</span><span class="p">,</span> <span class="s1">&#39;ucy&#39;</span><span class="p">,</span> <span class="s1">&#39;ucz&#39;</span><span class="p">]</span>
 
-Var= d3d.variable_interpolation(d3d_data, variables, points=&#39;faces&#39;, edges = &#39;nearest&#39;)
+<span class="n">Var</span><span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">variable_interpolation</span><span class="p">(</span><span class="n">d3d_data</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="s1">&#39;faces&#39;</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
 
-# Replacing negative numbers close to zero with zero
-neg_index=np.where(Var[&#39;turkin1&#39;]&lt;0)# Finding negative numbers
+<span class="c1"># Replacing negative numbers close to zero with zero</span>
+<span class="n">neg_index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="c1"># Finding negative numbers</span>
 
-# Determining if negative number are close to zero
-zero_bool= np.isclose(
-    Var[&#39;turkin1&#39;][Var[&#39;turkin1&#39;]&lt;0].array,
-    np.zeros(len(Var[&#39;turkin1&#39;][Var[&#39;turkin1&#39;]&lt;0].array)),
-    atol=1.0e-4
-)
+<span class="c1"># Determining if negative number are close to zero</span>
+<span class="n">zero_bool</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+    <span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">][</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">][</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">)),</span>
+    <span class="n">atol</span><span class="o">=</span><span class="mf">1.0e-4</span>
+<span class="p">)</span>
 
-# Identifying the location of negative values close to zero
-zero_ind= neg_index[0][zero_bool]
+<span class="c1"># Identifying the location of negative values close to zero</span>
+<span class="n">zero_ind</span><span class="o">=</span> <span class="n">neg_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">zero_bool</span><span class="p">]</span>
 
-# Identifying the location of negative number that are not close to zero
-non_zero_ind= neg_index[0][~zero_bool]
+<span class="c1"># Identifying the location of negative number that are not close to zero</span>
+<span class="n">non_zero_ind</span><span class="o">=</span> <span class="n">neg_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">~</span><span class="n">zero_bool</span><span class="p">]</span>
 
-# Replacing negative number close to zero with zero
-Var.loc[zero_ind,&#39;turkin1&#39;]=np.zeros(len(zero_ind))
+<span class="c1"># Replacing negative number close to zero with zero</span>
+<span class="n">Var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">zero_ind</span><span class="p">,</span><span class="s1">&#39;turkin1&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">zero_ind</span><span class="p">))</span>
 
-# Replacing negative numbers not close to zero with nan
-Var.loc[non_zero_ind,&#39;turkin1&#39;]=[np.nan]*len(non_zero_ind)
+<span class="c1"># Replacing negative numbers not close to zero with nan</span>
+<span class="n">Var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">non_zero_ind</span><span class="p">,</span><span class="s1">&#39;turkin1&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">non_zero_ind</span><span class="p">)</span>
 
-# Calculating the root mean squared velocity
-Var[&#39;u_mag&#39;]=d3d.unorm(np.array(Var[&#39;ucx&#39;]),np.array(Var[&#39;ucy&#39;]), np.array(Var[&#39;ucz&#39;]))
+<span class="c1"># Calculating the root mean squared velocity</span>
+<span class="n">Var</span><span class="p">[</span><span class="s1">&#39;u_mag&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">d3d</span><span class="o">.</span><span class="n">unorm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;ucx&#39;</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;ucy&#39;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;ucz&#39;</span><span class="p">]))</span>
 
-# Calculating turbulent intensity as a percent
-Var[&#39;turbulent_intensity&#39;]= (np.sqrt(2/3*Var[&#39;turkin1&#39;])/Var[&#39;u_mag&#39;])*100
+<span class="c1"># Calculating turbulent intensity as a percent</span>
+<span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turbulent_intensity&#39;</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">Var</span><span class="p">[</span><span class="s1">&#39;u_mag&#39;</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span>
 
-Var
+<span class="n">Var</span>
 </pre></div>
 </div>
 </div>
@@ -1131,43 +1137,43 @@ Var
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>turbine_x_loc= 6
-turbine_diameter= 0.7
-N=1
-x_sample = turbine_x_loc+N*turbine_diameter
-y_samples = np.linspace(ymin, ymax, num=40)
-waterdepth_samples = np.linspace(waterdepth_min,waterdepth_max, num=256)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">turbine_x_loc</span><span class="o">=</span> <span class="mi">6</span>
+<span class="n">turbine_diameter</span><span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">N</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">x_sample</span> <span class="o">=</span> <span class="n">turbine_x_loc</span><span class="o">+</span><span class="n">N</span><span class="o">*</span><span class="n">turbine_diameter</span>
+<span class="n">y_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">waterdepth_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">waterdepth_min</span><span class="p">,</span><span class="n">waterdepth_max</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
 
-variables= [&#39;turkin1&#39;, &#39;ucx&#39;, &#39;ucy&#39;, &#39;ucz&#39;]
-sample_points = d3d.create_points(x_sample, y_samples, waterdepth_samples)
+<span class="n">variables</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">,</span> <span class="s1">&#39;ucx&#39;</span><span class="p">,</span> <span class="s1">&#39;ucy&#39;</span><span class="p">,</span> <span class="s1">&#39;ucz&#39;</span><span class="p">]</span>
+<span class="n">sample_points</span> <span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">create_points</span><span class="p">(</span><span class="n">x_sample</span><span class="p">,</span> <span class="n">y_samples</span><span class="p">,</span> <span class="n">waterdepth_samples</span><span class="p">)</span>
 
-Var_sample= d3d.variable_interpolation(d3d_data, variables, points= sample_points, edges = &#39;nearest&#39;)
+<span class="n">Var_sample</span><span class="o">=</span> <span class="n">d3d</span><span class="o">.</span><span class="n">variable_interpolation</span><span class="p">(</span><span class="n">d3d_data</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span> <span class="n">sample_points</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
 
-#root mean squared calculation
-Var_sample[&#39;u_mag&#39;]=d3d.unorm(
-    np.array(Var_sample[&#39;ucx&#39;]),
-    np.array(Var_sample[&#39;ucy&#39;]),
-    np.array(Var_sample[&#39;ucz&#39;])
-)
-# turbulent intesity calculation
-Var_sample[&#39;turbulent_intensity&#39;]= np.sqrt(2/3*Var_sample[&#39;turkin1&#39;])/Var_sample[&#39;u_mag&#39;]*100
+<span class="c1">#root mean squared calculation</span>
+<span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;u_mag&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">d3d</span><span class="o">.</span><span class="n">unorm</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;ucx&#39;</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;ucy&#39;</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;ucz&#39;</span><span class="p">])</span>
+<span class="p">)</span>
+<span class="c1"># turbulent intesity calculation</span>
+<span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;turbulent_intensity&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;turkin1&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">Var_sample</span><span class="p">[</span><span class="s1">&#39;u_mag&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
 
-# Plotting
-plt.figure(figsize=(10,4.4))
-contour_plot = plt.tricontourf(
-    Var_sample.y,
-    Var_sample.waterdepth,
-    Var_sample.turbulent_intensity,
-    vmin=min_plot_TI,
-    vmax=max_plot_TI,
-    levels=np.linspace(min_plot_TI,max_plot_TI,10)
-)
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mf">4.4</span><span class="p">))</span>
+<span class="n">contour_plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span>
+    <span class="n">Var_sample</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">Var_sample</span><span class="o">.</span><span class="n">waterdepth</span><span class="p">,</span>
+    <span class="n">Var_sample</span><span class="o">.</span><span class="n">turbulent_intensity</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">min_plot_TI</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">max_plot_TI</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_plot_TI</span><span class="p">,</span><span class="n">max_plot_TI</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
 
-plt.xlabel(&#39;y (m)&#39;)
-plt.ylabel(&#39;z (m)&#39;)
-plt.title(&#39;Turbulent Intensity&#39;)
-cbar= plt.colorbar(contour_plot)
-cbar.set_label(&#39;Turbulent Intensity [%]&#39;)
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;y (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Turbulent Intensity&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour_plot</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Turbulent Intensity [%]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1203,7 +1209,7 @@ points provided
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="PacWave_resource_characterization_example.html" class="btn btn-neutral float-left" title="PacWave Resource Assessment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="metocean_example.html" class="btn btn-neutral float-left" title="MHKiT Metocean Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="adcp_example.html" class="btn btn-neutral float-right" title="Reading ADCP Data with MHKiT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

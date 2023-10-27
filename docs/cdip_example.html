@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MHKiT CDIP IO &mdash; MHKiT v0.5.1 documentation</title>
+  <title>MHKiT CDIP IO &mdash; MHKiT v0.7.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
@@ -13,9 +13,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -40,7 +41,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.7.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -61,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
@@ -86,8 +88,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Reading ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
 <li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
@@ -141,9 +147,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit.wave import graphics
-from mhkit.wave.io import cdip
-import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit.wave</span> <span class="kn">import</span> <span class="n">graphics</span>
+<span class="kn">from</span> <span class="nn">mhkit.wave.io</span> <span class="kn">import</span> <span class="n">cdip</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -156,18 +162,18 @@ the user passes that parameter in the parameters field. For a full list of 1D, 2
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit.wave.io import cdip
-import matplotlib.pyplot as plt
-station_number = &#39;100&#39;
-start_date = &#39;2020-04-01&#39;
-end_date= &#39;2020-04-30&#39;
-parameters =[&#39;waveHs&#39;, &#39;waveTp&#39;, &#39;waveMeanDirection&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit.wave.io</span> <span class="kn">import</span> <span class="n">cdip</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">station_number</span> <span class="o">=</span> <span class="s1">&#39;100&#39;</span>
+<span class="n">start_date</span> <span class="o">=</span> <span class="s1">&#39;2020-04-01&#39;</span>
+<span class="n">end_date</span><span class="o">=</span> <span class="s1">&#39;2020-04-30&#39;</span>
+<span class="n">parameters</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;waveHs&#39;</span><span class="p">,</span> <span class="s1">&#39;waveTp&#39;</span><span class="p">,</span> <span class="s1">&#39;waveMeanDirection&#39;</span><span class="p">]</span>
 
-data = cdip.request_parse_workflow(station_number=station_number, parameters=parameters,
-                       start_date=start_date, end_date=end_date)
+<span class="n">data</span> <span class="o">=</span> <span class="n">cdip</span><span class="o">.</span><span class="n">request_parse_workflow</span><span class="p">(</span><span class="n">station_number</span><span class="o">=</span><span class="n">station_number</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                       <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
 
-print(&#39;\n&#39;)
-print(f&#39;Returned data: {data.keys()} \n&#39;)
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Returned data: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -193,9 +199,9 @@ Returned data: dict_keys([&#39;data&#39;, &#39;metadata&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>station_number=&#39;100&#39;
-data_type=&#39;historic&#39;
-nc = cdip.request_netCDF(station_number, data_type)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">station_number</span><span class="o">=</span><span class="s1">&#39;100&#39;</span>
+<span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;historic&#39;</span>
+<span class="n">nc</span> <span class="o">=</span> <span class="n">cdip</span><span class="o">.</span><span class="n">request_netCDF</span><span class="p">(</span><span class="n">station_number</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -207,9 +213,9 @@ nc = cdip.request_netCDF(station_number, data_type)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>buoy_data = cdip.get_netcdf_variables(nc)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy_data</span> <span class="o">=</span> <span class="n">cdip</span><span class="o">.</span><span class="n">get_netcdf_variables</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span>
 
-print(f&#39;Returned data: {buoy_data.keys()} \n&#39;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Returned data: </span><span class="si">{</span><span class="n">buoy_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -245,7 +251,7 @@ Returned data: dict_keys([&#39;data&#39;, &#39;metadata&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>buoy_data[&quot;data&quot;][&quot;wave&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -441,7 +447,7 @@ Returned data: dict_keys([&#39;data&#39;, &#39;metadata&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>buoy_data[&#39;metadata&#39;].keys()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy_data</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -458,7 +464,7 @@ dict_keys([&#39;wave&#39;, &#39;sst&#39;, &#39;gps&#39;, &#39;dwr&#39;, &#39;met
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>buoy_data[&#39;metadata&#39;][&#39;meta&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy_data</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;meta&#39;</span><span class="p">]</span>
 <br/></pre></div>
 </div>
 </div>
@@ -505,9 +511,9 @@ dict_keys([&#39;wave&#39;, &#39;sst&#39;, &#39;gps&#39;, &#39;dwr&#39;, &#39;met
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Hs_2011_data = buoy_data[&quot;data&quot;][&quot;wave&quot;][&quot;waveHs&quot;][&#39;2011&#39;]
-buoy_name = buoy_data[&quot;data&quot;][&quot;wave&quot;].name
-ax = graphics.plot_boxplot(Hs_2011_data, buoy_title=buoy_name)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Hs_2011_data</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave&quot;</span><span class="p">][</span><span class="s2">&quot;waveHs&quot;</span><span class="p">][</span><span class="s1">&#39;2011&#39;</span><span class="p">]</span>
+<span class="n">buoy_name</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_boxplot</span><span class="p">(</span><span class="n">Hs_2011_data</span><span class="p">,</span> <span class="n">buoy_title</span><span class="o">=</span><span class="n">buoy_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -526,12 +532,12 @@ ax = graphics.plot_boxplot(Hs_2011_data, buoy_title=buoy_name)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wave_data_May_2011= buoy_data[&#39;data&#39;][&#39;wave&#39;][&#39;2011-05&#39;]
-Hs = wave_data_May_2011[&#39;waveHs&#39;]
-Tp = wave_data_May_2011[&#39;waveTp&#39;]
-Dp = wave_data_May_2011[&#39;waveDp&#39;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wave_data_May_2011</span><span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;wave&#39;</span><span class="p">][</span><span class="s1">&#39;2011-05&#39;</span><span class="p">]</span>
+<span class="n">Hs</span> <span class="o">=</span> <span class="n">wave_data_May_2011</span><span class="p">[</span><span class="s1">&#39;waveHs&#39;</span><span class="p">]</span>
+<span class="n">Tp</span> <span class="o">=</span> <span class="n">wave_data_May_2011</span><span class="p">[</span><span class="s1">&#39;waveTp&#39;</span><span class="p">]</span>
+<span class="n">Dp</span> <span class="o">=</span> <span class="n">wave_data_May_2011</span><span class="p">[</span><span class="s1">&#39;waveDp&#39;</span><span class="p">]</span>
 
-ax = graphics.plot_compendium(Hs, Tp, Dp, buoy_name )
+<span class="n">ax</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_compendium</span><span class="p">(</span><span class="n">Hs</span><span class="p">,</span> <span class="n">Tp</span><span class="p">,</span> <span class="n">Dp</span><span class="p">,</span> <span class="n">buoy_name</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -556,9 +562,9 @@ and data handeling. For a complete list of parameters see Bouy Variables <a clas
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>buoy_data = cdip.get_netcdf_variables(nc, start_date=&#39;2011-01-01&#39;, end_date=&#39;2011-12-31&#39;, parameters=&#39;waveHs&#39;)
-buoy_name = buoy_data[&quot;data&quot;][&quot;wave&quot;].name
-ax = graphics.plot_boxplot(buoy_data[&quot;data&quot;][&quot;wave&quot;][&quot;waveHs&quot;], buoy_title=buoy_name)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy_data</span> <span class="o">=</span> <span class="n">cdip</span><span class="o">.</span><span class="n">get_netcdf_variables</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2011-12-31&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="s1">&#39;waveHs&#39;</span><span class="p">)</span>
+<span class="n">buoy_name</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_boxplot</span><span class="p">(</span><span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave&quot;</span><span class="p">][</span><span class="s2">&quot;waveHs&quot;</span><span class="p">],</span> <span class="n">buoy_title</span><span class="o">=</span><span class="n">buoy_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -582,13 +588,13 @@ all of the wave 2D variables. It is not reccomended to do this due to the comput
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>buoy_data = cdip.request_parse_workflow(station_number=&#39;100&#39;, years=2011, parameters=[&#39;waveHs&#39;, &#39;waveTp&#39;, &#39;waveDp&#39;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy_data</span> <span class="o">=</span> <span class="n">cdip</span><span class="o">.</span><span class="n">request_parse_workflow</span><span class="p">(</span><span class="n">station_number</span><span class="o">=</span><span class="s1">&#39;100&#39;</span><span class="p">,</span> <span class="n">years</span><span class="o">=</span><span class="mi">2011</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;waveHs&#39;</span><span class="p">,</span> <span class="s1">&#39;waveTp&#39;</span><span class="p">,</span> <span class="s1">&#39;waveDp&#39;</span><span class="p">])</span>
 
-Hs = buoy_data[&#39;data&#39;][&#39;wave&#39;][&#39;waveHs&#39;]
-Tp = buoy_data[&#39;data&#39;][&#39;wave&#39;][&#39;waveTp&#39;]
-Dp = buoy_data[&#39;data&#39;][&#39;wave&#39;][&#39;waveDp&#39;]
-buoy_name = buoy_data[&quot;data&quot;][&quot;wave&quot;].name
-ax = graphics.plot_compendium(Hs, Tp, Dp, buoy_name )
+<span class="n">Hs</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;wave&#39;</span><span class="p">][</span><span class="s1">&#39;waveHs&#39;</span><span class="p">]</span>
+<span class="n">Tp</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;wave&#39;</span><span class="p">][</span><span class="s1">&#39;waveTp&#39;</span><span class="p">]</span>
+<span class="n">Dp</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;wave&#39;</span><span class="p">][</span><span class="s1">&#39;waveDp&#39;</span><span class="p">]</span>
+<span class="n">buoy_name</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot_compendium</span><span class="p">(</span><span class="n">Hs</span><span class="p">,</span> <span class="n">Tp</span><span class="p">,</span> <span class="n">Dp</span><span class="p">,</span> <span class="n">buoy_name</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>
