@@ -1,6 +1,6 @@
 
 # How to Update the [MHKiT Documentation Website](https://MHKiT-Software.github.io/MHKiT/)
-The MHKiT documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files and then uploaded to the [MHKiT Documentation Repository](https://github.com/MHKiT-Software/MHKiT). Using Sphinx, GitHub renders the documentation on the [MHKiT Documentation Repository](https://github.com/MHKiT-Code-Hub/MHKiT/) as the [MHKiT Documentation Website](https://mhkit-code-hub.github.io/MHKiT/). This guide will help the user to download the documentation, modify the documentation, build the documentation locally, and push changes back up to the repository.
+The MHKiT documentation is developed as restructured text files that are compiled by [Sphinx](http://www.sphinx-doc.org/en/master/) into html files and then uploaded to the [MHKiT Documentation Repository](https://github.com/MHKiT-Software/MHKiT). Using Sphinx, GitHub renders the documentation on the [MHKiT Documentation Repository](https://github.com/MHKiT-Software/MHKiT/) as the [MHKiT Documentation Website](https://MHKiT-Software.github.io/MHKiT/). This guide will help the user to download the documentation, modify the documentation, build the documentation locally, and push changes back up to the repository.
 
 
 ## Requirements
