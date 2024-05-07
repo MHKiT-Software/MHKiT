@@ -87,7 +87,7 @@ To test a simple function using MHKiT-Python, the user can compute the equivalen
 The results should be::
 
 	ED = 30
-	AP = 11309.7
+	AP = 706.8583470577034
 
 
 
