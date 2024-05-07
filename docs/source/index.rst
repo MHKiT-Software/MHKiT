@@ -13,6 +13,7 @@
    overview.rst
    terminology.rst
    installation.rst
+   matlab_installation.rst
    qc.rst
    wave.rst
    river.rst
