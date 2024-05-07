@@ -1,15 +1,15 @@
-.. _installation:
+.. _python_installation:
 
-Installation
+Python Installation
 =============
 
-The following section includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_.
+The following section includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_.
 
 
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.7+) <https://www.python.org/>`_  and has several Python package dependencies.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8+) <https://www.python.org/>`_  and has several Python package dependencies.
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
 Refer to the `Python website <https://www.python.org/>`_ for information on using Python.
 
@@ -26,7 +26,7 @@ Refer to the `Python website <https://www.python.org/>`_ for information on usin
 
 Requirements
 ^^^^^^^^^^^^^^^
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.7+) <https://www.python.org/>`_  and has the following Python packages dependencies:
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8+) <https://www.python.org/>`_  and has the following Python packages dependencies:
 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `NumPy <http://www.numpy.org>`_: used for data storage and analysis
@@ -94,88 +94,6 @@ The results should be::
 	AP = 11309.7
 
 
-MHKiT-MATLAB
--------------
-
-`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires 
-MATLAB 2019b or later and relies on three components which need to be 
-installed separately.
-
-.. Note::
-	If you are using Python 3.8, MATLAB 2020b or later is required. 
-
-Install MHKiT-MATLAB
-^^^^^^^^^^^^^^^^^^^^^
-First, MHKiT-MATLAB consists of MATLAB code which runs the MHKiT-Python functions. Therefore, the installation of both packages is necessary. See the MHKit-Python installation instructions above.
-Second, MHKiT-MATLAB utilizes a helper package called mhkit_python_utils. This we be installed using the system terminal.
-Third, we will check the MATLAB environment to ensure the correct python version is being called. 
-Lastly, the mhkit.mltbx, which contains the MHKiT-Matlab functions, needs to be downloaded and installed. Instructions for installation and setting up the Matlab to Python environment are below.
-
-Step 1: Download MHKiT-MATLAB 
-""""""""""""""""""""""""""""""""""""
-Clone or download the MHKiT-MATLAB repo from 
- https://github.com/MHKiT-Software/MHKiT-MATLAB.
-
-.. Note::
-	If you would like to contribute to MHKiT-MATLAB, please fork the MHKiT-MATLAB repository from https://github.com/MHKiT-Software/MHKiT-MATLAB into your GitHub user account, and submit a pull request for review.
-
-
-Step 2: Install MHKiT-MATLAB in the Python Environment
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-To install MHKiT MATLAB in your Python environment, navigate to 
-your cloned or downloaded MHKiT-MATLAB folder, and in a system 
-terminal run::
-
-	pip install -e .
-	
-	
-Step 3: Check the MATLAB Environment for Python
-""""""""""""""""""""""""""""""""""""""""""""""""""
-In this section we will check that MATLAB is using the correct python 
-version. To check the python version open MATLAB and in the terminal type::
-
-    pyversion
-
-You should see something similar to the following::
-
-	version: '3.7'
-	executable: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
-	library: '/Library/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7m.dylib'
-	home: '/Library/Frameworks/Python.framework/Versions/3.7'
-	isloaded: 1
-
-If the resulting Python version is 3.7+, skip to the Install the 
-MHKiT-MATLAB Toolbox section.
-
-If the resulting Python version is not 3.7+ in a system terminal 
-window and type::
-
-    python -c "import sys; print(sys.executable)"
-
-If the resulting path to the python executable (path_to_exe) indicates 
-Python 3.7+, copy the path and in the MATLAB terminal run::
-
-    pyversion('<path_to_exe>')
-
-
-Step 4: Install the MHKiT-MATLAB Toolbox 
-""""""""""""""""""""""""""""""""""""""""""""
-In MATLAB, navigate to the folder where you downloaded or cloned the 
-repo which contains `mhkit.mltbx`, double-click `mhkit.mltbx`, and follow 
-the instructions to install the toolbox.
-
-
-Test MHKiT-MATLAB Installation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To test that your install of MHKiT worked correctly, run the following 
-in your MATLAB terminal::
-
-	[x,y]=circular(30)
-
-The results should be::
-
-	x = 30
-	y = 1.1310e+04
 
 
 
