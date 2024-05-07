@@ -18,7 +18,7 @@ Functions                                    Description
 ``request_usgs_file``                            Loads USGS data directly from https://waterdata.usgs.gov/nwis using a GET request into a structure
 ===========================================  ========================= 
 
-.. mat:automodule:: mhkit.river.io
+.. mat:automodule:: mhkit.river.IO
     :members:
     :undoc-members:
     
