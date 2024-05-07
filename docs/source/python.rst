@@ -6,7 +6,7 @@ MHKiT-Python
 Installation
 --------------------
 
-Refer to the :ref:`Installation:MHKiT-Python` installation section for information on how to install MHKiT-Python.
+Refer to the :ref:`Python Installation <python_installation>` section for information on how to install MHKiT-Python.
 
 .. _apidoc_python:
 
