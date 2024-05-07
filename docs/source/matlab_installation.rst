@@ -353,9 +353,29 @@ Troubleshooting
 
   - ``python -c "import mhkit; print(mhkit.river.performance.circular(30))"``
 
-- The expected output is::
+  - The expected output is::
 
-    (30, 706.8583470577034)
+        (30, 706.8583470577034)
+
+- Verify your MATLAB ``pyenv`` is pointing to the desired conda python executable:
+
+  - ``pyenv``
+
+    - The expected output is something similar to::
+
+          ans = 
+
+          PythonEnvironment with properties:
+
+                  Version: "3.10"
+               Executable: "/opt/anaconda3/envs/mhkit/bin/python3"
+                  Library: "/opt/anaconda3/envs/mhkit/lib/libpython3.10.dylib"
+                     Home: "/opt/anaconda3/envs/mhkit"
+                   Status: Loaded
+            ExecutionMode: InProcess
+                ProcessID: "29611"
+              ProcessName: "MATLAB"
+
 
 - Check the `MHKiT-MATLAB GitHub Issues <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_
 - Check the `MHKiT-Python GitHub Issues <https://github.com/MHKiT-Software/MHKiT-Python/issues>`_
