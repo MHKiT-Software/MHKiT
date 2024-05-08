@@ -11,7 +11,6 @@
    :hidden:
 
    overview.rst
-   terminology.rst
    installation.rst
    matlab_installation.rst
    qc.rst
@@ -26,6 +25,7 @@
    python.rst
    matlab.rst
    troubleshooting.rst
+   terminology.rst
    webinars.rst
    license.rst
    release_notes.rst
