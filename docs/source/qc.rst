@@ -10,6 +10,17 @@ stagnant readings, unusual abrupt changes, or outliers.
 If data does not meet specified requirements, the data points that did not pass inspection should be
 removed or replaced by various means (interpolation, data from a duplicate sensor, values from a model) before using the data for analysis.
 
+API Documentation
+--------------------
+- `Python QC API Documentation <mhkit-python/api.qc.html>`_
+- `MATLAB QC API Documentation <mhkit-matlab/api.qc.html>`_
+
+Examples
+--------------
+
+- `Python QC Example Notebook <qc_example.ipynb>`_
+- `MATLAB QC Example LiveScript <mhkit-matlab/qc_example.html>`_
+
 The QC module contains a set of functions for basic quality control analysis.
 These functions are imported from `Pecos <https://pecos.readthedocs.io>`_, an open-source Python package
 designed for quality control analysis of time-series data.  Pecos was originally developed to monitor solar photovoltaic systems but is designed to be used for a wide range of applications.
