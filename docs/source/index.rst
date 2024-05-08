@@ -70,6 +70,7 @@ Current members of the core development team include:
 - Adam Keester (Sandia)
 - Cesar Castillo (Sandia)
 - Budi Gunawan (Sandia - PI)
+- Andrew Simms (NREL)
 
 Former members of the core development team include:
 
