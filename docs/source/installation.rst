@@ -91,7 +91,7 @@ To test a simple function using MHKiT-Python, the user can compute the equivalen
 The results should be::
 
 	ED = 30
-	AP = 11309.7
+	AP = 706.858
 
 
 MHKiT-MATLAB
@@ -175,7 +175,7 @@ in your MATLAB terminal::
 The results should be::
 
 	x = 30
-	y = 1.1310e+04
+	y = 706.858
 
 
 
