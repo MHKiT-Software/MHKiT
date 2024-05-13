@@ -9,7 +9,7 @@ The following section includes installation instructions for `MHKiT-Python <http
 MHKiT-Python
 -------------
 
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.7+) <https://www.python.org/>`_  and has several Python package dependencies.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has several Python package dependencies.
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
 Refer to the `Python website <https://www.python.org/>`_ for information on using Python.
 
@@ -20,13 +20,13 @@ Refer to the `Python website <https://www.python.org/>`_ for information on usin
 
 .. Note::
 	Mac computers come with Python 2.7 pre-installed. MHKiT does not 
-	work with Python 2.7.  A second version of Python (3.7+) will need to 
+	work with Python 2.7.  A second version of Python (3.8-3.11) will need to 
 	be installed on your machine. DO NOT DELETE Python 2.7. Use the above 
 	steps to make sure MATLAB is running the proper version of Python.
 
 Requirements
 ^^^^^^^^^^^^^^^
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.7+) <https://www.python.org/>`_  and has the following Python packages dependencies:
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has the following Python packages dependencies:
 
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `NumPy <http://www.numpy.org>`_: used for data storage and analysis
@@ -98,11 +98,8 @@ MHKiT-MATLAB
 -------------
 
 `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ requires 
-MATLAB 2019b or later and relies on three components which need to be 
+MATLAB 2020b or later and relies on three components which need to be 
 installed separately.
-
-.. Note::
-	If you are using Python 3.8, MATLAB 2020b or later is required. 
 
 Install MHKiT-MATLAB
 ^^^^^^^^^^^^^^^^^^^^^
@@ -138,22 +135,22 @@ version. To check the python version open MATLAB and in the terminal type::
 
 You should see something similar to the following::
 
-	version: '3.7'
-	executable: '/Library/Frameworks/Python.framework/Versions/3.7/bin/python3'
-	library: '/Library/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7m.dylib'
-	home: '/Library/Frameworks/Python.framework/Versions/3.7'
+	version: '3.8'
+	executable: '/Library/Frameworks/Python.framework/Versions/3.8/bin/python3'
+	library: '/Library/Frameworks/Python.framework/Versions/3.8/lib/libpython3.8m.dylib'
+	home: '/Library/Frameworks/Python.framework/Versions/3.8'
 	isloaded: 1
 
-If the resulting Python version is 3.7+, skip to the Install the 
+If the resulting Python version is 3.8-3.11, skip to the Install the 
 MHKiT-MATLAB Toolbox section.
 
-If the resulting Python version is not 3.7+ in a system terminal 
+If the resulting Python version is not 3.8-3.11 in a system terminal 
 window and type::
 
     python -c "import sys; print(sys.executable)"
 
 If the resulting path to the python executable (path_to_exe) indicates 
-Python 3.7+, copy the path and in the MATLAB terminal run::
+Python 3.8-3.11, copy the path and in the MATLAB terminal run::
 
     pyversion('<path_to_exe>')
 
