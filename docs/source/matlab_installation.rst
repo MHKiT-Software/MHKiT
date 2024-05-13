@@ -104,7 +104,7 @@ Step 3. Install MHKiT-Python
 
 3.3 In the terminal input the following command::
 
-	pip install mhkit
+	pip install mhkit==0.7.0
 
 And press enter to run this command.
 
@@ -121,7 +121,7 @@ And press enter to run this command.
 
     python -c "import mhkit; print(mhkit.__version__)"
 
-The expected output is the current `mhkit` version number
+The expected output is the specified `mhkit` version number
 
 .. image:: ./figures/install_anaconda_terminal_version_output.png
   :width: 400
@@ -302,10 +302,10 @@ Advanced Installation
 
 4. Pip install mhkit:
 
-   * ``pip install mhkit``
+   * ``pip install mhkit==0.7.0``
    * ``python -c "import mhkit; print(mhkit.__version__)"``
 
-     - Should be ``v0.8.0`` or similar
+     - Should be ``v0.7.0``
 
    * ``python -c "import mhkit; print(mhkit.river.performance.circular(30))"``
 
