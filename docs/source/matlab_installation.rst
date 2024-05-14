@@ -225,7 +225,7 @@ Typical location on MacOS:
 
 6.2 Set the Python environment in MATLAB
 
-In the MATLAB command window type the following, replacing `<python executable location>` with the python executable location from above::
+In the MATLAB command window type the command below, replacing the ``<python executable location>`` with the executable location output from above::
 
     pyenv(Version="<python executable location>")
 
