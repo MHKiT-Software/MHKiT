@@ -52,9 +52,10 @@ The issues page is used to interact with the MHKiT-MATLAB community, ask questio
 Software Tests
 --------------------------
 
-MHKiT-MATLAB includes continuous integration software tests. 
+MHKiT-Python includes continuous integration software tests that are run using `GitHub Actions <https://github.com/MHKiT-Software/MHKiT-MATLAB/actions>`_. 
 The tests are run each time changes are made to the repository and are designed to ensure that the code is performing as expected. 
 New tests are developed each time new functions are added or modified.
+Testing status (passing/failed) and code coverage statistics are posted on the `README page <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_.
 
 Tests can also be run locally using the Matlab API.  Developers should run software tests before 
 submitting a pull request by running runTests.m in the mhkit/tests/ folder. A summary pdf will be created after running the tests 

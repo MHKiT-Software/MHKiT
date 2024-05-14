@@ -55,7 +55,7 @@ Installation Steps
 Step 1. Install Anaconda
 """""""""""""""""""""""""
 
-Download and install `Anaconda <https://www.anaconda.com/download>`_
+Download and install `Anaconda <https://www.anaconda.com/download>`_.
 
 Step 2. Configure an Anaconda Python Environment
 """"""""""""""""""""""""""""""""""""""""""""""""

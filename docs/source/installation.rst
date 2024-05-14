@@ -28,6 +28,7 @@ Requirements
 ^^^^^^^^^^^^^^^
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has the following Python packages dependencies:
 
+* `Xarray <https://docs.xarray.dev/en/stable/>`_: used for data storage and analysis
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
 * `NumPy <http://www.numpy.org>`_: used for data storage and analysis
 * `SciPy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing
@@ -35,7 +36,7 @@ Requirements
 * `Requests <https://requests.readthedocs.io/>`_: used to get data from websites
 * `Pecos v0.1.9 <https://pecos.readthedocs.io/>`_: used for quality control analysis
 
-It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ because it includes all of the MHKiT-Python package dependencies except Pecos.
+It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/download/>`_ because it includes all of the MHKiT-Python package dependencies except Pecos.
 
 
 Install MHKiT-Python
@@ -65,7 +66,7 @@ To install MHKiT-Python using `git <https://git-scm.com/>`_::
 Using this option to install MHKiT-Python will require following the `Pecos installation instructions <https://pecos.readthedocs.io/en/latest/installation.html>`_ to install the Pecos package dependency.
 
 .. Note::
-	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://help.github.com/articles/fork-a-repo/>`_ the MHKiT-Python repository into your GitHub user account.
+	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo>`_ the MHKiT-Python repository into your GitHub user account.
 	To include your additions to the MHKiT-Python code, please submit a `pull request <https://github.com/MHKiT-Software/MHKiT-Python/pulls>`_ in the MHKiT-Python master branch.
 	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases of MHKiT-Python.
 

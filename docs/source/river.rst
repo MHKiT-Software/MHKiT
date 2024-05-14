@@ -29,7 +29,7 @@ See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more detail
 
 IEC/TS 62600-100
 ---------------------------
-Flow discharge at the site is the primary input for the river module.
+Flow discharge at a site is the primary input for the river module.
 IEC/TS 62600-100 recommends that river resource is calculated using historical discharge measurements, from at least 10 years daily discharge data, or flow discharge predicted using a regional hydrological model validated using at least one year discharge measurement.
 The latter approach is often suitable when only limited measurement data at the project site is available.
 Long-term discharge data from a river gauging station located within the vicinity of the project site can often be used for resource assessment.
