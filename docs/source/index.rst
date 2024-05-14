@@ -13,6 +13,7 @@
    overview.rst
    installation.rst
    matlab_installation.rst
+   examples_overview.rst
    qc.rst
    wave.rst
    river.rst
