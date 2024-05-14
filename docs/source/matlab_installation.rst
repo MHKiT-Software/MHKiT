@@ -66,13 +66,13 @@ In this step we are going to create a Python environment within Anaconda which w
 2.2 Navigate to the "Environments" section
 
 .. image:: ./figures/install_anaconda_select_environment_section.png
-  :width: 400
+  :width: 500
   :alt: Navigating to the Anaconda Navigator "Environments" section
 
 2.3 Create a new environment by clicking on the "Create" button
 
 .. image:: ./figures/install_anaconda_create_environment.png
-  :width: 400
+  :width: 500
   :alt: Creating a new Anaconda environment
 
 2.4 Set the environment name and python version to the recommended settings
@@ -85,7 +85,7 @@ In this step we are going to create a Python environment within Anaconda which w
       * Note: Check the `MHKiT-MATLAB MATLAB/Python compatiability matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ to verify that the Python version selected is compatiable with your version of MATLAB.
 
 .. image:: ./figures/install_anaconda_setup_environment.png
-  :width: 400
+  :width: 500
   :alt: Setting the parameters a new Anaconda environment
 
 2.5 Create the environment by clicking "Create"
@@ -100,7 +100,7 @@ Step 3. Install MHKiT-Python
     * Verify that you see `mhkit` at the beginning of your terminal prompt.
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
-  :width: 400
+  :width: 500
   :alt: Opening the terminal for the `mhkit` environment
 
 3.3 In the terminal input the following command::
@@ -110,7 +110,7 @@ Step 3. Install MHKiT-Python
 And press enter to run this command.
 
 .. image:: ./figures/install_anaconda_terminal_pip_install.png
-  :width: 400
+  :width: 500
   :alt: Installing MHKiT-Python with pip
 
 
@@ -125,7 +125,7 @@ And press enter to run this command.
 The expected output is the specified `mhkit` version number
 
 .. image:: ./figures/install_anaconda_terminal_version_output.png
-  :width: 400
+  :width: 500
   :alt: Output of `mhkit` version number
 
 3.5 Verify `mhkit` functionality
@@ -144,7 +144,7 @@ The expected output is::
     (30, 706.8583470577034)
 
 .. image:: ./figures/install_anaconda_terminal_mhkit_verify_output.png
-  :width: 400
+  :width: 500
   :alt: Verification of mhkit circular function
 
 
@@ -158,7 +158,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
 * Verify that you see `mhkit` at the beginning of your terminal prompt.
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
-  :width: 400
+  :width: 500
   :alt: Opening the terminal for the `mhkit` environment
 
 4.2 Use pip to install MHKiT-MATLAB Python utilities
@@ -168,7 +168,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
     pip install https://github.com/MHKiT-Software/MHKiT-MATLAB/tarball/master
 
 .. image:: ./figures/install_terminal_pip_mhkit_python_utils.png
-  :width: 400
+  :width: 500
   :alt: Installing mhkit_python_utilities
 
 4.3 Verify your ``mhkit_python_utilities`` version. Expected version is ``0.1.0``
@@ -178,7 +178,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
     python -c "import mhkit_python_utils; print(mhkit_python_utils.__version__)"
 
 .. image:: ./figures/install_terminal_mhkit_python_utils_version.png
-  :width: 400
+  :width: 500
   :alt: Verifying mhkit_python_utilities
 
 
@@ -210,7 +210,7 @@ In the MATLAB command window type the following, replacing `<python executable l
 
 
 .. image:: ./figures/install_matlab_python_executable.png
-  :width: 400
+  :width: 500
   :alt: Set MATLAB python executable
 
 Step 6. Install MHKiT-MATLAB Add-On
@@ -221,13 +221,13 @@ Step 6. Install MHKiT-MATLAB Add-On
 6.2. Install the MHKiT-MATLAB Add-On by double clicking on `mhkit.mltbx` toolbox
 
 .. image:: ./figures/install_matlab_toolbox.png
-  :width: 400
+  :width: 500
   :alt: Install MHKiT-MATLAB toolbox
 
 6.3 Verify add-on is installed
 
 .. image:: ./figures/install_matlab_addons_list.png
-  :width: 400
+  :width: 500
   :alt: MHKiT-MATLAB in MATLAB addons list
 
 Step 7. Verify MHKiT-MATLAB Installation
@@ -253,7 +253,7 @@ Verify the output is::
 
 
 .. image:: ./figures/install_matlab_verify_mhkit.png
-  :width: 400
+  :width: 500
   :alt: Install MHKiT-MATLAB toolbox
 
 Congratulations, you now have a working version of MHKiT-MATLAB!
