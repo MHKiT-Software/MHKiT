@@ -18,8 +18,8 @@ API Documentation
 Examples
 --------------
 
-- `Python QC Example Notebook <qc_example.ipynb>`_
-- `MATLAB QC Example LiveScript <mhkit-matlab/qc_example.html>`_
+- `Python Quality Control Example <qc_example.ipynb>`_
+- `MATLAB Quality Control Example <mhkit-matlab/qc_example.html>`_
 
 The QC module contains a set of functions for basic quality control analysis.
 These functions are imported from `Pecos <https://pecos.readthedocs.io>`_, an open-source Python package

@@ -4,6 +4,18 @@ River Module
 ====================
 The river module contains a set of functions to calculate quantities of interest for river energy converters (REC).
 
+API Documentation
+--------------------
+- `Python River API Documentation <mhkit-python/api.river.html>`_
+- `MATLAB River API Documentation <mhkit-matlab/api.river.html>`_
+
+Examples
+--------------
+
+- `Python River Example <river_example.ipynb>`_
+- `Python Tanana River Resource Characterization <ADCP_Delft3D_TRTS_example.ipynb>`_
+- `MATLAB River Example <mhkit-matlab/river_example.html>`_
+
 The river module contains the following submodules:
 
 * ``io``: Loads discharge data from standard formats.
