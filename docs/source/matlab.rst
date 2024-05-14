@@ -6,7 +6,7 @@ MHKiT-MATLAB
 Installation
 --------------------
 
-Refer to the :ref:`Installation:MHKiT-MATLAB` installation section for information on how to install MHKiT-MATLAB.
+Refer to the :ref:`MATLAB Installation <matlab_installation>` section for information on how to install MHKiT-MATLAB.
 
 .. _apidoc_matlab:
 

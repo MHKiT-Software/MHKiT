@@ -11,8 +11,9 @@
    :hidden:
 
    overview.rst
-   terminology.rst
    installation.rst
+   matlab_installation.rst
+   examples_overview.rst
    qc.rst
    wave.rst
    river.rst
@@ -25,6 +26,7 @@
    python.rst
    matlab.rst
    troubleshooting.rst
+   terminology.rst
    webinars.rst
    license.rst
    release_notes.rst
@@ -69,6 +71,7 @@ Current members of the core development team include:
 - Adam Keester (Sandia)
 - Cesar Castillo (Sandia)
 - Budi Gunawan (Sandia - PI)
+- Andrew Simms (NREL)
 
 Former members of the core development team include:
 
