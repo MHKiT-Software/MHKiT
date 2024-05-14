@@ -77,20 +77,22 @@ In this step we are going to create a Python environment within Anaconda which w
   :alt: Creating a new Anaconda environment
 
 2.4 Set the environment name and python version to the recommended settings
+
     * Name: `mhkit`
 
       * Note: Environments can have any name, but we recommend naming them based on their intended use
 
-    * Packages: Python - Version 3.9 is recommended
+    * Packages: Python - Version 3.10 is recommended
 
-      * Note: Check the `MHKiT-MATLAB MATLAB/Python compatiability matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ to verify that the Python version selected is compatiable with your version of MATLAB.
+      * Note: Check the `MHKiT-MATLAB MATLAB/Python compatiability matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ to verify that the Python version selected is compatible with your version of MATLAB.
 
 .. image:: ./figures/install_anaconda_setup_environment.png
   :width: 500
   :alt: Setting the parameters a new Anaconda environment
 
 2.5 Create the environment by clicking "Create"
-   * This typically takes a few minutes
+
+   * Anaconda is downloading an entire python environment and all of its dependencies, which typically takes a few minutes
 
 Step 3. Install MHKiT-Python
 """"""""""""""""""""""""""""
@@ -159,7 +161,7 @@ Step 4. Download MHKiT-MATLAB Source Code
 
 4.1 Navigate to the `MHKiT-MATLAB GitHub Repository <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_
 
-4.2. Within the "Code" dropdown menu click on "Download ZIP" to download the repository
+4.2. Within the "Code" drop-down menu click on "Download ZIP" to download the repository
 
 .. image:: ./figures/install_github_download_mhkit_matlab_zip.png
   :width: 500
@@ -174,7 +176,7 @@ Step 5. Install MHKiT-MATLAB Python utilities
 
 Within the Anaconda environments tab, click the play button and select "Open Terminal"
 
-* Verify that you see `(mhkit)` at the beginning of your terminal prompt.
+* Verify that you see ``(mhkit)`` at the beginning of your terminal prompt.
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
   :width: 500
