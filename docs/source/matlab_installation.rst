@@ -78,7 +78,7 @@ In this step we are going to create a Python environment within Anaconda which w
 
 2.4 Set the environment name and python version to the recommended settings
 
-    * Name: `mhkit`
+    * Name: ``mhkit``
 
       * Note: Environments can have any name, but we recommend naming them based on their intended use
 
@@ -97,13 +97,13 @@ In this step we are going to create a Python environment within Anaconda which w
 Step 3. Install MHKiT-Python
 """"""""""""""""""""""""""""
 
-3.1 Select the newly create environment by clicking on `mhkit` (the name of your environment)
+3.1 Select the newly create environment by clicking on ``mhkit`` (the name of your environment)
 
 3.2 Click the play button and select "Open Terminal"
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
   :width: 500
-  :alt: Opening the terminal for the `mhkit` environment
+  :alt: Opening the terminal for the ``mhkit`` environment
 
 3.3 Verify that you see ``(mhkit)`` at the beginning of your terminal prompt. This indicates that you are within the Anaconda ``mhkit`` environment. All actions performed within this environment are isolated from other Anaconda and system Python environments.
 
@@ -130,13 +130,13 @@ And press enter to run this command.
 
     python -c "import mhkit; print(mhkit.__version__)"
 
-The expected output is the specified `mhkit` version number
+The expected output is the specified ``mhkit`` version number
 
 .. image:: ./figures/install_anaconda_terminal_version_output.png
   :width: 500
-  :alt: Output of `mhkit` version number
+  :alt: Output of ``mhkit`` version number
 
-3.6 Verify `mhkit` functionality
+3.6 Verify ``mhkit`` functionality
 
 * Start the python interpreter. In the terminal type::
 
@@ -180,7 +180,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
   :width: 500
-  :alt: Opening the terminal for the `mhkit` environment
+  :alt: Opening the terminal for the ``mhkit`` environment
 
 5.2 Use pip to install MHKiT-MATLAB Python utilities
 
@@ -208,7 +208,7 @@ Step 6. Configure MATLAB Python Environment
 
 6.1 Compute the python executable location
 
-* In the terminal type and press enter::
+* In the Anaconda ``mhkit`` environment terminal type and press enter::
 
     python -c "import sys; print(sys.executable)"
 
