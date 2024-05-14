@@ -168,11 +168,16 @@ Step 4. Install MHKiT-MATLAB Python utilities
 
 Within the Anaconda environments tab, click the play button and select "Open Terminal"
 
-* Verify that you see `mhkit` at the beginning of your terminal prompt.
+* Verify that you see `(mhkit)` at the beginning of your terminal prompt.
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
   :width: 500
   :alt: Opening the terminal for the `mhkit` environment
+
+.. image:: ./figures/install_anaconda_terminal_with_environment_name.png
+  :width: 500
+  :alt: Detail of terminal with anaconda environment name
+
 
 4.2 Use pip to install MHKiT-MATLAB Python utilities
 
