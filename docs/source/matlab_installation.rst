@@ -148,6 +148,19 @@ The expected output is::
   :alt: Verification of mhkit circular function
 
 
+Step 4. Download MHKiT-MATLAB Source Code
+"""""""""""""""""""""""""""""""""""""""""
+
+4.1 Navigate to the `MHKiT-MATLAB GitHub Repository <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_
+
+4.2. Within the "Code" dropdown menu click on "Download ZIP" to download the repository
+
+.. image:: ./figures/install_github_download_mhkit_matlab_zip.png
+  :width: 500
+  :alt: Download MHKiT-MATLAB zip file from GitHub
+
+4.3. Unzip the downloaded folder in your preferred installation location.
+
 Step 4. Install MHKiT-MATLAB Python utilities
 """""""""""""""""""""""""""""""""""""""""""""
 
