@@ -63,7 +63,7 @@ NDBC
    ~mhkit.wave.io.ndbc.create_directional_spectrum
 
 SWAN
-""""""""""""""""
+""""
 
 .. autosummary:: 
    :nosignatures:
@@ -75,7 +75,7 @@ SWAN
 
 
 WEC-Sim
-""""""""""""""""
+"""""""
 
 .. autosummary:: 
    :nosignatures:
@@ -83,7 +83,7 @@ WEC-Sim
    ~mhkit.wave.io.wecsim.read_output
 
 WPTO Hindcast
-""""""""""""""""
+"""""""""""""
 
 .. autosummary:: 
    :nosignatures:
@@ -93,7 +93,7 @@ WPTO Hindcast
    ~mhkit.wave.io.hindcast.hindcast.request_wpto_directional_spectrum
 
 WIND Toolkit Hindcast
-""""""""""""""""
+"""""""""""""""""""""
 
 .. autosummary:: 
    :nosignatures:
@@ -157,7 +157,7 @@ WIND Toolkit Data
     :show-inheritance:
     
 Resource
-""""""""""""
+""""""""
 The resource submodule contains functions compute wave energy spectra 
 and metrics.
 
@@ -199,7 +199,7 @@ The following functions can be used to compute wave metrics from spectra:
     :show-inheritance:
 
 Performance
-""""""""""""
+"""""""""""
 The performance submodule contains functions to compute capture length, 
 statistics, performance matrices, and mean annual energy production.
 
@@ -223,7 +223,7 @@ statistics, performance matrices, and mean annual energy production.
 .. TODO Add Watch circle
 
 Graphics
-""""""""""""
+""""""""
 The graphics submodule contains functions to plot wave data and related metrics.  
 
 .. autosummary::
@@ -245,7 +245,7 @@ The graphics submodule contains functions to plot wave data and related metrics.
     :show-inheritance:
 
 Contours
-""""""""""""
+""""""""
 Contains functions for calculating environmental contours of extreme seastates  
 
 .. autosummary::
