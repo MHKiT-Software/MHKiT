@@ -31,10 +31,11 @@ The installation process requires performing the following actions in order:
 1. `Install Anaconda <#step-1-install-anaconda>`_
 2. `Configure an Anaconda Python Environment <#step-2-configure-an-anaconda-python-environment>`_
 3. `Install MHKiT-Python <#step-3-install-mhkit-python>`_
-4. `Install MHKiT-MATLAB Python utilities <#step-5-install-mhkit-matlab-python-utilities>`_
-5. `Configure MATLAB python environment <#step-6-configure-matlab-python-environment>`_
-6. `Install the MHKiT-MATLAB addon <#step-7-install-mhkit-matlab-add-on>`_
-7. `Verify MHKiT-MATLAB functionality <#step-8-verify-mhkit-matlab-installation>`_
+4. `Download MHKiT-MATLAB from source <#step-4-download-mhkit-matlab-source-code>`_
+5. `Install MHKiT-MATLAB Python utilities <#step-5-install-mhkit-matlab-python-utilities>`_
+6. `Configure MATLAB python environment <#step-6-configure-matlab-python-environment>`_
+7. `Install the MHKiT-MATLAB addon <#step-7-install-mhkit-matlab-add-on>`_
+8. `Verify MHKiT-MATLAB functionality <#step-8-verify-mhkit-matlab-installation>`_
 
 
 Required Software
@@ -166,10 +167,10 @@ Step 4. Download MHKiT-MATLAB Source Code
 
 4.3. Unzip the downloaded folder in your preferred installation location.
 
-Step 4. Install MHKiT-MATLAB Python utilities
+Step 5. Install MHKiT-MATLAB Python utilities
 """""""""""""""""""""""""""""""""""""""""""""
 
-4.1 Navigate to the MHKiT-MATLAB folder using the terminal
+5.1 Navigate to the MHKiT-MATLAB folder using the terminal
 
 Within the Anaconda environments tab, click the play button and select "Open Terminal"
 
@@ -179,7 +180,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
   :width: 500
   :alt: Opening the terminal for the `mhkit` environment
 
-4.2 Use pip to install MHKiT-MATLAB Python utilities
+5.2 Use pip to install MHKiT-MATLAB Python utilities
 
 * In the terminal type and press enter::
 
@@ -189,7 +190,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
   :width: 500
   :alt: Installing mhkit_python_utilities
 
-4.3 Verify your ``mhkit_python_utilities`` version. Expected version is ``0.1.0``
+5.3 Verify your ``mhkit_python_utilities`` version. Expected version is ``0.1.0``
 
 * In the terminal type and press enter::
 
@@ -200,10 +201,10 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
   :alt: Verifying mhkit_python_utilities
 
 
-Step 5. Configure MATLAB Python Environment
+Step 6. Configure MATLAB Python Environment
 """""""""""""""""""""""""""""""""""""""""""
 
-5.1 Compute the python executable location
+6.1 Compute the python executable location
 
 * In the terminal type and press enter::
 
@@ -220,7 +221,7 @@ Typical location on MacOS:
 
 * ``/opt/anaconda3/envs/mhkit/bin/python3``
 
-5.2 Set the Python environment in MATLAB
+6.2 Set the Python environment in MATLAB
 
 In the MATLAB command window type the following, replacing `<python executable location>` with the python executable location from above::
 
@@ -231,27 +232,27 @@ In the MATLAB command window type the following, replacing `<python executable l
   :width: 500
   :alt: Set MATLAB python executable
 
-Step 6. Install MHKiT-MATLAB Add-On
+Step 7. Install MHKiT-MATLAB Add-On
 """""""""""""""""""""""""""""""""""
 
-6.1 Navigate to the MHKiT-MATLAB directory
+7.1 Navigate to the MHKiT-MATLAB directory
 
-6.2. Install the MHKiT-MATLAB Add-On by double clicking on `mhkit.mltbx` toolbox
+7.2. Install the MHKiT-MATLAB Add-On by double clicking on `mhkit.mltbx` toolbox
 
 .. image:: ./figures/install_matlab_toolbox.png
   :width: 500
   :alt: Install MHKiT-MATLAB toolbox
 
-6.3 Verify add-on is installed
+7.3 Verify add-on is installed
 
 .. image:: ./figures/install_matlab_addons_list.png
   :width: 500
   :alt: MHKiT-MATLAB in MATLAB addons list
 
-Step 7. Verify MHKiT-MATLAB Installation
+Step 8. Verify MHKiT-MATLAB Installation
 """"""""""""""""""""""""""""""""""""""""
 
-7.1 In the MATLAB command window type::
+8.1 In the MATLAB command window type::
 
     [x, y] = circular(30)
 
