@@ -4,6 +4,12 @@ Utils Module
 ====================
 The utils module contains helper functions.   
 
+API Documentation
+--------------------
+- `Python Utils API Documentation <mhkit-python/api.utils.html>`_
+- `MATLAB Utils API Documentation <mhkit-matlab/api.utils.html>`_
+
+
 The MHKiT-Python utils module contains a single function to help users 
 convert numeric indexes to datetime indexes.  Additional helper functions could be added at a later date.
  
