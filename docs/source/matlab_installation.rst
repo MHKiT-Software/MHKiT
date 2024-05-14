@@ -97,13 +97,18 @@ Step 3. Install MHKiT-Python
 3.1 Select the newly create environment by clicking on `mhkit` (the name of your environment)
 
 3.2 Click the play button and select "Open Terminal"
-    * Verify that you see `mhkit` at the beginning of your terminal prompt.
 
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
   :width: 500
   :alt: Opening the terminal for the `mhkit` environment
 
-3.3 In the terminal input the following command::
+3.3 Verify that you see ``(mhkit)`` at the beginning of your terminal prompt. This indicates that you are within the Anaconda ``mhkit`` environment. All actions performed within this environment are isolated from other Anaconda and system Python environments.
+
+.. image:: ./figures/install_anaconda_terminal_with_environment_name.png
+  :width: 500
+  :alt: Detail of terminal with anaconda environment name
+
+3.4 In the terminal input the following command::
 
 	pip install mhkit==0.7.0
 
@@ -118,7 +123,7 @@ And press enter to run this command.
     If this command throws any errors, they must be fixed before proceeding. Please see the installation troubleshooting section below
 
 
-3.4 Verify your MHKiT-Python version. In the terminal input the following command::
+3.5 Verify your MHKiT-Python version. In the terminal input the following command::
 
     python -c "import mhkit; print(mhkit.__version__)"
 
@@ -128,7 +133,7 @@ The expected output is the specified `mhkit` version number
   :width: 500
   :alt: Output of `mhkit` version number
 
-3.5 Verify `mhkit` functionality
+3.6 Verify `mhkit` functionality
 
 * Start the python interpreter. In the terminal type::
 
@@ -173,11 +178,6 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
 .. image:: ./figures/install_anaconda_open_environment_terminal.png
   :width: 500
   :alt: Opening the terminal for the `mhkit` environment
-
-.. image:: ./figures/install_anaconda_terminal_with_environment_name.png
-  :width: 500
-  :alt: Detail of terminal with anaconda environment name
-
 
 4.2 Use pip to install MHKiT-MATLAB Python utilities
 
