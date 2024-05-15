@@ -4,6 +4,17 @@ Power Module
 ====================
 The power module contains a set of functions to calculate quantities of interest for calculating generated power and assessing power quality.
 
+API Documentation
+--------------------
+- `Python Power API Documentation <mhkit-python/api.power.html>`_
+- `MATLAB Power API Documentation <mhkit-matlab/api.power.html>`_
+
+Examples
+--------------
+
+- `Python Power Example Notebook <power_example.ipynb>`_
+- `MATLAB Power Example LiveScript <mhkit-matlab/power_example.html>`_
+
 The power module contains the following submodules:
 
 * ``characteristics``: Calculates power quantities of interest from voltage and current timseries.

@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.dolfyn.io.api &mdash; MHKiT v0.7.0 documentation</title>
-      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/css/mhkit.css" type="text/css" />
+  <title>mhkit.dolfyn.io.api &mdash; MHKiT v0.8.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-        <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=b3dab91b"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
@@ -35,7 +36,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.7.0
+                v0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -47,8 +48,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples_overview.html">MHKiT Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../qc.html">QC Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../wave.html">Wave Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../river.html">River Module</a></li>
@@ -61,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../matlab.html">MHKiT-MATLAB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
@@ -102,20 +105,27 @@
 <span class="kn">from</span> <span class="nn">.rdi</span> <span class="kn">import</span> <span class="n">read_rdi</span>
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_create_dataset</span><span class="p">,</span> <span class="n">_get_filetype</span>
 <span class="kn">from</span> <span class="nn">..rotate.base</span> <span class="kn">import</span> <span class="n">_set_coords</span>
-<span class="kn">from</span> <span class="nn">..time</span> <span class="kn">import</span> <span class="n">date2matlab</span><span class="p">,</span> <span class="n">matlab2date</span><span class="p">,</span> <span class="n">date2dt64</span><span class="p">,</span> <span class="n">dt642date</span><span class="p">,</span> <span class="n">date2epoch</span><span class="p">,</span> <span class="n">epoch2date</span>
+<span class="kn">from</span> <span class="nn">..time</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">date2matlab</span><span class="p">,</span>
+    <span class="n">matlab2date</span><span class="p">,</span>
+    <span class="n">date2dt64</span><span class="p">,</span>
+    <span class="n">dt642date</span><span class="p">,</span>
+    <span class="n">date2epoch</span><span class="p">,</span>
+    <span class="n">epoch2date</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_check_file_ext</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ext</span><span class="p">):</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># windows/linux</span>
     <span class="c1"># for a filename like mcrl.water_velocity-1s.b1.20200813.150000.nc</span>
     <span class="n">file_ext</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">file_ext</span> <span class="o">!=</span> <span class="n">ext</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;File extension must be of the type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ext</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">file_ext</span> <span class="o">==</span> <span class="n">ext</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">path</span>
 
-    <span class="k">return</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">ext</span>
+    <span class="k">return</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">ext</span>
 
 
 <span class="k">def</span> <span class="nf">_decode_cf</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
@@ -159,7 +169,9 @@
     <span class="k">return</span> <span class="n">ds</span>
 
 
-<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">userdata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="read">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.read">[docs]</a>
+<span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">userdata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI</span>
 <span class="sd">    (.000, .PD0, .ENX, etc.) data file.</span>
@@ -171,7 +183,7 @@
 <span class="sd">    userdata : True, False, or string of userdata.json filename (default ``True``)</span>
 <span class="sd">      Whether to read the &#39;&lt;base-filename&gt;.userdata.json&#39; file.</span>
 <span class="sd">    nens : None, int or 2-element tuple (start, stop)</span>
-<span class="sd">      Number of pings or ensembles to read from the file. </span>
+<span class="sd">      Number of pings or ensembles to read from the file.</span>
 <span class="sd">      Default is None, read entire file</span>
 <span class="sd">    **kwargs : dict</span>
 <span class="sd">      Passed to instrument-specific parser.</span>
@@ -183,24 +195,29 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">file_type</span> <span class="o">=</span> <span class="n">_get_filetype</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s1">&#39;&lt;GIT-LFS pointer&gt;&#39;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;File &#39;</span><span class="si">{}</span><span class="s2">&#39; looks like a git-lfs pointer. You may need to &quot;</span>
-                      <span class="s2">&quot;install and initialize git-lfs. See https://git-lfs.github.com&quot;</span>
-                      <span class="s2">&quot; for details.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;&lt;GIT-LFS pointer&gt;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span>
+            <span class="s2">&quot;File &#39;</span><span class="si">{}</span><span class="s2">&#39; looks like a git-lfs pointer. You may need to &quot;</span>
+            <span class="s2">&quot;install and initialize git-lfs. See https://git-lfs.github.com&quot;</span>
+            <span class="s2">&quot; for details.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">file_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;File &#39;</span><span class="si">{}</span><span class="s2">&#39; is not recognized as a file-type that is readable by &quot;</span>
-                      <span class="s2">&quot;DOLfYN. If you think it should be readable, try using the &quot;</span>
-                      <span class="s2">&quot;appropriate read function (`read_rdi`, `read_nortek`, or &quot;</span>
-                      <span class="s2">&quot;`read_signature`) found in dolfyn.io.api.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span>
+            <span class="s2">&quot;File &#39;</span><span class="si">{}</span><span class="s2">&#39; is not recognized as a file-type that is readable by &quot;</span>
+            <span class="s2">&quot;DOLfYN. If you think it should be readable, try using the &quot;</span>
+            <span class="s2">&quot;appropriate read function (`read_rdi`, `read_nortek`, or &quot;</span>
+            <span class="s2">&quot;`read_signature`) found in dolfyn.io.api.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">func_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">RDI</span><span class="o">=</span><span class="n">read_rdi</span><span class="p">,</span>
-                        <span class="n">nortek</span><span class="o">=</span><span class="n">read_nortek</span><span class="p">,</span>
-                        <span class="n">signature</span><span class="o">=</span><span class="n">read_signature</span><span class="p">)</span>
+        <span class="n">func_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">RDI</span><span class="o">=</span><span class="n">read_rdi</span><span class="p">,</span> <span class="n">nortek</span><span class="o">=</span><span class="n">read_nortek</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="n">read_signature</span><span class="p">)</span>
         <span class="n">func</span> <span class="o">=</span> <span class="n">func_map</span><span class="p">[</span><span class="n">file_type</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">userdata</span><span class="o">=</span><span class="n">userdata</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_example"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.read_example">[docs]</a><span class="k">def</span> <span class="nf">read_example</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="read_example">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.read_example">[docs]</a>
+<span class="k">def</span> <span class="nf">read_example</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read an ADCP or ADV datafile from the examples directory.</span>
 
@@ -225,16 +242,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">testdir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
-    <span class="n">exdir</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">testdir</span><span class="p">,</span> <span class="n">relpath</span><span class="p">(</span><span class="s1">&#39;../../../examples/data/dolfyn/&#39;</span><span class="p">)))</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">exdir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">name</span>
+    <span class="n">exdir</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">testdir</span><span class="p">,</span> <span class="n">relpath</span><span class="p">(</span><span class="s2">&quot;../../../examples/data/dolfyn/&quot;</span><span class="p">)))</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">exdir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">name</span>
 
     <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="save"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.save">[docs]</a><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span>
-         <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;NETCDF4&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;netcdf4&#39;</span><span class="p">,</span>
-         <span class="n">compression</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="save">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.save">[docs]</a>
+<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;netcdf4&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save xarray dataset as netCDF (.nc).</span>
 
@@ -262,31 +279,41 @@
 <span class="sd">    See the xarray.to_netcdf documentation for more details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;nc&#39;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;nc&quot;</span><span class="p">)</span>
 
     <span class="c1"># Handling complex values for netCDF4</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;complex_vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]):</span>
-            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_real&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
-            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_imag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_real&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_imag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
 
             <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;complex_vars&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
         <span class="c1"># For variables that get rewritten to float64</span>
         <span class="k">elif</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
-            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
-        <span class="n">enc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-            <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;encoding&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="c1"># Overwrite (&#39;update&#39;) values in enc with whatever is in kwargs[&#39;encoding&#39;]</span>
-            <span class="n">enc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;encoding&#39;</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;encoding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">enc</span>
+    <span class="c1"># Write variable encoding</span>
+    <span class="n">enc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;encoding&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">enc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;encoding&quot;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="c1"># Save prior encoding</span>
+        <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">encoding</span>
+        <span class="c1"># Remove unexpected netCDF4 encoding parameters</span>
+        <span class="c1"># https://github.com/pydata/xarray/discussions/5709</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;szip&quot;</span><span class="p">,</span> <span class="s2">&quot;zstd&quot;</span><span class="p">,</span> <span class="s2">&quot;bzip2&quot;</span><span class="p">,</span> <span class="s2">&quot;blosc&quot;</span><span class="p">,</span> <span class="s2">&quot;contiguous&quot;</span><span class="p">,</span> <span class="s2">&quot;chunksizes&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
+            <span class="c1"># New netcdf4-c cannot compress variable length strings</span>
+            <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;encoding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">enc</span>
 
     <span class="c1"># Fix encoding on datetime64 variables.</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">_decode_cf</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -294,7 +321,10 @@
     <span class="n">ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+
+<div class="viewcode-block" id="load">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.load">[docs]</a>
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load xarray dataset from netCDF (.nc)</span>
 
@@ -309,30 +339,34 @@
 <span class="sd">      An xarray dataset from the binary instrument data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;nc&#39;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;nc&quot;</span><span class="p">)</span>
 
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;netcdf4&#39;</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;netcdf4&quot;</span><span class="p">)</span>
 
     <span class="c1"># Convert numpy arrays and strings back to lists</span>
     <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rotate_vars&#39;</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]:</span>
             <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]]</span>
 
     <span class="c1"># Rejoin complex numbers</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;complex_vars&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;complex_vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">:</span>
-            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_real&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_imag&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
-            <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_real&#39;</span><span class="p">,</span> <span class="n">var</span><span class="o">+</span><span class="s1">&#39;_imag&#39;</span><span class="p">])</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;complex_vars&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;complex_vars&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">:</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_real&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_imag&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_real&quot;</span><span class="p">,</span> <span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_imag&quot;</span><span class="p">])</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ds</span></div>
 
 
-<div class="viewcode-block" id="save_mat"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.save_mat">[docs]</a><span class="k">def</span> <span class="nf">save_mat</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">datenum</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="save_mat">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.save_mat">[docs]</a>
+<span class="k">def</span> <span class="nf">save_mat</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">datenum</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save xarray dataset as a MATLAB (.mat) file</span>
 
@@ -357,20 +391,18 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">copy_attrs</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s1">&#39;units&#39;</span><span class="p">):</span>
-            <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">units</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s1">&#39;long_name&#39;</span><span class="p">):</span>
-            <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">long_name</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">):</span>
-            <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;standard_name&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">standard_name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s2">&quot;units&quot;</span><span class="p">):</span>
+            <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">units</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s2">&quot;long_name&quot;</span><span class="p">):</span>
+            <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">long_name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s2">&quot;standard_name&quot;</span><span class="p">):</span>
+            <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">standard_name</span>
 
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;mat&#39;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;mat&quot;</span><span class="p">)</span>
 
     <span class="c1"># Convert time to datenum</span>
-    <span class="n">t_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)]</span>
-    <span class="n">t_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)]</span>
+    <span class="n">t_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)]</span>
+    <span class="n">t_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="n">datenum</span><span class="p">:</span>
         <span class="n">func</span> <span class="o">=</span> <span class="n">date2matlab</span>
@@ -384,24 +416,33 @@
         <span class="n">dt</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">dt642date</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]))</span>
         <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dt</span>
 
-    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;time_coords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_coords</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;time_data_vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_data</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coords&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_coords</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_data</span>
 
     <span class="c1"># Save xarray structure with more descriptive structure names</span>
-    <span class="n">matfile</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;vars&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;coords&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;config&#39;</span><span class="p">:</span> <span class="p">{},</span>
-               <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">matfile</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;vars&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
     <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
-        <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;vars&#39;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;vars&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">copy_attrs</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">ky</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
-        <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;coords&#39;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">copy_attrs</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">ky</span><span class="p">)</span>
-    <span class="n">matfile</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span>
+    <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span>
 
     <span class="n">sio</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">matfile</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load_mat"><a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.load_mat">[docs]</a><span class="k">def</span> <span class="nf">load_mat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">datenum</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="load_mat">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.load_mat">[docs]</a>
+<span class="k">def</span> <span class="nf">load_mat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">datenum</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load xarray dataset from MATLAB (.mat) file, complimentary to `save_mat()`</span>
 
@@ -413,7 +454,7 @@
 <span class="sd">    filename : str</span>
 <span class="sd">      Filename and/or path with the &#39;.mat&#39; extension</span>
 <span class="sd">    datenum : bool</span>
-<span class="sd">      If true, converts time from datenum. If false, converts time from </span>
+<span class="sd">      If true, converts time from datenum. If false, converts time from</span>
 <span class="sd">      &quot;epoch time&quot;.</span>
 
 <span class="sd">    Returns</span>
@@ -426,19 +467,25 @@
 <span class="sd">    scipy.io.loadmat()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;mat&#39;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;mat&quot;</span><span class="p">)</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">struct_as_record</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">squeeze_me</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">ds_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;vars&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;coords&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;config&#39;</span><span class="p">:</span> <span class="p">{},</span>
-               <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">ds_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;vars&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
     <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">ds_dict</span><span class="p">:</span>
         <span class="n">key_list</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">_fieldnames</span>
         <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
             <span class="n">ds_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">ky</span><span class="p">)</span>
 
-    <span class="n">ds_dict</span><span class="p">[</span><span class="s1">&#39;data_vars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;vars&#39;</span><span class="p">)</span>
-    <span class="n">ds_dict</span><span class="p">[</span><span class="s1">&#39;attrs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">)</span>
+    <span class="n">ds_dict</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;vars&quot;</span><span class="p">)</span>
+    <span class="n">ds_dict</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
 
     <span class="c1"># Recreate dataset</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">_create_dataset</span><span class="p">(</span><span class="n">ds_dict</span><span class="p">)</span>
@@ -446,16 +493,20 @@
 
     <span class="c1"># Convert numpy arrays and strings back to lists</span>
     <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])]</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])]</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;time_coords&#39;</span><span class="p">,</span> <span class="s1">&#39;time_data_vars&#39;</span><span class="p">,</span> <span class="s1">&#39;rotate_vars&#39;</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;time_coords&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_data_vars&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rotate_vars&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
             <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]]</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;orientation_down&#39;</span><span class="p">):</span>
-        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;orientation_down&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;orientation_down&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;orientation_down&quot;</span><span class="p">):</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientation_down&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientation_down&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">datenum</span><span class="p">:</span>
         <span class="n">func</span> <span class="o">=</span> <span class="n">matlab2date</span>
@@ -463,18 +514,19 @@
         <span class="n">func</span> <span class="o">=</span> <span class="n">epoch2date</span>
 
     <span class="c1"># Restore datnum to np.dt64</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;time_coords&#39;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;time_coords&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;time_coords&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coords&quot;</span><span class="p">]:</span>
             <span class="n">dt</span> <span class="o">=</span> <span class="n">date2dt64</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
             <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">ky</span><span class="p">:</span> <span class="n">dt</span><span class="p">})</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;time_coords&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;time_data_vars&#39;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;time_data_vars&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;time_coords&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;time_data_vars&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_vars&quot;</span><span class="p">]:</span>
             <span class="n">dt</span> <span class="o">=</span> <span class="n">date2dt64</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
             <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dt</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;time_data_vars&#39;</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;time_data_vars&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ds</span></div>
+
 </pre></div>
 
            </div>

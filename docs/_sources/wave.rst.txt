@@ -2,7 +2,18 @@
 
 Wave Module
 ====================
-The Wave module contains a set of functions to calculate quantities of interest for wave energy converters (WEC).
+
+The ``wave`` module contains a set of functions to calculate quantities of interest for wave energy converters (WEC).
+
+API Documentation
+--------------------
+- `Python Wave Module API Documentation <mhkit-python/api.wave.html>`_
+- `MATLAB Wave Module API Documentation <mhkit-matlab/api.wave.html>`_
+
+Examples
+--------------
+
+- `Wave Examples List <examples_overview.html#wave-energy>`_
 
 The wave module contains the following submodules:
 

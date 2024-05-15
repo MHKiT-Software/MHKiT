@@ -4,6 +4,19 @@ Tidal Module
 ====================
 The tidal module contains a set of functions to calculate relevant quantities of interest for tidal energy converters (TEC).
 
+API Documentation
+--------------------
+- `Python Tidal API Documentation <mhkit-python/api.tidal.html>`_
+- `MATLAB Tidal API Documentation <mhkit-matlab/api.tidal.html>`_
+
+Examples
+--------------
+
+- `Python Tidal Example Notebook <tidal_example.ipynb>`_
+- `Python Tidal Power Performance Example <tidal_performance_example.ipynb>`_
+- `MATLAB Tidal Example LiveScript <mhkit-matlab/tidal_example.html>`_
+
+
 The tidal module contains the following submodules:
 
 * ``io``: Loads tidal velocity and direction data from National Oceanic and Atmospheric Administration (NOAA) currents.

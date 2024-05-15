@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QC Module &mdash; MHKiT v0.7.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/mhkit.css" type="text/css" />
+  <title>QC Module &mdash; MHKiT v0.8.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mhkit.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=b3dab91b"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Wave Module" href="wave.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="prev" title="MHKiT Examples" href="examples_overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,7 +39,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.7.0
+                v0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -50,9 +51,14 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">QC Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples_overview.html">MHKiT Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">QC Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-documentation">API Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="wave.html">Wave Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="river.html">River Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tidal.html">Tidal Module</a></li>
@@ -64,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="matlab.html">MHKiT-MATLAB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
@@ -96,7 +103,7 @@
            <div itemprop="articleBody">
              
   <section id="qc-module">
-<span id="qc"></span><h1>QC Module<a class="headerlink" href="#qc-module" title="Permalink to this heading"></a></h1>
+<span id="qc"></span><h1>QC Module<a class="headerlink" href="#qc-module" title="Link to this heading"></a></h1>
 <p>It is recommended that input data be processed using the quality control (QC) module to check for data quality and potential issues prior to using the MHKiT Wave, River, and Tidal modules.
 Quality control analysis often includes steps to ensure that data are
 not missing, corrupt, or outside of the expected range.
@@ -104,6 +111,19 @@ Additional analysis can include checking for
 stagnant readings, unusual abrupt changes, or outliers.
 If data does not meet specified requirements, the data points that did not pass inspection should be
 removed or replaced by various means (interpolation, data from a duplicate sensor, values from a model) before using the data for analysis.</p>
+<section id="api-documentation">
+<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="mhkit-python/api.qc.html">Python QC API Documentation</a></p></li>
+<li><p><a class="reference external" href="mhkit-matlab/api.qc.html">MATLAB QC API Documentation</a></p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="qc_example.html"><span class="doc">Python Quality Control Example</span></a></p></li>
+<li><p><a class="reference external" href="mhkit-matlab/qc_example.html">MATLAB Quality Control Example</a></p></li>
+</ul>
 <p>The QC module contains a set of functions for basic quality control analysis.
 These functions are imported from <a class="reference external" href="https://pecos.readthedocs.io">Pecos</a>, an open-source Python package
 designed for quality control analysis of time-series data.  Pecos was originally developed to monitor solar photovoltaic systems but is designed to be used for a wide range of applications.</p>
@@ -141,12 +161,13 @@ Other functionality in MHKiT can use data that has datatime or numeric indexes.
 The <a class="reference internal" href="utils.html#utils"><span class="std std-ref">Utils Module</span></a> can be used to convert numeric indexes to datetime indexes.</p>
 <p>See <a class="reference internal" href="python.html#python"><span class="std std-ref">MHKiT-Python</span></a> or <a class="reference internal" href="matlab.html#matlab"><span class="std std-ref">MHKiT-MATLAB</span></a> for more details on the QC module.</p>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples_overview.html" class="btn btn-neutral float-left" title="MHKiT Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="wave.html" class="btn btn-neutral float-right" title="Wave Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

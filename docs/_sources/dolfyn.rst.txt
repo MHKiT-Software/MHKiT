@@ -4,6 +4,18 @@ DOLfYN Module
 ====================
 The dolfyn (Doppler Oceanography Library for pYthoN) module contains a set of functions to injest binary Nortek or RDI files. Only available in MHKiT-Python in v0.5.0 or later.
 
+API Documentation
+--------------------
+- `Python DOLfYN API Documentation <mhkit-python/api.dolfyn.html>`_
+- MATLAB support is planned in an upcoming release
+
+Examples
+--------------
+
+- `ADCP Example <adcp_example.ipynb>`_
+- `ADV Example <adv_example.ipynb>`_
+- `Python Tanana River Resource Characterization <ADCP_Delft3D_TRTS_example.ipynb>`_
+
 The dolfyn module contains the following submodules:
 
 * ``adp``: Contains functions to process, clean and analyze ADCP data

@@ -51,13 +51,14 @@ MHKiT-MATLAB is tested by the core development team to ensure that the wrapped M
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ |python_image|
 -----------------------------------------------------------------------------------
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ is intended to be used by researchers and practitioners who prefer Python.
-MHKiT-Python uses Pandas data objects to store data with labeled columns and rows.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ is available for users who prefer Python.
+MHKiT-Python allows Xarray and Pandas data objects to store data with labeled columns and rows.
 This allows the user to keep track of timestamp indexes and the type of data that is in each column.
-Pandas includes many options to analyze data, including methods to slice, query, upscale, and plot data.
+Xarray and Pandas both include many options to analyze data, including methods to slice, query, upscale, and plot data.
 Additionally, Pandas includes many options to load data from a wide range of formats into Pandas data objects.
-MHKiT-Python users that are new to Pandas are encouraged to review the
-`Pandas getting started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
+MHKiT-Python users that are new to Xarray or Pandas are encouraged to review the
+`Xarray Getting Started guide <https://docs.xarray.dev/en/stable/getting-started-guide/index.html>`_ or
+`Pandas Getting Started guide <https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html>`_.
 
 The MHKiT-Python repository is located at: https://github.com/MHKiT-Software/MHKiT-Python.
 
@@ -69,7 +70,7 @@ The MHKiT-Python repository is located at: https://github.com/MHKiT-Software/MHK
 
 `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ |matlab_image|
 --------------------------------------------------------------------------------------------
-`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  is intended to be used by researchers and practitioners that prefer MATLAB.
+`MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  is available for users that prefer MATLAB.
 To ensure consistency between MHKiT-MATLAB and MHKiT-Python,
 MHKiT-MATLAB runs the MHKiT-Python functions by wrapping them in MATLAB. Conversions to Python data types happen within the wrappers,
 allowing MATLAB users to deal with MATLAB data types only.

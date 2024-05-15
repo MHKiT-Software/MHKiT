@@ -29,7 +29,7 @@ IO
 The io submodule contains the following functions to request, load,
 and manipulate `National Data Buoy Center (NDBC) <https://www.ndbc.noaa.gov/>`_ data, `WPTO Hindcast <https://registry.opendata.aws/wpto-pds-us-wave/>`_ data, and 
 `CDiP <http://cdip.ucsd.edu>`_ data. The io module also has functions to load and manipulate 
-`WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ and `SWAN <https://snl-waterpower.github.io/SNL-SWAN/>`_ model data.
+`WEC-Sim <http://wec-sim.github.io/WEC-Sim/>`_ and `SWAN <https://sandialabs.github.io/SNL-SWAN/>`_ model data.
 
 
 Wave IO (Input/Output) Function Summary
