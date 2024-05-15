@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tidal Power Performance Analysis &mdash; MHKiT v0.8.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mhkit.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=b3dab91b"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Analyzing ADCP Data with MHKiT" href="adcp_example.html" />
+    <link rel="prev" title="Delft3D IO Module" href="Delft3D_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MHKiT
+          </a>
+              <div class="version">
+                v0.8.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples_overview.html">MHKiT Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qc.html">QC Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave.html">Wave Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="river.html">River Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tidal.html">Tidal Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="power.html">Power Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loads.html">Loads Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mooring.html">Mooring Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="python.html">MHKiT-Python</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="python.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#api-documentation">API Documentation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="python.html#examples">Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="qc_example.html">MHKiT Quality Control Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wave_example.html">MHKiT Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="river_example.html">MHKiT River Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_example.html">MHKiT Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_example.html">MHKiT Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads_example.html">MHKiT Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environmental_contours_example.html">MHKiT Environmental Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWAN_example.html">MHKiT SWAN Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html#1.-Request-Continuous-Wind-Data-from-NDBC">1. Request Continuous Wind Data from NDBC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Tidal Power Performance Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Power-curve">Power-curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Velocity-Profiles">Velocity Profiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#RMS-Tidal-Velocity">RMS Tidal Velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Std-Dev-Tidal-Velocity">Std Dev Tidal Velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Current-Energy-Converter-Efficiency">Current Energy Converter Efficiency</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Analyzing ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_full_sea_state_example.html">Extreme Conditions Modeling - Full Sea State Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="short_term_extremes_example.html">MHKit Short-term Extreme Loads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mooring_example.html">Mooring Module Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#online-forum">Online Forum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#software-tests">Software Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matlab.html">MHKiT-MATLAB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="python.html">MHKiT-Python</a></li>
+      <li class="breadcrumb-item active">Tidal Power Performance Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tidal_performance_example.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tidal-Power-Performance-Analysis">
+<h1>Tidal Power Performance Analysis<a class="headerlink" href="#Tidal-Power-Performance-Analysis" title="Link to this heading"></a></h1>
+<p>The following example demonstrates a simple workflow for conducting the power performance analysis of a turbine, given turbine specifications, power data, and Acoustic Doppler Current Profiler (ADCP) water measurements.</p>
+<p>In this case, the turbine specifications can be broken down into 1. Shape of the rotor’s swept area 2. Turbine rotor diameter/height and width 3. Turbine hub height (center of swept area)</p>
+<p>Additional data needed: - Power data from the current energy converter (CEC) - 2-dimensional water velocity data</p>
+<p>In this jupyter notebook, we’ll be covering the following three topics: 1. CEC power-curve 2. Velocity profiles 3. CEC efficiency profile (or power coefficient profile)</p>
+<p>Start by importing the necessary tools:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import matplotlib.pyplot as plt
+
+from mhkit.tidal import performance
+from mhkit.dolfyn import load
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+c:\Users\mcve343\Anaconda3\lib\site-packages\xarray\backends\cfgrib_.py:29: UserWarning: Failed to load cfgrib - most likely there is a problem accessing the ecCodes library. Try `import cfgrib` to get the full error message
+  warnings.warn(
+</pre></div></div>
+</div>
+<p>In this case, we’ll use ADCP data from the ADCP example notebook. I am importing a dataset from the ADCP example notebook. This data retains the original timestamps (1 Hz sampling frequency) and was rotated into the principal coordinate frame (streamwise-cross_stream-up).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Open processed ADCP dataset
+ds = load(&quot;data/tidal/adcp.principal.a1.20200815.nc&quot;)
+</pre></div>
+</div>
+</div>
+<p>Next, since we don’t have power data, we’ll invent a mock timeseries based off the cube of water velocity, just to have something to work with.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Streamwise and hub-height water velocity
+streamwise_vel = ds[&quot;vel&quot;].sel(dir=&quot;streamwise&quot;)
+hub_height_vel = abs(streamwise_vel.isel(range=10))
+
+# Emulate power data
+power = hub_height_vel**3 * 1e5
+# Emulate cut-in speed by setting power at flow speeds below 0.5 m/s to 0 W
+power = power.where(abs(streamwise_vel.mean(&quot;range&quot;)) &gt; 0.5, 0)
+</pre></div>
+</div>
+</div>
+<p>The first step for any of the following calculations is to first split velocity into ebb and flood tide. You’ll need some background information on the site to know which direction is positive and which is negative in the data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ebb = streamwise_vel.where(streamwise_vel &gt; 0)
+flood = streamwise_vel.where(streamwise_vel &lt; 0)
+</pre></div>
+</div>
+</div>
+<p>With the ebb and flood velocities, we can also divide the power data into that for ebb and flood tides.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Make sure ebb and flood are on same timestamps
+power = power.interp(time=streamwise_vel[&quot;time&quot;])
+
+power_ebb = power.where(~ebb.mean(&quot;range&quot;).isnull(), 0)
+power_flood = power.where(~flood.mean(&quot;range&quot;).isnull(), 0)
+</pre></div>
+</div>
+</div>
+<section id="Power-curve">
+<h2>Power-curve<a class="headerlink" href="#Power-curve" title="Link to this heading"></a></h2>
+<p>Now with power and velocity divided into ebb and flood tides, we can calculate the power curve for the CEC in both conditions</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>power_curve_ebb = performance.power_curve(
+    power_ebb,
+    velocity=ebb,
+    hub_height=4.2,
+    doppler_cell_size=0.5,
+    sampling_frequency=1,
+    window_avg_time=600,
+    turbine_profile=&quot;circular&quot;,
+    diameter=3,
+    height=None,
+    width=None,
+)
+power_curve_flood = performance.power_curve(
+    power_flood,
+    velocity=flood,
+    hub_height=4.2,
+    doppler_cell_size=0.5,
+    sampling_frequency=1,
+    window_avg_time=600,
+    turbine_profile=&quot;circular&quot;,
+    diameter=3,
+    height=None,
+    width=None,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>power_curve_flood
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>U_avg</th>
+      <th>U_avg_power_weighted</th>
+      <th>P_avg</th>
+      <th>P_std</th>
+      <th>P_max</th>
+      <th>P_min</th>
+    </tr>
+    <tr>
+      <th>U_bins</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(0.0, 0.1]</th>
+      <td>0.067459</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>(0.1, 0.2]</th>
+      <td>0.115614</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>(0.2, 0.3]</th>
+      <td>0.249676</td>
+      <td>0.225639</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>(0.3, 0.4]</th>
+      <td>0.339600</td>
+      <td>0.315561</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>(0.4, 0.5]</th>
+      <td>0.459393</td>
+      <td>0.437249</td>
+      <td>2890.724986</td>
+      <td>2660.810022</td>
+      <td>5551.535008</td>
+      <td>229.914964</td>
+    </tr>
+    <tr>
+      <th>(0.5, 0.6]</th>
+      <td>0.548507</td>
+      <td>0.532974</td>
+      <td>19677.343518</td>
+      <td>4645.890936</td>
+      <td>24323.234454</td>
+      <td>15031.452582</td>
+    </tr>
+    <tr>
+      <th>(0.6, 0.7]</th>
+      <td>0.671449</td>
+      <td>0.655362</td>
+      <td>40369.435517</td>
+      <td>3679.260135</td>
+      <td>45506.306677</td>
+      <td>37083.470337</td>
+    </tr>
+    <tr>
+      <th>(0.7, 0.8]</th>
+      <td>0.726189</td>
+      <td>0.704845</td>
+      <td>52413.972024</td>
+      <td>2856.737142</td>
+      <td>57360.861473</td>
+      <td>50670.102583</td>
+    </tr>
+    <tr>
+      <th>(0.8, 0.9]</th>
+      <td>0.843958</td>
+      <td>0.825916</td>
+      <td>79944.000855</td>
+      <td>9798.569674</td>
+      <td>96206.928025</td>
+      <td>66531.815452</td>
+    </tr>
+    <tr>
+      <th>(0.9, 1.0]</th>
+      <td>0.938701</td>
+      <td>0.920960</td>
+      <td>103970.042175</td>
+      <td>5828.263891</td>
+      <td>112163.977434</td>
+      <td>99100.055332</td>
+    </tr>
+    <tr>
+      <th>(1.0, 1.1]</th>
+      <td>1.046607</td>
+      <td>1.026293</td>
+      <td>148511.100008</td>
+      <td>18809.350864</td>
+      <td>171583.550611</td>
+      <td>124179.073981</td>
+    </tr>
+    <tr>
+      <th>(1.1, 1.2]</th>
+      <td>1.147348</td>
+      <td>1.127691</td>
+      <td>200340.820581</td>
+      <td>6299.518554</td>
+      <td>209073.741656</td>
+      <td>187772.752668</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Next we can plot the two power curves. A velocity bin is missing in the ebb tide power curve in this example because the data is so short, there are no samples for that bin.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plot_power_curve(P_curve, ax):
+    ax.plot(P_curve[&quot;U_avg&quot;], P_curve[&quot;P_avg&quot;], &quot;-o&quot;, color=&quot;C0&quot;, label=&quot;Avg Power&quot;)
+    ax.plot(
+        P_curve[&quot;U_avg&quot;],
+        (P_curve[&quot;P_avg&quot;] - P_curve[&quot;P_std&quot;]),
+        &quot;--+&quot;,
+        color=&quot;C1&quot;,
+        label=&quot;Power - 1 Std Dev&quot;,
+    )
+    ax.plot(
+        P_curve[&quot;U_avg&quot;],
+        (P_curve[&quot;P_avg&quot;] + P_curve[&quot;P_std&quot;]),
+        &quot;-+&quot;,
+        color=&quot;C1&quot;,
+        label=&quot;Power + 1 Std Dev&quot;,
+    )
+    ax.plot(P_curve[&quot;U_avg&quot;], P_curve[&quot;P_min&quot;], &quot;--x&quot;, color=&quot;C2&quot;, label=&quot;Min Power&quot;)
+    ax.plot(P_curve[&quot;U_avg&quot;], P_curve[&quot;P_max&quot;], &quot;-x&quot;, color=&quot;C2&quot;, label=&quot;Max Power&quot;)
+    ax.set(xlabel=&quot;Flow Speed at Hub Height [m/s]&quot;, ylabel=&quot;Power [W]&quot;)
+    ax.legend()
+
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 7))
+plot_power_curve(power_curve_ebb, ax[0])
+plot_power_curve(power_curve_flood, ax[1])
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/tidal_performance_example_14_0.png" src="_images/tidal_performance_example_14_0.png" />
+</div>
+</div>
+</section>
+<section id="Velocity-Profiles">
+<h2>Velocity Profiles<a class="headerlink" href="#Velocity-Profiles" title="Link to this heading"></a></h2>
+<p>Various velocity profiles can be created next from the water velocity data, and we can do this again with ebb and flood tide. These functions are following three steps: 1. Reshape the data into bins by time (ensembles) 2. Apply a function to the ensembles to get ensemble statistics (mean, root-mean-square (RMS), or standard devation) 3. Regroup and bin the ensemble statistics by flow speed</p>
+<p>These profiles are created using the <code class="docutils literal notranslate"><span class="pre">velocity_profiles</span></code> method, and a profile is specified using the “function” argument. For the average velocity profiles, we’ll set the function = ‘mean’.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>avg_profile_ebb = performance.velocity_profiles(
+    velocity=ebb,
+    hub_height=4.2,
+    water_depth=10,
+    sampling_frequency=1,
+    window_avg_time=600,
+    function=&quot;mean&quot;,
+)
+avg_profile_flood = performance.velocity_profiles(
+    velocity=ebb,
+    hub_height=4.2,
+    water_depth=10,
+    sampling_frequency=1,
+    window_avg_time=600,
+    function=&quot;mean&quot;,
+)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="RMS-Tidal-Velocity">
+<h2>RMS Tidal Velocity<a class="headerlink" href="#RMS-Tidal-Velocity" title="Link to this heading"></a></h2>
+<p>For RMS velocity profiles, we’ll set the function = ‘rms’.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rms_profile_ebb = performance.velocity_profiles(
+    velocity=ebb,
+    hub_height=4.2,
+    water_depth=10,
+    sampling_frequency=1,
+    window_avg_time=600,
+    function=&quot;rms&quot;,
+)
+rms_profile_flood = performance.velocity_profiles(
+    velocity=ebb,
+    hub_height=4.2,
+    water_depth=10,
+    sampling_frequency=1,
+    window_avg_time=600,
+    function=&quot;rms&quot;,
+)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Std-Dev-Tidal-Velocity">
+<h2>Std Dev Tidal Velocity<a class="headerlink" href="#Std-Dev-Tidal-Velocity" title="Link to this heading"></a></h2>
+<p>And to get the standard deviation, we’ll set function = ‘std’.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>std_profile_ebb = performance.velocity_profiles(
+    velocity=ebb,
+    hub_height=4.2,
+    water_depth=10,
+    sampling_frequency=1,
+    window_avg_time=600,
+    function=&quot;std&quot;,
+)
+std_profile_flood = performance.velocity_profiles(
+    velocity=ebb,
+    hub_height=4.2,
+    water_depth=10,
+    sampling_frequency=1,
+    window_avg_time=600,
+    function=&quot;std&quot;,
+)
+</pre></div>
+</div>
+</div>
+<p>Finally, we can plot these variables together based on ebb and flood tides. The following code plots the mean and RMS profiles as line plots with “x” and “+” markers, respectively, and shades the area between +/- 1 standard deviation from the mean.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plot_velocity_profiles(avg_profile, rms_profile, std_profile, ax):
+    alt = avg_profile.index
+    mean = avg_profile.values.T
+    rms = rms_profile.values.T
+    std = std_profile.values.T
+
+    ax.plot(mean[0], alt, &quot;-x&quot;, label=avg_profile.columns[0])
+    ax.plot(mean[1], alt, &quot;-x&quot;, label=avg_profile.columns[1])
+    ax.plot(mean[2], alt, &quot;-x&quot;, label=avg_profile.columns[2])
+
+    ax.fill_betweenx(alt, mean[0] - std[0], mean[0] + std[0], facecolor=&quot;lightblue&quot;)
+    ax.fill_betweenx(alt, mean[1] - std[1], mean[1] + std[1], facecolor=&quot;moccasin&quot;)
+    ax.fill_betweenx(alt, mean[2] - std[2], mean[2] + std[2], facecolor=&quot;palegreen&quot;)
+
+    ax.plot(rms[0], alt, &quot;+&quot;, color=&quot;C0&quot;)
+    ax.plot(rms[1], alt, &quot;+&quot;, color=&quot;C1&quot;)
+    ax.plot(rms[2], alt, &quot;+&quot;, color=&quot;C2&quot;)
+    ax.set(xlabel=&quot;Water Velocity [m/s]&quot;, ylabel=&quot;Altitude [m]&quot;, ylim=(0, 10))
+    ax.legend()
+
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 7))
+plot_velocity_profiles(avg_profile_ebb, rms_profile_ebb, std_profile_ebb, ax[0])
+ax[0].set_title(&quot;Ebb Tide&quot;)
+plot_velocity_profiles(avg_profile_flood, rms_profile_flood, std_profile_flood, ax[1])
+ax[1].set_title(&quot;Flood Tide&quot;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;Flood Tide&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/tidal_performance_example_22_1.png" src="_images/tidal_performance_example_22_1.png" />
+</div>
+</div>
+</section>
+<section id="Current-Energy-Converter-Efficiency">
+<h2>Current Energy Converter Efficiency<a class="headerlink" href="#Current-Energy-Converter-Efficiency" title="Link to this heading"></a></h2>
+<p>The CEC efficiency, or device power coefficient, can be found using the <code class="docutils literal notranslate"><span class="pre">device_efficiency</span></code> method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>efficiency_ebb = performance.device_efficiency(
+    power=power_ebb,
+    velocity=ebb,
+    water_density=ds[&quot;water_density&quot;],
+    capture_area=np.pi * 1.5**2,
+    hub_height=4.2,
+    sampling_frequency=1,
+    window_avg_time=600,
+)
+efficiency_flood = performance.device_efficiency(
+    power=power_flood,
+    velocity=flood,
+    water_density=ds[&quot;water_density&quot;],
+    capture_area=np.pi * 1.5**2,
+    hub_height=4.2,
+    sampling_frequency=1,
+    window_avg_time=600,
+)
+</pre></div>
+</div>
+</div>
+<p>And these efficiency curves can be plotted as profiles:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plot_efficiency(efficiency, ax):
+    means = efficiency.U_avg.values.T
+    eta = efficiency.Efficiency.values.T
+    ax.plot(means, eta, &quot;-o&quot;)
+    ax.set(xlabel=&quot;Hub Height Flow Velocity [m/s]&quot;, ylabel=&quot;Efficiency [%]&quot;)
+
+
+fig, ax = plt.subplots(1, 2, figsize=(7, 6))
+plot_efficiency(efficiency_ebb, ax[0])
+ax[0].set_title(&quot;Ebb Tide&quot;)
+plot_efficiency(efficiency_flood, ax[1])
+ax[1].set_title(&quot;Flood Tide&quot;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;Flood Tide&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/tidal_performance_example_26_1.png" src="_images/tidal_performance_example_26_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Delft3D_example.html" class="btn btn-neutral float-left" title="Delft3D IO Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adcp_example.html" class="btn btn-neutral float-right" title="Analyzing ADCP Data with MHKiT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-164358105-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

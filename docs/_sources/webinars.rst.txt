@@ -20,7 +20,7 @@ The MHKiT-Python webinar held on 10 February 2021 covered MHKiT-Python v0.3.1 an
 |
 
 
-The MHKiT-Python webinar held on 31 March 2022 covered MHKiT-Python v0.5. and featured demonstrations of the DOLfYN and WDRT modules. 
+The MHKiT-Python webinar held on 31 March 2022 covered MHKiT-Python v0.5.0 and featured demonstrations of the DOLfYN and WDRT modules. 
 
 .. raw:: html
 

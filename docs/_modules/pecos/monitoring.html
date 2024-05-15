@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pecos.monitoring &mdash; MHKiT v0.5.1 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/mhkit.css" type="text/css" />
+  <title>pecos.monitoring &mdash; MHKiT v0.8.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/mhkit.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=b3dab91b"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -34,7 +36,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.5.1
+                v0.8.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -46,8 +48,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../terminology.html">Terminology</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples_overview.html">MHKiT Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../qc.html">QC Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../wave.html">Wave Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../river.html">River Module</a></li>
@@ -55,10 +58,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../power.html">Power Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../loads.html">Loads Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dolfyn.html">DOLfYN Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mooring.html">Mooring Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utils.html">Utils Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../python.html">MHKiT-Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../matlab.html">MHKiT-MATLAB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../terminology.html">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../webinars.html">Webinars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
@@ -150,10 +155,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trans</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfilter</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Variable Name&#39;</span><span class="p">,</span>
                                                 <span class="s1">&#39;Start Time&#39;</span><span class="p">,</span> <span class="s1">&#39;End Time&#39;</span><span class="p">,</span>
                                                 <span class="s1">&#39;Timesteps&#39;</span><span class="p">,</span> <span class="s1">&#39;Error Flag&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;Start Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;Start Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;End Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;End Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;Timesteps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">[</span><span class="s1">&#39;Timesteps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+        
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -305,7 +314,7 @@
                 <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
     
         <span class="n">test_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_results</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_results</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">,</span> <span class="n">test_results</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">add_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -429,8 +438,8 @@
                                  <span class="n">timestamp_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                  <span class="n">min_failures</span><span class="o">=</span><span class="n">min_failures</span><span class="p">)</span>
 
-        <span class="c1"># If not monotonic, sort df by timestamp</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_monotonic</span><span class="p">:</span>
+        <span class="c1"># If not monotonically increasing, sort df by timestamp</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
 
         <span class="c1"># Check for duplicate timestamps</span>
@@ -600,7 +609,7 @@
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
         <span class="k">assert</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;positive&#39;</span><span class="p">,</span> <span class="s1">&#39;negative&#39;</span><span class="p">],</span> <span class="s2">&quot;direction must None or the string &#39;positive&#39; or &#39;negative&#39;&quot;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be of type int&#39;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_monotonic</span><span class="p">,</span> <span class="s1">&#39;index must be monotonic&#39;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="p">,</span> <span class="s1">&#39;index must be monotonically increasing&#39;</span>
         
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Check for stagant data and/or abrupt changes using delta (max-min) within a rolling window&quot;</span><span class="p">)</span>
         
@@ -726,7 +735,7 @@
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">absolute_value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;absolute_value must be of type bool&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">streaming</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;streaming must be of type bool&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be type int&#39;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_monotonic</span><span class="p">,</span> <span class="s1">&#39;index must be monotonic&#39;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="p">,</span> <span class="s1">&#39;index must be monotonically increasing&#39;</span>
         
         <span class="k">def</span> <span class="nf">outlier</span><span class="p">(</span><span class="n">data_pt</span><span class="p">,</span> <span class="n">history</span><span class="p">):</span>
 
@@ -870,7 +879,7 @@
 <span class="sd">        error_message : str, optional</span>
 <span class="sd">            Error message</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span><span class="n">quality_control_func</span><span class="p">),</span> <span class="s1">&#39;quality_control_func must be a callable function&#39;</span>
+        <span class="k">assert</span> <span class="nb">callable</span><span class="p">(</span><span class="n">quality_control_func</span><span class="p">),</span> <span class="s1">&#39;quality_control_func must be a callable function&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_failures</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">&#39;min_failures must be type int&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error_message</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;error_message must be None or of type string&#39;</span>
@@ -881,7 +890,7 @@
         
         <span class="c1"># Function that operates on the entire dataset and returns a mask and</span>
         <span class="c1"># metadata for the entire dataset</span>
-        <span class="n">mask</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">quality_control_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span> 
+        <span class="n">mask</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">quality_control_func</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">),</span> <span class="s1">&#39;mask returned by quality_control_func must be of type pd.DataFrame&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">),</span> <span class="s1">&#39;metadata returned by quality_control_func must be of type pd.DataFrame&#39;</span>
         
@@ -926,7 +935,7 @@
 <span class="sd">        error_message : str, optional</span>
 <span class="sd">            Error message</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span><span class="n">quality_control_func</span><span class="p">),</span> <span class="s1">&#39;quality_control_func must be a callable function&#39;</span>
+        <span class="k">assert</span> <span class="nb">callable</span><span class="p">(</span><span class="n">quality_control_func</span><span class="p">),</span> <span class="s1">&#39;quality_control_func must be a callable function&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)),</span> <span class="s1">&#39;window must be of type int or float&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)),</span> <span class="s1">&#39;key must be None or of type string&#39;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rebase</span><span class="p">,</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)),</span> <span class="s1">&#39;rebase must be None or type int or float&#39;</span>
@@ -945,14 +954,15 @@
         <span class="c1"># The streaming framework uses numpy arrays to improve performance but</span>
         <span class="c1"># still expects pandas DataFrames and Series in the user defined quality </span>
         <span class="c1"># control function to keep data types consitent on the user side.</span>
-        <span class="n">np_mask</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">np_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;Float64&#39;</span><span class="p">)</span>
+        <span class="n">np_mask</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">np_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
     
         <span class="n">ti</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">history_window</span><span class="p">)</span>
         
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span><span class="n">np_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)):</span>
 
-            <span class="n">t_start</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">-</span><span class="n">history_window</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+            <span class="c1">#t_start = df.index.get_loc(df.index[t]-history_window, method=&#39;nearest&#39;)</span>
+            <span class="n">t_start</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_indexer</span><span class="p">([</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">-</span><span class="n">history_window</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">t_timestamp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
             
             <span class="n">data_pt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np_data</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
@@ -974,7 +984,7 @@
                     <span class="n">np_data</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">check_rebase</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">check_rebase</span><span class="p">]</span>
                     <span class="n">rebase_count</span> <span class="o">=</span> <span class="n">rebase_count</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">check_rebase</span><span class="p">)</span>
         
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np_mask</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np_mask</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_append_test_results</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">error_message</span><span class="p">,</span> <span class="n">min_failures</span><span class="p">)</span>
         
         <span class="c1"># Convert metadata to a dataframe</span>
@@ -984,7 +994,9 @@
 
         
 <span class="c1">### Functional approach</span>
-<div class="viewcode-block" id="check_timestamp"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_timestamp">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">)</span>
+<div class="viewcode-block" id="check_timestamp">
+<a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_timestamp">[docs]</a>
+<span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_timestamp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">expected_start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">expected_end_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">exact_times</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
@@ -997,7 +1009,10 @@
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="check_range"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_range">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_range</span><span class="p">)</span>
+
+<div class="viewcode-block" id="check_range">
+<a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_range">[docs]</a>
+<span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_range</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="n">pm</span> <span class="o">=</span> <span class="n">PerformanceMonitoring</span><span class="p">()</span>
@@ -1006,6 +1021,7 @@
     <span class="n">mask</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">mask</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
+
 
 
 <span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_increment</span><span class="p">)</span>
@@ -1020,7 +1036,9 @@
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="check_delta"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_delta">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_delta</span><span class="p">)</span>
+<div class="viewcode-block" id="check_delta">
+<a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_delta">[docs]</a>
+<span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_delta</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="n">pm</span> <span class="o">=</span> <span class="n">PerformanceMonitoring</span><span class="p">()</span>
@@ -1031,7 +1049,10 @@
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="check_outlier"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_outlier">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_outlier</span><span class="p">)</span>
+
+<div class="viewcode-block" id="check_outlier">
+<a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_outlier">[docs]</a>
+<span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_outlier</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_outlier</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">absolute_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                   <span class="n">streaming</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
@@ -1043,7 +1064,10 @@
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="check_missing"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_missing">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_missing</span><span class="p">)</span>
+
+<div class="viewcode-block" id="check_missing">
+<a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_missing">[docs]</a>
+<span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_missing</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_missing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     
     <span class="n">pm</span> <span class="o">=</span> <span class="n">PerformanceMonitoring</span><span class="p">()</span>
@@ -1054,7 +1078,10 @@
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="check_corrupt"><a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_corrupt">[docs]</a><span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_corrupt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="check_corrupt">
+<a class="viewcode-back" href="../../mhkit-python/api.qc.html#mhkit.qc.check_corrupt">[docs]</a>
+<span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_corrupt</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_corrupt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">corrupt_values</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="n">pm</span> <span class="o">=</span> <span class="n">PerformanceMonitoring</span><span class="p">()</span>
@@ -1063,6 +1090,7 @@
     <span class="n">mask</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">mask</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;cleaned_data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;test_results&#39;</span><span class="p">:</span> <span class="n">pm</span><span class="o">.</span><span class="n">test_results</span><span class="p">}</span></div>
+
 
 <span class="nd">@_documented_by</span><span class="p">(</span><span class="n">PerformanceMonitoring</span><span class="o">.</span><span class="n">check_custom_static</span><span class="p">,</span> <span class="n">include_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_custom_static</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">quality_control_func</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_failures</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>

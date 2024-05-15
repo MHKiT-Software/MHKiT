@@ -3,6 +3,31 @@
 Release Notes
 =============
 
+MHKiT-Python v0.8.0
+-------------------
+MHKiT-Python v0.8.0 adds the following modules and capabilities to MHKiT-Python:
+
+ * Support for python 3.10 and 3.11
+ * Support for xarray input and output across all MHKiT functions
+ * Wave module enhancements:
+    - Automatic Threshold Calculation for Peaks-Over-Threshold
+    - Wave Heights Analysis
+    - Enhanced Zero Crossing Analysis
+ * DOLfYN enhancements:
+    - Altimeter Support
+    - Data Handling Improvements
+    - Instrument Noise Subtraction
+    - Improved File Handling
+ * River and Tidal - D3D:
+    - Added limits to variable_interpolation and added 3 array input capability to create_points
+ * Developer Experience:
+    - Black formatting
+    - Linting and type hints
+    - CI/CD improvements
+ * General upkeep and compatibility maintenance
+ * General Bug Fixes
+
+
 MHKiT-Python v0.7.0
 -------------------
 MHKiT-Python v0.7.0 adds the following modules and capabilities to MHKiT-Python:
@@ -145,14 +170,3 @@ MHKiT-Python v0.1.0
 MHKiT-MATLAB v0.1.0 
 ^^^^^^^^^^^^^^^^^^^^^
 * `MHKiT-MATLAB v0.1.0 Release <https://github.com/MHKiT-Software/MHKiT-MATLAB/releases/tag/v0.1.0>`_
-
-
-Future Releases
-----------------
-
-The next releases, planned in 2021, will include: 
-
-* Additional QC functionality and data transformation functions
-* Additional power quality functions for flicker analysis
-* Data ingestion functions from instrumentation and public datasets
-* Mooring module 
