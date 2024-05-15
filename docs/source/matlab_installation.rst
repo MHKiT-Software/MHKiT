@@ -1,7 +1,7 @@
 .. _matlab_installation:
 
-MATLAB Installation
-===================
+MHKiT-MATLAB Installation
+=========================
 
 The following section includes instructions for installing `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ .
 

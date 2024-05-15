@@ -1,28 +1,13 @@
 .. _python_installation:
 
-Python Installation
-=============
+MHKiT-Python Installation
+=========================
 
 The following sections includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_.
 
-
-MHKiT-Python
--------------
-
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has several Python package dependencies.
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
-Refer to the `Python website <https://www.python.org/>`_ for information on using Python.
 
-.. Note::
-    The installation of Anaconda3 no longer adds python to the Windows Environment Variables by default. During installation, there is a checkbox in the advanced options of the installation to add it to the system path. The installation wizard advises against doing so in case a user has multiple python installations. Either check this box or setup your environmental variables so that python is accessible through your system path.
-
-    Click `here <https://www.datacamp.com/community/tutorials/installing-anaconda-windows>`_ for more information.
-
-.. Note::
-	Mac computers come with Python 2.7 pre-installed. MHKiT does not 
-	work with Python 2.7.  A second version of Python (3.8-3.11) will need to 
-	be installed on your machine. DO NOT DELETE Python 2.7. Use the above 
-	steps to make sure MATLAB is running the proper version of Python.
 
 Requirements
 ^^^^^^^^^^^^^^^
@@ -67,8 +52,9 @@ Using this option to install MHKiT-Python will require following the `Pecos inst
 
 .. Note::
 	If you plan to contribute to the MHKiT-Python open-source software, please `fork <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo>`_ the MHKiT-Python repository into your GitHub user account.
-	To include your additions to the MHKiT-Python code, please submit a `pull request <https://github.com/MHKiT-Software/MHKiT-Python/pulls>`_ in the MHKiT-Python master branch.
-	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases of MHKiT-Python.
+	Install MHKiT using Option 2 above.
+	To include your additions to the MHKiT-Python code, please submit a `pull request <https://github.com/MHKiT-Software/MHKiT-Python/pulls>`_ to the MHKiT-Python develop branch.
+	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases.
 
 
 Test MHKiT-Python installation
