@@ -281,7 +281,7 @@ Verify the output is::
 
 Congratulations, you now have a working version of MHKiT-MATLAB!
 
-.. _advanced-installation-section:
+.. _matlab-advanced-installation-section:
 
 Advanced Installation
 ---------------------
@@ -290,71 +290,90 @@ Advanced Installation
 
 2. Create an environment for MHKiT-Python:
 
-   * Check the `MHKiT-MATLAB MATLAB/Python compatibility matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ and select the version of Python compatible with your version of MATLAB
+   Check the `MHKiT-MATLAB MATLAB/Python compatibility matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ and select the version of Python compatible with your version of MATLAB.
 
-   * ``conda create -n mhkit python=3.10``
+   ::
 
-   * ``conda activate mhkit``
+     conda create -n mhkit python=3.10
+
+   ::
+
+     conda activate mhkit
 
 3. Install conda dependencies:
 
-   * ``conda install netcdf4 hdf5``
+   ::
+
+     conda install netcdf4 hdf5
 
 4. Use ``pip`` to install MHKiT-Python (``mhkit``):
 
-   * ``pip install mhkit==0.7.0``
+   ::
 
-   * ``python -c "import mhkit; print(mhkit.__version__)"``
+     pip install mhkit==0.7.0
 
-     - The expected output is:
+   ::
 
-       - ``v0.7.0``
+     python -c "import mhkit; print(mhkit.__version__)"
 
-   * ``python -c "import mhkit; print(mhkit.river.performance.circular(30))"``
+   The expected output is::
 
-     - The expected output is:
+     v0.7.0
 
-       - ``(30, 706.8583470577034)``
+
+   Verify the output from the ``circular`` function::
+
+     python -c "import mhkit; print(mhkit.river.performance.circular(30))"
+
+   The expected output is::
+
+     (30, 706.8583470577034)
 
 5. Download/clone MHKiT-MATLAB:
 
-   * ``git clone https://github.com/MHKiT-Software/MHKiT-MATLAB.git``
+   ::
+
+     git clone https://github.com/MHKiT-Software/MHKiT-MATLAB.git
 
 6. Install MHKiT-Python MATLAB Utilities:
 
-   * ``cd MHKiT-MATLAB``
+   ::
 
-   * ``pip install -e .``
+     cd MHKiT-MATLAB
+
+   ::
+
+     pip install -e .
 
 7. Get python executable:
 
-   * Copy output from
+   Copy output from::
 
-     - ``python -c "import sys; print(sys.executable)"``
+     python -c "import sys; print(sys.executable)"
 
 8. Set the python executable in MATLAB:
 
-   * In the MATLAB command window:
+   In the MATLAB command window::
 
-     * ``pyenv(Version="<python executable path>")``
+     pyenv(Version="<python executable path>")
 
 9. Install the MHKiT-MATLAB "Add-On":
 
-   * In the MHKiT-MATLAB, double click on ``mhkit.mltbx``
+   In the MHKiT-MATLAB folder, double click on ``mhkit.mltbx``
 
-   * Verify ``mhkit`` Add-On installed nominally
+   `Verify  Add-On installed nominally. <#step-7-install-mhkit-matlab-add-on>`_
 
-10. Verify the MHKiT-MATLAB Add-On:
+10. Verify the MHKiT-MATLAB Add-On functionality:
 
-    * In the MATLAB command window execute:
+    In the MATLAB command window execute::
 
-        * ``[x, y] = circular(30)``
+      [x, y] = circular(30)
 
-    * Verify the output:
+    Verify the output::
 
-        * ``x = 30``
+      x = 30
+      y = 706.8583
 
-        * ``y = 706.8583``
 
 .. _matlab-troubleshooting-section:
 
