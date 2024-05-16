@@ -460,7 +460,8 @@ Add Anaconda binary path to the MATLAB path
 
 5. Run the circular example again by `repeating step 8 <#step-8-verify-mhkit-matlab-installation>`_.
 
-
+Other Errors
+------------
 
 - Check the `MHKiT-MATLAB GitHub Issues <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_
 - Check the `MHKiT-Python GitHub Issues <https://github.com/MHKiT-Software/MHKiT-Python/issues>`_
