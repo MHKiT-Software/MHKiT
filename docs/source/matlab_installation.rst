@@ -12,7 +12,7 @@ The following section includes instructions for installing `MHKiT-MATLAB <https:
 Installation Overview
 ---------------------
 
-MHKiT-MATLAB utilizes MHKiT-Python to perform many computations and requires installation of Python and MHKiT-Python.
+MHKiT-MATLAB utilizes MHKiT-Python to perform some computations and requires installation of Python and MHKiT-Python.
 
 Utilizing MHKiT-Python has the following advantages:
 
@@ -20,7 +20,7 @@ Utilizing MHKiT-Python has the following advantages:
 
   * Bugs fixed in MHKiT-Python are included in MHKiT-MATLAB
 
-  * Features that are added to MHKiT-Python are not reinvented in MHKiT-MATLAB
+  * Features added to MHKiT-Python are not reinvented in MHKiT-MATLAB
 
 * Python can leverage scientific computing tools that are not available in MATLAB
 
@@ -34,7 +34,7 @@ The installation process requires performing the following actions in order:
 4. `Download MHKiT-MATLAB from source <#step-4-download-mhkit-matlab-source-code>`_
 5. `Install MHKiT-MATLAB Python utilities <#step-5-install-mhkit-matlab-python-utilities>`_
 6. `Configure MATLAB python environment <#step-6-configure-matlab-python-environment>`_
-7. `Install the MHKiT-MATLAB addon <#step-7-install-mhkit-matlab-add-on>`_
+7. `Install the MHKiT-MATLAB Add-On <#step-7-install-mhkit-matlab-add-on>`_
 8. `Verify MHKiT-MATLAB functionality <#step-8-verify-mhkit-matlab-installation>`_
 
 
@@ -42,10 +42,10 @@ Required Software
 -----------------
 
 * `Anaconda <https://www.anaconda.com/download>`_: Python version and environment manager
-* `MATLAB <https://www.mathworks.com/products/matlab.html>`_: Version 2021b and above. The `MHKiT-MATLAB Compatiability Matrix has complete details <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_.
+* `MATLAB <https://www.mathworks.com/products/matlab.html>`_: Version 2021b and above. The `MHKiT-MATLAB Compatibility Matrix has complete details <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_.
 
 .. note::
-   Installing and using MHKiT with Anaconda is required for MHKiT-MATLAB. Other types of Python installations may work, but Anaconda provides a standardized Python installation and usage process that works consistently with MATLAB.
+   We strongly recommend using Anaconda to manage Python and its dependencies. For MHKiT-MATLAB other variations of Python installations may work, but Anaconda provides a standardized Python installation and usage process that works consistently with MATLAB.
 
 .. _installation-section:
 
@@ -82,9 +82,11 @@ In this step we are going to create a Python environment within Anaconda which w
 
       * Note: Environments can have any name, but we recommend naming them based on their intended use
 
-    * Packages: Python - Version 3.10 is recommended
+    * Packages:
 
-      * Note: Check the `MHKiT-MATLAB MATLAB/Python compatiability matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ to verify that the Python version selected is compatible with your version of MATLAB.
+      * Version 3.10
+
+      * Note: Check the `MHKiT-MATLAB MATLAB/Python compatibility matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ to verify that the Python version selected is compatible with your version of MATLAB.
 
 .. image:: ./figures/install_anaconda_setup_environment.png
   :width: 500
@@ -245,11 +247,11 @@ Step 7. Install MHKiT-MATLAB Add-On
   :width: 500
   :alt: Install MHKiT-MATLAB toolbox
 
-7.3 Verify add-on is installed
+7.3 Verify the mhkit Add-On installation
 
 .. image:: ./figures/install_matlab_addons_list.png
   :width: 500
-  :alt: MHKiT-MATLAB in MATLAB addons list
+  :alt: MHKiT-MATLAB in MATLAB Add-On list
 
 Step 8. Verify MHKiT-MATLAB Installation
 """"""""""""""""""""""""""""""""""""""""
@@ -287,6 +289,8 @@ Advanced Installation
 1. Install `miniconda <https://docs.anaconda.com/free/miniconda/miniconda-install/>`_.
 
 2. Create an environment for MHKiT-Python:
+
+   * Check the `MHKiT-MATLAB MATLAB/Python compatibility matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ and select the version of Python compatible with your version of MATLAB
 
    * ``conda create -n mhkit python=3.10``
    * ``conda activate mhkit``
