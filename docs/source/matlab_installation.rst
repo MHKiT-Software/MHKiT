@@ -293,22 +293,28 @@ Advanced Installation
    * Check the `MHKiT-MATLAB MATLAB/Python compatibility matrix <https://github.com/MHKiT-Software/MHKiT-MATLAB?tab=readme-ov-file#software-requirements>`_ and select the version of Python compatible with your version of MATLAB
 
    * ``conda create -n mhkit python=3.10``
+
    * ``conda activate mhkit``
 
 3. Install conda dependencies:
 
    * ``conda install netcdf4 hdf5``
 
-4. Pip install mhkit:
+4. Use ``pip`` to install MHKiT-Python (``mhkit``):
 
    * ``pip install mhkit==0.7.0``
+
    * ``python -c "import mhkit; print(mhkit.__version__)"``
 
-     - Should be ``v0.7.0``
+     - The expected output is:
+
+       - ``v0.7.0``
 
    * ``python -c "import mhkit; print(mhkit.river.performance.circular(30))"``
 
-     - The expected output is: ``(30, 706.8583470577034)``
+     - The expected output is:
+
+       - ``(30, 706.8583470577034)``
 
 5. Download/clone MHKiT-MATLAB:
 
@@ -317,6 +323,7 @@ Advanced Installation
 6. Install MHKiT-Python MATLAB Utilities:
 
    * ``cd MHKiT-MATLAB``
+
    * ``pip install -e .``
 
 7. Get python executable:
@@ -325,22 +332,28 @@ Advanced Installation
 
      - ``python -c "import sys; print(sys.executable)"``
 
-8. Set the python executable in matlab:
+8. Set the python executable in MATLAB:
 
    * In the MATLAB command window:
+
      * ``pyenv(Version="<python executable path>")``
 
 9. Install the MHKiT-MATLAB "Add-On":
 
    * In the MHKiT-MATLAB, double click on ``mhkit.mltbx``
-   * Verify MHKiT-MATLAB is installed in "Add-Ons"
+
+   * Verify ``mhkit`` Add-On installed nominally
 
 10. Verify the MHKiT-MATLAB Add-On:
 
     * In the MATLAB command window execute:
+
         * ``[x, y] = circular(30)``
+
     * Verify the output:
+
         * ``x = 30``
+
         * ``y = 706.8583``
 
 Troubleshooting
@@ -362,9 +375,9 @@ Troubleshooting
 
   - ``pyenv``
 
-    - The expected output is something similar to::
+    - The expected output should be similar to::
 
-          ans = 
+          ans =
 
           PythonEnvironment with properties:
 
@@ -381,4 +394,3 @@ Troubleshooting
 - Check the `MHKiT-MATLAB GitHub Issues <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_
 - Check the `MHKiT-Python GitHub Issues <https://github.com/MHKiT-Software/MHKiT-Python/issues>`_
 - Submit an issue in the `MHKiT-MATLAB GitHub repository Issue Tracker <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_
-
