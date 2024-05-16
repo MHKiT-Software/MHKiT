@@ -125,7 +125,7 @@ And press enter to run this command.
 
 
 .. Note::
-    If this command throws any errors, you must fix them before proceeding! Refer to the :ref:`matlab-troubleshooting-section` for more details on recommended troubleshooting steps.
+    If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#mhkit-matlab-troubleshooting>` for more details on recommended troubleshooting steps.
 
 
 3.5 Verify your MHKiT-Python version. In the terminal input the following command::
@@ -375,13 +375,11 @@ Advanced Installation
       y = 706.8583
 
 
-.. _matlab-troubleshooting-section:
-
-MHKiT-MATLAB Troubleshooting
-============================
+Troubleshooting
+----------------------------
 
 Errors During Installation
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Install Supplemental Anaconda Dependencies
 """""""""""""""""""""""""""""""""""""""""""
@@ -407,7 +405,7 @@ Verify MHKiT-Python is working properly
         (30, 706.8583470577034)
 
 Errors Upon Running MHKiT-MATLAB
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Verify MATLAB python environment is using ``mhkit`` conda python executable
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -461,7 +459,7 @@ Add Anaconda binary path to the MATLAB path
 5. Run the circular example again by `repeating step 8 <#step-8-verify-mhkit-matlab-installation>`_.
 
 Other Errors
-------------
+^^^^^^^^^^^^
 
 - Check the `MHKiT-MATLAB GitHub Issues <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_
 - Check the `MHKiT-Python GitHub Issues <https://github.com/MHKiT-Software/MHKiT-Python/issues>`_
