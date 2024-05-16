@@ -14,7 +14,6 @@
    installation.rst
    matlab_installation.rst
    module.rst
-   examples_overview.rst
    examples.rst
    api.rst
    troubleshooting.rst
