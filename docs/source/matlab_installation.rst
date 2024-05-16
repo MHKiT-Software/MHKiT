@@ -329,7 +329,7 @@ Advanced Installation
 
      (30, 706.8583470577034)
 
-5. Download/clone MHKiT-MATLAB:
+5. Download/clone `MHKiT-MATLAB from the GitHub Repository <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_:
 
    ::
 
