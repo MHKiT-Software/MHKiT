@@ -125,7 +125,7 @@ And press enter to run this command.
 
 
 .. Note::
-    If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#mhkit-matlab-troubleshooting>` for more details on recommended troubleshooting steps.
+    If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#troubleshooting>`_ for more details on recommended troubleshooting steps.
 
 
 3.5 Verify your MHKiT-Python version. In the terminal input the following command::
@@ -376,7 +376,7 @@ Advanced Installation
 
 
 Troubleshooting
-----------------------------
+---------------
 
 Errors During Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
