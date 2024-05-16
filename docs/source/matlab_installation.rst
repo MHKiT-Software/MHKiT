@@ -321,7 +321,9 @@ Advanced Installation
 
 7. Get python executable:
 
-   * Copy output from ``python -e "import sys; print(sys.executable)"``
+   * Copy output from
+
+     - ``python -c "import sys; print(sys.executable)"``
 
 8. Set the python executable in matlab:
 
