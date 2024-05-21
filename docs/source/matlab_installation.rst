@@ -405,7 +405,7 @@ Verify MHKiT-Python is working properly
         (30, 706.8583470577034)
 
 Errors Upon Running MHKiT-MATLAB
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Verify MATLAB python environment is using ``mhkit`` conda python executable
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
