@@ -14,9 +14,10 @@ API Documentation
 --------------------
 
 .. toctree::
-   
+
    mhkit-matlab/api.qc
    mhkit-matlab/api.wave
+   mhkit-matlab/api.dolfyn
    mhkit-matlab/api.river
    mhkit-matlab/api.tidal
    mhkit-matlab/api.power
@@ -46,17 +47,17 @@ MATLAB Live examples of MHKiT-MATLAB are included below:
 
 Online Forum
 --------------
-Please post questions about MHKiT-MATLAB on the `Issues Page <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_. This forum is managed by the MHKiT-MATLAB code development team and users. 
+Please post questions about MHKiT-MATLAB on the `Issues Page <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_. This forum is managed by the MHKiT-MATLAB code development team and users.
 The issues page is used to interact with the MHKiT-MATLAB community, ask questions, and report bugs.
 
 Software Tests
 --------------------------
 
-MHKiT-Python includes continuous integration software tests that are run using `GitHub Actions <https://github.com/MHKiT-Software/MHKiT-MATLAB/actions>`_. 
-The tests are run each time changes are made to the repository and are designed to ensure that the code is performing as expected. 
+MHKiT-Python includes continuous integration software tests that are run using `GitHub Actions <https://github.com/MHKiT-Software/MHKiT-MATLAB/actions>`_.
+The tests are run each time changes are made to the repository and are designed to ensure that the code is performing as expected.
 New tests are developed each time new functions are added or modified.
 Testing status (passing/failed) and code coverage statistics are posted on the `README page <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_.
 
-Tests can also be run locally using the Matlab API.  Developers should run software tests before 
-submitting a pull request by running runTests.m in the mhkit/tests/ folder. A summary pdf will be created after running the tests 
-summarizing the test results. 
+Tests can also be run locally using the Matlab API.  Developers should run software tests before
+submitting a pull request by running runTests.m in the mhkit/tests/ folder. A summary pdf will be created after running the tests
+summarizing the test results.
