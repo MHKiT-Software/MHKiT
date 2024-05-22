@@ -13,18 +13,9 @@
    overview.rst
    installation.rst
    matlab_installation.rst
-   examples_overview.rst
-   qc.rst
-   wave.rst
-   river.rst
-   tidal.rst
-   power.rst
-   loads.rst
-   dolfyn.rst
-   mooring.rst
-   utils.rst
-   python.rst
-   matlab.rst
+   module.rst
+   examples.rst
+   api.rst
    troubleshooting.rst
    terminology.rst
    webinars.rst
@@ -32,10 +23,6 @@
    release_notes.rst
    citeus.rst
    contact.rst
-
-
-
-
 
 
 ######################################################
@@ -66,15 +53,14 @@ Current members of the core development team include:
 - Sterling Olson (Sandia)
 - James McVey (PNNL)
 - Hristo Ivanov (NREL)
-- Carlos Michelen (Sandia)
 - Emily Browning (Sandia)
 - Adam Keester (Sandia)
-- Cesar Castillo (Sandia)
 - Budi Gunawan (Sandia - PI)
 - Andrew Simms (NREL)
 
 Former members of the core development team include:
 
+- Carlos Michelen (Sandia)
 - Matthew Boyd (NREL)
 - Alex McVey (NREL)
 - Katherine Klise (Sandia)
