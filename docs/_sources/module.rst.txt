@@ -1,9 +1,9 @@
 .. _module:
 
 Module Overview
-====================
+================
 
-This section gives an overview of the functionality available with each of MHKiT's modules.
+This section gives an overview of the functionality available within each of MHKiT's modules.
 
 .. toctree::
    :maxdepth: 1
@@ -17,4 +17,3 @@ This section gives an overview of the functionality available with each of MHKiT
    dolfyn.rst
    mooring.rst
    utils.rst
-

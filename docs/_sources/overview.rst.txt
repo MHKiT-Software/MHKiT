@@ -41,13 +41,6 @@ These modules provide functionality for calculating metrics needed by the MRE co
 To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB.
 As such, **MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language**.
 
-MHKiT-Python is rigorously tested using a continuous integration framework that is applied every time changes are made to the repository.
-These tests check functionality and accuracy.
-MHKiT-MATLAB is tested by the core development team to ensure that the wrapped MHKiT-Python functions are performing as expected.
-
-.. (removed for now) All codes are developed following a framework, format, and conventions that are defined in the Code Guildelines.
-   MHKiT Python/MATLAB use the HDF5 and JSON file formats to store data to ensure compatibility and usability by the broader MRE community and beyond.
-   These formats also help ensure that adequate metadata is collected.
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ |python_image|
 -----------------------------------------------------------------------------------
@@ -84,3 +77,29 @@ The MHKiT-MATLAB repository is located at: https://github.com/MHKiT-Software/MHK
    :target: https://github.com/MHKiT-Software/MHKiT-MATLAB
    :scale: 8 %
    :alt: MATLAB logo
+
+
+.. _tests:
+Software Tests
+--------------------------
+
+MHKiT is rigorously tested using a continuous integration framework that ensure the functionality and accuracy of the software.
+Tests are run each time changes are made to the repository.
+New tests are developed each time new functionality is added to MHKiT.
+Tests are run on GitHub Actions and reported on the respective README pages.
+
+GitHub Actions: `Python <https://github.com/MHKiT-Software/MHKiT-Python/actions>`_, `MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB/actions>`_
+README pages: `Python <https://github.com/MHKiT-Software/MHKiT-Python>`_, `MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_
+
+Developers should run software tests locally before submitting a pull request, using the following commands.
+A summary pdf will be created after running the tests 
+summarizing the test results. 
+
+MHKiT-Python tests using the Python package nose::
+
+   nosetests -v --with-coverage --cover-package=mhkit mhkit
+
+MHKiT-MATLAB tests using the MATLAB API::
+
+   mhkit/tests/runTests.m
+
