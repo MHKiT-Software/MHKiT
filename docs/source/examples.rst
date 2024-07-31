@@ -30,7 +30,7 @@ Search for the following tags to identify relevant examples:
    * - iec
      - Examples utilizing IEC marine energy standards
    * - qc
-     - Examples perparing data, doing quality control, etc
+     - Examples preparing data, doing quality control, etc
 
 
 .. list-table::
