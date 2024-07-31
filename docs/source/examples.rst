@@ -143,7 +143,7 @@ Search for the following tags to identify relevant examples:
      - loads, wave
    * - Extreme Response Contour
      - `Notebook <extreme_response_contour_example.ipynb>`_
-     - Coming soon
+     - `Live Script <mhkit-matlab/extreme_response_contour_example.html>`_
      - Extreme conditions model - contour approach
      - loads, wave
    * - Extreme Response Full Sea State
