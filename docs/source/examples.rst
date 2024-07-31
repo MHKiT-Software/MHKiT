@@ -138,7 +138,7 @@ Search for the following tags to identify relevant examples:
      - loads
    * - Extreme Response MLER
      - `Notebook <extreme_response_MLER_example.ipynb>`_
-     - Coming soon
+     - `Live Script <mhkit-matlab/extreme_response_MLER_example.html>`_
      - Extreme conditions model - Most Likely Extreme Response (MLER)
      - loads, wave
    * - Extreme Response Contour
