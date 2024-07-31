@@ -153,7 +153,7 @@ Search for the following tags to identify relevant examples:
      - loads, wave
    * - Short-Term Extremes 
      - `Notebook <short_term_extremes_example.ipynb>`_
-     - Coming soon
+     - `Live Script <mhkit-matlab/short_term_extremes_example.html>`_
      - Visualize probability distribution of short-term time series data
      - loads, wave
    * - Electrical Power Analysis
