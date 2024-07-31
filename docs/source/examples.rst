@@ -3,7 +3,7 @@
 Examples
 ========
 
-This page details all the available examples of MHKiT functions and features. 
+This page details all the available examples of MHKiT functions and features.
 Python examples are available as Jupyter notebooks and MATLAB examples as live scripts.
 Not all MATLAB examples are available yet but are coming soon.
 
@@ -66,7 +66,7 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Acoustic Doppler Current Profiler (ADCP) analysis workflow
      - current, resource
-   * - ADV Example 
+   * - ADV Example
      - `Notebook <adv_example.ipynb>`_
      - Coming soon
      - Acoustic Doppler Velocimetry (ADV) analysis workflow
@@ -91,7 +91,7 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Visualize directional wave energy spectra from NDBC data
      - wave, resource
-   * - Environmental Contours 
+   * - Environmental Contours
      - `Notebook <environmental_contours_example.ipynb>`_
      - `Live Script <mhkit-matlab/environmental_contours_example.html>`_
      - Visualize estimates of extreme sea states
@@ -111,7 +111,7 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/wecsim_example.html>`_
      - Visualize output from WEC-Sim
      - wave
-   * - SWAN 
+   * - SWAN
      - `Notebook <SWAN_example.ipynb>`_
      - `Live Script <mhkit-matlab/SWAN_example.html>`_
      - Visualize output from Simulating Waves Nearshore (SWAN)
@@ -121,12 +121,12 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/WPTO_hindcast_example.html>`_
      - Download and visualize WPTO Hindcast data
      - wave, resource
-   * - Metocean Analysis 
+   * - Metocean Analysis
      - `Notebook <metocean_example.ipynb>`_
      - Coming soon
      - Download and visualize NDBC metocean data
      - wave, resource
-   * - Upcrossing Analysis 
+   * - Upcrossing Analysis
      - `Notebook <upcrossing_example.ipynb>`_
      - Coming soon
      - Analyze the surface elevation of a wave
@@ -151,7 +151,7 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/extreme_response_full_sea_state_example.html>`_
      - Extreme conditions model - full sea state approach
      - loads, wave
-   * - Short-Term Extremes 
+   * - Short-Term Extremes
      - `Notebook <short_term_extremes_example.ipynb>`_
      - `Live Script <mhkit-matlab/short_term_extremes_example.html>`_
      - Visualize probability distribution of short-term time series data
@@ -166,5 +166,3 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Visualize and analyze output from MoorDyn
      - mooring, wave
-
-
