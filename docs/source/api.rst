@@ -27,12 +27,12 @@ MHKiT-MATLAB API
 --------------------
 
 .. toctree::
-   
+
    mhkit-matlab/api.qc
    mhkit-matlab/api.wave
+   mhkit-matlab/api.dolfyn
    mhkit-matlab/api.river
    mhkit-matlab/api.tidal
    mhkit-matlab/api.power
    mhkit-matlab/api.loads
    mhkit-matlab/api.utils
-
