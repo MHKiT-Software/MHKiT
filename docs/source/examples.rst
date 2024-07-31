@@ -148,7 +148,7 @@ Search for the following tags to identify relevant examples:
      - loads, wave
    * - Extreme Response Full Sea State
      - `Notebook <extreme_response_full_sea_state_example.ipynb>`_
-     - Coming soon
+     - `Live Script <mhkit-matlab/extreme_response_full_sea_state_example.html>`_
      - Extreme conditions model - full sea state approach
      - loads, wave
    * - Short-Term Extremes 
