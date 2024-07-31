@@ -78,7 +78,7 @@ Search for the following tags to identify relevant examples:
      - current, resource
    * - Delft3D
      - `Notebook <Delft3D_example.ipynb>`_
-     - Coming soon
+     - `Live Script <mhkit-matlab/delft3d_example.html>`_
      - Analyze and visualize output from Delft3D
      - current, resource
    * - WEC Power Performance
