@@ -132,10 +132,10 @@ Using this option to install MHKiT-Python will require following the `Pecos inst
 	Once reviewed by the MHKiT-Python development team, pull requests will be merged into MHKiT-Python and included in future releases.
 
 
-Test MHKiT-Python installation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Verifying MHKiT-Python installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To test that MHKiT-Python is installed correctly, open a Python console and run::
+To verify that MHKiT-Python is installed correctly, open a Python console and run::
 
     import mhkit
 
