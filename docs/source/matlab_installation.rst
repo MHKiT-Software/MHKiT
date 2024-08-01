@@ -113,24 +113,54 @@ Step 3. Install MHKiT-Python
   :width: 500
   :alt: Detail of terminal with anaconda environment name
 
-3.4 In the terminal input the following command::
+3.4 Install MHKiT-Python Anaconda dependencies. Input the line below into your terminal::
 
-	pip install mhkit==0.7.0
+    conda install hdf5 netcdf4~=1.6.0
 
 And press enter to run this command.
 
-.. image:: ./figures/install_anaconda_terminal_pip_install.png
+.. image:: ./figures/install_anaconda_conda_dependencies.png
   :width: 500
-  :alt: Installing MHKiT-Python with pip
+  :alt: Installing MHKiT-Python conda dependencies
+
+
+.. Note::
+    If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#troubleshooting>`_ for more details on recommended troubleshooting steps.
+
+3.5 Install MHKiT-Python. Input the line below into your terminal::
+
+    pip install mhkit==0.7.0
+
+And press enter to run this command.
+
+.. image:: ./figures/install_anaconda_terminal_pip_install_mhkit.png
+  :width: 500
+  :alt: Install MHKiT-Python with pip
+
+
+.. Note::
+    If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#troubleshooting>`_ for more details on recommended troubleshooting steps.
+
+3.6 Update python module for MHKiT-Python compatibility. Input the line below into your terminal::
+
+    pip install numpy~=1.24.0 scipy~=1.10.0 netcdf4~=1.6.0
+
+And press enter to run this command.
+
+.. image:: ./figures/install_anaconda_terminal_pip_install_downgrade.png
+  :width: 500
+  :alt: Downgrade pip modules
 
 
 .. Note::
     If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#troubleshooting>`_ for more details on recommended troubleshooting steps.
 
 
-3.5 Verify your MHKiT-Python version. In the terminal input the following command::
+3.7 Verify your MHKiT-Python version. In the terminal input the following command::
 
     python -c "import mhkit; print(mhkit.__version__)"
+
+And press enter to run this command.
 
 The expected output is the specified ``mhkit`` version number
 
@@ -138,22 +168,16 @@ The expected output is the specified ``mhkit`` version number
   :width: 500
   :alt: Output of ``mhkit`` version number
 
-3.6 Verify ``mhkit`` functionality
+3.8 Verify ``mhkit`` functionality. In the terminal input the following command::
 
-* Start the python interpreter. In the terminal type::
+     python -c "import mhkit; print(mhkit.river.performance.circular(30))"
 
-    python
-
-* Compute the equivalent diameter (ED) and projected capture area (AP) of a circular turbine by running the following code::
-
-    import mhkit
-    mhkit.river.performance.circular(30)
 
 The expected output is::
 
     (30, 706.8583470577034)
 
-.. image:: ./figures/install_anaconda_terminal_mhkit_verify_output.png
+.. image:: ./figures/install-anaconda_terminal_mhkit_verify_output.png
   :width: 500
   :alt: Verification of mhkit circular function
 
@@ -194,7 +218,7 @@ Within the Anaconda environments tab, click the play button and select "Open Ter
   :width: 500
   :alt: Installing mhkit_python_utilities
 
-5.3 Verify your ``mhkit_python_utilities`` version. Expected version is ``0.1.0``
+5.3 Verify your ``mhkit_python_utilities`` version. Expected version is ``0.2.0``
 
 * In the terminal type and press enter::
 
@@ -311,6 +335,7 @@ Advanced Installation
    ::
 
      pip install mhkit==0.7.0
+     pip install numpy~=1.24.0 scipy~=1.10.0 netcdf4~=1.6.0
 
    ::
 
@@ -391,7 +416,7 @@ Install Supplemental Anaconda Dependencies
 - Reinstall ``mhkit``::
 
     pip uninstall mhkit
-    pip install mhkit
+    pip install mhkit==0.7.0
 
 Verify MHKiT-Python is working properly
 """"""""""""""""""""""""""""""""""""""""
