@@ -104,7 +104,7 @@ To verify your MHKiT-Python installation navigate to the `Verifying MHKiT-Python
 
 
 Option 2: PIP Install from Python
-""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""
 
 To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
 
@@ -114,7 +114,7 @@ To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
    The if the ``pip`` installation fails please try the installing MHKiT-Python with Anaconda
 
 Option 3: Clone Repository from GitHub
-""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""
 
 This option is recommended for MHKiT-Python developers.
 To install MHKiT-Python using `git <https://git-scm.com/>`_::
