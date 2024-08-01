@@ -6,7 +6,7 @@ MHKiT-Python Installation
 The following sections includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_.
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has several Python package dependencies.
-It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
+It is recommended to use the `Conda <https://docs.conda.io/projects/conda/en/stable/index.html>`_ to install Python and MHKiT-Python since it includes most of MHKiT-Python's package dependencies.
 
 
 Requirements
@@ -25,18 +25,95 @@ Requirements
 Install MHKiT-Python
 ^^^^^^^^^^^^^^^^^^^^^
 
-Option 1: PIP Install from Python
+Option 1: Using Conda
+"""""""""""""""""""""
+
+For most users, `Conda <https://docs.conda.io/projects/conda/en/stable/index.html>`_ is the preferred choice for installing MHKiT-Python. Conda includes the ``conda`` command line utility to manage Python versions and dependencies within `environments <https://business-docs.anaconda.com/en/latest/user/environment.html#:~:text=An%20environment%20is%20a%20folder,from%20other%20collections%20of%20packages.>`_. Anaconda provides a standardized Python build environment that is compatible across operating systems, simplifying MHKiT-Python installation and setup for all users.
+
+
+1. `Install Conda <https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html>`_ with Anaconda Distribution or Miniconda:
+
+   - `Anaconda Distribution <https://docs.anaconda.com/anaconda/install/>`_ is a full featured installer that comes with a suite of packages for data science, as well as Anaconda Navigator, a GUI application for working with conda environments.
+   - `Miniconda <https://docs.anaconda.com/miniconda/#quick-command-line-install>`_ is a minimal installer provided by Anaconda that installs the ``conda`` command line utility and its dependencies.
+
+
+
+2. Access the Conda ``base`` environment:
+
+Using Anaconda Distribution:
+
+- Launch the "Anaconda Navigator" application
+
+- Navigate to the "Environments" section
+
+.. image:: ./figures/install_anaconda_select_environment_section.png
+  :width: 500
+  :alt: Navigating to the Anaconda Navigator "Environments" section
+
+- Click the play button next to ``base(root)`` and select "Open Terminal"
+
+.. image:: ./figures/install_anaconda_open_base_environment_terminal.png
+  :width: 500
+  :alt: Opening the terminal for the ``mhkit`` environment
+
+
+Using Miniconda:
+
+- Launch your preferred terminal and execute the following command:
+
+.. code-block:: bash
+
+  conda activate base
+
+3. Within the terminal, use ``curl`` to download the most recent `MHKiT-Python conda environment file (environment.yml) <https://github.com/MHKiT-Software/MHKiT-Python/blob/master/environment.yml>`_
+. In the terminal execute the following command:
+
+   .. code-block:: bash
+
+      curl -o mhkit_environment.yml https://raw.githubusercontent.com/MHKiT-Software/MHKiT-Python/master/environment.yml
+
+
+4. Create a new environment using the downloaded environment file. In the terminal execute the following command:
+
+   .. code-block:: bash
+
+      conda env create --name <environment_name> -f mhkit_environment.yml
+
+   Replacing ``<environment_name>`` with the desired name for your environment. Common convention is to call the MHKiT-Python environment ``mhkit``.
+
+5. Install MHKiT-Python in the new environment. In the terminal execute the following commands:
+
+   .. code-block:: bash
+
+      conda activate <environment_name>
+
+   .. code-block:: bash
+
+      conda install -c conda-forge mhkit
+
+To verify your MHKiT-Python installation navigate to the `Verifying MHKiT-Python installation <#verifying-mhkit-python-installation>`_ section.
+
+.. Note::
+    To use MHKiT-Python in a new terminal activate the environment first by executing::
+
+        conda activate <environment_name>
+
+    With the anaconda environment activated your terminal prompt should show the environment name in parentheses, indicating that the environment is active. For example, it might look like::
+
+        (env_name) user@machine:~$
+
+
+Option 2: PIP Install from Python
 """"""""""""""""""""""""""""""""""""
 
-This option is recommended for MHKiT-Python users.
 To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
 
-	pip install mhkit
+    pip install mhkit
 
-Using this option to install MHKiT-Python will automatically install Pecos.
+.. Note::
+   The if the ``pip`` installation fails please try the installing MHKiT-Python with Anaconda
 
-
-Option 2: Clone Repository from GitHub
+Option 3: Clone Repository from GitHub
 """"""""""""""""""""""""""""""""""""""""""
 
 This option is recommended for MHKiT-Python developers.
