@@ -64,12 +64,42 @@ Using Miniconda:
 
   conda activate base
 
-3. Within the terminal, use ``curl`` to download the most recent `MHKiT-Python conda environment file (environment.yml) <https://github.com/MHKiT-Software/MHKiT-Python/blob/master/environment.yml>`_
-. In the terminal execute the following command:
+3. Download the most recent `MHKiT-Python conda environment file (environment.yml) <https://github.com/MHKiT-Software/MHKiT-Python/blob/master/environment.yml>`_
+
+- Using the terminal
+
+    - Execute the following command:
 
    .. code-block:: bash
 
       curl -o mhkit_environment.yml https://raw.githubusercontent.com/MHKiT-Software/MHKiT-Python/master/environment.yml
+
+- Downloading the file manually.
+
+
+    - Navigate to the `MHKiT-Python conda environment file (environment.yml) <https://github.com/MHKiT-Software/MHKiT-Python/blob/master/environment.yml>`_ and download using the "download" button (screenshot below). Move the downloaded file to the current folder in your terminal and rename the file to ``mhkit_environment.yml``
+
+.. image:: ./figures/install_mhkit_python_env_yaml_download.png
+  :width: 500
+  :alt: Download MHKiT-Python environment.yml from GitHub
+
+3. Download the most recent `MHKiT-Python conda environment file (environment.yml) <https://github.com/MHKiT-Software/MHKiT-Python/blob/master/environment.yml>`_
+
+- Using the terminal
+
+    - Execute the following command:
+
+   .. code-block:: bash
+
+      curl -o mhkit_environment.yml https://raw.githubusercontent.com/MHKiT-Software/MHKiT-Python/master/environment.yml
+
+- Downloading the file manually
+
+    - Navigate to the `MHKiT-Python conda environment file (environment.yml) <https://github.com/MHKiT-Software/MHKiT-Python/blob/master/environment.yml>`_ and use the "download" button to save the file to your local machine. Move the downloaded file to the directory where your terminal is currently open and rename it to ``mhkit_environment.yml``.
+
+    .. image:: ./figures/install_mhkit_python_env_yaml_download.png
+      :width: 500
+      :alt: Download MHKiT-Python environment.yml from GitHub
 
 
 4. Create a new environment using the downloaded environment file. In the terminal execute the following command:
