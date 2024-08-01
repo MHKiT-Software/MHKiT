@@ -120,6 +120,13 @@ Using Miniconda:
 
       conda install -c conda-forge mhkit
 
+  - To run the `MHKiT-Python example notebooks <examples.html>`_ please install the following additional dependencies:
+
+       .. code-block:: bash
+
+          pip install jupyter notebook folium utm
+
+
 To verify your MHKiT-Python installation navigate to the `Verifying MHKiT-Python installation <#verifying-mhkit-python-installation>`_ section.
 
 .. Note::
