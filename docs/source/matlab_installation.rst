@@ -113,7 +113,7 @@ Step 3. Install MHKiT-Python
   :width: 500
   :alt: Detail of terminal with anaconda environment name
 
-3.4 Install MHKiT-Python Anaconda dependencies. Input the line below into your terminal::
+3.4 Install MHKiT-Python Anaconda dependencies. In the terminal input the following command::
 
     conda install hdf5 netcdf4~=1.6.0
 
@@ -127,7 +127,7 @@ And press enter to run this command.
 .. Note::
     If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#troubleshooting>`_ for more details on recommended troubleshooting steps.
 
-3.5 Install MHKiT-Python. Input the line below into your terminal::
+3.5 Install MHKiT-Python. In the terminal input the following command::
 
     pip install mhkit==0.7.0
 
@@ -141,7 +141,7 @@ And press enter to run this command.
 .. Note::
     If this command throws any errors, you must fix them before proceeding! Refer to the `troubleshooting section <#troubleshooting>`_ for more details on recommended troubleshooting steps.
 
-3.6 Update python module for MHKiT-Python compatibility. Input the line below into your terminal::
+3.6 Update python module for MHKiT-Python compatibility. In the terminal input the following command::
 
     pip install numpy~=1.24.0 scipy~=1.10.0 netcdf4~=1.6.0
 
