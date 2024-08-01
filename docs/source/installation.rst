@@ -6,7 +6,7 @@ MHKiT-Python Installation
 The following sections include installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_.
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has several Python package dependencies.
-It is recommended to use the `Conda <https://docs.conda.io/projects/conda/en/stable/index.html>`_ to install Python and MHKiT-Python since it includes most of MHKiT-Python's package dependencies.
+It is recommended to use `Conda <https://docs.conda.io/projects/conda/en/stable/index.html>`_ to install Python and MHKiT-Python since it includes most of MHKiT-Python's package dependencies.
 
 
 Requirements
