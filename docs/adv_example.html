@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading ADV Data with MHKiT &mdash; MHKiT v0.8.0 documentation</title>
+  <title>Reading ADV Data with MHKiT &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
@@ -17,8 +17,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/documentation_options.js?v=17a23d02"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -40,7 +40,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -106,8 +106,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit import dolfyn
-from mhkit.dolfyn.adv import api
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">dolfyn</span>
+<span class="kn">from</span> <span class="nn">mhkit.dolfyn.adv</span> <span class="kn">import</span> <span class="n">api</span>
 </pre></div>
 </div>
 </div>
@@ -133,7 +133,7 @@ c:\Users\mcve343\Anaconda3\lib\site-packages\xarray\backends\cfgrib_.py:29: User
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds = dolfyn.read(&quot;data/dolfyn/vector_data01.VEC&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;data/dolfyn/vector_data01.VEC&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -150,8 +150,8 @@ Reading file data/dolfyn/vector_data01.VEC ...
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># print the dataset
-ds
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print the dataset</span>
+<span class="n">ds</span>
 </pre></div>
 </div>
 </div>
@@ -605,8 +605,8 @@ Attributes: (12/39)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds_dolfyn = ds.velds
-ds_dolfyn
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_dolfyn</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">velds</span>
+<span class="n">ds_dolfyn</span>
 </pre></div>
 </div>
 </div>
@@ -642,17 +642,17 @@ ds_dolfyn
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Clean the file using the Goring+Nikora method:
-mask = api.clean.GN2002(ds.vel, npt=5000)
-# Replace bad datapoints via cubic spline interpolation
-ds[&quot;vel&quot;] = api.clean.clean_fill(ds[&quot;vel&quot;], mask, npt=12, method=&quot;cubic&quot;, maxgap=None)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean the file using the Goring+Nikora method:</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">GN2002</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="c1"># Replace bad datapoints via cubic spline interpolation</span>
+<span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">clean_fill</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">mask</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-print(&quot;Percent of data containing spikes: {0:.2f}%&quot;.format(100 * mask.mean()))
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percent of data containing spikes: </span><span class="si">{0:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">mask</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
 
-# If interpolation isn&#39;t desired:
-ds_nan = ds.copy(deep=True)
-ds_nan.coords[&quot;mask&quot;] = ((&quot;dir&quot;, &quot;time&quot;), ~mask)
-ds_nan[&quot;vel&quot;] = ds_nan[&quot;vel&quot;].where(ds_nan[&quot;mask&quot;])
+<span class="c1"># If interpolation isn&#39;t desired:</span>
+<span class="n">ds_nan</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_nan</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span>
+<span class="n">ds_nan</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_nan</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds_nan</span><span class="p">[</span><span class="s2">&quot;mask&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -675,13 +675,13 @@ new dataset.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># First set the magnetic declination
-dolfyn.set_declination(
-    ds, declin=10, inplace=True
-)  # declination points 10 degrees East
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First set the magnetic declination</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">set_declination</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">declin</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>  <span class="c1"># declination points 10 degrees East</span>
 
-# Rotate that data from the instrument to earth frame (ENU):
-dolfyn.rotate2(ds, &quot;earth&quot;, inplace=True)
+<span class="c1"># Rotate that data from the instrument to earth frame (ENU):</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -692,8 +692,8 @@ dolfyn.rotate2(ds, &quot;earth&quot;, inplace=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds.attrs[&quot;principal_heading&quot;] = dolfyn.calc_principal_heading(ds[&quot;vel&quot;])
-dolfyn.rotate2(ds, &quot;principal&quot;, inplace=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;principal_heading&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">calc_principal_heading</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">])</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;principal&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -711,12 +711,12 @@ dolfyn.rotate2(ds, &quot;principal&quot;, inplace=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Option 1 (standard)
-binner = api.ADVBinner(n_bin=ds.fs * 600, fs=ds.fs, n_fft=1024)
-ds_binned = binner.bin_average(ds)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Option 1 (standard)</span>
+<span class="n">binner</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">ADVBinner</span><span class="p">(</span><span class="n">n_bin</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span> <span class="o">*</span> <span class="mi">600</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">bin_average</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
-# Option 2 (simple)
-# ds_binned = api.calc_turbulence(ds, n_bin=ds.fs*600, fs=ds.fs, n_fft=1024, freq_units=&quot;Hz&quot;)
+<span class="c1"># Option 2 (simple)</span>
+<span class="c1"># ds_binned = api.calc_turbulence(ds, n_bin=ds.fs*600, fs=ds.fs, n_fft=1024, freq_units=&quot;Hz&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -729,23 +729,23 @@ shortcut for turbulence intensity. This particular shortcut requires a dataset c
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate the variance of each variable in the dataset and add to the averaged dataset
-ds_binned = binner.bin_variance(ds, out_ds=ds_binned)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the variance of each variable in the dataset and add to the averaged dataset</span>
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">bin_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="o">=</span><span class="n">ds_binned</span><span class="p">)</span>
 
-# Calculate the power spectral density
-ds_binned[&quot;auto_spectra&quot;] = binner.power_spectral_density(ds[&quot;vel&quot;], freq_units=&quot;Hz&quot;)
-# Calculate dissipation rate from isotropic turbulence cascade
-ds_binned[&quot;dissipation&quot;] = binner.dissipation_rate_LT83(
-    ds_binned[&quot;auto_spectra&quot;], ds_binned.velds.U_mag, freq_range=[0.5, 1]
-)
+<span class="c1"># Calculate the power spectral density</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">power_spectral_density</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">)</span>
+<span class="c1"># Calculate dissipation rate from isotropic turbulence cascade</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;dissipation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">dissipation_rate_LT83</span><span class="p">(</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">],</span> <span class="n">ds_binned</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_mag</span><span class="p">,</span> <span class="n">freq_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>
 
-# Calculate the cross power spectral density
-ds_binned[&quot;cross_spectra&quot;] = binner.cross_spectral_density(
-    ds[&quot;vel&quot;], freq_units=&quot;Hz&quot;, n_fft_coh=512
-)
+<span class="c1"># Calculate the cross power spectral density</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;cross_spectra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">cross_spectral_density</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">,</span> <span class="n">n_fft_coh</span><span class="o">=</span><span class="mi">512</span>
+<span class="p">)</span>
 
-# Calculated the turbulence intensity (requires a binned dataset)
-ds_binned[&quot;TI&quot;] = ds_binned.velds.I
+<span class="c1"># Calculated the turbulence intensity (requires a binned dataset)</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;TI&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_binned</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">I</span>
 </pre></div>
 </div>
 </div>
@@ -754,15 +754,15 @@ ds_binned[&quot;TI&quot;] = ds_binned.velds.I
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-%matplotlib inline
+<span class="o">%</span><span class="k">matplotlib</span> inline
 
-plt.figure()
-plt.loglog(ds_binned[&quot;freq&quot;], ds_binned[&quot;auto_spectra&quot;].sel(S=&quot;Sxx&quot;).mean(dim=&quot;time&quot;))
-plt.xlabel(&quot;Frequency [Hz]&quot;)
-plt.ylabel(&quot;Energy Density $\mathrm{[m^2/s^s/Hz]}$&quot;)
-plt.title(&quot;Streamwise Direction&quot;)
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="s2">&quot;Sxx&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [Hz]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energy Density $\mathrm{[m^2/s^s/Hz]}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Streamwise Direction&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -791,9 +791,9 @@ Text(0.5, 1.0, &#39;Streamwise Direction&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Uncomment these lines to save and load to your current working directory
-# dolfyn.save(ds, &#39;your_data.nc&#39;)
-# ds_saved = dolfyn.load(&#39;your_data.nc&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment these lines to save and load to your current working directory</span>
+<span class="c1"># dolfyn.save(ds, &#39;your_data.nc&#39;)</span>
+<span class="c1"># ds_saved = dolfyn.load(&#39;your_data.nc&#39;)</span>
 </pre></div>
 </div>
 </div>

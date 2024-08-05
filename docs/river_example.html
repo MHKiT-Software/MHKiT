@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MHKiT River Module &mdash; MHKiT v0.8.0 documentation</title>
+  <title>MHKiT River Module &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
@@ -17,8 +17,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/documentation_options.js?v=17a23d02"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -40,7 +40,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -92,14 +92,15 @@
              
   <section id="MHKiT-River-Module">
 <h1>MHKiT River Module<a class="headerlink" href="#MHKiT-River-Module" title="Link to this heading"></a></h1>
-<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.river.html">MHKIT river module</a> by stepping through the calculation of annual energy produced for one turbine in the Tanana River near Nenana, Alaska. The data file used in this example is retrieved from the USGS website, a local version of the data is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\MHKiT\examples\data</a> directory.</p>
+<p>The following example will familiarize the user with the <a class="reference external" href="https://mhkit-software.github.io/MHKiT/mhkit-python/api.river.html">MHKIT river module</a> by stepping through the calculation of annual energy produced for one turbine in the Tanana River near Nenana, Alaska. The data file used in this example is retrieved from the USGS website, a local version of the data is stored in the <a class="reference external" href="https://github.com/MHKiT-Software/MHKiT-Python/tree/master/examples/data">\\MHKiT\\examples\\data</a>
+directory.</p>
 <p>Start by importing the necessary python packages and MHKiT module.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
-from mhkit import river
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">river</span>
 </pre></div>
 </div>
 </div>
@@ -116,17 +117,17 @@ from mhkit import river
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use the requests method to obtain 10 years of daily discharge data
-data = river.io.usgs.request_usgs_data(
-    station=&quot;15515500&quot;,
-    parameter=&quot;00060&quot;,
-    start_date=&quot;2009-08-01&quot;,
-    end_date=&quot;2019-08-01&quot;,
-    data_type=&quot;Daily&quot;,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the requests method to obtain 10 years of daily discharge data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">usgs</span><span class="o">.</span><span class="n">request_usgs_data</span><span class="p">(</span>
+    <span class="n">station</span><span class="o">=</span><span class="s2">&quot;15515500&quot;</span><span class="p">,</span>
+    <span class="n">parameter</span><span class="o">=</span><span class="s2">&quot;00060&quot;</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;2009-08-01&quot;</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;2019-08-01&quot;</span><span class="p">,</span>
+    <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;Daily&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
-# Print data
-print(data)
+<span class="c1"># Print data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -157,17 +158,17 @@ Data request URL:  https://waterservices.usgs.gov/nwis/dv/?format=json&amp;sites
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store the original DataFrame column name
-column_name = data.columns[0]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store the original DataFrame column name</span>
+<span class="n">column_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-# Rename to a shorter key name e.g. &#39;Q&#39;
-data = data.rename(columns={column_name: &quot;Q&quot;})
+<span class="c1"># Rename to a shorter key name e.g. &#39;Q&#39;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">column_name</span><span class="p">:</span> <span class="s2">&quot;Q&quot;</span><span class="p">})</span>
 
-# Convert to discharge data from ft3/s to m3/s
-data.Q = data.Q / (3.28084) ** 3
+<span class="c1"># Convert to discharge data from ft3/s to m3/s</span>
+<span class="n">data</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">Q</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.28084</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
 
-# Plot the daily discharge
-ax = river.graphics.plot_discharge_timeseries(data.Q)
+<span class="c1"># Plot the daily discharge</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_discharge_timeseries</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -187,11 +188,11 @@ ax = river.graphics.plot_discharge_timeseries(data.Q)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate exceedence probability
-data[&quot;F&quot;] = river.resource.exceedance_probability(data.Q)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate exceedence probability</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">exceedance_probability</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
 
-# Plot the flow duration curve (FDC)
-ax = river.graphics.plot_flow_duration_curve(data.Q, data.F)
+<span class="c1"># Plot the flow duration curve (FDC)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_flow_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -211,18 +212,18 @@ ax = river.graphics.plot_flow_duration_curve(data.Q, data.F)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load discharge to velocity curve at turbine location
-DV_curve = pd.read_csv(&quot;data/river/tanana_DV_curve.csv&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load discharge to velocity curve at turbine location</span>
+<span class="n">DV_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/river/tanana_DV_curve.csv&quot;</span><span class="p">)</span>
 
-# Create a polynomial fit of order 2 from the discharge to velocity curve.
-# Return the polynomial fit and and R squared value
-p, r_squared = river.resource.polynomial_fit(DV_curve.D, DV_curve.V, 2)
+<span class="c1"># Create a polynomial fit of order 2 from the discharge to velocity curve.</span>
+<span class="c1"># Return the polynomial fit and and R squared value</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">r_squared</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">DV_curve</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">DV_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-# Plot the polynomial curve
-river.graphics.plot_discharge_vs_velocity(DV_curve.D, DV_curve.V, polynomial_coeff=p)
+<span class="c1"># Plot the polynomial curve</span>
+<span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_discharge_vs_velocity</span><span class="p">(</span><span class="n">DV_curve</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">DV_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 
-# Print R squared value
-print(r_squared)
+<span class="c1"># Print R squared value</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r_squared</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -247,11 +248,11 @@ print(r_squared)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use polynomial fit from DV curve to calculate velocity (&#39;V&#39;) from discharge at turbine location
-data[&quot;V&quot;] = river.resource.discharge_to_velocity(data.Q, p)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use polynomial fit from DV curve to calculate velocity (&#39;V&#39;) from discharge at turbine location</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;V&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">discharge_to_velocity</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-# Plot the velocity duration curve (VDC)
-ax = river.graphics.plot_velocity_duration_curve(data.V, data.F)
+<span class="c1"># Plot the velocity duration curve (VDC)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -270,17 +271,17 @@ ax = river.graphics.plot_velocity_duration_curve(data.V, data.F)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate the power produced from turbine velocity to power curve
-VP_curve = pd.read_csv(&quot;data/river/tanana_VP_curve.csv&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the power produced from turbine velocity to power curve</span>
+<span class="n">VP_curve</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/river/tanana_VP_curve.csv&quot;</span><span class="p">)</span>
 
-# Calculate the polynomial fit for the VP curve
-p2, r_squared_2 = river.resource.polynomial_fit(VP_curve.V, VP_curve.P, 2)
+<span class="c1"># Calculate the polynomial fit for the VP curve</span>
+<span class="n">p2</span><span class="p">,</span> <span class="n">r_squared_2</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">polynomial_fit</span><span class="p">(</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">VP_curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-# Plot the VP polynomial curve
-ax = river.graphics.plot_velocity_vs_power(VP_curve.V, VP_curve.P, polynomial_coeff=p2)
+<span class="c1"># Plot the VP polynomial curve</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_velocity_vs_power</span><span class="p">(</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">VP_curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
 
-# Print the r_squared value
-print(r_squared_2)
+<span class="c1"># Print the r_squared value</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r_squared_2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -304,15 +305,15 @@ print(r_squared_2)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate power from velocity at the turbine location
-data[&quot;P&quot;] = river.resource.velocity_to_power(
-    data.V,
-    polynomial_coefficients=p2,
-    cut_in=VP_curve.V.min(),
-    cut_out=VP_curve.V.max(),
-)
-# Plot the power duration curve
-ax = river.graphics.plot_power_duration_curve(data.P, data.F)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate power from velocity at the turbine location</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">velocity_to_power</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">V</span><span class="p">,</span>
+    <span class="n">polynomial_coefficients</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span>
+    <span class="n">cut_in</span><span class="o">=</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">cut_out</span><span class="o">=</span><span class="n">VP_curve</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="c1"># Plot the power duration curve</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_power_duration_curve</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -332,11 +333,11 @@ ax = river.graphics.plot_power_duration_curve(data.P, data.F)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate the Annual Energy produced
-s = 365.0 * 24 * 3600  # Seconds in a year
-AEP = river.resource.energy_produced(data.P, s)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the Annual Energy produced</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mf">365.0</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span>  <span class="c1"># Seconds in a year</span>
+<span class="n">AEP</span> <span class="o">=</span> <span class="n">river</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">energy_produced</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 
-print(f&quot;Annual Energy Produced: {AEP/3600000:.2f} kWh&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Annual Energy Produced: </span><span class="si">{</span><span class="n">AEP</span><span class="o">/</span><span class="mi">3600000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kWh&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QC Module &mdash; MHKiT v0.8.0 documentation</title>
+  <title>QC Module &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/mhkit.css" />
@@ -16,8 +16,8 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/documentation_options.js?v=17a23d02"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -60,6 +60,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#mhkit-matlab-api">MHKiT-MATLAB API</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">QC Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">DOLfYN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.river.html">River Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.tidal.html">Tidal Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
@@ -191,11 +192,12 @@ Logical mask of QC results (1 = passed, 0 = failed QC test)</p>
 </dd></dl>
 
 <dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.qc.check_delta">
-<span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bound</span></em>, <em class="sig-param"><span class="pre">window</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.qc.check_delta" title="Link to this definition"></a></dt>
+<dt class="sig sig-object mat" id="mhkit.qc.check_outlier">
+<span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_outlier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bound</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.qc.check_outlier" title="Link to this definition"></a></dt>
 <dd><blockquote>
-<div><p>Check for stagnant data and/or abrupt changes in the data using
-difference between max and min values within a rolling window</p>
+<div><p>Check or outliers using normalized data within a rolling window
+Upper and lower bounds in standard deviations
+Data is normalized using (data-mean)/std</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -209,24 +211,22 @@ py.mhkit_python_utils.pandas_dataframe.timeseries_to_pandas(ts,time,x))</p>
 <p>data.time:   1D array of datetimes or posix times</p>
 </div></blockquote>
 </p></li>
-<li><p><strong>bound</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">floats</span></code></span>) – [lower bound, upper bound] for min/max delta checking
+<li><p><strong>bound</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">floats</span></code></span>) – [lower bound, upper bound] of standard deviations from mean allowed
 NaN or py.None can be used for either bound</p></li>
-<li><p><strong>window</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">or</span> <span class="pre">double</span></code></span>) – Size of the rolling window (in seconds) used to compute delta</p></li>
 <li><p><strong>key</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – Data column name or translation dictionary key.  If not specified
 or set to py.None, all columns are used for test.
-to call: check_delta(data,bound,”key”,key)</p></li>
-<li><p><strong>direction</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – <dl class="simple">
-<dt>Options: ‘positive’, ‘negative’, or py.None (default)</dt><dd><p>If direction is positive, then only identify positive deltas
-(the min occurs before the max)
-If direction is negative, then only identify negative deltas (the max occurs before the min)
-If direction is py.None, then identify both positive and negative deltas</p>
-</dd>
-</dl>
-<p>to call: check_delta(data,bound,”direction”,direction)</p>
-</p></li>
+to call: check_outlier(data,bound,”key”,key)</p></li>
+<li><p><strong>window</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Size of rolling window (in seconds) used to normalize data
+default = 3600.  If window is set to py.None, data is normalized
+using mean and stddev of entire data set (column by column)
+to call: check_outlier(data,bound,”window”,window)</p></li>
+<li><p><strong>absolute_value</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">logical</span> <span class="pre">(optional)</span></code></span>) – Use the absolute value of the normalized data, default = py.True
+to call: check_outlier(data,bound,”absolute_value”,absolute_value)</p></li>
 <li><p><strong>min_failures</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Minimum number of consecutive failures required for reporting,
 default = 1
-to call: check_delta(data,bound,”min_failures”,min_failures)</p></li>
+to call: check_outlier(data,bound,”min_failures”,min_failures)</p></li>
+<li><p><strong>streaming</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">logical</span> <span class="pre">(optional)</span></code></span>) – Indicates if streaming analysis should be used, default = py.False
+to call: check_outlier(data,bound,”streaming”,streaming)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -339,12 +339,11 @@ Logical mask of QC results (1 = passed, 0 = failed QC test)</p>
 </dd></dl>
 
 <dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.qc.check_outlier">
-<span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_outlier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bound</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.qc.check_outlier" title="Link to this definition"></a></dt>
+<dt class="sig sig-object mat" id="mhkit.qc.check_delta">
+<span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bound</span></em>, <em class="sig-param"><span class="pre">window</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.qc.check_delta" title="Link to this definition"></a></dt>
 <dd><blockquote>
-<div><p>Check or outliers using normalized data within a rolling window
-Upper and lower bounds in standard deviations
-Data is normalized using (data-mean)/std</p>
+<div><p>Check for stagnant data and/or abrupt changes in the data using
+difference between max and min values within a rolling window</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -358,67 +357,24 @@ py.mhkit_python_utils.pandas_dataframe.timeseries_to_pandas(ts,time,x))</p>
 <p>data.time:   1D array of datetimes or posix times</p>
 </div></blockquote>
 </p></li>
-<li><p><strong>bound</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">floats</span></code></span>) – [lower bound, upper bound] of standard deviations from mean allowed
+<li><p><strong>bound</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">floats</span></code></span>) – [lower bound, upper bound] for min/max delta checking
 NaN or py.None can be used for either bound</p></li>
+<li><p><strong>window</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">or</span> <span class="pre">double</span></code></span>) – Size of the rolling window (in seconds) used to compute delta</p></li>
 <li><p><strong>key</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – Data column name or translation dictionary key.  If not specified
 or set to py.None, all columns are used for test.
-to call: check_outlier(data,bound,”key”,key)</p></li>
-<li><p><strong>window</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Size of rolling window (in seconds) used to normalize data
-default = 3600.  If window is set to py.None, data is normalized
-using mean and stddev of entire data set (column by column)
-to call: check_outlier(data,bound,”window”,window)</p></li>
-<li><p><strong>absolute_value</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">logical</span> <span class="pre">(optional)</span></code></span>) – Use the absolute value of the normalized data, default = py.True
-to call: check_outlier(data,bound,”absolute_value”,absolute_value)</p></li>
+to call: check_delta(data,bound,”key”,key)</p></li>
+<li><p><strong>direction</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – <dl class="simple">
+<dt>Options: ‘positive’, ‘negative’, or py.None (default)</dt><dd><p>If direction is positive, then only identify positive deltas
+(the min occurs before the max)
+If direction is negative, then only identify negative deltas (the max occurs before the min)
+If direction is py.None, then identify both positive and negative deltas</p>
+</dd>
+</dl>
+<p>to call: check_delta(data,bound,”direction”,direction)</p>
+</p></li>
 <li><p><strong>min_failures</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Minimum number of consecutive failures required for reporting,
 default = 1
-to call: check_outlier(data,bound,”min_failures”,min_failures)</p></li>
-<li><p><strong>streaming</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">logical</span> <span class="pre">(optional)</span></code></span>) – Indicates if streaming analysis should be used, default = py.False
-to call: check_outlier(data,bound,”streaming”,streaming)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p><strong>results</strong> (<em>qcdata structure of form:</em>) –</p>
-<dl class="simple">
-<dt>results.values: array of doubles</dt><dd><p>Same shape as input data.values
-Elements that failed QC test replaced with NaN</p>
-</dd>
-<dt>results.mask: array of int64</dt><dd><p>Same shape as input data.values
-Logical mask of QC results (1 = passed, 0 = failed QC test)</p>
-</dd>
-<dt>results.time: array of datetimes</dt><dd><p>Same as input times</p>
-</dd>
-</dl>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.qc.check_range">
-<span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bound</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.qc.check_range" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Check for data that is outside expected range</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">dataframe</span> <span class="pre">or</span> <span class="pre">qcdata</span> <span class="pre">structure</span></code></span>) – <p>Pandas dataframe indexed by datetime (use
-py.mhkit_python_utils.pandas_dataframe.timeseries_to_pandas(ts,time,x))</p>
-<p>OR</p>
-<p>qcdata structure of form:</p>
-<blockquote>
-<div><p>data.values: 2D array of doubles with arbitrary number of columns</p>
-<p>data.time:   1D array of datetimes or posix times</p>
-</div></blockquote>
-</p></li>
-<li><p><strong>bound</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">floats</span></code></span>) – [lower bound, upper bound] for range checking
-NaN or py.None can be used for either bound</p></li>
-<li><p><strong>key</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – Data column name or translation dictionary key.  If not specified
-or set to py.None, all columns are used for test.
-to call: check_range(data,bound,”key”,key)</p></li>
-<li><p><strong>min_failures</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Minimum number of consecutive failures required for reporting
-default = 1
-to call: check_range(data,bound,”min_failures”,min_failures)</p></li>
+to call: check_delta(data,bound,”min_failures”,min_failures)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -496,10 +452,55 @@ Logical mask of QC results (1 = passed, 0 = failed QC test)</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong></p>
+<dd class="field-odd"><p><strong>data</strong> – </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>results</strong> (<em>Pandas DataFrame</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.qc.check_range">
+<span class="sig-prename descclassname"><span class="pre">mhkit.qc.</span></span><span class="sig-name descname"><span class="pre">check_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bound</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.qc.check_range" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Check for data that is outside expected range</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">dataframe</span> <span class="pre">or</span> <span class="pre">qcdata</span> <span class="pre">structure</span></code></span>) – <p>Pandas dataframe indexed by datetime (use
+py.mhkit_python_utils.pandas_dataframe.timeseries_to_pandas(ts,time,x))</p>
+<p>OR</p>
+<p>qcdata structure of form:</p>
+<blockquote>
+<div><p>data.values: 2D array of doubles with arbitrary number of columns</p>
+<p>data.time:   1D array of datetimes or posix times</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>bound</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">cell</span> <span class="pre">array</span> <span class="pre">of</span> <span class="pre">floats</span></code></span>) – [lower bound, upper bound] for range checking
+NaN or py.None can be used for either bound</p></li>
+<li><p><strong>key</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – Data column name or translation dictionary key.  If not specified
+or set to py.None, all columns are used for test.
+to call: check_range(data,bound,”key”,key)</p></li>
+<li><p><strong>min_failures</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Minimum number of consecutive failures required for reporting
+default = 1
+to call: check_range(data,bound,”min_failures”,min_failures)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>results</strong> (<em>qcdata structure of form:</em>) –</p>
+<dl class="simple">
+<dt>results.values: array of doubles</dt><dd><p>Same shape as input data.values
+Elements that failed QC test replaced with NaN</p>
+</dd>
+<dt>results.mask: array of int64</dt><dd><p>Same shape as input data.values
+Logical mask of QC results (1 = passed, 0 = failed QC test)</p>
+</dd>
+<dt>results.time: array of datetimes</dt><dd><p>Same as input times</p>
+</dd>
+</dl>
+</p>
 </dd>
 </dl>
 </dd></dl>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MHKiT WEC-Sim Example &mdash; MHKiT v0.8.0 documentation</title>
+  <title>MHKiT WEC-Sim Example &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
@@ -17,8 +17,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/documentation_options.js?v=17a23d02"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -40,7 +40,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -112,9 +112,9 @@ WEC-Sim data , and apply the MHKiT wave module.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit import wave
-import scipy.io as sio
-import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit</span> <span class="kn">import</span> <span class="n">wave</span>
+<span class="kn">import</span> <span class="nn">scipy.io</span> <span class="k">as</span> <span class="nn">sio</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -126,11 +126,11 @@ import matplotlib.pyplot as plt
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Relative location and filename of simulated WEC-Sim data (run with mooring)
-filename = &quot;./data/wave/RM3MooringMatrix_matlabWorkspace_structure.mat&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Relative location and filename of simulated WEC-Sim data (run with mooring)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./data/wave/RM3MooringMatrix_matlabWorkspace_structure.mat&quot;</span>
 
-# Load data using the `wecsim.read_output` function which returns a dictionary of dataFrames
-wecsim_data = wave.io.wecsim.read_output(filename)
+<span class="c1"># Load data using the `wecsim.read_output` function which returns a dictionary of dataFrames</span>
+<span class="n">wecsim_data</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">wecsim</span><span class="o">.</span><span class="n">read_output</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -154,8 +154,8 @@ cable class not used
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># View the available WEC-Sim data, a dataFrame for each WEC-Sim Class
-wecsim_data.keys()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># View the available WEC-Sim data, a dataFrame for each WEC-Sim Class</span>
+<span class="n">wecsim_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -176,15 +176,15 @@ dict_keys([&#39;wave&#39;, &#39;bodies&#39;, &#39;ptos&#39;, &#39;constraints&#3
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store WEC-Sim output from the Wave Class to a new dataFrame, called `wave_data`
-wave_data = wecsim_data[&quot;wave&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store WEC-Sim output from the Wave Class to a new dataFrame, called `wave_data`</span>
+<span class="n">wave_data</span> <span class="o">=</span> <span class="n">wecsim_data</span><span class="p">[</span><span class="s2">&quot;wave&quot;</span><span class="p">]</span>
 
-# Display the wave type from the WEC-Sim Wave Class
-wave_type = wave_data.name
-print(&quot;WEC-Sim wave type:&quot;, wave_type)
+<span class="c1"># Display the wave type from the WEC-Sim Wave Class</span>
+<span class="n">wave_type</span> <span class="o">=</span> <span class="n">wave_data</span><span class="o">.</span><span class="n">name</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WEC-Sim wave type:&quot;</span><span class="p">,</span> <span class="n">wave_type</span><span class="p">)</span>
 
-# View the WEC-Sim output dataFrame for the Wave Class
-wave_data
+<span class="c1"># View the WEC-Sim output dataFrame for the Wave Class</span>
+<span class="n">wave_data</span>
 </pre></div>
 </div>
 </div>
@@ -284,10 +284,10 @@ WEC-Sim wave type: elevationImport
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot WEC-Sim output from the Wave Class
-wave_data.plot()
-plt.xlabel(&quot;Time [s]&quot;)
-plt.ylabel(&quot;Wave Surface Elevation [m]&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot WEC-Sim output from the Wave Class</span>
+<span class="n">wave_data</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Wave Surface Elevation [m]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -316,11 +316,11 @@ Text(0, 0.5, &#39;Wave Surface Elevation [m]&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store WEC-Sim output from the Body Class to a new dictionary of dataFrames, i.e. &#39;bodies&#39;.
-bodies = wecsim_data[&quot;bodies&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store WEC-Sim output from the Body Class to a new dictionary of dataFrames, i.e. &#39;bodies&#39;.</span>
+<span class="n">bodies</span> <span class="o">=</span> <span class="n">wecsim_data</span><span class="p">[</span><span class="s2">&quot;bodies&quot;</span><span class="p">]</span>
 
-# Data fron each body is stored as its own dataFrame, i.e. &#39;body1&#39; and &#39;body2&#39;.
-bodies.keys()
+<span class="c1"># Data fron each body is stored as its own dataFrame, i.e. &#39;body1&#39; and &#39;body2&#39;.</span>
+<span class="n">bodies</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -340,11 +340,11 @@ dict_keys([&#39;body1&#39;, &#39;body2&#39;])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store Body Class dataFrame for Body 1 as `body1`.
-body1 = bodies[&quot;body1&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store Body Class dataFrame for Body 1 as `body1`.</span>
+<span class="n">body1</span> <span class="o">=</span> <span class="n">bodies</span><span class="p">[</span><span class="s2">&quot;body1&quot;</span><span class="p">]</span>
 
-# Display the name of Body 1 from the WEC-Sim Body Class
-print(&quot;Name of Body 1:&quot;, body1.name)
+<span class="c1"># Display the name of Body 1 from the WEC-Sim Body Class</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name of Body 1:&quot;</span><span class="p">,</span> <span class="n">body1</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -361,8 +361,8 @@ Name of Body 1: float
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print a list of Body 1 columns that end with &#39;dof1&#39;
-[col for col in body1 if col.endswith(&quot;dof1&quot;)]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print a list of Body 1 columns that end with &#39;dof1&#39;</span>
+<span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">body1</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;dof1&quot;</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -391,15 +391,15 @@ Name of Body 1: float
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use Pandas to plot Body 1 position in heave (DOF 3)
-body1.position_dof3.plot()
-plt.xlabel(&quot;Time [s]&quot;)
-plt.ylabel(&quot;Heave Position [m]&quot;)
-plt.title(&quot;Body 1&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use Pandas to plot Body 1 position in heave (DOF 3)</span>
+<span class="n">body1</span><span class="o">.</span><span class="n">position_dof3</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Heave Position [m]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Body 1&quot;</span><span class="p">)</span>
 
-# Use Pandas to calculate the maximum and minimum heave position of Body 1
-print(&quot;Body 1 max heave position =&quot;, body1.position_dof3.max(), &quot;[m]&quot;)
-print(&quot;Body 1 min heave position =&quot;, body1.position_dof3.min(), &quot;[m]&quot;)
+<span class="c1"># Use Pandas to calculate the maximum and minimum heave position of Body 1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Body 1 max heave position =&quot;</span><span class="p">,</span> <span class="n">body1</span><span class="o">.</span><span class="n">position_dof3</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="s2">&quot;[m]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Body 1 min heave position =&quot;</span><span class="p">,</span> <span class="n">body1</span><span class="o">.</span><span class="n">position_dof3</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s2">&quot;[m]&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -427,15 +427,15 @@ Body 1 min heave position = -1.3264489287377081 [m]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a list of Body 1 data columns that start with &#39;position&#39;
-filter_col = [col for col in body1 if col.startswith(&quot;position&quot;)]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a list of Body 1 data columns that start with &#39;position&#39;</span>
+<span class="n">filter_col</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">body1</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;position&quot;</span><span class="p">)]</span>
 
-# Plot filtered &#39;position&#39; data for Body 1
-body1[filter_col].plot()
-plt.xlabel(&quot;Time [s]&quot;)
-plt.ylabel(&quot;Position [m or rad]&quot;)
-plt.title(&quot;Body 1&quot;)
-plt.legend(loc=&quot;center left&quot;, bbox_to_anchor=(1, 0.5))
+<span class="c1"># Plot filtered &#39;position&#39; data for Body 1</span>
+<span class="n">body1</span><span class="p">[</span><span class="n">filter_col</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Position [m or rad]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Body 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;center left&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -464,14 +464,14 @@ plt.legend(loc=&quot;center left&quot;, bbox_to_anchor=(1, 0.5))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store Body Class dataFrame for Body 2 as `body2`
-body2 = bodies[&quot;body2&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store Body Class dataFrame for Body 2 as `body2`</span>
+<span class="n">body2</span> <span class="o">=</span> <span class="n">bodies</span><span class="p">[</span><span class="s2">&quot;body2&quot;</span><span class="p">]</span>
 
-# Display the name of Body 2 from the WEC-Sim Body Class
-print(&quot;Name of Body 2:&quot;, body2.name)
+<span class="c1"># Display the name of Body 2 from the WEC-Sim Body Class</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name of Body 2:&quot;</span><span class="p">,</span> <span class="n">body2</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-# View the Body Class dataFrame for Body 2
-body2.head()
+<span class="c1"># View the Body Class dataFrame for Body 2</span>
+<span class="n">body2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -688,14 +688,14 @@ Name of Body 2: spar
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store WEC-Sim output from the PTO Class to a DataFrame, called `ptos`
-ptos = wecsim_data[&quot;ptos&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store WEC-Sim output from the PTO Class to a DataFrame, called `ptos`</span>
+<span class="n">ptos</span> <span class="o">=</span> <span class="n">wecsim_data</span><span class="p">[</span><span class="s2">&quot;ptos&quot;</span><span class="p">]</span>
 
-# Display the name of the PTO from the WEC-Sim PTO Class
-print(&quot;Name of PTO:&quot;, ptos.name)
+<span class="c1"># Display the name of the PTO from the WEC-Sim PTO Class</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name of PTO:&quot;</span><span class="p">,</span> <span class="n">ptos</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-# Print a list of available columns that end with &#39;dof1&#39;
-[col for col in ptos if col.endswith(&quot;dof1&quot;)]
+<span class="c1"># Print a list of available columns that end with &#39;dof1&#39;</span>
+<span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ptos</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;dof1&quot;</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -727,12 +727,12 @@ Name of PTO: PTO1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use Pandas to plot pto internal power in heave (DOF 3)
-# NOTE: WEC-Sim requires a negative sign to convert internal power to generated power
-(-1 * ptos.powerInternalMechanics_dof3 / 1000).plot()
-plt.xlabel(&quot;Time [s]&quot;)
-plt.ylabel(&quot;Power Generated [kW]&quot;)
-plt.title(&quot;PTO&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use Pandas to plot pto internal power in heave (DOF 3)</span>
+<span class="c1"># NOTE: WEC-Sim requires a negative sign to convert internal power to generated power</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">ptos</span><span class="o">.</span><span class="n">powerInternalMechanics_dof3</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Power Generated [kW]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;PTO&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -760,14 +760,14 @@ Text(0.5, 1.0, &#39;PTO&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store WEC-Sim output from the Constraint Class to a new dataFrame, called `constraints`
-constraints = wecsim_data[&quot;constraints&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store WEC-Sim output from the Constraint Class to a new dataFrame, called `constraints`</span>
+<span class="n">constraints</span> <span class="o">=</span> <span class="n">wecsim_data</span><span class="p">[</span><span class="s2">&quot;constraints&quot;</span><span class="p">]</span>
 
-# Display the name of the Constraint from the WEC-Sim Constraint Class
-print(&quot;Name of Constraint:&quot;, constraints.name)
+<span class="c1"># Display the name of the Constraint from the WEC-Sim Constraint Class</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name of Constraint:&quot;</span><span class="p">,</span> <span class="n">constraints</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-# View the Constraint Class dataFrame
-constraints.head()
+<span class="c1"># View the Constraint Class dataFrame</span>
+<span class="n">constraints</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -983,11 +983,11 @@ Name of Constraint: Constraint1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Store WEC-Sim output from the Mooring Class to a new dataFrame, called `mooring`
-mooring = wecsim_data[&quot;mooring&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store WEC-Sim output from the Mooring Class to a new dataFrame, called `mooring`</span>
+<span class="n">mooring</span> <span class="o">=</span> <span class="n">wecsim_data</span><span class="p">[</span><span class="s2">&quot;mooring&quot;</span><span class="p">]</span>
 
-# View the PTO Class dataFrame
-mooring.head()
+<span class="c1"># View the PTO Class dataFrame</span>
+<span class="n">mooring</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1174,14 +1174,14 @@ mooring.head()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Use the MHKiT Wave Module to calculate the wave spectrum from the WEC-Sim Wave Class Data
-sample_rate = 60
-nnft = 1000  # Number of bins in the Fast Fourier Transform
-ws_spectrum = wave.resource.elevation_spectrum(wave_data, sample_rate, nnft)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use the MHKiT Wave Module to calculate the wave spectrum from the WEC-Sim Wave Class Data</span>
+<span class="n">sample_rate</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">nnft</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># Number of bins in the Fast Fourier Transform</span>
+<span class="n">ws_spectrum</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">elevation_spectrum</span><span class="p">(</span><span class="n">wave_data</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">,</span> <span class="n">nnft</span><span class="p">)</span>
 
-# Plot calculated wave spectrum
-spect_plot = wave.graphics.plot_spectrum(ws_spectrum)
-spect_plot = spect_plot.set_xlim([0, 4])
+<span class="c1"># Plot calculated wave spectrum</span>
+<span class="n">spect_plot</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectrum</span><span class="p">(</span><span class="n">ws_spectrum</span><span class="p">)</span>
+<span class="n">spect_plot</span> <span class="o">=</span> <span class="n">spect_plot</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1196,12 +1196,12 @@ spect_plot = spect_plot.set_xlim([0, 4])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate Peak Wave Period (Tp) and Significant Wave Height (Hm0)
-Tp = wave.resource.peak_period(ws_spectrum)
-Hm0 = wave.resource.significant_wave_height(ws_spectrum)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate Peak Wave Period (Tp) and Significant Wave Height (Hm0)</span>
+<span class="n">Tp</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">peak_period</span><span class="p">(</span><span class="n">ws_spectrum</span><span class="p">)</span>
+<span class="n">Hm0</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">resource</span><span class="o">.</span><span class="n">significant_wave_height</span><span class="p">(</span><span class="n">ws_spectrum</span><span class="p">)</span>
 
-# Display calculated Peak Wave Period (Tp) and Significant Wave Height (Hm0)
-display(Tp, Hm0)
+<span class="c1"># Display calculated Peak Wave Period (Tp) and Significant Wave Height (Hm0)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Tp</span><span class="p">,</span> <span class="n">Hm0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
