@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loads Module &mdash; MHKiT v0.8.0 documentation</title>
+  <title>Loads Module &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/mhkit.css" />
@@ -16,8 +16,8 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/documentation_options.js?v=17a23d02"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -60,6 +60,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#mhkit-matlab-api">MHKiT-MATLAB API</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="api.qc.html">QC Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">DOLfYN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.river.html">River Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.tidal.html">Tidal Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
@@ -136,6 +137,40 @@
 </tbody>
 </table>
 <dl class="mat function" id="module-mhkit.loads.general">
+<dt class="sig sig-object mat" id="mhkit.loads.general.damage_equivalent_load">
+<span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">damage_equivalent_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data_signal</span></em>, <em class="sig-param"><span class="pre">m</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.damage_equivalent_load" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Calculates the damage equivalent load of a single data signal (or channel)
+based on IEC TS 62600-3:2020 ED1. 4-point rainflow counting algorithm from
+fatpack module is based on the following resources:</p>
+<ul class="simple">
+<li><p><cite>C. Amzallag et. al. Standardization of the rainflow counting method for
+fatigue analysis. International Journal of Fatigue, 16 (1994) 287-293</cite>
+<cite>ISO 12110-2, Metallic materials - Fatigue testing - Variable amplitude
+fatigue testing.</cite></p></li>
+<li><p><cite>G. Marsh et. al. Review and application of Rainflow residue processing
+techniques for accurate fatigue damage estimation. International Journal
+of Fatigue, 82 (2016) 757-765</cite></p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_signal</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Data signal being analyzed</p></li>
+<li><p><strong>m</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Fatigue slope factor of material</p></li>
+<li><p><strong>bin_num</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Number of bins for rainflow counting method (minimum=100)
+to call: get_DELs(data,chan_info,”bin_num”,binNum)</p></li>
+<li><p><strong>data_length</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Length of data in sec. Default for 1Hz is 600 seconds for 10min data
+to call: get_DELs(data,chan_info,”data_length”,t)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>DEL</strong> (<em>Structure</em>) – Damage equivalent load of signal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
 <dt class="sig sig-object mat" id="mhkit.loads.general.bin_statistics">
 <span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">bin_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">bin_against</span></em>, <em class="sig-param"><span class="pre">bin_edges</span></em>, <em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.bin_statistics" title="Link to this definition"></a></dt>
 <dd><blockquote>
@@ -183,40 +218,6 @@ statistics of variables</p></li>
 <li><p><strong>M_edge</strong> (<em>vector</em>) – Blade edgewise moment in SI units</p></li>
 </ul>
 </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.loads.general.damage_equivalent_load">
-<span class="sig-prename descclassname"><span class="pre">mhkit.loads.general.</span></span><span class="sig-name descname"><span class="pre">damage_equivalent_load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data_signal</span></em>, <em class="sig-param"><span class="pre">m</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.loads.general.damage_equivalent_load" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Calculates the damage equivalent load of a single data signal (or channel)
-based on IEC TS 62600-3:2020 ED1. 4-point rainflow counting algorithm from
-fatpack module is based on the following resources:</p>
-<ul class="simple">
-<li><p><cite>C. Amzallag et. al. Standardization of the rainflow counting method for
-fatigue analysis. International Journal of Fatigue, 16 (1994) 287-293</cite>
-<cite>ISO 12110-2, Metallic materials - Fatigue testing - Variable amplitude
-fatigue testing.</cite></p></li>
-<li><p><cite>G. Marsh et. al. Review and application of Rainflow residue processing
-techniques for accurate fatigue damage estimation. International Journal
-of Fatigue, 82 (2016) 757-765</cite></p></li>
-</ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_signal</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Data signal being analyzed</p></li>
-<li><p><strong>m</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Fatigue slope factor of material</p></li>
-<li><p><strong>bin_num</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Number of bins for rainflow counting method (minimum=100)
-to call: get_DELs(data,chan_info,”bin_num”,binNum)</p></li>
-<li><p><strong>data_length</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span> <span class="pre">(optional)</span></code></span>) – Length of data in sec. Default for 1Hz is 600 seconds for 10min data
-to call: get_DELs(data,chan_info,”data_length”,t)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>DEL</strong> (<em>Structure</em>) – Damage equivalent load of signal</p>
 </dd>
 </dl>
 </dd></dl>

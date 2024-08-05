@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tidal Module &mdash; MHKiT v0.8.0 documentation</title>
+  <title>Tidal Module &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/mhkit.css" />
@@ -16,8 +16,8 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/documentation_options.js?v=17a23d02"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -60,6 +60,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#mhkit-matlab-api">MHKiT-MATLAB API</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="api.qc.html">QC Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">DOLfYN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.river.html">River Module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Tidal Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#io">IO</a></li>
@@ -137,26 +138,6 @@ load USGS Discharge data into structures.</p>
 </tbody>
 </table>
 <dl class="mat function" id="module-mhkit.tidal.io">
-<dt class="sig sig-object mat" id="mhkit.tidal.io.read_noaa_json">
-<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.io.</span></span><span class="sig-name descname"><span class="pre">read_noaa_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Returns site structure from a json saved from the
-request_noaa_data</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filename</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span></code></span>) – filename with path of json file to load</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p><strong>data</strong> (<em>Structure</em>)</p>
-<p>data.Data: Timeseries Site data, will be named based on parameters in JSON file</p>
-<p>data.time</p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
 <dt class="sig sig-object mat" id="mhkit.tidal.io.request_noaa_data">
 <span class="sig-prename descclassname"><span class="pre">mhkit.tidal.io.</span></span><span class="sig-name descname"><span class="pre">request_noaa_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">station</span></em>, <em class="sig-param"><span class="pre">parameter</span></em>, <em class="sig-param"><span class="pre">start_date</span></em>, <em class="sig-param"><span class="pre">end_date</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Link to this definition"></a></dt>
 <dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
@@ -195,6 +176,26 @@ to call: request_noaa_data(station,parameter,start_date,end_date,”write_json�
 <p>data.lon: station Longitude</p>
 <p>data.vars: this will vary depending on parameter input.</p>
 <p>data.time: epoch time [s]</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.io.read_noaa_json">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.io.</span></span><span class="sig-name descname"><span class="pre">read_noaa_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Returns site structure from a json saved from the
+request_noaa_data</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span></code></span>) – filename with path of json file to load</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>data</strong> (<em>Structure</em>)</p>
+<p>data.Data: Timeseries Site data, will be named based on parameters in JSON file</p>
+<p>data.time</p>
 </p>
 </dd>
 </dl>
@@ -289,6 +290,47 @@ This submodule also contains functions for computing tip speed ratio and the pow
 </tbody>
 </table>
 <dl class="mat function" id="module-mhkit.river.performance">
+<dt class="sig sig-object mat" id="mhkit.river.performance.power_coefficient">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">power_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">power</span></em>, <em class="sig-param"><span class="pre">inflow_speed</span></em>, <em class="sig-param"><span class="pre">capture_area</span></em>, <em class="sig-param"><span class="pre">rho</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.power_coefficient" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Function that calculates the power coefficient of MEC device</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>power</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Power output signal of device after losses [W]</p></li>
+<li><p><strong>inflow_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Velocity of inflow condition [m/s]</p></li>
+<li><p><strong>capture_area</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Projected area of rotor normal to inflow [m^2]</p></li>
+<li><p><strong>rho</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Density of environment [kg/m^3]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Cp</strong> (<em>vector</em>) – Power coefficient of device [-]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.river.performance.tip_speed_ratio">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">tip_speed_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rotor_speed</span></em>, <em class="sig-param"><span class="pre">rotor_diameter</span></em>, <em class="sig-param"><span class="pre">inflow_speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.tip_speed_ratio" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotor_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Rotor Speed [rps]</p></li>
+<li><p><strong>rotor_diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – diameter -f rotor [m]</p></li>
+<li><p><strong>inflow_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Velocity of inflow condition [m/s]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TSR</strong> (<em>vector</em>) – Calculated tip speed ratio (TSR)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
 <dt class="sig sig-object mat" id="mhkit.river.performance.circular">
 <span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">diameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.circular" title="Link to this definition"></a></dt>
 <dd><blockquote>
@@ -310,15 +352,18 @@ circular turbine</p>
 </dd></dl>
 
 <dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.river.performance.ducted">
-<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">ducted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">diameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.ducted" title="Link to this definition"></a></dt>
+<dt class="sig sig-object mat" id="mhkit.river.performance.rectangular">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">rectangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">h</span></em>, <em class="sig-param"><span class="pre">w</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.rectangular" title="Link to this definition"></a></dt>
 <dd><blockquote>
 <div><p>Calculates the equivalent diameter and projected capture area of a
-ducted turbine</p>
+retangular turbine</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – ducted diameter [m]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine height [m]</p></li>
+<li><p><strong>w</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine width [m]</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
@@ -352,39 +397,15 @@ multiple circular turbine</p>
 </dd></dl>
 
 <dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.river.performance.power_coefficient">
-<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">power_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">power</span></em>, <em class="sig-param"><span class="pre">inflow_speed</span></em>, <em class="sig-param"><span class="pre">capture_area</span></em>, <em class="sig-param"><span class="pre">rho</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.power_coefficient" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Function that calculates the power coefficient of MEC device</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>power</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Power output signal of device after losses [W]</p></li>
-<li><p><strong>inflow_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Velocity of inflow condition [m/s]</p></li>
-<li><p><strong>capture_area</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Projected area of rotor normal to inflow [m^2]</p></li>
-<li><p><strong>rho</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Density of environment [kg/m^3]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>Cp</strong> (<em>vector</em>) – Power coefficient of device [-]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.river.performance.rectangular">
-<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">rectangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">h</span></em>, <em class="sig-param"><span class="pre">w</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.rectangular" title="Link to this definition"></a></dt>
+<dt class="sig sig-object mat" id="mhkit.river.performance.ducted">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">ducted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">diameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.ducted" title="Link to this definition"></a></dt>
 <dd><blockquote>
 <div><p>Calculates the equivalent diameter and projected capture area of a
-retangular turbine</p>
+ducted turbine</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>h</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine height [m]</p></li>
-<li><p><strong>w</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine width [m]</p></li>
-</ul>
+<dd class="field-odd"><p><strong>diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – ducted diameter [m]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
@@ -392,26 +413,6 @@ retangular turbine</p>
 <li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
 </ul>
 </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.river.performance.tip_speed_ratio">
-<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">tip_speed_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rotor_speed</span></em>, <em class="sig-param"><span class="pre">rotor_diameter</span></em>, <em class="sig-param"><span class="pre">inflow_speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.tip_speed_ratio" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rotor_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Rotor Speed [rps]</p></li>
-<li><p><strong>rotor_diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – diameter -f rotor [m]</p></li>
-<li><p><strong>inflow_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Velocity of inflow condition [m/s]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TSR</strong> (<em>vector</em>) – Calculated tip speed ratio (TSR)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -453,6 +454,111 @@ The functions are designed to work in parallel with the <a class="reference inte
 </tbody>
 </table>
 <dl class="mat function" id="module-mhkit.tidal.graphics">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_tidal_phase_exceedance">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_tidal_phase_exceedance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">flood</span></em>, <em class="sig-param"><span class="pre">ebb</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_tidal_phase_exceedance" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Returns a stacked area plot of the exceedance probability for the
+flood and ebb tidal phases.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>flood</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal flood direction [degrees]</p></li>
+<li><p><strong>ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal ebb direction [degrees]</p></li>
+<li><p><strong>bin_size</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span> <span class="pre">(optional)</span></code></span>) – Speed bin size. Default = 0.1 m/s
+to call: plot_tidal_phase_probability(data, flood, ebb,”bin_size”,bin_size)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_tidal_phase_probability(data, flood, ebb,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_tidal_phase_probability(data, flood, ebb,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>figure</strong> (<em>stacked bar graph of the probability of exceedance in</em>) – flood and ebb directions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_rose">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_rose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">width_dir</span></em>, <em class="sig-param"><span class="pre">width_vel</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_rose" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Creates a polar histogram. Direction angles from binned histogram must
+be specified such that 0  degrees is north.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>width_dir</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of directional bins for histogram in degrees</p></li>
+<li><p><strong>width_vel</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of velocity bins for histogram in m/s</p></li>
+<li><p><strong>flood_ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">2</span> <span class="pre">element</span> <span class="pre">vector</span> <span class="pre">(optional)</span></code></span>) – Direction in degrees added to theta ticks
+to call: plot_rose(Q, width_dir, width_vel,”flood_ebb”,flood_ebb)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_rose(Q, width_dir, width_vel,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_rose(Q, width_dir, width_vel,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>figure handle to water current rose plot</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_tidal_phase_probability">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_tidal_phase_probability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">flood</span></em>, <em class="sig-param"><span class="pre">ebb</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_tidal_phase_probability" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Discretizes the tidal series speed by bin size and returns a plot
+of the probability for each bin in the flood or ebb tidal phase.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>flood</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal flood direction [degrees]</p></li>
+<li><p><strong>ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal ebb direction [degrees]</p></li>
+<li><p><strong>bin_size</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span> <span class="pre">(optional)</span></code></span>) – Speed bin size. Default = 0.1 m/s
+to call: plot_tidal_phase_probability(data, flood, ebb,”bin_size”,bin_size)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_tidal_phase_probability(data, flood, ebb,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_tidal_phase_probability(data, flood, ebb,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>figure</strong> (<em>stacked bar graph of the probability of exceedance in</em>) – flood and ebb directions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
 <dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_current_timeseries">
 <span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_current_timeseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">principal_direction</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_current_timeseries" title="Link to this definition"></a></dt>
 <dd><blockquote>
@@ -515,111 +621,6 @@ to call: plot_joint_probability_distribution(Q, width_dir, width_vel,”savepath
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>figure handle to joint probability distribution plot</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_rose">
-<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_rose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">width_dir</span></em>, <em class="sig-param"><span class="pre">width_vel</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_rose" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Creates a polar histogram. Direction angles from binned histogram must
-be specified such that 0  degrees is north.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
-<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
-</dd>
-<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
-</dd>
-<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>width_dir</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of directional bins for histogram in degrees</p></li>
-<li><p><strong>width_vel</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of velocity bins for histogram in m/s</p></li>
-<li><p><strong>flood_ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">2</span> <span class="pre">element</span> <span class="pre">vector</span> <span class="pre">(optional)</span></code></span>) – Direction in degrees added to theta ticks
-to call: plot_rose(Q, width_dir, width_vel,”flood_ebb”,flood_ebb)</p></li>
-<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
-to call: plot_rose(Q, width_dir, width_vel,”title”,title)</p></li>
-<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
-to call: plot_rose(Q, width_dir, width_vel,”savepath”,savepath)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>figure handle to water current rose plot</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_tidal_phase_exceedance">
-<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_tidal_phase_exceedance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">flood</span></em>, <em class="sig-param"><span class="pre">ebb</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_tidal_phase_exceedance" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Returns a stacked area plot of the exceedance probability for the
-flood and ebb tidal phases.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
-<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
-</dd>
-<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
-</dd>
-<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>flood</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal flood direction [degrees]</p></li>
-<li><p><strong>ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal ebb direction [degrees]</p></li>
-<li><p><strong>bin_size</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span> <span class="pre">(optional)</span></code></span>) – Speed bin size. Default = 0.1 m/s
-to call: plot_tidal_phase_probability(data, flood, ebb,”bin_size”,bin_size)</p></li>
-<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
-to call: plot_tidal_phase_probability(data, flood, ebb,”title”,title)</p></li>
-<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
-to call: plot_tidal_phase_probability(data, flood, ebb,”savepath”,savepath)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>figure</strong> (<em>stacked bar graph of the probability of exceedance in</em>) – flood and ebb directions</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="mat function">
-<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_tidal_phase_probability">
-<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_tidal_phase_probability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">flood</span></em>, <em class="sig-param"><span class="pre">ebb</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_tidal_phase_probability" title="Link to this definition"></a></dt>
-<dd><blockquote>
-<div><p>Discretizes the tidal series speed by bin size and returns a plot
-of the probability for each bin in the flood or ebb tidal phase.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
-<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
-</dd>
-<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
-</dd>
-<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>flood</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal flood direction [degrees]</p></li>
-<li><p><strong>ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal ebb direction [degrees]</p></li>
-<li><p><strong>bin_size</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span> <span class="pre">(optional)</span></code></span>) – Speed bin size. Default = 0.1 m/s
-to call: plot_tidal_phase_probability(data, flood, ebb,”bin_size”,bin_size)</p></li>
-<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
-to call: plot_tidal_phase_probability(data, flood, ebb,”title”,title)</p></li>
-<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
-to call: plot_tidal_phase_probability(data, flood, ebb,”savepath”,savepath)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>figure</strong> (<em>stacked bar graph of the probability of exceedance in</em>) – flood and ebb directions</p>
 </dd>
 </dl>
 </dd></dl>

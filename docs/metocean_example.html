@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MHKiT Metocean Data &mdash; MHKiT v0.8.0 documentation</title>
+  <title>MHKiT Metocean Data &mdash; MHKiT v0.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css" />
@@ -17,8 +17,8 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/documentation_options.js?v=17a23d02"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -40,7 +40,7 @@
             MHKiT
           </a>
               <div class="version">
-                v0.8.0
+                v0.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -107,13 +107,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from mhkit.wave.io import ndbc
-from mhkit.wave.io.hindcast import wind_toolkit
-from mhkit.tidal.graphics import plot_rose
-from mhkit.tidal.graphics import plot_joint_probability_distribution
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mhkit.wave.io</span> <span class="kn">import</span> <span class="n">ndbc</span>
+<span class="kn">from</span> <span class="nn">mhkit.wave.io.hindcast</span> <span class="kn">import</span> <span class="n">wind_toolkit</span>
+<span class="kn">from</span> <span class="nn">mhkit.tidal.graphics</span> <span class="kn">import</span> <span class="n">plot_rose</span>
+<span class="kn">from</span> <span class="nn">mhkit.tidal.graphics</span> <span class="kn">import</span> <span class="n">plot_joint_probability_distribution</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -134,10 +134,10 @@ to only return data associated with this site.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Specify the parameter as continuous wind speeds and the buoy number to be 46022
-ndbc_dict = {&quot;parameter&quot;: &quot;cwind&quot;, &quot;buoy_number&quot;: &quot;46022&quot;}
-available_data = ndbc.available_data(ndbc_dict[&quot;parameter&quot;], ndbc_dict[&quot;buoy_number&quot;])
-available_data
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify the parameter as continuous wind speeds and the buoy number to be 46022</span>
+<span class="n">ndbc_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;parameter&quot;</span><span class="p">:</span> <span class="s2">&quot;cwind&quot;</span><span class="p">,</span> <span class="s2">&quot;buoy_number&quot;</span><span class="p">:</span> <span class="s2">&quot;46022&quot;</span><span class="p">}</span>
+<span class="n">available_data</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">available_data</span><span class="p">(</span><span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">],</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;buoy_number&quot;</span><span class="p">])</span>
+<span class="n">available_data</span>
 </pre></div>
 </div>
 </div>
@@ -321,9 +321,9 @@ only contains the year 2018.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Slice the available data to only include 2018 and more recent
-years_of_interest = available_data[available_data.year == 2018]
-years_of_interest
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Slice the available data to only include 2018 and more recent</span>
+<span class="n">years_of_interest</span> <span class="o">=</span> <span class="n">available_data</span><span class="p">[</span><span class="n">available_data</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">years_of_interest</span>
 </pre></div>
 </div>
 </div>
@@ -374,10 +374,10 @@ years_of_interest
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get dictionary of parameter data by year
-ndbc_dict[&quot;filenames&quot;] = years_of_interest[&quot;filename&quot;]
-requested_data = ndbc.request_data(ndbc_dict[&quot;parameter&quot;], ndbc_dict[&quot;filenames&quot;])
-requested_data
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get dictionary of parameter data by year</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;filenames&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">years_of_interest</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span>
+<span class="n">requested_data</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">request_data</span><span class="p">(</span><span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">],</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;filenames&quot;</span><span class="p">])</span>
+<span class="n">requested_data</span>
 </pre></div>
 </div>
 </div>
@@ -413,16 +413,16 @@ setting this as the DataFrame Index and removing the NDBC date/ time columns. Th
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the header dates to a Datetime Index and remove NOAA date columns for each year
-ndbc_dict[&quot;2018&quot;] = ndbc.to_datetime_index(
-    ndbc_dict[&quot;parameter&quot;], requested_data[&quot;2018&quot;]
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the header dates to a Datetime Index and remove NOAA date columns for each year</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndbc</span><span class="o">.</span><span class="n">to_datetime_index</span><span class="p">(</span>
+    <span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">],</span> <span class="n">requested_data</span><span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">]</span>
+<span class="p">)</span>
 
-# Replace 99, 999, 9999 with NaN
-ndbc_dict[&quot;2018&quot;] = ndbc_dict[&quot;2018&quot;].replace({99.0: np.NaN, 999: np.NaN, 9999: np.NaN})
+<span class="c1"># Replace 99, 999, 9999 with NaN</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="mf">99.0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">999</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">9999</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span>
 
-# Display DataFrame of 46022 data from 2018
-ndbc_dict[&quot;2018&quot;]
+<span class="c1"># Display DataFrame of 46022 data from 2018</span>
+<span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -647,11 +647,11 @@ can be used to easily combine an array of elevations with a parameter name to cr
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Input parameters for site of interest
-temperatures = wind_toolkit.elevation_to_string(
-    &quot;temperature&quot;, [2, 20, 40, 60, 80, 100, 120, 140, 160]
-)
-temperatures
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Input parameters for site of interest</span>
+<span class="n">temperatures</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">elevation_to_string</span><span class="p">(</span>
+    <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">160</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">temperatures</span>
 </pre></div>
 </div>
 </div>
@@ -676,13 +676,13 @@ temperatures
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wtk_inputs = {
-    &quot;time_interval&quot;: &quot;1-hour&quot;,
-    &quot;wind_parameters&quot;: [&quot;windspeed_10m&quot;, &quot;winddirection_10m&quot;],
-    &quot;temp_parameters&quot;: temperatures,
-    &quot;year&quot;: [2018],
-    &quot;lat_lon&quot;: (40.748, -124.527),
-}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wtk_inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;time_interval&quot;</span><span class="p">:</span> <span class="s2">&quot;1-hour&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wind_parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;windspeed_10m&quot;</span><span class="p">,</span> <span class="s2">&quot;winddirection_10m&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;temp_parameters&quot;</span><span class="p">:</span> <span class="n">temperatures</span><span class="p">,</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2018</span><span class="p">],</span>
+    <span class="s2">&quot;lat_lon&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">40.748</span><span class="p">,</span> <span class="o">-</span><span class="mf">124.527</span><span class="p">),</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -695,8 +695,8 @@ temperatures
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>requested_region = wind_toolkit.region_selection(wtk_inputs[&quot;lat_lon&quot;])
-requested_region
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">requested_region</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">region_selection</span><span class="p">(</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;lat_lon&quot;</span><span class="p">])</span>
+<span class="n">requested_region</span>
 </pre></div>
 </div>
 </div>
@@ -713,7 +713,7 @@ requested_region
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wind_toolkit.plot_region(requested_region, lat_lon=wtk_inputs[&quot;lat_lon&quot;])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wind_toolkit</span><span class="o">.</span><span class="n">plot_region</span><span class="p">(</span><span class="n">requested_region</span><span class="p">,</span> <span class="n">lat_lon</span><span class="o">=</span><span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;lat_lon&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -742,13 +742,13 @@ requested_region
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wtk_wind, wtk_metadata = wind_toolkit.request_wtk_point_data(
-    wtk_inputs[&quot;time_interval&quot;],
-    wtk_inputs[&quot;wind_parameters&quot;],
-    wtk_inputs[&quot;lat_lon&quot;],
-    wtk_inputs[&quot;year&quot;],
-)
-wtk_wind
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wtk_wind</span><span class="p">,</span> <span class="n">wtk_metadata</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">request_wtk_point_data</span><span class="p">(</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;time_interval&quot;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;wind_parameters&quot;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;lat_lon&quot;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">wtk_wind</span>
 </pre></div>
 </div>
 </div>
@@ -857,32 +857,32 @@ wtk_wind
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Get WIND Toolkit and NDBC wind data for 2018-01-11
-ndbc_hourly_data = ndbc_dict[&quot;2018&quot;][&quot;2018-01-11&quot;].resample(&quot;h&quot;).nearest()
-wtk_hourly_wind = wtk_wind[&quot;2018-01-11&quot;]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get WIND Toolkit and NDBC wind data for 2018-01-11</span>
+<span class="n">ndbc_hourly_data</span> <span class="o">=</span> <span class="n">ndbc_dict</span><span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">][</span><span class="s2">&quot;2018-01-11&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">nearest</span><span class="p">()</span>
+<span class="n">wtk_hourly_wind</span> <span class="o">=</span> <span class="n">wtk_wind</span><span class="p">[</span><span class="s2">&quot;2018-01-11&quot;</span><span class="p">]</span>
 
-# Plot the timeseries
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.set_xlabel(&quot;Time, UTC (h)&quot;)
-ax.set_ylabel(&quot;Speed (m/s)&quot;)
-ax.set_title(&quot;Hourly mean wind speeds on January 11, 2018&quot;)
-ax.grid()
-ax.set_ylim([5, 14])
-ax.set_xlim([0, 24])
-line1 = ax.plot(
-    ndbc_hourly_data.index.hour,
-    ndbc_hourly_data[&quot;WSPD&quot;].values,
-    &quot;o&quot;,
-    label=&quot;NDBC 4m wind speed&quot;,
-)
-line2 = ax.plot(
-    wtk_hourly_wind.index.hour,
-    wtk_hourly_wind[&quot;windspeed_10m_0&quot;].values,
-    &quot;x&quot;,
-    label=&quot;WIND Toolkit 10m wind speed&quot;,
-)
-ax.legend()
+<span class="c1"># Plot the timeseries</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time, UTC (h)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Speed (m/s)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Hourly mean wind speeds on January 11, 2018&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">])</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ndbc_hourly_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+    <span class="n">ndbc_hourly_data</span><span class="p">[</span><span class="s2">&quot;WSPD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;NDBC 4m wind speed&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">wtk_hourly_wind</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+    <span class="n">wtk_hourly_wind</span><span class="p">[</span><span class="s2">&quot;windspeed_10m_0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;WIND Toolkit 10m wind speed&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -910,14 +910,14 @@ ax.legend()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set the rose bin widths
-width_direction = 10  # in degrees
-width_velocity = 1  # in m/s
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the rose bin widths</span>
+<span class="n">width_direction</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># in degrees</span>
+<span class="n">width_velocity</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># in m/s</span>
 
-# Plot the wind rose
-ax = plot_rose(
-    ndbc_hourly_data[&quot;WDIR&quot;], ndbc_hourly_data[&quot;WSPD&quot;], width_direction, width_velocity
-)
+<span class="c1"># Plot the wind rose</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_rose</span><span class="p">(</span>
+    <span class="n">ndbc_hourly_data</span><span class="p">[</span><span class="s2">&quot;WDIR&quot;</span><span class="p">],</span> <span class="n">ndbc_hourly_data</span><span class="p">[</span><span class="s2">&quot;WSPD&quot;</span><span class="p">],</span> <span class="n">width_direction</span><span class="p">,</span> <span class="n">width_velocity</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -932,12 +932,12 @@ ax = plot_rose(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax2 = plot_rose(
-    wtk_hourly_wind[&quot;winddirection_10m_0&quot;],
-    wtk_hourly_wind[&quot;windspeed_10m_0&quot;],
-    width_direction,
-    width_velocity,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax2</span> <span class="o">=</span> <span class="n">plot_rose</span><span class="p">(</span>
+    <span class="n">wtk_hourly_wind</span><span class="p">[</span><span class="s2">&quot;winddirection_10m_0&quot;</span><span class="p">],</span>
+    <span class="n">wtk_hourly_wind</span><span class="p">[</span><span class="s2">&quot;windspeed_10m_0&quot;</span><span class="p">],</span>
+    <span class="n">width_direction</span><span class="p">,</span>
+    <span class="n">width_velocity</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -956,36 +956,36 @@ ax = plot_rose(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wtk_temp, wtk_metadata = wind_toolkit.request_wtk_point_data(
-    wtk_inputs[&quot;time_interval&quot;],
-    wtk_inputs[&quot;temp_parameters&quot;],
-    wtk_inputs[&quot;lat_lon&quot;],
-    wtk_inputs[&quot;year&quot;],
-)
-# wtk_temp = wtk_temp.shift(-7) # optionally UTC to local time
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wtk_temp</span><span class="p">,</span> <span class="n">wtk_metadata</span> <span class="o">=</span> <span class="n">wind_toolkit</span><span class="o">.</span><span class="n">request_wtk_point_data</span><span class="p">(</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;time_interval&quot;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;temp_parameters&quot;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;lat_lon&quot;</span><span class="p">],</span>
+    <span class="n">wtk_inputs</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="c1"># wtk_temp = wtk_temp.shift(-7) # optionally UTC to local time</span>
 
-# Pick times corresponding to stable and unstable temperature profiles
-stable_temp = wtk_temp.at_time(&quot;2018-01-11 03:00:00&quot;).values[0]
-unstable_temp = wtk_temp.at_time(&quot;2018-01-11 15:00:00&quot;).values[0]
+<span class="c1"># Pick times corresponding to stable and unstable temperature profiles</span>
+<span class="n">stable_temp</span> <span class="o">=</span> <span class="n">wtk_temp</span><span class="o">.</span><span class="n">at_time</span><span class="p">(</span><span class="s2">&quot;2018-01-11 03:00:00&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">unstable_temp</span> <span class="o">=</span> <span class="n">wtk_temp</span><span class="o">.</span><span class="n">at_time</span><span class="p">(</span><span class="s2">&quot;2018-01-11 15:00:00&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-# Find heights from temperature DataFrame columns
-heights = []
-for s in wtk_temp.keys():
-    s = s.removeprefix(&quot;temperature_&quot;)
-    s = s.removesuffix(&quot;m_0&quot;)
-    heights.append(float(s))
-heights = np.array(heights)
+<span class="c1"># Find heights from temperature DataFrame columns</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">wtk_temp</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">&quot;temperature_&quot;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s2">&quot;m_0&quot;</span><span class="p">)</span>
+    <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span>
 
-# Plot the profiles
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.set_xlabel(&quot;Temperature (C)&quot;)
-ax.set_ylabel(&quot;Height (m)&quot;)
-ax.set_title(&quot;Temperature profiles from January 11, 2018&quot;)
-ax.grid()
-line1 = ax.plot(stable_temp, heights, &quot;o-&quot;, label=&quot;time=03:00:00 UTC&quot;)
-line2 = ax.plot(unstable_temp, heights, &quot;x-&quot;, label=&quot;time=15:00:00 UTC&quot;)
-ax.legend()
+<span class="c1"># Plot the profiles</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Temperature (C)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Height (m)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Temperature profiles from January 11, 2018&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">line1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stable_temp</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;time=03:00:00 UTC&quot;</span><span class="p">)</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">unstable_temp</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="s2">&quot;x-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;time=15:00:00 UTC&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
