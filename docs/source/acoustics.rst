@@ -18,7 +18,7 @@ Examples
 The acoustics module contains the following submodules:
 
 * ``io``: Contains functions to read and output *.wav* files
-* ``base``: Contains functions to process, clean and analyze passive acoustics data
+* ``analysis``: Contains functions to process, clean and analyze passive acoustics data
 * ``graphics``: Contains functions to plot spectral data
 
 See :ref:`MHKiT-Python <python>`  for more details on the acoustics module.

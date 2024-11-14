@@ -31,14 +31,14 @@ well as one to export audio back into a *.wav* file.
     ~mhkit.acoustics.io.export_audio
 
 
-Base submodule
-""""""""""""""
-Analysis functions are stored in the base submodule,
+Analysis submodule
+""""""""""""""""""
+Analysis functions are stored in the analysis submodule,
 accessed directly from `mhkit.acoustics`. These functions
 are intended to be used on top of the I/O submodule, and
 include functionality to calibrate data, create spectral 
-densities, sound pressure levels, and time or band average 
-spectral data.
+densities, sound pressure levels, and time or band
+aggregate spectral data.
 
 .. autosummary::
 	:nosignatures:
@@ -47,8 +47,8 @@ spectral data.
     ~mhkit.acoustics.sound_pressure_spectral_density
     ~mhkit.acoustics.apply_calibration
     ~mhkit.acoustics.sound_pressure_spectral_density_level
-    ~mhkit.acoustics.band_average
-    ~mhkit.acoustics.time_average
+    ~mhkit.acoustics.band_aggregate
+    ~mhkit.acoustics.time_aggregate
     ~mhkit.acoustics.sound_pressure_level
     ~mhkit.acoustics.third_octave_sound_pressure_level
     ~mhkit.acoustics.decidecade_sound_pressure_level
