@@ -159,9 +159,9 @@ ADP-specific functions:
 	:nosignatures:
 	
 	~mhkit.dolfyn.adp.clean.set_range_offset
-	~mhkit.dolfyn.adp.clean.find_surface
-	~mhkit.dolfyn.adp.clean.find_surface_from_P
-	~mhkit.dolfyn.adp.clean.nan_beyond_surface
+	~mhkit.dolfyn.adp.clean.water_depth_from_amplitude
+	~mhkit.dolfyn.adp.clean.water_depth_from_pressure
+	~mhkit.dolfyn.adp.clean.remove_surface_interference
 	~mhkit.dolfyn.adp.clean.correlation_filter
 	~mhkit.dolfyn.adp.clean.medfilt_orient
 	~mhkit.dolfyn.adp.clean.val_exceeds_thresh
@@ -281,9 +281,9 @@ via the `ADPBinner` class.
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.dwdz
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.shear_squared
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.doppler_noise_level
-	~mhkit.dolfyn.adv.turbulence.ADPBinner.check_turbulence_cascade_slope
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.reynolds_stress_4beam
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.stress_tensor_5beam
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.check_turbulence_cascade_slope
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.dissipation_rate_LT83
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.dissipation_rate_SF
 	~mhkit.dolfyn.adv.turbulence.ADPBinner.friction_velocity
