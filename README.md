@@ -42,7 +42,7 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
   
     - Sphinx --> Version: 8.1.3
 
-  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and google analytics)
+  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and google analytics) and additional dependencies
 
      ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx sphinxcontrib-googleanalytics```
 
@@ -55,6 +55,8 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
       - sphinx-rtd-theme --> Version: 3.0.2
 
       - sphinxcontrib-googleanalytics  --> Version: 0.4
+    
+    ```conda install pandoc```
 
 You are now ready to begin modifying and building the MHKiT documentation.
 
