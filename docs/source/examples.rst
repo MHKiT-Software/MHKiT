@@ -166,3 +166,8 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Visualize and analyze output from MoorDyn
      - mooring, wave
+   * - Acoustics
+     - `Notebook <acoustics_example.ipynb>`_
+     - Coming soon
+     - Ingest, analyze and visualize passive acoustic output
+     - acoustics, iec
