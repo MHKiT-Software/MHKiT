@@ -19,7 +19,6 @@ MHKiT-Python API
    mhkit-python/api.dolfyn
    mhkit-python/api.mooring
    mhkit-python/api.utils
-   mhkit-python/api.acoustics
 
 
 .. _apidoc_matlab:
