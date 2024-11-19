@@ -3,6 +3,9 @@
 Examples
 ========
 
+Overview
+---------
+
 This page details all the available examples of MHKiT functions and features.
 Python examples are available as Jupyter notebooks and MATLAB examples as live scripts.
 Not all MATLAB examples are available yet but are coming soon.
@@ -31,7 +34,6 @@ Search for the following tags to identify relevant examples:
      - Examples utilizing IEC marine energy standards
    * - qc
      - Examples preparing data, doing quality control, etc
-
 
 .. list-table::
    :header-rows: 1
@@ -171,3 +173,14 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Ingest, analyze and visualize passive acoustic output
      - acoustics, iec
+
+All Python Notebooks
+---------------------
+.. doesn't work for LiveScripts because nbgallery is inherently for notebooks. 
+.. Automatically makes a table of notebook names/icons and adds them to the toctree
+.. nbgallery::
+   :name: example_gallery_python
+   :glob:
+   
+   *_example
+   directional_waves
