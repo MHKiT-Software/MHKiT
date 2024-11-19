@@ -17,4 +17,3 @@ This section gives an overview of the functionality available within each of MHK
    dolfyn.rst
    mooring.rst
    utils.rst
-   acoustics.rst
