@@ -3,7 +3,7 @@
 Passive Acoustics Module
 ========================
 The acoustics module contains a set of functions to injest hydrophone *.wav* files.
-Only available in MHKiT-Python in v0.8.3 or later.
+Only available in MHKiT-Python in v0.9 or later.
 
 API Documentation
 --------------------
