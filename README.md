@@ -134,3 +134,39 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
   - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
   - MHKiT (Marine and Hydrokinetic Toolkit)
 
+## Modules Template
+All modules in MHKiT should be briefly described in the "Module Overview" Section.
+Below is a template that can be used for a new MHKiT module (fix title 
+characters when adding a section):
+
+NAME Module
+<br />====================
+
+Brief description of what the module dose.
+
+API Documentation
+<br />--------------------
+
+- `Python NAME API Documentation <mhkit-python/api.NAME.html>`_
+- `MATLAB NAME API Documentation <mhkit-matlab/api.NAME.html>`_
+
+Examples
+<br />--------------
+
+- Bulleted list of linked examples
+- pertaining to this module.
+- Tag modules in docs/source/examples.rst as appropriate.
+
+Submodules
+<br />--------------
+
+The NAME module contains the following submodules:
+
+* ``SUBMODULE_NAME``: one sentence description of the submodule. Calculations are based on `IEC TS XXXXX-XXX:20XX EDX <LINK>`
+* ``SUBMODULE_NAME``: etc...
+
+IEC/TS XXXXX-XXX
+<br />---------------------------
+
+Recommends proper use of the module per relevant IEC standards.
+

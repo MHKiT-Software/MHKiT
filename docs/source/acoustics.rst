@@ -15,10 +15,10 @@ Examples
 
 - `Passive Acoustics Example <acoustics_example.ipynb>`_
 
+Submodules
+--------------
 The acoustics module contains the following submodules:
 
 * ``io``: Contains functions to read and output *.wav* files
 * ``analysis``: Contains functions to process, clean and analyze passive acoustics data
 * ``graphics``: Contains functions to plot spectral data
-
-See :ref:`MHKiT-Python <python>`  for more details on the acoustics module.
