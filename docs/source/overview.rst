@@ -80,6 +80,7 @@ The MHKiT-MATLAB repository is located at: https://github.com/MHKiT-Software/MHK
 
 
 .. _tests:
+
 Software Tests
 --------------------------
 
@@ -88,8 +89,8 @@ Tests are run each time changes are made to the repository.
 New tests are developed each time new functionality is added to MHKiT.
 Tests are run on GitHub Actions and reported on the respective README pages.
 
-GitHub Actions: `Python <https://github.com/MHKiT-Software/MHKiT-Python/actions>`_, `MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB/actions>`_
-README pages: `Python <https://github.com/MHKiT-Software/MHKiT-Python>`_, `MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_
+GitHub Actions: `Python <https://github.com/MHKiT-Software/MHKiT-Python/actions>`__, `MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB/actions>`__
+README pages: `Python <https://github.com/MHKiT-Software/MHKiT-Python>`__, `MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`__
 
 Developers should run software tests locally before submitting a pull request, using the following commands.
 A summary pdf will be created after running the tests 
