@@ -37,7 +37,6 @@ of the tidal resource given a timeseries of directional data.
     :members:
     :undoc-members:
     :show-inheritance:
-    .. :no-index: exceedance_probability, Froude_number
 
         .. autosummary::
             :nosignatures:
@@ -60,7 +59,6 @@ the tip speed ratio and power coefficient from a blade/rotor type device.
     :members:
     :undoc-members:
     :show-inheritance:
-    .. :no-index: circular, ducted, rectangular, multiple_circular, tip_speed_ratio, power_coefficient
 
         .. autosummary::
             :nosignatures:
@@ -84,7 +82,6 @@ and related metrics.
     :members:
     :undoc-members:
     :show-inheritance:
-    .. :no-index: plot_velocity_duration_curve
 
         .. autosummary::
             :nosignatures:
