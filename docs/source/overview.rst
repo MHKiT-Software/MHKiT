@@ -95,9 +95,10 @@ Developers should run software tests locally before submitting a pull request, u
 A summary pdf will be created after running the tests 
 summarizing the test results. 
 
-MHKiT-Python tests using the Python package nose::
+MHKiT-Python tests using the Python package pytest::
 
-   nosetests -v --with-coverage --cover-package=mhkit mhkit
+   pip install -r requirements-dev.txt
+   pytest
 
 MHKiT-MATLAB tests using the MATLAB API::
 
