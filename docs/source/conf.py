@@ -28,7 +28,8 @@ extensions = [
     'sphinx_rtd_theme',
     'nbsphinx',
     'sphinxcontrib.bibtex',
-    'sphinxcontrib.matlab',       
+    'sphinxcontrib.matlab',      
+    'sphinxcontrib.googleanalytics', 
 ]
 
 autosectionlabel_prefix_document = True
@@ -36,7 +37,7 @@ autosectionlabel_prefix_document = True
 #    
 
 # -- Path setup --------------------------------------------------------------
-# If extensions (or modules to document with autodoc) are in another dire	ctory,
+# If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
@@ -148,7 +149,8 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 # Added Google Analytics to theme based on https://github.com/readthedocs/sphinx_rtd_theme/pull/411
-html_theme_options = {'analytics_id': 'UA-164358105-1'}
+googleanalytics_id = 'UA-164358105-1'
+googleanalytics_enabled = True
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
