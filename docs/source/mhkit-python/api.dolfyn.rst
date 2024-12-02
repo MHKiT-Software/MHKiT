@@ -30,8 +30,8 @@ import:
 	~mhkit.dolfyn.rotate.base.quaternion2orient
 	~mhkit.dolfyn.velocity.VelBinner
 
-ADP Module
-""""""""""
+ADP Submodule
+"""""""""""""
 The other two ways are to import the instrument-specific
 modules.
 The ADP module contains routines for reading and working with 
@@ -49,8 +49,8 @@ ADP/ADCP data and is imported using
 	~mhkit.dolfyn.velocity.VelBinner
 	~mhkit.dolfyn.adp.turbulence.ADPBinner
 
-ADV Module
-""""""""""
+ADV Submodule
+"""""""""""""
 The ADV module contains routines for reading and working with 
 ADV data and is imported using 
 `from mhkit.dolfyn.adv import api`. It contains:
@@ -69,8 +69,8 @@ ADV data and is imported using
 	~mhkit.dolfyn.adv.turbulence.ADVBinner
 	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
 
-IO
-""
+IO Submodule
+""""""""""""
 The io submodule contains the following functions to read
 binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
 (.000, .PD0, .ENX, etc.) data file.  
@@ -110,8 +110,8 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
     :undoc-members:
     :show-inheritance:
 
-Rotate
-""""""
+Rotate Submodule
+""""""""""""""""
 The rotate submodule contains tools to rotate a dataset 
 to different coordinate systems. When a file is read into 
 dolfyn, the data will be stored in the same coordinate 
@@ -159,9 +159,9 @@ ADP-specific functions:
 	:nosignatures:
 	
 	~mhkit.dolfyn.adp.clean.set_range_offset
-	~mhkit.dolfyn.adp.clean.find_surface
-	~mhkit.dolfyn.adp.clean.find_surface_from_P
-	~mhkit.dolfyn.adp.clean.nan_beyond_surface
+	~mhkit.dolfyn.adp.clean.water_depth_from_amplitude
+	~mhkit.dolfyn.adp.clean.water_depth_from_pressure
+	~mhkit.dolfyn.adp.clean.remove_surface_interference
 	~mhkit.dolfyn.adp.clean.correlation_filter
 	~mhkit.dolfyn.adp.clean.medfilt_orient
 	~mhkit.dolfyn.adp.clean.val_exceeds_thresh
@@ -202,7 +202,7 @@ prior to collecting data.
   
 	~mhkit.dolfyn.adv.motion.correct_motion
   
-.. automodule:: mhkit.dolfyn.adv.motion.correct_motion
+.. automodule:: mhkit.dolfyn.adv.motion
     :members:
     :undoc-members:
     :show-inheritance:
@@ -224,9 +224,10 @@ be called from `VelBinner`.
 	~mhkit.dolfyn.binned.TimeBinner.mean 
 	~mhkit.dolfyn.binned.TimeBinner.variance
 	~mhkit.dolfyn.binned.TimeBinner.standard_deviation
-	~mhkit.dolfyn.binned.VelBinner.bin_average
-	~mhkit.dolfyn.binned.VelBinner.bin_variance
-	~mhkit.dolfyn.binned.VelBinner.autocovariance
+	~mhkit.dolfyn.velocity.VelBinner.bin_average
+	~mhkit.dolfyn.velocity.VelBinner.bin_variance
+	~mhkit.dolfyn.velocity.VelBinner.autocovariance
+	~mhkit.dolfyn.velocity.VelBinner.turbulence_intensity
 	~mhkit.dolfyn.velocity.VelBinner.turbulent_kinetic_energy
 	~mhkit.dolfyn.velocity.VelBinner.power_spectral_density
 
@@ -241,8 +242,8 @@ be called from `VelBinner`.
     :show-inheritance:
 
 
-Turbulence Analysis
-"""""""""""""""""""
+ADV Turbulence Analysis
+"""""""""""""""""""""""
 Functions for analyzing ADV data via the `ADVBinner` class, 
 beyond those described in `VelBinner`.
 
@@ -253,12 +254,41 @@ beyond those described in `VelBinner`.
 	~mhkit.dolfyn.adv.turbulence.turbulence_statistics
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.reynolds_stress
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.cross_spectral_density
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.doppler_noise_level
+	~mhkit.dolfyn.adv.turbulence.ADVBinner.check_turbulence_cascade_slope
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_LT83
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_SF
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.dissipation_rate_TE01
 	~mhkit.dolfyn.adv.turbulence.ADVBinner.integral_length_scales
 
 .. automodule:: mhkit.dolfyn.adv.turbulence
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+AD2CP Turbulence Analysis
+"""""""""""""""""""""""""
+Functions for analyzing turbulence from AD2CP measurements
+via the `ADPBinner` class.
+
+.. autosummary::
+	:nosignatures:
+
+	~mhkit.dolfyn.adv.turbulence.ADPBinner
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.dudz
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.dvdz
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.dwdz
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.shear_squared
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.doppler_noise_level
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.reynolds_stress_4beam
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.stress_tensor_5beam
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.check_turbulence_cascade_slope
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.dissipation_rate_LT83
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.dissipation_rate_SF
+	~mhkit.dolfyn.adv.turbulence.ADPBinner.friction_velocity
+
+.. automodule:: mhkit.dolfyn.adp.turbulence
     :members:
     :undoc-members:
     :show-inheritance:
@@ -326,4 +356,3 @@ of the stored time between a variety of time formats.
     :members:
     :undoc-members:
     :show-inheritance:
-    
