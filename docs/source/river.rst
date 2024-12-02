@@ -16,6 +16,8 @@ Examples
 - `Python Tanana River Resource Characterization <ADCP_Delft3D_TRTS_example.ipynb>`_
 - `MATLAB River Example <mhkit-matlab/river_example.html>`_
 
+Submodules
+--------------
 The river module contains the following submodules:
 
 * ``io``: Loads discharge data from standard formats.
@@ -24,8 +26,6 @@ The river module contains the following submodules:
 * ``performance``: Computes device metrics such as equivalent diameter, tip speed ratio, and capture area.
   Calculations are based on `IEC TS 62600-300:2019 ED1 <https://webstore.iec.ch/publication/29478>`_.
 * ``graphics``: Generates graphics, including flow duration curves and velocity duration curves.
-
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the river module.
 
 IEC/TS 62600-100
 ---------------------------
