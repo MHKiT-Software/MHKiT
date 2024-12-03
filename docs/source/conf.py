@@ -106,6 +106,11 @@ exclude_patterns = ['**.inc', '**.nblink']
 # can be set to alphabetical, groupwise or bysource
 autodoc_member_order = 'bysource'
 
+# A list of warning codes to suppress arbitrary warning messages.
+suppress_warnings = [
+    'docutils',  # duplicate object description, unexpected indentation
+]
+
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
 #default_role = None
