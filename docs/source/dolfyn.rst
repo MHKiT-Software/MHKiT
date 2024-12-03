@@ -16,6 +16,8 @@ Examples
 - `ADV Example <adv_example.ipynb>`_
 - `Python Tanana River Resource Characterization <ADCP_Delft3D_TRTS_example.ipynb>`_
 
+Submodules
+--------------
 The dolfyn module contains the following submodules:
 
 * ``adp``: Contains functions to process, clean and analyze ADCP data
@@ -24,5 +26,3 @@ The dolfyn module contains the following submodules:
 * ``rotate``: Contains tools to rotate a dataset to a new coordinate system. 
 * ``time``: Contains functions to modify the format of the stored time between a variety of time formats.
 * ``tools``: Contains miscellaneous functions used in mhkit that may prove useful to users
-
-See :ref:`MHKiT-Python <python>`  for more details on the Dolfyn module.

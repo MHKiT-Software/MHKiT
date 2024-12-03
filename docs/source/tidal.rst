@@ -17,6 +17,8 @@ Examples
 - `MATLAB Tidal Example LiveScript <mhkit-matlab/tidal_example.html>`_
 
 
+Submodules
+--------------
 The tidal module contains the following submodules:
 
 * ``io``: Loads tidal velocity and direction data from National Oceanic and Atmospheric Administration (NOAA) currents.
@@ -25,6 +27,3 @@ The tidal module contains the following submodules:
 * ``performance``: Computes device metrics such as equivalent diameter, tip speed ratio, and capture area.
   Calculations are based on `IEC TS 62600-200:2013 ED1 <https://webstore.iec.ch/publication/7242>`_.
 * ``graphics``: Generates graphics, including rose plots and joint probability distributions.
-
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the tidal module.
-
