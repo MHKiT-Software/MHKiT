@@ -22,7 +22,7 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
 (.000, .PD0, .ENX, etc.) data files.
 
 .. mat:automodule:: mhkit.dolfyn.io
-    :members
+    :members:
     :undoc-members:
     :show-inheritance:
 
