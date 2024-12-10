@@ -20,18 +20,7 @@ Functions                                    Description
 .. Note::
     The names of the functions below are of the convention ``path.path.function``. Only the function name is used when calling the function in MATLAB. For example, to call on ``mhkit.qc.check_timestamp`` simply use ``check_timestamp``. 
     
-    
 .. mat:automodule:: mhkit.qc
     :members:
     :no-undoc-members:
     :show-inheritance:
-    
-
-
-
-
-
-
-
-
-

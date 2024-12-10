@@ -25,8 +25,6 @@ Functions                                    Description
     :undoc-members:
     :show-inheritance:
 
-    
-    
 Resource
 """"""""""""
 The resource submodule uses discharge data to compute 
@@ -47,7 +45,6 @@ Functions                                    Description
     :members:
     :undoc-members:
     :show-inheritance:
-
 
 Performance 
 """"""""""""
@@ -78,8 +75,6 @@ Functions                                    Description
 .. Note::
 	Tidal device functions are the same as the River device functions
 
-
-   
 Graphics
 """"""""""""
 The graphics submodule contains functions to plot river data and related metrics.  
@@ -96,11 +91,7 @@ Functions                                    Description
 ``plot_tidal_phase_probability``                 Discretizes the tidal series speed by bin size and returns a plot of the probability for each bin in the flood or ebb tidal phase.
 ===========================================  ========================= 
 
-
 .. mat:automodule:: mhkit.tidal.graphics
     :members:
     :undoc-members:
     :show-inheritance:
-
-    
-   
