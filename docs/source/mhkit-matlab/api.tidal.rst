@@ -36,8 +36,8 @@ or velocity and power at an individual turbine.
 ===========================================  =========================
 Functions                                    Description
 ===========================================  =========================
-``principal_flow_direction``                     Calculates the principal flow directions of current data
-``Froude_number``                                Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr <1).
+``principal_flow_direction``                    Calculates the principal flow directions of current data
+``Froude_number``                               Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr <1).
 ``exceedance_probability``                      Calculates the exceedance probability
 ===========================================  ========================= 
 
@@ -63,8 +63,8 @@ Functions                                    Description
 ``ducted``                                      Calculates the equivalent diameter and projected capture area of a ducted turbine
 ``multiple_circular``                           Calculates the equivalent diameter and projected capture area of a multiple circular turbine
 ``rectangular``                                 Calculates the equivalent diameter and projected capture area of a retangular turbine
-``tip_speed_ratio``                              Calculates the tip speed ratio (TSR) of a MEC device with rotor
-``power_coefficient``                            Calculates the calculates the power coefficient of MEC device
+``tip_speed_ratio``                             Calculates the tip speed ratio (TSR) of a MEC device with rotor
+``power_coefficient``                           Calculates the calculates the power coefficient of MEC device
 ===========================================  ========================= 
 
 .. mat:automodule:: mhkit.river.performance
