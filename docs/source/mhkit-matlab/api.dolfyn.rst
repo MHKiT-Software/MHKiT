@@ -10,7 +10,6 @@ processed and returned as MATLAB structures.
 .. Note::
    DOLfYN support within MHKiT-MATLAB is a work in progress. Please submit any issues or improvements to the `MHKiT-MATLAB GitHub Repository <https://github.com/MHKiT-Software/MHKiT-MATLAB/issues>`_
 
-
 .. Note::
     The names of the functions below are of the convention ``path.path.function``. Only the function name is used when calling the function in MATLAB. For example, to call on ``mhkit.dolfyn.io.read_nortek`` simply use ``read_nortek``.
 
@@ -22,7 +21,7 @@ binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or TRDI
 (.000, .PD0, .ENX, etc.) data files.
 
 .. mat:automodule:: mhkit.dolfyn.io
-    :members
+    :members:
     :undoc-members:
     :show-inheritance:
 

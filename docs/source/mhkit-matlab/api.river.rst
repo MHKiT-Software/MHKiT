@@ -11,18 +11,35 @@ IO
 """"""""""""
 The io submodule contains the following functions to load USGS Discharge data into structures.  
 
-===========================================  =========================
-Functions                                    Description
-===========================================  =========================
-``read_usgs_file``                               Reads a USGS JSON data file (from https://waterdata.usgs.gov/nwis) into a structure 
-``request_usgs_file``                            Loads USGS data directly from https://waterdata.usgs.gov/nwis using a GET request into a structure
-===========================================  ========================= 
+==============================================  =========================
+Functions                                        Description
+==============================================  =========================
+``read_usgs_file``                                  Reads a USGS JSON data file (from https://waterdata.usgs.gov/nwis) into a structure 
+``request_usgs_file``                               Loads USGS data directly from https://waterdata.usgs.gov/nwis using a GET request into a structure
+``delft_3d_calculate_turbulent_intensity``          Returns the turbulent intensity percentage for a given data set for the specified points
+``delft_3d_calculate_unorm``                        Calculates the root mean squared value given three arrays.
+``delft_3d_calculate_variable_interpolation``       Interpolates multiple variables from the Delft3D onto the same points.
+``delft_3d_cleanup_turbulent_kinetic_energy``       Cleans up the turbulent kinetic energy values based on a threshold.
+``delft_3d_convert_time``                           Converts timestamps into a usable format.
+``delft_3d_create_points``                          Turns three coordinate inputs into a single output struct of points
+``delft_3d_get_all_data_points``                    Returns all data points for a specific variable at a given time index from a Delft 3D netCDF object.
+``delft_3d_get_all_time``                           Returns all time values from a Delft 3D netCDF object.
+``delft_3d_get_keys``                               Returns a struct of the key/values of a Delft 3D netCDF object.
+``delft_3d_get_layer_data``                         Returns layer data from a Delft 3D netCDF object.
+``delft_3d_index_to_seconds``                       Returns the time in seconds corresponding to the given index in the Delft3D dataset.
+``delft_3d_interpolate_to_centerline``              Interpolates data to points along a centerline.
+``delft_3d_open_netcdf``                            Opens a Delft 3D netCDF file as a python netCDF4 object
+``delft_3d_seconds_to_index``                       Returns the index corresponding to the given number of seconds elapsed in the Delft3D dataset.
+==============================================  ========================= 
 
 .. mat:automodule:: mhkit.river.IO
     :members:
     :undoc-members:
-    
-    
+
+.. mat:automodule:: mhkit.river.IO.delft_3d
+    :members:
+    :undoc-members:
+
 Resource
 """"""""""""
 The resource submodule uses discharge data to compute exeedance probability, velocity, and power.  The module also contains functions to compute the Froude number and to fit a polynomial to a series of points. The polynomial is used to estimate the relationship between discharge and velocity or velocity and power at an individual turbine.
@@ -41,7 +58,6 @@ Functions                                    Description
 .. mat:automodule:: mhkit.river.resource
     :members:
     :undoc-members:
-    
 
 Performance 
 """"""""""""
@@ -64,8 +80,7 @@ Functions                                    Description
 .. mat:automodule:: mhkit.river.performance
     :members:
     :undoc-members:
-	
-   
+
 Graphics
 """"""""""""
 The graphics submodule contains functions to plot river data and related metrics.  The functions are designed to work in parallel with the :class:`~mhkit.river.resource` submodule.
@@ -84,8 +99,3 @@ Functions                                    Description
 .. mat:automodule:: mhkit.river.graphics
     :members:
     :undoc-members:
-
-    
-    
-
-

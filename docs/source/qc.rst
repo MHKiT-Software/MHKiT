@@ -21,6 +21,9 @@ Examples
 - `Python Quality Control Example <qc_example.ipynb>`_
 - `MATLAB Quality Control Example <mhkit-matlab/qc_example.html>`_
 
+Submodules
+--------------
+The QC module does not contain submodules. It imports several convenient functions from pecos.monitoring.
 The QC module contains a set of functions for basic quality control analysis.
 These functions are imported from `Pecos <https://pecos.readthedocs.io>`_, an open-source Python package
 designed for quality control analysis of time-series data.  Pecos was originally developed to monitor solar photovoltaic systems but is designed to be used for a wide range of applications.
@@ -59,5 +62,3 @@ See Pandas documentation for more details.
 Note, that the quality control functions require that the data have a datatime index.
 Other functionality in MHKiT can use data that has datatime or numeric indexes.
 The :ref:`utils` can be used to convert numeric indexes to datetime indexes.
-
-See :ref:`MHKiT-Python <python>` or :ref:`MHKiT-MATLAB <matlab>` for more details on the QC module.
