@@ -63,7 +63,7 @@ You are now ready to begin modifying and building the MHKiT documentation.
 ## Step 3. Modify the Documentation
 
 - The restructured text files used to build the documentation are located in the ``/MHKiT/docs/source`` directory (Check the [Sphinx Website](http://www.sphinx-doc.org/en/master/) for information about the folder structure).
-- Before modifying the documentation we recommend creating a feature branch and not modifying your fork's master branch. A feature branch can be created using the commands
+- Before modifying the documentation we recommend creating a feature branch and not modifying your fork's main branch. A feature branch can be created using the commands
 ```bash
 git branch featureBranchName
 git checkout featureBranchName
@@ -100,7 +100,7 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
   - If you did not create a feature branch simply type `git push` 
 
 ## Step 6. Submit a Pull Request
-- submit a pull request to merge the revisions on your fork with master, https://github.com/MHKiT-Software/MHKiT/pulls
+- Submit a pull request to merge the revisions on your fork with main, https://github.com/MHKiT-Software/MHKiT/pulls
 
 # Best Practices
   - Run spell check (not built into most text editors)
