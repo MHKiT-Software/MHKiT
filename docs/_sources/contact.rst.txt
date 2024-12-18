@@ -26,7 +26,7 @@ To propose changes to the MHKiT software, complete your development on a distinc
 Submit a `pull request <https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request>`_ of the modified repository into the appropriate repository's ``develop`` branch.
 If an update contains a bug fix, create the pull request into the ``develop`` branch.
 Once reviewed by the MHKiT development team, pull requests will be merged into MHKiT. 
-Features will later be merged into the master branch and included in future releases of MHKiT.
+Features will later be merged into the main branch and included in future releases of MHKiT.
 Software developers, within the MHKiT development team and external collaborators, are expected to follow standard software quality practices. In any PR, please include documentation and tests for new code. Create an additional PR into the MHKiT documentation repository as needed.
 
 

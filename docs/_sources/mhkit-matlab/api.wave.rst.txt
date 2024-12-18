@@ -29,14 +29,17 @@ Functions                                    Description
     :members:
     :undoc-members:
     :show-inheritance:
+
 .. mat:automodule:: mhkit.wave.IO.hindcast
     :members:
     :undoc-members:
     :show-inheritance:
+
 .. mat:automodule:: mhkit.wave.IO.NDBC
     :members:
     :undoc-members:
-    :show-inheritance:   
+    :show-inheritance:
+
 .. mat:automodule:: mhkit.wave.IO.SWAN
     :members:
     :undoc-members:
@@ -55,7 +58,6 @@ Functions                                    Description
 ``pierson_moskowitz_spectrum``               Calculates Pierson Moskowitz spectrum from wave data. 
 ``elevation_spectrum``                       Calculates wave spectra from wave probe timeseries.
 ===========================================  ========================= 
-   
 
 The following metrics can be computed from the spectra:
 
@@ -71,6 +73,8 @@ Functions                                    Description
 ``environmental_contour``                    Calculates environmental contours of extreme sea states
 ``frequency_moment``                         Calculates the Nth frequency moment of the spectrum
 ``peak_period``                              Calculates wave energy period from spectra
+``samples_contour``                          Get Hs points along a specified environmental contour using user-defined T values.
+``samples_full_seastate``                    Sample a sea state between contours of specified return periods.
 ``significant_wave_height``                  Calculates wave height from spectra
 ``spectral_bandwidth``                       Calculates bandwidth from spectra
 ``spectral_width``                           Calculates wave spectral width from spectra
@@ -84,9 +88,6 @@ Functions                                    Description
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-
 
 Performance
 """"""""""""""""""

@@ -1,24 +1,31 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mhkit.dolfyn.adp.clean &mdash; MHKiT v0.8.0 documentation</title>
+  <title>mhkit.dolfyn.adp.clean &mdash; MHKiT v0.9.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=b3dab91b"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -35,9 +42,6 @@
           <a href="../../../../index.html" class="icon icon-home">
             MHKiT
           </a>
-              <div class="version">
-                v0.8.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -87,69 +91,148 @@
            <div itemprop="articleBody">
              
   <h1>Source code for mhkit.dolfyn.adp.clean</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Module containing functions to clean data</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Module containing functions to clean data.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">medfilt</span>
 <span class="kn">from</span> <span class="nn">..tools.misc</span> <span class="kn">import</span> <span class="n">medfiltnan</span>
 <span class="kn">from</span> <span class="nn">..rotate.api</span> <span class="kn">import</span> <span class="n">rotate2</span>
-<span class="kn">from</span> <span class="nn">..rotate.base</span> <span class="kn">import</span> <span class="n">_make_model</span><span class="p">,</span> <span class="n">quaternion2orient</span>
+<span class="kn">from</span> <span class="nn">..rotate.base</span> <span class="kn">import</span> <span class="n">quaternion2orient</span>
 
 
-<div class="viewcode-block" id="set_range_offset">
-<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.set_range_offset">[docs]</a>
-<span class="k">def</span> <span class="nf">set_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">h_deploy</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">__check_for_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds an instrument&#39;s height above seafloor (for an up-facing instrument)</span>
-<span class="sd">    or depth below water surface (for a down-facing instrument) to the range</span>
-<span class="sd">    coordinate. Also adds an attribute to the Dataset with the current</span>
-<span class="sd">    &quot;h_deploy&quot; distance.</span>
+<span class="sd">    Determines the range offset based on a variety of possible dataset attributes.</span>
+<span class="sd">    The function first checks if specific attributes are present in the dataset (`ds`)</span>
+<span class="sd">    and calculates the range offset accordingly. If the attribute `h_deploy`</span>
+<span class="sd">    is found, it is renamed to `range_offset` with a deprecation warning.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ds : xarray.Dataset</span>
-<span class="sd">      The adcp dataset to ajust &#39;range&#39; on</span>
-<span class="sd">    h_deploy : numeric</span>
+<span class="sd">        Dataset containing attributes used to calculate the range offset.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The calculated or retrieved range offset. Returns 0 if no</span>
+<span class="sd">        relevant attributes are present.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    DeprecationWarning</span>
+<span class="sd">        Warns that the attribute `h_deploy` is deprecated and has been</span>
+<span class="sd">        renamed to `range_offset`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;bin1_dist_m&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;bin1_dist_m&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;blank_dist&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;cell_size&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="s2">&quot;range_offset&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;range_offset&quot;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="s2">&quot;h_deploy&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The attribute &#39;h_deploy&#39; is no longer in use.&quot;</span>
+            <span class="s2">&quot;It will now be renamed to &#39;range_offset&#39;.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;range_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;h_deploy&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;range_offset&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+
+<div class="viewcode-block" id="set_range_offset">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.set_range_offset">[docs]</a>
+<span class="k">def</span> <span class="nf">set_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">range_offset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds an instrument&#39;s height above seafloor (for an up-facing instrument)</span>
+<span class="sd">    or depth below water surface (for a down-facing instrument) to the range</span>
+<span class="sd">    coordinate. Also adds an attribute to the Dataset with the current</span>
+<span class="sd">    &quot;range_offset&quot; distance.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      The ADCP dataset to adjust &#39;range&#39; on</span>
+<span class="sd">    range_offset : numeric</span>
 <span class="sd">      Deployment location in the water column, in [m]</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    None, operates &quot;in place&quot;</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      The ADCP dataset with applied range_offset</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    `Center of bin 1 = h_deploy + blank_dist + cell_size`</span>
+<span class="sd">    `Center of bin 1 = range_offset + blank_dist + cell_size`</span>
 
-<span class="sd">    Nortek doesn&#39;t take `h_deploy` into account, so the range that DOLfYN</span>
-<span class="sd">    calculates distance is from the ADCP transducers. TRDI asks for `h_deploy`</span>
+<span class="sd">    Nortek doesn&#39;t take `range_offset` into account, so the range that DOLfYN</span>
+<span class="sd">    calculates distance is from the ADCP transducers. TRDI asks for `range_offset`</span>
 <span class="sd">    input in their deployment software and is thereby known by DOLfYN.</span>
 
-<span class="sd">    If the ADCP is mounted on a tripod on the seafloor, `h_deploy` will be</span>
+<span class="sd">    If the ADCP is mounted on a tripod on the seafloor, `range_offset` will be</span>
 <span class="sd">    the height of the tripod +/- any extra distance to the transducer faces.</span>
-<span class="sd">    If the instrument is vessel-mounted, `h_deploy` is the distance between</span>
+<span class="sd">    If the instrument is vessel-mounted, `range_offset` is the distance between</span>
 <span class="sd">    the surface and downward-facing ADCP&#39;s transducers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="s2">&quot;range&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">h_deploy</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+    <span class="n">current_offset</span> <span class="o">=</span> <span class="n">__check_for_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;h_deploy&quot;</span><span class="p">):</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;h_deploy&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">h_deploy</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;h_deploy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_deploy</span></div>
+    <span class="k">if</span> <span class="n">current_offset</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The &#39;range_offset&#39; is either already known or can be calculated &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;from &#39;bin1_dist_m&#39;: </span><span class="si">{</span><span class="n">current_offset</span><span class="si">}</span><span class="s2"> m. If you would like to &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;override this value with </span><span class="si">{</span><span class="n">range_offset</span><span class="si">}</span><span class="s2"> m, ignore this warning. &quot;</span>
+            <span class="s2">&quot;If you do not want to override this value, you do not need to use &quot;</span>
+            <span class="s2">&quot;this function.&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># Remove offset from depth variable if exists</span>
+        <span class="k">if</span> <span class="s2">&quot;depth&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-=</span> <span class="n">current_offset</span>
+
+    <span class="c1"># Add offset to each range coordinate</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="s2">&quot;range&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">coord_attrs</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">range_offset</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">coord_attrs</span>
+
+    <span class="c1"># Add to depth variable if exists</span>
+    <span class="k">if</span> <span class="s2">&quot;depth&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+=</span> <span class="n">range_offset</span>
+
+    <span class="c1"># Add to dataset</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;range_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">range_offset</span></div>
 
 
 
 <div class="viewcode-block" id="find_surface">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.find_surface">[docs]</a>
-<span class="k">def</span> <span class="nf">find_surface</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">nfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">find_surface</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deprecated function. Use `water_depth_from_amplitude` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;The &#39;find_surface&#39; function was renamed to &#39;water_depth_from_amplitude&quot;</span>
+        <span class="s2">&quot;and will be dropped in a future release.&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">water_depth_from_amplitude</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="water_depth_from_amplitude">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.water_depth_from_amplitude">[docs]</a>
+<span class="k">def</span> <span class="nf">water_depth_from_amplitude</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">nfilt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the surface (water level or seafloor) from amplitude data and</span>
 <span class="sd">    adds the variable &quot;depth&quot; to the input Dataset.</span>
+
+<span class="sd">    Depth is either water depth or the distance from the ADCP to</span>
+<span class="sd">    surface/seafloor, depending on if &quot;range_offset&quot; has been set.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -158,68 +241,96 @@
 <span class="sd">    thresh : int</span>
 <span class="sd">      Specifies the threshold used in detecting the surface. Default = 10</span>
 <span class="sd">      (The amount that amplitude must increase by near the surface for it to</span>
-<span class="sd">      be considered a surface hit)</span>
+<span class="sd">      be considered a surface hit.)</span>
 <span class="sd">    nfilt : int</span>
 <span class="sd">      Specifies the width of the median filter applied, must be odd.</span>
 <span class="sd">      Default is None</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    None, operates &quot;in place&quot;</span>
+<span class="sd">    None, operates &quot;in place&quot; and adds the variable &quot;depth&quot; to the</span>
+<span class="sd">    input dataset</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="s2">&quot;depth&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;The variable &#39;depth&#39; already exists. &quot;</span>
+            <span class="s2">&quot;Please manually remove &#39;depth&#39; if it needs to be recalculated.&quot;</span>
+        <span class="p">)</span>
+
     <span class="c1"># This finds the maximum of the echo profile:</span>
-    <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;amp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># This finds the first point that increases (away from the profiler) in</span>
     <span class="c1"># the echo profile</span>
-    <span class="n">edf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">edf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;amp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">inds2</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">edf</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">],</span>
+            <span class="p">(</span><span class="n">edf</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">],</span>
             <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="o">+</span> <span class="mi">1</span>
     <span class="p">)</span>
 
     <span class="c1"># Calculate the depth of these quantities</span>
-    <span class="n">d1</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span>
-    <span class="n">d2</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">inds2</span><span class="p">]</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">inds2</span><span class="p">]</span>
     <span class="c1"># Combine them:</span>
     <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">))</span>
     <span class="c1"># Take the median value as the estimate of the surface:</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># Throw out values that do not increase near the surface by *thresh*</span>
-    <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
         <span class="n">itmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">inds</span><span class="p">[:,</span> <span class="n">ip</span><span class="p">])</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">edf</span><span class="p">[</span><span class="n">itmp</span><span class="p">:,</span> <span class="p">:,</span> <span class="n">ip</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="n">d</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">ip</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="k">if</span> <span class="n">nfilt</span><span class="p">:</span>
         <span class="n">dfilt</span> <span class="o">=</span> <span class="n">medfiltnan</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">nfilt</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-        <span class="n">dfilt</span><span class="p">[</span><span class="n">dfilt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">dfilt</span><span class="p">[</span><span class="n">dfilt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">dfilt</span>
+
+    <span class="n">range_offset</span> <span class="o">=</span> <span class="n">__check_for_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">range_offset</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">+=</span> <span class="n">range_offset</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Water Depth&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Instrument Depth&quot;</span>
 
     <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
-        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Depth&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;depth&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;positive&quot;</span><span class="p">:</span> <span class="s2">&quot;down&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">long_name</span><span class="p">,</span> <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;depth&quot;</span><span class="p">},</span>
     <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="find_surface_from_P">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.find_surface_from_P">[docs]</a>
-<span class="k">def</span> <span class="nf">find_surface_from_P</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">find_surface_from_P</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deprecated function. Use `water_depth_from_pressure` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;The &#39;find_surface_from_P&#39; function was renamed to &#39;water_depth_from_pressure&quot;</span>
+        <span class="s2">&quot;and will be dropped in a future release.&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">water_depth_from_pressure</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="water_depth_from_pressure">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.water_depth_from_pressure">[docs]</a>
+<span class="k">def</span> <span class="nf">water_depth_from_pressure</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the distance to the water surface. Temperature and salinity</span>
 <span class="sd">    are used to calculate seawater density, which is in turn used with the</span>
 <span class="sd">    pressure data to calculate depth.</span>
+
+<span class="sd">    Depth is either water depth or the distance from the ADCP to</span>
+<span class="sd">    surface/seafloor, depending on if &quot;range_offset&quot; has been set.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -250,9 +361,21 @@
 <span class="sd">    compressibility.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="s2">&quot;depth&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;The variable &#39;depth&#39; already exists. &quot;</span>
+            <span class="s2">&quot;Please manually remove &#39;depth&#39; if it needs to be recalculated.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;The variable &#39;pressure&#39; does not exist.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pressure data not recorded.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;temp&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;The variable &#39;temp&#39; does not exist.&quot;</span><span class="p">)</span>
+
     <span class="c1"># Density calcation</span>
-    <span class="n">P</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">T</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># temperature, degC</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;temp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># temperature, degC</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">salinity</span>  <span class="c1"># practical salinity</span>
     <span class="n">rho0</span> <span class="o">=</span> <span class="mi">1027</span>  <span class="c1"># kg/m^3</span>
     <span class="n">T0</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># degC</span>
@@ -263,13 +386,15 @@
     <span class="n">rho</span> <span class="o">=</span> <span class="n">rho0</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">T0</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span> <span class="o">-</span> <span class="n">S0</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">P</span>
 
     <span class="c1"># Depth = pressure (conversion from dbar to MPa) / water weight</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">pressure</span> <span class="o">*</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">9.81</span> <span class="o">*</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">9.81</span> <span class="o">*</span> <span class="n">rho</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;h_deploy&quot;</span><span class="p">):</span>
-        <span class="n">d</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">h_deploy</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Depth to Seafloor&quot;</span>
+    <span class="c1"># Apply range_offset if available</span>
+    <span class="n">range_offset</span> <span class="o">=</span> <span class="n">__check_for_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">range_offset</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">+=</span> <span class="n">range_offset</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Water Depth&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Depth to Instrument&quot;</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Instrument Depth&quot;</span>
 
     <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;water_density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="n">rho</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
@@ -284,19 +409,31 @@
     <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
-        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
-            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;depth&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;positive&quot;</span><span class="p">:</span> <span class="s2">&quot;down&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">long_name</span><span class="p">,</span> <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;depth&quot;</span><span class="p">},</span>
     <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="nan_beyond_surface">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.nan_beyond_surface">[docs]</a>
-<span class="k">def</span> <span class="nf">nan_beyond_surface</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">beam_angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">nan_beyond_surface</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deprecated function. Use `remove_surface_interference` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;The &#39;nan_beyond_surface&#39; function was renamed to &#39;remove_surface_interference&quot;</span>
+        <span class="s2">&quot;and will be dropped in a future release.&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">remove_surface_interference</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="remove_surface_interference">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.remove_surface_interference">[docs]</a>
+<span class="k">def</span> <span class="nf">remove_surface_interference</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">beam_angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Mask the values of 3D data (vel, amp, corr, echo) that are beyond the surface.</span>
 
@@ -307,7 +444,7 @@
 <span class="sd">    val : nan or numeric</span>
 <span class="sd">      Specifies the value to set the bad values to. Default is `numpy.nan`</span>
 <span class="sd">    beam_angle : int</span>
-<span class="sd">      ADCP beam inclination angle. Default = dataset.attrs[&#39;beam_angle&#39;]</span>
+<span class="sd">      ADCP beam inclination angle in degrees. Default = dataset.attrs[&#39;beam_angle&#39;]</span>
 <span class="sd">    inplace : bool</span>
 <span class="sd">      When True the existing data object is modified. When False</span>
 <span class="sd">      a copy is returned. Default = False</span>
@@ -324,45 +461,56 @@
 <span class="sd">    `distance &gt; range * cos(beam angle) - cell size`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="c1"># Get all variables with &#39;range&#39; coordinate</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="s2">&quot;range&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="s2">&quot;depth&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+            <span class="s2">&quot;Depth variable &#39;depth&#39; does not exist in input dataset.&quot;</span>
+            <span class="s2">&quot;Please calculate &#39;depth&#39; using the function &#39;water_depth_from_pressure&#39;&quot;</span>
+            <span class="s2">&quot;or &#39;water_depth_from_amplitude.&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">beam_angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;beam_angle&quot;</span><span class="p">):</span>
-            <span class="n">beam_angle</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">beam_angle</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+            <span class="n">beam_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;beam_angle&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
                 <span class="s2">&quot;&#39;beam_angle` not found in dataset attributes. &quot;</span>
                 <span class="s2">&quot;Please supply the ADCP&#39;s beam angle.&quot;</span>
             <span class="p">)</span>
-
-    <span class="c1"># Surface interference distance calculated from distance of transducers to surface</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;h_deploy&quot;</span><span class="p">):</span>
-        <span class="n">range_limit</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">depth</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">h_deploy</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beam_angle</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">cell_size</span>
-        <span class="p">)</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">h_deploy</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">range_limit</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">depth</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beam_angle</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">cell_size</span>
+        <span class="n">beam_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">beam_angle</span><span class="p">)</span>
 
-    <span class="n">bds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">range</span> <span class="o">&gt;</span> <span class="n">range_limit</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Get all variables with &#39;range&#39; coordinate</span>
+    <span class="n">profile_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="s2">&quot;range&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)]</span>
+
+    <span class="c1"># Surface interference distance</span>
+    <span class="c1"># Apply range_offset if available</span>
+    <span class="n">range_offset</span> <span class="o">=</span> <span class="n">__check_for_range_offset</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">range_offset</span><span class="p">:</span>
+        <span class="n">range_limit</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">range_offset</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beam_angle</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;cell_size&quot;</span><span class="p">]</span>
+        <span class="p">)</span> <span class="o">+</span> <span class="n">range_offset</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">range_limit</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beam_angle</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;cell_size&quot;</span><span class="p">]</span>
+
+    <span class="n">bds</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">range_limit</span>
 
     <span class="c1"># Echosounder data needs only be trimmed at water surface</span>
-    <span class="k">if</span> <span class="s2">&quot;echo&quot;</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
-        <span class="n">bds_echo</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">range_echo</span> <span class="o">&gt;</span> <span class="n">ds</span><span class="o">.</span><span class="n">depth</span>
-        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;echo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">bds_echo</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="n">var</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;echo&quot;</span> <span class="ow">in</span> <span class="n">profile_vars</span><span class="p">:</span>
+        <span class="n">mask_echo</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range_echo&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;echo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">mask_echo</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">profile_vars</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">)</span>
 
     <span class="c1"># Correct rest of &quot;range&quot; data for surface interference</span>
-    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">profile_vars</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="k">try</span><span class="p">:</span>  <span class="c1"># float dtype</span>
             <span class="n">a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">bds</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
         <span class="k">except</span><span class="p">:</span>  <span class="c1"># int dtype</span>
             <span class="n">a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">bds</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">a</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ds</span></div>
@@ -371,7 +519,7 @@
 
 <div class="viewcode-block" id="correlation_filter">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.correlation_filter">[docs]</a>
-<span class="k">def</span> <span class="nf">correlation_filter</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">correlation_filter</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filters out data where correlation is below a threshold in the</span>
 <span class="sd">    along-beam correlation data.</span>
@@ -436,7 +584,7 @@
 
 <div class="viewcode-block" id="medfilt_orient">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.medfilt_orient">[docs]</a>
-<span class="k">def</span> <span class="nf">medfilt_orient</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">nfilt</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">medfilt_orient</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">nfilt</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Median filters the orientation data (heading-pitch-roll or quaternions)</span>
 
@@ -481,7 +629,7 @@
 
 <div class="viewcode-block" id="val_exceeds_thresh">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.val_exceeds_thresh">[docs]</a>
-<span class="k">def</span> <span class="nf">val_exceeds_thresh</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">val_exceeds_thresh</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find values of a variable that exceed a threshold value,</span>
 <span class="sd">    and assign &quot;val&quot; to the velocity data where the threshold is</span>
@@ -498,8 +646,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    ds : xarray.Dataset</span>
-<span class="sd">      The adcp dataset with datapoints beyond thresh are set to `val`</span>
+<span class="sd">    ds : xarray.DataArray</span>
+<span class="sd">      The adcp dataarray with datapoints beyond thresh are set to `val`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -515,7 +663,7 @@
 
 <div class="viewcode-block" id="fillgaps_time">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.fillgaps_time">[docs]</a>
-<span class="k">def</span> <span class="nf">fillgaps_time</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">fillgaps_time</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fill gaps (nan values) in var across time using the specified method</span>
 
@@ -548,7 +696,7 @@
 
 <div class="viewcode-block" id="fillgaps_depth">
 <a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.clean.fillgaps_depth">[docs]</a>
-<span class="k">def</span> <span class="nf">fillgaps_depth</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">fillgaps_depth</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fill gaps (nan values) in var along the depth profile using the specified method</span>
 
@@ -603,18 +751,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-    <!-- Theme Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-164358105-1', {
-          'anonymize_ip': false,
-      });
-    </script> 
+  </script> 
 
 </body>
 </html>
