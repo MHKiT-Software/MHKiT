@@ -40,19 +40,23 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
     
     ```pip install -U Sphinx```
   
-    - Sphinx --> Version: 3.1.1
+    - Sphinx --> Version: 8.1.3
 
-  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, and NB Sphinx)
+  - Use the command line to install the needed Sphinx submodules (BibTex, MATLAB theme, rtd theme, NB Sphinx, and google analytics) and additional dependencies
 
-     ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx```
+     ```pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx_rtd_theme nbsphinx sphinxcontrib-googleanalytics ipython```
 
-      - nbsphinx  --> Version: 0.7.1
+      - nbsphinx  --> Version: 0.9.5
 
-      - sphinxcontrib-matlabdomain  --> Version: 0.11.2 
+      - sphinxcontrib-matlabdomain  --> Version: 0.22.1
 
-      - sphinxcontrib-bibtex --> Version: 1.0.0
+      - sphinxcontrib-bibtex --> Version: 2.6.3
 
-      - sphinx-rtd-theme --> Version: 0.5.0
+      - sphinx-rtd-theme --> Version: 3.0.2
+
+      - sphinxcontrib-googleanalytics  --> Version: 0.4
+    
+    ```conda install pandoc```
 
 You are now ready to begin modifying and building the MHKiT documentation.
 
@@ -129,4 +133,40 @@ Using your machine's file explorer navigate to MHKiT/docs and use an Internet br
   - MHKiT-Python (or link to MHKiT-Python when referring to the repo)
   - MHKiT-MATLAB (MHKiT-MATLAB when referring to the repo)
   - MHKiT (Marine and Hydrokinetic Toolkit)
+
+## Modules Template
+All modules in MHKiT should be briefly described in the "Module Overview" Section.
+Below is a template that can be used for a new MHKiT module (fix title 
+characters when adding a section):
+
+NAME Module
+<br />====================
+
+Brief description of what the module dose.
+
+API Documentation
+<br />--------------------
+
+- `Python NAME API Documentation <mhkit-python/api.NAME.html>`_
+- `MATLAB NAME API Documentation <mhkit-matlab/api.NAME.html>`_
+
+Examples
+<br />--------------
+
+- Bulleted list of linked examples
+- pertaining to this module.
+- Tag modules in docs/source/examples.rst as appropriate.
+
+Submodules
+<br />--------------
+
+The NAME module contains the following submodules:
+
+* ``SUBMODULE_NAME``: one sentence description of the submodule. Calculations are based on `IEC TS XXXXX-XXX:20XX EDX <LINK>`
+* ``SUBMODULE_NAME``: etc...
+
+IEC/TS XXXXX-XXX
+<br />---------------------------
+
+Recommends proper use of the module per relevant IEC standards.
 

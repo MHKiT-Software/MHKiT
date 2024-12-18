@@ -6,7 +6,7 @@ MHKiT-MATLAB Installation
 The following section includes instructions for installing `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_ .
 
 * New users should follow the :ref:`Installation Steps <installation-section>`.
-* Experienced users can follow the :ref:`Advanced Installation Steps <advanced-installation-section>`.
+* Experienced users can follow the :ref:`Advanced Installation Steps <matlab-advanced-installation-section>`.
 
 
 Installation Overview
