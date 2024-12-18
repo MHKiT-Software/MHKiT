@@ -173,6 +173,11 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Ingest, analyze and visualize passive acoustic output
      - acoustics, iec
+   * - Strain Gauge Processing
+     - `Notebook <strain_measurement_example.ipynb>`__
+     - Coming soon
+     - Ingest, analyze and visualize strain gauge measurements
+     - strain
 
 All Python Notebooks
 ---------------------
