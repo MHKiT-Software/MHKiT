@@ -5,9 +5,9 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
-set BUILDDIR=.
+set BUILDDIR=_build
 set SOURCEDIR=source
-set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees %SPHINXOPTS% %SOURCEDIR%
+set ALLSPHINXOPTS=%SPHINXOPTS% %SOURCEDIR%
 set I18NSPHINXOPTS=%SPHINXOPTS% %SOURCEDIR%
 if NOT "%PAPER%" == "" (
 	set ALLSPHINXOPTS=-D latex_paper_size=%PAPER% %ALLSPHINXOPTS%
@@ -44,7 +44,7 @@ if "%1" == "help" (
 
 if "%1" == "clean" (
 	del *.html *.js *.inv *.ipynb /s /q
-	rmdir _images _modules _sources _static doctrees /s /q
+	rmdir _images _modules _sources _static _build doctrees /s /q
 )
 
 
@@ -75,11 +75,11 @@ if errorlevel 9009 (
 if "%1" == "html" (
 	Copy "..\MHKiT-Python\examples\*" ".\source\*" 
 	REM Copy "..\MHKiT-MATLAB\examples\*.mlx" ".\source\*" 
-	%SPHINXBUILD% -b html %ALLSPHINXOPTS% %BUILDDIR%
+	%SPHINXBUILD% -b html %ALLSPHINXOPTS% %BUILDDIR%/html
 	if errorlevel 1 exit /b 1
 	echo.
 	Copy "..\MHKiT-MATLAB\examples\*.html" ".\mhkit-matlab\" 	
-	echo.Build finished. The HTML pages are in %BUILDDIR%.
+	echo.Build finished. The HTML pages are in %BUILDDIR%/html
 	goto end
 )
 
