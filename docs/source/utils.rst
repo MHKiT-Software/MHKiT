@@ -2,8 +2,7 @@
 
 Utils Module
 ====================
-The MHKiT-Python utils Module contains a single function to help users 
-convert numeric indexes to datetime indexes. Additional helper functions could be added at a later date.
+This module initializes and imports the essential utility functions for data conversion, statistical analysis, caching, and event detection for the MHKiT library.
  
 The mhkit_python_utils module is used by MHKiT-MATLAB to convert MATLAB data types into Pandas DataFrames.
 
