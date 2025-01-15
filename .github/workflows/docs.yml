@@ -30,12 +30,14 @@ jobs:
           cd docs
           make clean
           make html
+          # Move the built docs up to the docs directory
+          cp -r build/html/* .
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/automate_docs')
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/build/html
+          publish_dir: ./docs
           force_orphan: true
           full_commit_message: ${{ github.event.head_commit.message }}
