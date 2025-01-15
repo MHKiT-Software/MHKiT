@@ -30,6 +30,8 @@ jobs:
           cd docs
           rm -rf *.html doctrees *.js *.inv _sources _static _images
           sphinx-build -b html -d ./doctrees source .
+          # Create .nojekyll file to prevent GitHub Pages from ignoring files that begin with an underscore
+          touch .nojekyll
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/automate_docs')
@@ -38,4 +40,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           force_orphan: true
+          enable_jekyll: false
           full_commit_message: ${{ github.event.head_commit.message }}
