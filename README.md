@@ -197,3 +197,7 @@ IEC/TS XXXXX-XXX
 <br />---------------------------
 
 Recommends proper use of the module per relevant IEC standards.
+
+## Documentation Builds
+
+The documentation is automatically built and deployed using GitHub Actions when changes are pushed to the main branch. You can view the latest documentation at https://MHKiT-Software.github.io/MHKiT/.
