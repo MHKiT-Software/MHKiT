@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.loads.general &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.loads.general</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.loads.general</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides tools for analyzing and processing data signals</span>
+<span class="sd">related to turbine blade performance and fatigue analysis. It implements</span>
+<span class="sd">methodologies based on standards such as IEC TS 62600-3:2020 ED1,</span>
+<span class="sd">incorporating statistical binning, moment calculations, and fatigue </span>
+<span class="sd">damage estimation using the rainflow counting algorithm. Key</span>
+<span class="sd">functionalities include:</span>
+
+<span class="sd">    - `bin_statistics`: Bins time-series data against a specified signal,</span>
+<span class="sd">      such as wind speed, to calculate mean and standard deviation statistics</span>
+<span class="sd">      for each bin, following IEC TS 62600-3:2020 ED1 guidelines. It supports</span>
+<span class="sd">      output in both pandas DataFrame and xarray Dataset formats.</span>
+
+<span class="sd">    - `blade_moments`: Calculates the flapwise and edgewise moments of turbine </span>
+<span class="sd">      blades using derived calibration coefficients and raw strain signals. </span>
+<span class="sd">      This function is crucial for understanding the loading and performance</span>
+<span class="sd">      characteristics of turbine blades.</span>
+
+<span class="sd">    - `damage_equivalent_load`: Estimates the damage equivalent load (DEL)</span>
+<span class="sd">      of a single data signal using a 4-point rainflow counting algorithm.</span>
+<span class="sd">      This method is vital for assessing fatigue life and durability of</span>
+<span class="sd">      materials under variable amplitude loading.</span>
+
+<span class="sd">References:</span>
+<span class="sd">- C. Amzallag et. al., International Journal of Fatigue, 16 (1994) 287-293.</span>
+<span class="sd">- ISO 12110-2, Metallic materials - Fatigue testing - Variable amplitude fatigue testing.</span>
+<span class="sd">- G. Marsh et. al., International Journal of Fatigue, 82 (2016) 757-765.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">binned_statistic</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fatpack</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.type_handling</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_numeric_array</span>
+
+
+<div class="viewcode-block" id="bin_statistics">
+<a class="viewcode-back" href="../../../mhkit-python/api.loads.html#mhkit.loads.general.bin_statistics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bin_statistics</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span>
+    <span class="n">bin_against</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">bin_edges</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">data_signal</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bins calculated statistics against data signal (or channel)</span>
+<span class="sd">    according to IEC TS 62600-3:2020 ED1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    data : pandas DataFrame or xarray Dataset</span>
+<span class="sd">       Time-series statistics of data signal(s)</span>
+<span class="sd">    bin_against : array</span>
+<span class="sd">        Data signal to bin data against (e.g. wind speed)</span>
+<span class="sd">    bin_edges : array</span>
+<span class="sd">        Bin edges with consistent step size</span>
+<span class="sd">    data_signal : list, optional</span>
+<span class="sd">        List of data signal(s) to bin, default = all data signals</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    bin_mean : pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Mean of each bin</span>
+<span class="sd">    bin_std : pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Standard deviation of each bim</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;data must be of type pd.DataFrame or xr.Dataset. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Use _to_numeric_array to process bin_against and bin_edges</span>
+    <span class="n">bin_against</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">bin_against</span><span class="p">,</span> <span class="s2">&quot;bin_against&quot;</span><span class="p">)</span>
+    <span class="n">bin_edges</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">,</span> <span class="s2">&quot;bin_edges&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If input is pandas, convert to xarray</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">data_signal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data_signal</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Determine variables to analyze</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_signal</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># if not specified, bin all variables</span>
+        <span class="n">data_signal</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_signal</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;data_signal must be of type list. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data_signal</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Pre-allocate variable dictionaries</span>
+    <span class="n">bin_stat_list</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">bin_std_list</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># loop through data_signal and get binned means</span>
+    <span class="k">for</span> <span class="n">signal_name</span> <span class="ow">in</span> <span class="n">data_signal</span><span class="p">:</span>
+        <span class="c1"># Bin data</span>
+        <span class="n">bin_stat_mean</span> <span class="o">=</span> <span class="n">binned_statistic</span><span class="p">(</span>
+            <span class="n">bin_against</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">signal_name</span><span class="p">],</span> <span class="n">statistic</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bin_edges</span>
+        <span class="p">)</span>
+        <span class="n">bin_stat_std</span> <span class="o">=</span> <span class="n">binned_statistic</span><span class="p">(</span>
+            <span class="n">bin_against</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">signal_name</span><span class="p">],</span> <span class="n">statistic</span><span class="o">=</span><span class="s2">&quot;std&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bin_edges</span>
+        <span class="p">)</span>
+
+        <span class="n">bin_stat_list</span><span class="p">[</span><span class="n">signal_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">bin_stat_mean</span><span class="o">.</span><span class="n">statistic</span><span class="p">)</span>
+        <span class="n">bin_std_list</span><span class="p">[</span><span class="n">signal_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">bin_stat_std</span><span class="o">.</span><span class="n">statistic</span><span class="p">)</span>
+
+    <span class="c1"># Convert to Datasets</span>
+    <span class="n">bin_mean</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="n">bin_stat_list</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_stat_mean</span><span class="o">.</span><span class="n">statistic</span><span class="p">))},</span>
+    <span class="p">)</span>
+    <span class="n">bin_std</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="n">bin_std_list</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_stat_std</span><span class="o">.</span><span class="n">statistic</span><span class="p">))},</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Check for nans</span>
+    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">bin_mean</span><span class="o">.</span><span class="n">variables</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">bin_mean</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: bins for some variables may be empty!&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">bin_mean</span> <span class="o">=</span> <span class="n">bin_mean</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+        <span class="n">bin_std</span> <span class="o">=</span> <span class="n">bin_std</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">bin_mean</span><span class="p">,</span> <span class="n">bin_std</span></div>
+
+
+
+<div class="viewcode-block" id="blade_moments">
+<a class="viewcode-back" href="../../../mhkit-python/api.loads.html#mhkit.loads.general.blade_moments">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">blade_moments</span><span class="p">(</span>
+    <span class="n">blade_coefficients</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">flap_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">flap_raw</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">edge_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">edge_raw</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transfer function for deriving blade flap and edge moments using blade matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    blade_coefficients : numpy array</span>
+<span class="sd">        Derived blade calibration coefficients listed in order of D1, D2, D3, D4</span>
+<span class="sd">    flap_offset : float</span>
+<span class="sd">        Derived offset of raw flap signal obtained during calibration process</span>
+<span class="sd">    flap_raw : numpy array</span>
+<span class="sd">        Raw strain signal of blade in the flapwise direction</span>
+<span class="sd">    edge_offset : float</span>
+<span class="sd">        Derived offset of raw edge signal obtained during calibration process</span>
+<span class="sd">    edge_raw : numpy array</span>
+<span class="sd">        Raw strain signal of blade in the edgewise direction</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    M_flap : numpy array</span>
+<span class="sd">        Blade flapwise moment in SI units</span>
+<span class="sd">    M_edge : numpy array</span>
+<span class="sd">        Blade edgewise moment in SI units</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert and validate blade_coefficients, flap_raw, and edge_raw</span>
+    <span class="n">blade_coefficients</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">blade_coefficients</span><span class="p">,</span> <span class="s2">&quot;blade_coefficients&quot;</span><span class="p">)</span>
+    <span class="n">flap_raw</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">flap_raw</span><span class="p">,</span> <span class="s2">&quot;flap_raw&quot;</span><span class="p">)</span>
+    <span class="n">edge_raw</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">edge_raw</span><span class="p">,</span> <span class="s2">&quot;edge_raw&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flap_offset</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;flap_offset must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">flap_offset</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_offset</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;edge_offset must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">edge_offset</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># remove offset from raw signal</span>
+    <span class="n">flap_signal</span> <span class="o">=</span> <span class="n">flap_raw</span> <span class="o">-</span> <span class="n">flap_offset</span>
+    <span class="n">edge_signal</span> <span class="o">=</span> <span class="n">edge_raw</span> <span class="o">-</span> <span class="n">edge_offset</span>
+
+    <span class="c1"># apply matrix to get load signals</span>
+    <span class="n">m_flap</span> <span class="o">=</span> <span class="n">blade_coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">flap_signal</span> <span class="o">+</span> <span class="n">blade_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">edge_signal</span>
+    <span class="n">m_edge</span> <span class="o">=</span> <span class="n">blade_coefficients</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">flap_signal</span> <span class="o">+</span> <span class="n">blade_coefficients</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">edge_signal</span>
+
+    <span class="k">return</span> <span class="n">m_flap</span><span class="p">,</span> <span class="n">m_edge</span></div>
+
+
+
+<div class="viewcode-block" id="damage_equivalent_load">
+<a class="viewcode-back" href="../../../mhkit-python/api.loads.html#mhkit.loads.general.damage_equivalent_load">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">damage_equivalent_load</span><span class="p">(</span>
+    <span class="n">data_signal</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">bin_num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">data_length</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">600</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the damage equivalent load of a single data signal (or channel)</span>
+<span class="sd">    based on IEC TS 62600-3:2020 ED1. 4-point rainflow counting algorithm from</span>
+<span class="sd">    fatpack module is based on the following resources:</span>
+
+<span class="sd">    - `C. Amzallag et. al. Standardization of the rainflow counting method for</span>
+<span class="sd">      fatigue analysis. International Journal of Fatigue, 16 (1994) 287-293`</span>
+<span class="sd">    - `ISO 12110-2, Metallic materials - Fatigue testing - Variable amplitude</span>
+<span class="sd">      fatigue testing.`</span>
+<span class="sd">    - `G. Marsh et. al. Review and application of Rainflow residue processing</span>
+<span class="sd">      techniques for accurate fatigue damage estimation. International Journal</span>
+<span class="sd">      of Fatigue, 82 (2016) 757-765`</span>
+
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    data_signal : array</span>
+<span class="sd">        Data signal being analyzed</span>
+<span class="sd">    m : float/int</span>
+<span class="sd">        Fatigue slope factor of material</span>
+<span class="sd">    bin_num : int</span>
+<span class="sd">        Number of bins for rainflow counting method (minimum=100)</span>
+<span class="sd">    data_length : float/int</span>
+<span class="sd">        Length of measured data (seconds)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    DEL : float</span>
+<span class="sd">        Damage equivalent load (DEL) of single data signal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">data_signal</span><span class="p">,</span> <span class="s2">&quot;data_signal&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;m must be of type float or int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_num</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bin_num must be of type float or int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">bin_num</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_length</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;data_length must be of type float or int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data_length</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">rainflow_ranges</span> <span class="o">=</span> <span class="n">fatpack</span><span class="o">.</span><span class="n">find_rainflow_ranges</span><span class="p">(</span><span class="n">data_signal</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+
+    <span class="c1"># Range count and bin</span>
+    <span class="n">n_rf</span><span class="p">,</span> <span class="n">s_rf</span> <span class="o">=</span> <span class="n">fatpack</span><span class="o">.</span><span class="n">find_range_count</span><span class="p">(</span><span class="n">rainflow_ranges</span><span class="p">,</span> <span class="n">bin_num</span><span class="p">)</span>
+
+    <span class="n">del_s</span> <span class="o">=</span> <span class="n">s_rf</span><span class="o">**</span><span class="n">m</span> <span class="o">*</span> <span class="n">n_rf</span> <span class="o">/</span> <span class="n">data_length</span>
+    <span class="n">del_value</span> <span class="o">=</span> <span class="n">del_s</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">del_value</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

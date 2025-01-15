@@ -1,0 +1,1241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.velocity &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.velocity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.velocity</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.binned</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeBinner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">dt642epoch</span><span class="p">,</span> <span class="n">dt642date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.rotate.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">rotate2</span><span class="p">,</span> <span class="n">set_declination</span><span class="p">,</span> <span class="n">set_inst2head_rotmat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.io.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">save</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tools.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">slice1d_along_axis</span><span class="p">,</span> <span class="n">convert_degrees</span>
+
+
+<div class="viewcode-block" id="Velocity">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.Velocity">[docs]</a>
+<span class="nd">@xr</span><span class="o">.</span><span class="n">register_dataset_accessor</span><span class="p">(</span><span class="s2">&quot;velds&quot;</span><span class="p">)</span>  <span class="c1"># &#39;vel dataset&#39;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Velocity</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    All ADCP and ADV xarray datasets wrap this base class.</span>
+
+<span class="sd">    The turbulence-related attributes defined within this class</span>
+<span class="sd">    assume that the  ``&#39;tke_vec&#39;`` and ``&#39;stress_vec&#39;`` data entries are</span>
+<span class="sd">    included in the dataset. These are typically calculated using a</span>
+<span class="sd">    :class:`VelBinner` tool, but the method for calculating these</span>
+<span class="sd">    variables can depend on the details of the measurement</span>
+<span class="sd">    (instrument, it&#39;s configuration, orientation, etc.).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    ========</span>
+<span class="sd">    :class:`VelBinner`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">########</span>
+    <span class="c1"># Major components of the dolfyn-API</span>
+
+<div class="viewcode-block" id="Velocity.rotate2">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.Velocity.rotate2">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotate2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_frame</span><span class="o">=</span><span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotate the dataset to a new coordinate system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        out_frame : string {&#39;beam&#39;, &#39;inst&#39;, &#39;earth&#39;, &#39;principal&#39;}</span>
+<span class="sd">          The coordinate system to rotate the data into.</span>
+
+<span class="sd">        inplace : bool</span>
+<span class="sd">          When True the existing data object is modified. When False</span>
+<span class="sd">          a copy is returned. Default = True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ds : xarray.Dataset or None</span>
+<span class="sd">          Returns the rotated dataset **when ``inplace=False``**, otherwise</span>
+<span class="sd">          returns None.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - This function rotates all variables in ``ds.attrs[&#39;rotate_vars&#39;]``.</span>
+
+<span class="sd">        - To rotate to the &#39;principal&#39; frame, a value of</span>
+<span class="sd">          ``ds.attrs[&#39;principal_heading&#39;]`` must exist. The function</span>
+<span class="sd">          :func:`calc_principal_heading &lt;dolfyn.calc_principal_heading&gt;`</span>
+<span class="sd">          is recommended for this purpose, e.g.::</span>
+
+<span class="sd">              ds.attrs[&#39;principal_heading&#39;] = dolfyn.calc_principal_heading(ds[&#39;vel&#39;].mean(range))</span>
+
+<span class="sd">          where here we are using the depth-averaged velocity to calculate</span>
+<span class="sd">          the principal direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">rotate2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">,</span> <span class="n">out_frame</span><span class="p">,</span> <span class="n">inplace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Velocity.set_declination">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.Velocity.set_declination">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_declination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">declin</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the magnetic declination</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        declination : float</span>
+<span class="sd">          The value of the magnetic declination in degrees (positive</span>
+<span class="sd">          values specify that Magnetic North is clockwise from True North)</span>
+
+<span class="sd">        inplace : bool</span>
+<span class="sd">          When True the existing data object is modified. When False</span>
+<span class="sd">          a copy is returned. Default = True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ds : xarray.Dataset or None</span>
+<span class="sd">          Returns the rotated dataset **when ``inplace=False``**, otherwise</span>
+<span class="sd">          returns None.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This method modifies the data object in the following ways:</span>
+
+<span class="sd">        - If the dataset is in the *earth* reference frame at the time of</span>
+<span class="sd">        setting declination, it will be rotated into the &quot;*True-East*,</span>
+<span class="sd">        *True-North*, Up&quot; (hereafter, ETU) coordinate system</span>
+
+<span class="sd">        - ``dat[&#39;orientmat&#39;]`` is modified to be an ETU to</span>
+<span class="sd">        instrument (XYZ) rotation matrix (rather than the magnetic-ENU to</span>
+<span class="sd">        XYZ rotation matrix). Therefore, all rotations to/from the &#39;earth&#39;</span>
+<span class="sd">        frame will now be to/from this ETU coordinate system.</span>
+
+<span class="sd">        - The value of the specified declination will be stored in</span>
+<span class="sd">        ``dat.attrs[&#39;declination&#39;]``</span>
+
+<span class="sd">        - ``dat[&#39;heading&#39;]`` is adjusted for declination</span>
+<span class="sd">        (i.e., it is relative to True North).</span>
+
+<span class="sd">        - If ``dat.attrs[&#39;principal_heading&#39;]`` is set, it is</span>
+<span class="sd">        adjusted to account for the orientation of the new &#39;True&#39;</span>
+<span class="sd">        earth coordinate system (i.e., calling set_declination on a</span>
+<span class="sd">        data object in the principal coordinate system, then calling</span>
+<span class="sd">        dat.rotate2(&#39;earth&#39;) will yield a data object in the new</span>
+<span class="sd">        &#39;True&#39; earth coordinate system)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">set_declination</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">,</span> <span class="n">declin</span><span class="p">,</span> <span class="n">inplace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Velocity.set_inst2head_rotmat">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.Velocity.set_inst2head_rotmat">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_inst2head_rotmat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotmat</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the instrument to head rotation matrix for the Nortek ADV if it</span>
+<span class="sd">        hasn&#39;t already been set through a &#39;.userdata.json&#39; file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rotmat : float</span>
+<span class="sd">          3x3 rotation matrix</span>
+<span class="sd">        inplace : bool</span>
+<span class="sd">          When True the existing data object is rotated. When False</span>
+<span class="sd">          a copy is returned that is rotated. Default = True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ds : xarray.Dataset or None</span>
+<span class="sd">          Returns the rotated dataset **when ``inplace=False``**, otherwise</span>
+<span class="sd">          returns None.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If the data object is in earth or principal coords, it is first</span>
+<span class="sd">        rotated to &#39;inst&#39; before assigning inst2head_rotmat, it is then</span>
+<span class="sd">        rotated back to the coordinate system in which it was input. This</span>
+<span class="sd">        way the inst2head_rotmat gets applied correctly (in inst</span>
+<span class="sd">        coordinate system).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">set_inst2head_rotmat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">,</span> <span class="n">rotmat</span><span class="p">,</span> <span class="n">inplace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Velocity.save">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.Velocity.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the data object (underlying xarray dataset) as netCDF (.nc).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename and/or path with the &#39;.nc&#39; extension</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">          These are passed directly to :func:`xarray.Dataset.to_netcdf`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        See DOLfYN&#39;s :func:`save &lt;dolfyn.io.api.save&gt;` function for</span>
+<span class="sd">        additional details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+    <span class="c1">########</span>
+    <span class="c1"># Magic methods of the API</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">time_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> (started: </span><span class="si">{}</span><span class="s2">)&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">or</span> <span class="n">dt642epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">time_string</span> <span class="o">=</span> <span class="s2">&quot;--&gt;No Time Information!&lt;--&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tm</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dt642date</span><span class="p">(</span><span class="n">tm</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt642epoch</span><span class="p">(</span><span class="n">tm</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">dt642epoch</span><span class="p">(</span><span class="n">tm</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span><span class="p">)</span>  <span class="c1"># days</span>
+            <span class="k">if</span> <span class="n">delta</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;days&quot;</span>
+            <span class="k">elif</span> <span class="n">delta</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;hours&quot;</span>
+                <span class="n">delta</span> <span class="o">*=</span> <span class="mi">24</span>
+            <span class="k">elif</span> <span class="n">delta</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">delta</span> <span class="o">*=</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;minutes&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">delta</span> <span class="o">*=</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;seconds&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">time_string</span> <span class="o">=</span> <span class="n">time_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">delta</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%b </span><span class="si">%d</span><span class="s2">, %Y %H:%M&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">time_string</span> <span class="o">=</span> <span class="s2">&quot;--&gt;Error in time info&lt;--&quot;</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="n">t_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">shape_string</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2"> bins, </span><span class="si">{}</span><span class="s2"> pings @ </span><span class="si">{}</span><span class="s2">Hz)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">t_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t_shape</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fs&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape_string</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2"> pings @ </span><span class="si">{}</span><span class="s2">Hz)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fs&quot;</span><span class="p">,</span> <span class="s2">&quot;??&quot;</span><span class="p">))</span>
+        <span class="n">_header</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2"> data object&gt;: &quot;</span>
+            <span class="s2">&quot; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;  . </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;  . </span><span class="si">%s</span><span class="s2">-frame</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;  . </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">%</span> <span class="p">(</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;inst_type&quot;</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;inst_make&quot;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;inst_model&quot;</span><span class="p">],</span>
+                <span class="n">time_string</span><span class="p">,</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coord_sys&quot;</span><span class="p">),</span>
+                <span class="n">shape_string</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">_vars</span> <span class="o">=</span> <span class="s2">&quot;  Variables:</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Specify which variable show up in this view here.</span>
+        <span class="c1"># * indicates a wildcard</span>
+        <span class="c1"># This list also sets the display order.</span>
+        <span class="c1"># Only the first 12 matches are displayed.</span>
+        <span class="n">show_vars</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;time*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vel*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;range&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;range_echo&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;orientmat&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;heading&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pitch&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;roll&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;temp&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;press*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;amp*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;corr*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;accel&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;angrt&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mag&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;echo&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">show_vars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Drop the &#39;*&#39;</span>
+                <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">nm</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">_vars</span> <span class="o">+=</span> <span class="s2">&quot;  - </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">:</span>
+                <span class="n">_vars</span> <span class="o">+=</span> <span class="s2">&quot;  - </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">):</span>
+            <span class="n">_vars</span> <span class="o">+=</span> <span class="s2">&quot;  ... and others (see `&lt;obj&gt;.variables`)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">_header</span> <span class="o">+</span> <span class="n">_vars</span>
+
+    <span class="c1">######</span>
+    <span class="c1"># Duplicate valuable xarray properties here.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">variables</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A sorted list of the variable names in the dataset.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">attrs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The attributes in the dataset.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coords</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The coordinates in the dataset.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">coords</span>
+
+    <span class="c1">######</span>
+    <span class="c1"># A bunch of DOLfYN specific properties</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">u</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The first velocity component.</span>
+
+<span class="sd">        This is simply a shortcut to self[&#39;vel&#39;][0]. Therefore,</span>
+<span class="sd">        depending on the coordinate system of the data object</span>
+<span class="sd">        (self.attrs[&#39;coord_sys&#39;]), it is:</span>
+
+<span class="sd">        - beam:      beam1</span>
+<span class="sd">        - inst:      x</span>
+<span class="sd">        - earth:     east</span>
+<span class="sd">        - principal: streamwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">v</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The second velocity component.</span>
+
+<span class="sd">        This is simply a shortcut to self[&#39;vel&#39;][1]. Therefore,</span>
+<span class="sd">        depending on the coordinate system of the data object</span>
+<span class="sd">        (self.attrs[&#39;coord_sys&#39;]), it is:</span>
+
+<span class="sd">        - beam:      beam2</span>
+<span class="sd">        - inst:      y</span>
+<span class="sd">        - earth:     north</span>
+<span class="sd">        - principal: cross-stream</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">w</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The third velocity component.</span>
+
+<span class="sd">        This is simply a shortcut to self[&#39;vel&#39;][2]. Therefore,</span>
+<span class="sd">        depending on the coordinate system of the data object</span>
+<span class="sd">        (self.attrs[&#39;coord_sys&#39;]), it is:</span>
+
+<span class="sd">        - beam:      beam3</span>
+<span class="sd">        - inst:      z</span>
+<span class="sd">        - earth:     up</span>
+<span class="sd">        - principal: up</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">U</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Horizontal velocity as a complex quantity&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;complex64&quot;</span><span class="p">),</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Horizontal Water Velocity&quot;</span><span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">U_mag</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Horizontal velocity magnitude&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Water Speed&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;sea_water_speed&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">U_dir</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Angle of horizontal velocity vector. Direction is &#39;to&#39;,</span>
+<span class="sd">        as opposed to &#39;from&#39;. This function calculates angle as</span>
+<span class="sd">        &quot;degrees CCW from X/East/streamwise&quot; and then converts it to</span>
+<span class="sd">        &quot;degrees CW from X/North/streamwise&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">convert_to_CW</span><span class="p">(</span><span class="n">angle</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span> <span class="o">==</span> <span class="s2">&quot;earth&quot;</span><span class="p">:</span>
+                <span class="c1"># Convert &quot;deg CCW from East&quot; to &quot;deg CW from North&quot; [0, 360]</span>
+                <span class="n">angle</span> <span class="o">=</span> <span class="n">convert_degrees</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">tidal_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">relative_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">dir</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Switch to clockwise and from [-180, 180] to [0, 360]</span>
+                <span class="n">angle</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">angle</span><span class="p">[</span><span class="n">angle</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">360</span>
+                <span class="n">relative_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">dir</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">return</span> <span class="n">angle</span><span class="p">,</span> <span class="n">relative_to</span>
+
+        <span class="c1"># Convert from radians to degrees</span>
+        <span class="n">angle</span><span class="p">,</span> <span class="n">rel</span> <span class="o">=</span> <span class="n">convert_to_CW</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">angle</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;degree&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Water Direction, CW from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">rel</span><span class="p">),</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;sea_water_to_direction&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">E_coh</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Coherent turbulent energy</span>
+
+<span class="sd">        Niel Kelley&#39;s &#39;coherent turbulence energy&#39;, which is the RMS</span>
+<span class="sd">        of the Reynold&#39;s stresses.</span>
+
+<span class="sd">        See: NREL Technical Report TP-500-52353</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">E_coh</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upwp_</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">upvp_</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vpwp_</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">E_coh</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">},</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">units</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Coherent Turbulence Energy&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">I_tke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Turbulent kinetic energy intensity.</span>
+
+<span class="sd">        Ratio of sqrt(tke) to horizontal velocity magnitude.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">I_tke</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tke</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">I_tke</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE Intensity&quot;</span><span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Turbulence intensity.</span>
+
+<span class="sd">        Ratio of standard deviation of horizontal velocity</span>
+<span class="sd">        to horizontal velocity magnitude.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;U_std&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">I</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">U_mag</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Turbulence Intensity&quot;</span><span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tke</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Turbulent kinetic energy (sum of the three components)&quot;&quot;&quot;</span>
+        <span class="n">tke</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tke_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;tke&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">tke</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TKE&quot;</span>
+        <span class="n">tke</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tke_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">units</span>
+        <span class="n">tke</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TKE&quot;</span>
+        <span class="n">tke</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;specific_turbulent_kinetic_energy_of_sea_water&quot;</span>
+        <span class="k">return</span> <span class="n">tke</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upvp_</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;u&#39;v&#39;bar Reynolds stress&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="s2">&quot;upvp_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upwp_</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;u&#39;w&#39;bar Reynolds stress&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="s2">&quot;upwp_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">vpwp_</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;v&#39;w&#39;bar Reynolds stress&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="s2">&quot;vpwp_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">upup_</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;u&#39;u&#39;bar component of the tke&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tke_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">tke</span><span class="o">=</span><span class="s2">&quot;upup_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;tke&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">vpvp_</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;v&#39;v&#39;bar component of the tke&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tke_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">tke</span><span class="o">=</span><span class="s2">&quot;vpvp_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;tke&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wpwp_</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;w&#39;w&#39;bar component of the tke&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tke_vec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">tke</span><span class="o">=</span><span class="s2">&quot;wpwp_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;tke&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="VelBinner">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VelBinner</span><span class="p">(</span><span class="n">TimeBinner</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the base binning (averaging) tool.</span>
+<span class="sd">    All DOLfYN binning tools derive from this base class.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ========</span>
+<span class="sd">    The VelBinner class is used to compute averages and turbulence</span>
+<span class="sd">    statistics from &#39;raw&#39; (not averaged) ADV or ADP measurements, for</span>
+<span class="sd">    example::</span>
+
+<span class="sd">        # First read or load some data.</span>
+<span class="sd">        rawdat = dolfyn.read_example(&#39;BenchFile01.ad2cp&#39;)</span>
+
+<span class="sd">        # Now initialize the averaging tool:</span>
+<span class="sd">        binner = dolfyn.VelBinner(n_bin=600, fs=rawdat.fs)</span>
+
+<span class="sd">        # This computes the basic averages</span>
+<span class="sd">        avg = binner.bin_average(rawdat)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># This defines how cross-spectra and stresses are computed.</span>
+    <span class="n">_cross_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+
+    <span class="n">tke</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;upup_&quot;</span><span class="p">,</span> <span class="s2">&quot;vpvp_&quot;</span><span class="p">,</span> <span class="s2">&quot;wpwp_&quot;</span><span class="p">],</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tke&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tke&quot;</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Turbulent Kinetic Energy Vector Components&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;upvp_&quot;</span><span class="p">,</span> <span class="s2">&quot;upwp_&quot;</span><span class="p">,</span> <span class="s2">&quot;vpwp_&quot;</span><span class="p">],</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tau&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Reynolds Stress Vector Components&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;Sxx&quot;</span><span class="p">,</span> <span class="s2">&quot;Syy&quot;</span><span class="p">,</span> <span class="s2">&quot;Szz&quot;</span><span class="p">],</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Power Spectral Density Vector Components&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="n">C</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;Cxy&quot;</span><span class="p">,</span> <span class="s2">&quot;Cxz&quot;</span><span class="p">,</span> <span class="s2">&quot;Cyz&quot;</span><span class="p">],</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cross-Spectral Density Vector Components&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="VelBinner.bin_average">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner.bin_average">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bin_average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bin the dataset and calculate the ensemble averages of each</span>
+<span class="sd">        variable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        raw_ds : xarray.Dataset</span>
+<span class="sd">           The raw data structure to be binned</span>
+<span class="sd">        out_ds : xarray.Dataset</span>
+<span class="sd">           The bin&#39;d (output) data object to which averaged data is added.</span>
+<span class="sd">        names : list of strings</span>
+<span class="sd">           The names of variables to be averaged.  If `names` is None,</span>
+<span class="sd">           all data in `raw_ds` will be binned.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out_ds : xarray.Dataset</span>
+<span class="sd">          The new (or updated when out_ds is not None) dataset</span>
+<span class="sd">          with the averages of all the variables in raw_ds.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AttributeError : when out_ds is supplied as input (not None)</span>
+<span class="sd">        and the values in out_ds.attrs are inconsistent with</span>
+<span class="sd">        raw_ds.attrs or the properties of this VelBinner (n_bin,</span>
+<span class="sd">        n_fft, fs, etc.)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        raw_ds.attrs are copied to out_ds.attrs. Inconsistencies</span>
+<span class="sd">        between the two (when out_ds is specified as input) raise an</span>
+<span class="sd">        AttributeError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">out_ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ds</span><span class="p">(</span><span class="n">raw_ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">raw_ds</span><span class="o">.</span><span class="n">data_vars</span>
+
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="c1"># set up dimensions and coordinates for Dataset</span>
+            <span class="n">dims_list</span> <span class="o">=</span> <span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">ar</span> <span class="k">for</span> <span class="n">ar</span> <span class="ow">in</span> <span class="n">dims_list</span> <span class="k">if</span> <span class="s2">&quot;altraw&quot;</span> <span class="ow">in</span> <span class="n">ar</span><span class="p">]):</span>
+                <span class="k">continue</span>
+            <span class="n">coords_dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">dims_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">nm</span><span class="p">:</span>
+                    <span class="n">coords_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">coords_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+            <span class="c1"># create Dataset</span>
+            <span class="k">if</span> <span class="s2">&quot;ensemble&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ky</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>  <span class="c1"># variables with time coordinate</span>
+                    <span class="n">out_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                        <span class="n">coords</span><span class="o">=</span><span class="n">coords_dict</span><span class="p">,</span>
+                        <span class="n">dims</span><span class="o">=</span><span class="n">dims_list</span><span class="p">,</span>
+                        <span class="n">attrs</span><span class="o">=</span><span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>  <span class="c1"># variables not needing averaging</span>
+                    <span class="k">pass</span>
+            <span class="c1"># Add standard deviation</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">standard_deviation</span><span class="p">(</span><span class="n">raw_ds</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_mag</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">out_ds</span><span class="p">[</span><span class="s2">&quot;U_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">std</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+                <span class="n">dims</span><span class="o">=</span><span class="n">raw_ds</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Water Velocity Standard Deviation&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out_ds</span></div>
+
+
+<div class="viewcode-block" id="VelBinner.bin_variance">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner.bin_variance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bin_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_var&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bin the dataset and calculate the ensemble variances of each</span>
+<span class="sd">        variable. Complementary to `bin_average()`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        raw_ds : xarray.Dataset</span>
+<span class="sd">           The raw data structure to be binned.</span>
+<span class="sd">        out_ds : xarray.Dataset</span>
+<span class="sd">           The binned (output) dataset to which variance data is added,</span>
+<span class="sd">           nominally dataset output from `bin_average()`</span>
+<span class="sd">        names : list of strings</span>
+<span class="sd">           The names of variables of which to calculate variance.  If</span>
+<span class="sd">           `names` is None, all data in `raw_ds` will be binned.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out_ds : xarray.Dataset</span>
+<span class="sd">          The new (or updated when out_ds is not None) dataset</span>
+<span class="sd">          with the variance of all the variables in raw_ds.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AttributeError : when out_ds is supplied as input (not None)</span>
+<span class="sd">        and the values in out_ds.attrs are inconsistent with</span>
+<span class="sd">        raw_ds.attrs or the properties of this VelBinner (n_bin,</span>
+<span class="sd">        n_fft, fs, etc.)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        raw_ds.attrs are copied to out_ds.attrs. Inconsistencies</span>
+<span class="sd">        between the two (when out_ds is specified as input) raise an</span>
+<span class="sd">        AttributeError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">out_ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ds</span><span class="p">(</span><span class="n">raw_ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">raw_ds</span><span class="o">.</span><span class="n">data_vars</span>
+
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="c1"># set up dimensions and coordinates for dataarray</span>
+            <span class="n">dims_list</span> <span class="o">=</span> <span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">ar</span> <span class="k">for</span> <span class="n">ar</span> <span class="ow">in</span> <span class="n">dims_list</span> <span class="k">if</span> <span class="s2">&quot;altraw&quot;</span> <span class="ow">in</span> <span class="n">ar</span><span class="p">]):</span>
+                <span class="k">continue</span>
+            <span class="n">coords_dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">dims_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">nm</span><span class="p">:</span>
+                    <span class="n">coords_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">coords_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+            <span class="c1"># create Dataset</span>
+            <span class="k">if</span> <span class="s2">&quot;ensemble&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ky</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>  <span class="c1"># variables with time coordinate</span>
+                    <span class="n">out_ds</span><span class="p">[</span><span class="n">ky</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                        <span class="n">coords</span><span class="o">=</span><span class="n">coords_dict</span><span class="p">,</span>
+                        <span class="n">dims</span><span class="o">=</span><span class="n">dims_list</span><span class="p">,</span>
+                        <span class="n">attrs</span><span class="o">=</span><span class="n">raw_ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>  <span class="c1"># variables not needing averaging</span>
+                    <span class="k">pass</span>
+
+        <span class="k">return</span> <span class="n">out_ds</span></div>
+
+
+<div class="viewcode-block" id="VelBinner.autocovariance">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner.autocovariance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">autocovariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veldat</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the auto-covariance of the raw-signal `veldat`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        veldat : xarray.DataArray</span>
+<span class="sd">          The raw dataArray of which to calculate auto-covariance</span>
+<span class="sd">        n_bin : float</span>
+<span class="sd">          Number of data elements to use</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        da : xarray.DataArray</span>
+<span class="sd">          The auto-covariance of veldat</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        As opposed to cross-covariance, which returns the full</span>
+<span class="sd">        cross-covariance between two arrays, this function only</span>
+<span class="sd">        returns a quarter of the full auto-covariance. It computes the</span>
+<span class="sd">        auto-covariance over half of the range, then averages the two</span>
+<span class="sd">        sides (to return a &#39;quartered&#39; covariance).</span>
+
+<span class="sd">        This has the advantage that the 0 index is actually zero-lag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">indat</span> <span class="o">=</span> <span class="n">veldat</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="n">n_bin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_nbin</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outshape</span><span class="p">(</span><span class="n">indat</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">indat</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">dt1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">indat</span><span class="p">,</span> <span class="n">n_pad</span><span class="o">=</span><span class="n">n_bin</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># Here we de-mean only on the &#39;valid&#39; range:</span>
+        <span class="n">dt1</span> <span class="o">=</span> <span class="n">dt1</span> <span class="o">-</span> <span class="n">dt1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">dt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="n">indat</span><span class="p">)</span>
+        <span class="n">se</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">sb</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="n">slice1d_along_axis</span><span class="p">(</span><span class="n">dt1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">dt1</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">dt2</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="s2">&quot;valid&quot;</span><span class="p">)</span>
+            <span class="c1"># The zero-padding in reshape means we compute coherence</span>
+            <span class="c1"># from one-sided time-series for first and last points.</span>
+            <span class="k">if</span> <span class="n">slc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">se</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">slc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">dt2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">sb</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># For the others we take the average of the two sides.</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">se</span><span class="p">]</span> <span class="o">+</span> <span class="n">tmp</span><span class="p">[</span><span class="n">sb</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">dims_list</span><span class="p">,</span> <span class="n">coords_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_coords</span><span class="p">(</span><span class="n">veldat</span><span class="p">)</span>
+        <span class="c1"># tack on new coordinate</span>
+        <span class="n">dims_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;lag&quot;</span><span class="p">)</span>
+        <span class="n">coords_dict</span><span class="p">[</span><span class="s2">&quot;lag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_bin</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+
+        <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="n">coords_dict</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">dims_list</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">da</span><span class="p">[</span><span class="s2">&quot;lag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;timestep&quot;</span>
+
+        <span class="k">return</span> <span class="n">da</span></div>
+
+
+<div class="viewcode-block" id="VelBinner.turbulence_intensity">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner.turbulence_intensity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">turbulence_intensity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U_mag</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate noise-corrected turbulence intensity.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        U_mag : xarray.DataArray</span>
+<span class="sd">          Raw horizontal velocity magnitude</span>
+<span class="sd">        noise : numeric</span>
+<span class="sd">          Instrument noise level in same units as velocity. Typically</span>
+<span class="sd">          found from `&lt;adv or adp&gt;.turbulence.doppler_noise_level`.</span>
+<span class="sd">          Default: None.</span>
+<span class="sd">        thresh : numeric</span>
+<span class="sd">          Theshold below which TI will not be calculated</span>
+<span class="sd">        detrend : bool (default: False)</span>
+<span class="sd">          Detrend the velocity data (True), or simply de-mean it</span>
+<span class="sd">          (False), prior to computing TI.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">U_mag</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U_mag</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="n">noise</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="n">detrend</span><span class="p">:</span>
+            <span class="n">up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+
+        <span class="c1"># Take RMS and subtract noise</span>
+        <span class="n">u_rms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">up</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">noise</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">u_mag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+
+        <span class="n">ti</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">u_mag</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">u_rms</span> <span class="o">/</span> <span class="n">u_mag</span><span class="p">)</span>
+
+        <span class="n">dims</span> <span class="o">=</span> <span class="n">U_mag</span><span class="o">.</span><span class="n">dims</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">U_mag</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">nm</span><span class="p">:</span>
+                <span class="n">coords</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U_mag</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coords</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">U_mag</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">ti</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Turbulence Intensity&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;TI was corrected from a noise level of </span><span class="si">{</span><span class="n">noise</span><span class="si">}</span><span class="s2"> m/s&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VelBinner.turbulent_kinetic_energy">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner.turbulent_kinetic_energy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">turbulent_kinetic_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veldat</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the turbulent kinetic energy (TKE) (variances</span>
+<span class="sd">        of u,v,w).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        veldat : xarray.DataArray</span>
+<span class="sd">          Velocity data array from ADV or single beam from ADCP.</span>
+<span class="sd">          The last dimension is assumed to be time.</span>
+<span class="sd">        noise : float or array-like</span>
+<span class="sd">          Instrument noise level in same units as velocity. Typically</span>
+<span class="sd">          found from `&lt;adv or adp&gt;.turbulence.doppler_noise_level`.</span>
+<span class="sd">          Default: None.</span>
+<span class="sd">        detrend : bool (default: False)</span>
+<span class="sd">          Detrend the velocity data (True), or simply de-mean it</span>
+<span class="sd">          (False), prior to computing TKE. Note: the PSD routines</span>
+<span class="sd">          use detrend, so if you want to have the same amount of</span>
+<span class="sd">          variance here as there use ``detrend=True``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tke_vec : xarray.DataArray</span>
+<span class="sd">          dataArray containing u&#39;u&#39;_, v&#39;v&#39;_ and w&#39;w&#39;_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">veldat</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+            <span class="n">vel</span> <span class="o">=</span> <span class="n">veldat</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="n">noise</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">vel</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;This function is only valid for calculating TKE using &quot;</span>
+                <span class="s2">&quot;velocity from an ADV or a single ADCP beam.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Calc TKE</span>
+        <span class="k">if</span> <span class="n">detrend</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;dir&quot;</span> <span class="ow">in</span> <span class="n">veldat</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="c1"># Subtract noise</span>
+            <span class="k">if</span> <span class="n">noise</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">noise</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="s2">&quot;Noise should have same first dimension as velocity&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">noise</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">noise</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+                <span class="n">out</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="n">noise</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="c1"># Set coords</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tke&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">]</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tke&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tke</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">veldat</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">)}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Subtract noise</span>
+            <span class="k">if</span> <span class="n">noise</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">vel</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="s2">&quot;Noise should have same or fewer dimensions as velocity&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">out</span> <span class="o">-=</span> <span class="n">noise</span><span class="o">**</span><span class="mi">2</span>
+            <span class="c1"># Set coords</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="n">veldat</span><span class="o">.</span><span class="n">dims</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">veldat</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">nm</span><span class="p">:</span>
+                    <span class="n">coords</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">veldat</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">coords</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">veldat</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE Vector&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;specific_turbulent_kinetic_energy_of_sea_water&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VelBinner.power_spectral_density">
+<a class="viewcode-back" href="../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.velocity.VelBinner.power_spectral_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">power_spectral_density</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">veldat</span><span class="p">,</span>
+        <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;rad/s&quot;</span><span class="p">,</span>
+        <span class="n">fs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span>
+        <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the power spectral density of velocity.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        veldat : xr.DataArray</span>
+<span class="sd">          The raw velocity data (of dims &#39;dir&#39; and &#39;time&#39;).</span>
+<span class="sd">        freq_units : string</span>
+<span class="sd">          Frequency units of the returned spectra in either Hz or rad/s</span>
+<span class="sd">          (`f` or :math:`\\omega`)</span>
+<span class="sd">        fs : float (optional)</span>
+<span class="sd">          The sample rate. Default is `binner.fs`</span>
+<span class="sd">        window : string or array</span>
+<span class="sd">          Specify the window function.</span>
+<span class="sd">          Options: 1, None, &#39;hann&#39;, &#39;hamm&#39;</span>
+<span class="sd">        noise : numeric or array</span>
+<span class="sd">          Instrument noise level in same units as velocity.</span>
+<span class="sd">          Default: 0 (ADCP) or [0, 0, 0] (ADV).</span>
+<span class="sd">        n_bin : int (optional)</span>
+<span class="sd">          The bin-size. Default: from the binner.</span>
+<span class="sd">        n_fft : int (optional)</span>
+<span class="sd">          The fft size. Default: from the binner.</span>
+<span class="sd">        n_pad : int (optional)</span>
+<span class="sd">          The number of values to pad with zero. Default = 0.</span>
+<span class="sd">        step : int (optional)</span>
+<span class="sd">          Controls amount of overlap in fft. Default: the step size is</span>
+<span class="sd">          chosen to maximize data use, minimize nens, and have a</span>
+<span class="sd">          minimum of 50% overlap.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        psd : xarray.DataArray (3, M, N_FFT)</span>
+<span class="sd">          The spectra in the &#39;u&#39;, &#39;v&#39;, and &#39;w&#39; directions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fs_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_fs</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+        <span class="n">n_fft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_nfft</span><span class="p">(</span><span class="n">n_fft</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">veldat</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+            <span class="n">vel</span> <span class="o">=</span> <span class="n">veldat</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;rad&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">freq_units</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;Hz&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">freq_units</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`freq_units` should be one of &#39;Hz&#39; or &#39;rad/s&#39;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create frequency vector, also checks whether using f or omega</span>
+        <span class="k">if</span> <span class="s2">&quot;rad&quot;</span> <span class="ow">in</span> <span class="n">freq_units</span><span class="p">:</span>
+            <span class="n">fs</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fs_in</span>
+            <span class="n">freq_units</span> <span class="o">=</span> <span class="s2">&quot;rad s-1&quot;</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;m2 s-1 rad-1&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fs</span> <span class="o">=</span> <span class="n">fs_in</span>
+            <span class="n">freq_units</span> <span class="o">=</span> <span class="s2">&quot;Hz&quot;</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;m2 s-2 Hz-1&quot;</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fft_freq</span><span class="p">(</span><span class="n">fs</span><span class="o">=</span><span class="n">fs_in</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">freq_units</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;freq&quot;</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">freq_units</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;FFT Frequency Vector&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Spectra, if input is full velocity or a single array</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Function can only handle 1D or 3D arrays.&quot;</span>
+                    <span class="s2">&quot; If ADCP data, please select a specific depth bin.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Noise is expected to be an array of 3 scalars&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Reset default to list of 3 zeros</span>
+                <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_outshape_fft</span><span class="p">(</span><span class="n">vel</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">),</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_psd_base</span><span class="p">(</span>
+                    <span class="n">vel</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span>
+                    <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+                    <span class="n">noise</span><span class="o">=</span><span class="n">noise</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span>
+                    <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
+                    <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">,</span>
+                    <span class="n">n_pad</span><span class="o">=</span><span class="n">n_pad</span><span class="p">,</span>
+                    <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span>
+                    <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">veldat</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;freq&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Noise is expected to be a scalar&quot;</span><span class="p">)</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_psd_base</span><span class="p">(</span>
+                <span class="n">vel</span><span class="p">,</span>
+                <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+                <span class="n">noise</span><span class="o">=</span><span class="n">noise</span><span class="p">,</span>
+                <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
+                <span class="n">n_bin</span><span class="o">=</span><span class="n">n_bin</span><span class="p">,</span>
+                <span class="n">n_pad</span><span class="o">=</span><span class="n">n_pad</span><span class="p">,</span>
+                <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span>
+                <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">veldat</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">veldat</span><span class="p">[</span><span class="n">veldat</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+                <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="n">veldat</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;freq&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+                <span class="s2">&quot;n_fft&quot;</span><span class="p">:</span> <span class="n">n_fft</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Power Spectral Density&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

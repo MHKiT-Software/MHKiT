@@ -1,0 +1,640 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.wave.io.hindcast.hindcast &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.wave.io.hindcast.hindcast</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.wave.io.hindcast.hindcast</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides functions to access and process WPTO wave hindcast data</span>
+<span class="sd">hosted on AWS at specified latitude and longitude points or the closest</span>
+<span class="sd">available points. It includes functions to retrieve data for predefined</span>
+<span class="sd">regions, request point data for various parameters, and request directional</span>
+<span class="sd">spectrum data.</span>
+
+<span class="sd">Functions:</span>
+<span class="sd">    - region_selection(lat_lon): Returns the name of the predefined region for</span>
+<span class="sd">      given latitude and longitude coordinates.</span>
+<span class="sd">    - request_wpto_point_data(data_type, parameter, lat_lon, years, tree=None,</span>
+<span class="sd">      unscale=True, str_decode=True, hsds=True): Returns data from the WPTO wave</span>
+<span class="sd">      hindcast hosted on AWS at the specified latitude and longitude point(s) for</span>
+<span class="sd">      the requested data type, parameter, and years.</span>
+<span class="sd">    - request_wpto_directional_spectrum(lat_lon, year, tree=None, unscale=True,</span>
+<span class="sd">      str_decode=True, hsds=True): Returns directional spectra data from the WPTO</span>
+<span class="sd">      wave hindcast hosted on AWS at the specified latitude and longitude point(s)</span>
+<span class="sd">      for the given year.</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    - sys</span>
+<span class="sd">    - time.sleep</span>
+<span class="sd">    - pandas</span>
+<span class="sd">    - xarray</span>
+<span class="sd">    - numpy</span>
+<span class="sd">    - rex.MultiYearWaveX, rex.WaveX</span>
+
+<span class="sd">Author: rpauly, aidanbharath, ssolson</span>
+<span class="sd">Date: 2023-09-26</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rex</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiYearWaveX</span><span class="p">,</span> <span class="n">WaveX</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">handle_caching</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.type_handling</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataset</span>
+
+
+<div class="viewcode-block" id="region_selection">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.hindcast.region_selection">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">region_selection</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the name of the predefined region in which the given</span>
+<span class="sd">    coordinates reside. Can be used to check if the passed lat/lon</span>
+<span class="sd">    pair is within the WPTO hindcast dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lat_lon : list or tuple</span>
+<span class="sd">        Latitude and longitude coordinates as floats or integers</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    region : string</span>
+<span class="sd">        Name of predefined region for given coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lat_lon must be of type list or tuple. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">lat_lon</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;lat_lon values must be of type float or int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">regions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Hawaii&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">27.000002</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">164.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">151.0</span><span class="p">]},</span>
+        <span class="s2">&quot;West_Coast&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">30.0906</span><span class="p">,</span> <span class="mf">48.8641</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">130.072</span><span class="p">,</span> <span class="o">-</span><span class="mf">116.899</span><span class="p">]},</span>
+        <span class="s2">&quot;Atlantic&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">24.382</span><span class="p">,</span> <span class="mf">44.8247</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">81.552</span><span class="p">,</span> <span class="o">-</span><span class="mf">65.721</span><span class="p">]},</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">region_search</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">regions</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="n">regions</span><span class="p">[</span><span class="n">region</span><span class="p">][</span><span class="n">dk</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="n">regions</span><span class="p">[</span><span class="n">region</span><span class="p">][</span><span class="n">dk</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">dk</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="n">lat_lon</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="n">region</span> <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">regions</span> <span class="k">if</span> <span class="n">region_search</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">regions</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">region</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ERROR: coordinates out of bounds.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="request_wpto_point_data">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.hindcast.request_wpto_point_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_wpto_point_data</span><span class="p">(</span>
+    <span class="n">data_type</span><span class="p">,</span>
+    <span class="n">parameter</span><span class="p">,</span>
+    <span class="n">lat_lon</span><span class="p">,</span>
+    <span class="n">years</span><span class="p">,</span>
+    <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">unscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">str_decode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hsds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns data from the WPTO wave hindcast hosted on AWS at the</span>
+<span class="sd">    specified latitude and longitude point(s), or the closest</span>
+<span class="sd">    available point(s).</span>
+<span class="sd">    Visit https://registry.opendata.aws/wpto-pds-us-wave/ for more</span>
+<span class="sd">    information about the dataset and available locations and years.</span>
+
+<span class="sd">    Note: To access the WPTO hindcast data, you will need to configure</span>
+<span class="sd">    h5pyd for data access on HSDS. Please see the WPTO_hindcast_example</span>
+<span class="sd">    notebook for setup instructions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_type : string</span>
+<span class="sd">        Data set type of interest</span>
+<span class="sd">        Options: &#39;3-hour&#39; &#39;1-hour&#39;</span>
+<span class="sd">    parameter : string or list of strings</span>
+<span class="sd">        Dataset parameter to be downloaded</span>
+<span class="sd">        3-hour dataset options: &#39;directionality_coefficient&#39;,</span>
+<span class="sd">            &#39;energy_period&#39;, &#39;maximum_energy_direction&#39;</span>
+<span class="sd">            &#39;mean_absolute_period&#39;, &#39;mean_zero-crossing_period&#39;,</span>
+<span class="sd">            &#39;omni-directional_wave_power&#39;, &#39;peak_period&#39;</span>
+<span class="sd">            &#39;significant_wave_height&#39;, &#39;spectral_width&#39;, &#39;water_depth&#39;</span>
+<span class="sd">        1-hour dataset options: &#39;directionality_coefficient&#39;,</span>
+<span class="sd">            &#39;energy_period&#39;, &#39;maximum_energy_direction&#39;</span>
+<span class="sd">            &#39;mean_absolute_period&#39;, &#39;mean_zero-crossing_period&#39;,</span>
+<span class="sd">            &#39;omni-directional_wave_power&#39;, &#39;peak_period&#39;,</span>
+<span class="sd">            &#39;significant_wave_height&#39;, &#39;spectral_width&#39;,</span>
+<span class="sd">            &#39;water_depth&#39;, &#39;maximim_energy_direction&#39;,</span>
+<span class="sd">            &#39;mean_wave_direction&#39;, &#39;frequency_bin_edges&#39;</span>
+<span class="sd">    lat_lon : tuple or list of tuples</span>
+<span class="sd">        Latitude longitude pairs at which to extract data</span>
+<span class="sd">    years : list</span>
+<span class="sd">        Year(s) to be accessed. The years 1979-2010 available.</span>
+<span class="sd">        Examples: [1996] or [2004,2006,2007]</span>
+<span class="sd">    tree : str | cKDTree (optional)</span>
+<span class="sd">        cKDTree or path to .pkl file containing pre-computed tree</span>
+<span class="sd">        of lat, lon coordinates, default = None</span>
+<span class="sd">    unscale : bool (optional)</span>
+<span class="sd">        Boolean flag to automatically unscale variables on extraction</span>
+<span class="sd">        Default = True</span>
+<span class="sd">    str_decode : bool (optional)</span>
+<span class="sd">        Boolean flag to decode the bytestring meta data into normal</span>
+<span class="sd">        strings. Setting this to False will speed up the meta data read.</span>
+<span class="sd">        Default = True</span>
+<span class="sd">    hsds : bool (optional)</span>
+<span class="sd">        Boolean flag to use h5pyd to handle .h5 &#39;files&#39; hosted on AWS</span>
+<span class="sd">        behind HSDS. Setting to False will indicate to look for files on</span>
+<span class="sd">        local machine, not AWS. Default = True</span>
+<span class="sd">    path : string (optional)</span>
+<span class="sd">        Optionally override with a custom .h5 filepath. Useful when setting</span>
+<span class="sd">        `hsds=False`.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Data indexed by datetime with columns named for parameter</span>
+<span class="sd">        and cooresponding metadata index</span>
+<span class="sd">    meta: DataFrame</span>
+<span class="sd">        Location metadata for the requested data location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;parameter must be of type string or list. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lat_lon must be of type list or tuple. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data_type must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;years must be a list. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">years</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, tree must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unscale</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, unscale must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">unscale</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">str_decode</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, str_decode must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">str_decode</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hsds</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, hsds must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">hsds</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, path must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, to_pandas must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Attempt to load data from cache</span>
+    <span class="c1"># Construct a string representation of the function parameters</span>
+    <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">lat_lon</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">years</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">tree</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">unscale</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">str_decode</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">hsds</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">to_pandas</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">_get_cache_dir</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+        <span class="n">hash_params</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">,</span>
+        <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;directional_wave_spectrum&quot;</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;This function does not support directional_wave_spectrum output&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check for multiple region selection</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="n">region_selection</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">region_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">lat_lon</span><span class="p">:</span>
+                <span class="n">region_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">region_selection</span><span class="p">(</span><span class="n">loc</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">region_list</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">region_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">):</span>
+                <span class="n">region</span> <span class="o">=</span> <span class="n">region_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Coordinates must be within the same region!&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">wave_path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;3-hour&quot;</span><span class="p">:</span>
+            <span class="n">wave_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/nrel/US_wave/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">_wave_*.h5&quot;</span>
+        <span class="k">elif</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;1-hour&quot;</span><span class="p">:</span>
+            <span class="n">wave_path</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;/nrel/US_wave/virtual_buoy/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">_virtual_buoy_*.h5&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: invalid data_type&quot;</span><span class="p">)</span>
+
+        <span class="n">wave_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="n">tree</span><span class="p">,</span>
+            <span class="s2">&quot;unscale&quot;</span><span class="p">:</span> <span class="n">unscale</span><span class="p">,</span>
+            <span class="s2">&quot;str_decode&quot;</span><span class="p">:</span> <span class="n">str_decode</span><span class="p">,</span>
+            <span class="s2">&quot;hsds&quot;</span><span class="p">:</span> <span class="n">hsds</span><span class="p">,</span>
+            <span class="s2">&quot;years&quot;</span><span class="p">:</span> <span class="n">years</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">data_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">with</span> <span class="n">MultiYearWaveX</span><span class="p">(</span><span class="n">wave_path</span><span class="p">,</span> <span class="o">**</span><span class="n">wave_kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">rex_waves</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">:</span>
+                    <span class="n">temp_data</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">get_lat_lon_df</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">lat_lon</span><span class="p">)</span>
+                    <span class="n">gid</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">lat_lon_gid</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span>
+                    <span class="n">cols</span> <span class="o">=</span> <span class="n">temp_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)),</span> <span class="n">cols</span><span class="p">):</span>
+                        <span class="n">temp</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="n">temp_data</span> <span class="o">=</span> <span class="n">temp_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">temp</span><span class="p">})</span>
+
+                    <span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">get_lat_lon_df</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">lat_lon</span><span class="p">)</span>
+                <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:]</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)),</span> <span class="n">cols</span><span class="p">):</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">temp</span><span class="p">})</span>
+
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cols</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">gid</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">lat_lon_gid</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span>
+            <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;gid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gid</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">time_index</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">param_coords</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">]</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">param_coords</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;parameter&quot;</span>
+                    <span class="p">)</span>
+
+                <span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
+
+                <span class="n">meta_ds</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">meta_ds</span><span class="p">])</span>
+
+                <span class="c1"># Remove the &#39;index&#39; coordinate</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+
+        <span class="c1"># save_to_cache(hash_params, data, meta)</span>
+        <span class="n">handle_caching</span><span class="p">(</span>
+            <span class="n">hash_params</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div>
+
+
+
+<div class="viewcode-block" id="request_wpto_directional_spectrum">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.hindcast.request_wpto_directional_spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_wpto_directional_spectrum</span><span class="p">(</span>
+    <span class="n">lat_lon</span><span class="p">,</span>
+    <span class="n">year</span><span class="p">,</span>
+    <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">unscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">str_decode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hsds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns directional spectra data from the WPTO wave hindcast hosted</span>
+<span class="sd">    on AWS at the specified latitude and longitude point(s),</span>
+<span class="sd">    or the closest available point(s). The data is returned as an</span>
+<span class="sd">    xarray Dataset with keys indexed by a graphical identifier (gid).</span>
+<span class="sd">    `gid`s are integers which represent a lat, long on which data is</span>
+<span class="sd">    stored. Requesting an array of `lat_lons` will return a dataset</span>
+<span class="sd">    with multiple `gids` representing the data closest to each requested</span>
+<span class="sd">    `lat`, `lon`.</span>
+
+<span class="sd">    Visit https://registry.opendata.aws/wpto-pds-us-wave/ for more</span>
+<span class="sd">    information about the dataset and available</span>
+<span class="sd">    locations and years.</span>
+
+<span class="sd">    Note: To access the WPTO hindcast data, you will need to configure</span>
+<span class="sd">    h5pyd for data access on HSDS.</span>
+<span class="sd">    Please see the WPTO_hindcast_example notebook for more information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lat_lon: tuple or list of tuples</span>
+<span class="sd">        Latitude longitude pairs at which to extract data</span>
+<span class="sd">    year : string</span>
+<span class="sd">        Year to be accessed. The years 1979-2010 available.</span>
+<span class="sd">        Only one year can be requested at a time.</span>
+<span class="sd">    tree : str | cKDTree (optional)</span>
+<span class="sd">        cKDTree or path to .pkl file containing pre-computed tree</span>
+<span class="sd">        of lat, lon coordinates, default = None</span>
+<span class="sd">    unscale : bool (optional)</span>
+<span class="sd">        Boolean flag to automatically unscale variables on extraction</span>
+<span class="sd">        Default = True</span>
+<span class="sd">    str_decode : bool (optional)</span>
+<span class="sd">        Boolean flag to decode the bytestring meta data into normal</span>
+<span class="sd">        strings. Setting this to False will speed up the meta data read.</span>
+<span class="sd">        Default = True</span>
+<span class="sd">    hsds : bool (optional)</span>
+<span class="sd">        Boolean flag to use h5pyd to handle .h5 &#39;files&#39; hosted on AWS</span>
+<span class="sd">        behind HSDS. Setting to False will indicate to look for files on</span>
+<span class="sd">        local machine, not AWS. Default = True</span>
+<span class="sd">    path : string (optional)</span>
+<span class="sd">        Optionally override with a custom .h5 filepath. Useful when setting</span>
+<span class="sd">        `hsds=False`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data: xarray Dataset</span>
+<span class="sd">        Coordinates as datetime, frequency, and direction for data at</span>
+<span class="sd">        specified location(s)</span>
+<span class="sd">    meta: DataFrame</span>
+<span class="sd">        Location metadata for the requested data location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lat_lon must be of type list or tuple. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;year must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, tree must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unscale</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, unscale must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">unscale</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">str_decode</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, str_decode must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">str_decode</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hsds</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, hsds must be bool type. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">hsds</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, path must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># check for multiple region selection</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="n">region_selection</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reglist</span> <span class="o">=</span> <span class="p">[</span><span class="n">region_selection</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">lat_lon</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">reglist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">reglist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">):</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="n">reglist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Coordinates must be within the same region!&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Attempt to load data from cache</span>
+    <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lat_lon</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">tree</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">unscale</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">str_decode</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">hsds</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">_get_cache_dir</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+        <span class="n">hash_params</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">,</span>
+        <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span>
+
+    <span class="n">wave_path</span> <span class="o">=</span> <span class="n">path</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;/nrel/US_wave/virtual_buoy/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">_virtual_buoy_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.h5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;directional_wave_spectrum&quot;</span>
+    <span class="n">wave_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="n">tree</span><span class="p">,</span>
+        <span class="s2">&quot;unscale&quot;</span><span class="p">:</span> <span class="n">unscale</span><span class="p">,</span>
+        <span class="s2">&quot;str_decode&quot;</span><span class="p">:</span> <span class="n">str_decode</span><span class="p">,</span>
+        <span class="s2">&quot;hsds&quot;</span><span class="p">:</span> <span class="n">hsds</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">with</span> <span class="n">WaveX</span><span class="p">(</span><span class="n">wave_path</span><span class="p">,</span> <span class="o">**</span><span class="n">wave_kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">rex_waves</span><span class="p">:</span>
+        <span class="c1"># Get graphical identifier</span>
+        <span class="n">gid</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">lat_lon_gid</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span>
+
+        <span class="c1"># Setup index and columns</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">gid</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gid</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">))</span> <span class="k">else</span> <span class="n">gid</span>
+        <span class="n">time_index</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">time_index</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="p">[</span><span class="s2">&quot;frequency&quot;</span><span class="p">]</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">time_index</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">direction</span><span class="p">],</span>
+            <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time_index&quot;</span><span class="p">,</span> <span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create bins for multiple smaller API dataset requests</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rex_waves</span><span class="p">)</span>
+        <span class="n">quotient</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">quotient</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="n">bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">remainder</span>
+        <span class="n">index_bins</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># Request multiple datasets and add to dictionary</span>
+        <span class="n">datas</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">index_bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">index_bins</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+
+            <span class="c1"># Request with exponential back off wait time</span>
+            <span class="n">sleep_time</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">num_retries</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_retries</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">data_array</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="p">[</span><span class="n">parameter</span><span class="p">,</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">gid</span><span class="p">]</span>
+                    <span class="n">str_error</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="n">str_error</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">str_error</span><span class="p">:</span>
+                    <span class="n">sleep</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">)</span>
+                    <span class="n">sleep_time</span> <span class="o">*=</span> <span class="mi">2</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="n">ax1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">ax2</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">datas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="n">data_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">idx</span>
+            <span class="p">)</span>
+
+        <span class="n">data_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datas</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data_raw</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">time_index</span><span class="p">)</span>
+
+        <span class="c1"># Get metadata</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">rex_waves</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;gid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gid</span>
+
+        <span class="c1"># Convert gid to integer or list of integers</span>
+        <span class="n">gid_list</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gid</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gid</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span> <span class="k">else</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">gid</span><span class="p">)]</span>
+        <span class="p">)</span>
+
+        <span class="n">data_var_concat</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gid_list</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;gid&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create a new DataArray with the correct dimensions and coordinates</span>
+        <span class="n">spectral_density</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data_var_concat</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">frequency</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">direction</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">gid_list</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time_index&quot;</span><span class="p">,</span> <span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="s2">&quot;gid&quot;</span><span class="p">],</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;time_index&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time_index&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frequency&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;gid&quot;</span><span class="p">:</span> <span class="n">gid_list</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create the new dataset</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;spectral_density&quot;</span><span class="p">:</span> <span class="n">spectral_density</span><span class="p">},</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;time_index&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time_index&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;frequency&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;gid&quot;</span><span class="p">:</span> <span class="n">gid_list</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="n">handle_caching</span><span class="p">(</span>
+        <span class="n">hash_params</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">,</span>
+        <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_cache_dir</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the path to the cache directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;mhkit&quot;</span><span class="p">,</span> <span class="s2">&quot;hindcast&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

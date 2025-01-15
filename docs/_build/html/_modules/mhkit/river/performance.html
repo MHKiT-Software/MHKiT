@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.river.performance &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.river.performance</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.river.performance</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="circular">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.performance.circular">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">circular</span><span class="p">(</span><span class="n">diameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the equivalent diameter and projected capture area of a</span>
+<span class="sd">    circular turbine</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    diameter : int/float</span>
+<span class="sd">        Turbine diameter [m]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    equivalent_diameter : float</span>
+<span class="sd">       Equivalent diameter [m]</span>
+<span class="sd">    projected_capture_area : float</span>
+<span class="sd">        Projected capture area [m^2]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">diameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diameter must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">diameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">equivalent_diameter</span> <span class="o">=</span> <span class="n">diameter</span>
+    <span class="n">projected_capture_area</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">equivalent_diameter</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">equivalent_diameter</span><span class="p">,</span> <span class="n">projected_capture_area</span></div>
+
+
+
+<div class="viewcode-block" id="ducted">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.performance.ducted">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ducted</span><span class="p">(</span><span class="n">duct_diameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the equivalent diameter and projected capture area of a</span>
+<span class="sd">    ducted turbine</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    duct_diameter : int/float</span>
+<span class="sd">        Duct diameter [m]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    equivalent_diameter : float</span>
+<span class="sd">       Equivalent diameter [m]</span>
+<span class="sd">    projected_capture_area : float</span>
+<span class="sd">        Projected capture area [m^2]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">duct_diameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;duct_diameter must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">duct_diameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">equivalent_diameter</span> <span class="o">=</span> <span class="n">duct_diameter</span>
+    <span class="n">projected_capture_area</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">equivalent_diameter</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">equivalent_diameter</span><span class="p">,</span> <span class="n">projected_capture_area</span></div>
+
+
+
+<div class="viewcode-block" id="rectangular">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.performance.rectangular">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rectangular</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the equivalent diameter and projected capture area of a</span>
+<span class="sd">    retangular turbine</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    h : int/float</span>
+<span class="sd">        Turbine height [m]</span>
+<span class="sd">    w : int/float</span>
+<span class="sd">        Turbine width [m]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    equivalent_diameter : float</span>
+<span class="sd">       Equivalent diameter [m]</span>
+<span class="sd">    projected_capture_area : float</span>
+<span class="sd">        Projected capture area [m^2]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;w must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">equivalent_diameter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">projected_capture_area</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span>
+
+    <span class="k">return</span> <span class="n">equivalent_diameter</span><span class="p">,</span> <span class="n">projected_capture_area</span></div>
+
+
+
+<div class="viewcode-block" id="multiple_circular">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.performance.multiple_circular">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiple_circular</span><span class="p">(</span><span class="n">diameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the equivalent diameter and projected capture area of a</span>
+<span class="sd">    multiple circular turbine</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    diameters: list</span>
+<span class="sd">        List of device diameters [m]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    equivalent_diameter : float</span>
+<span class="sd">       Equivalent diameter [m]</span>
+<span class="sd">    projected_capture_area : float</span>
+<span class="sd">        Projected capture area [m^2]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">diameters</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diameters must be of type list. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">diameters</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">diameters_squared</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">diameters</span><span class="p">]</span>
+    <span class="n">equivalent_diameter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">diameters_squared</span><span class="p">))</span>
+    <span class="n">projected_capture_area</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diameters_squared</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">equivalent_diameter</span><span class="p">,</span> <span class="n">projected_capture_area</span></div>
+
+
+
+<div class="viewcode-block" id="tip_speed_ratio">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.performance.tip_speed_ratio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tip_speed_ratio</span><span class="p">(</span><span class="n">rotor_speed</span><span class="p">,</span> <span class="n">rotor_diameter</span><span class="p">,</span> <span class="n">inflow_speed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    rotor_speed : numpy array</span>
+<span class="sd">        Rotor speed [revolutions per second]</span>
+<span class="sd">    rotor_diameter : float/int</span>
+<span class="sd">        Diameter of rotor [m]</span>
+<span class="sd">    inflow_speed : numpy array</span>
+<span class="sd">        Velocity of inflow condition [m/s]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    TSR : numpy array</span>
+<span class="sd">        Calculated tip speed ratio (TSR)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rotor_speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rotor_speed</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="s2">&quot;rotor_speed must be of type np.ndarray&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">inflow_speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">inflow_speed</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="s2">&quot;inflow_speed must be of type np.ndarray&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rotor_diameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;rotor_diameter must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">rotor_diameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">rotor_velocity</span> <span class="o">=</span> <span class="n">rotor_speed</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">rotor_diameter</span>
+
+    <span class="n">TSR</span> <span class="o">=</span> <span class="n">rotor_velocity</span> <span class="o">/</span> <span class="n">inflow_speed</span>
+
+    <span class="k">return</span> <span class="n">TSR</span></div>
+
+
+
+<div class="viewcode-block" id="power_coefficient">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.performance.power_coefficient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">power_coefficient</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">inflow_speed</span><span class="p">,</span> <span class="n">capture_area</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function that calculates the power coefficient of MEC device</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    power : numpy array</span>
+<span class="sd">        Power output signal of device after losses [W]</span>
+<span class="sd">    inflow_speed : numpy array</span>
+<span class="sd">        Speed of inflow [m/s]</span>
+<span class="sd">    capture_area : float/int</span>
+<span class="sd">        Projected area of rotor normal to inflow [m^2]</span>
+<span class="sd">    rho : float/int</span>
+<span class="sd">        Density of environment [kg/m^3]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    Cp : numpy array</span>
+<span class="sd">        Power coefficient of device [-]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="s2">&quot;power must be of type np.ndarray&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">inflow_speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">inflow_speed</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="s2">&quot;inflow_speed must be of type np.ndarray&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">capture_area</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;capture_area must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">capture_area</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rho must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Predicted power from inflow</span>
+    <span class="n">power_in</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">capture_area</span> <span class="o">*</span> <span class="n">inflow_speed</span><span class="o">**</span><span class="mi">3</span>
+
+    <span class="n">Cp</span> <span class="o">=</span> <span class="n">power</span> <span class="o">/</span> <span class="n">power_in</span>
+
+    <span class="k">return</span> <span class="n">Cp</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.rotate.api &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.rotate.api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.rotate.api</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector</span> <span class="k">as</span> <span class="n">r_vec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">awac</span> <span class="k">as</span> <span class="n">r_awac</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">signature</span> <span class="k">as</span> <span class="n">r_sig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rdi</span> <span class="k">as</span> <span class="n">r_rdi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_model</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+
+<span class="c1"># The &#39;rotation chain&#39;</span>
+<span class="n">rc</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;beam&quot;</span><span class="p">,</span> <span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="s2">&quot;principal&quot;</span><span class="p">]</span>
+
+<span class="n">rot_module_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Nortek instruments</span>
+    <span class="s2">&quot;vector&quot;</span><span class="p">:</span> <span class="n">r_vec</span><span class="p">,</span>
+    <span class="s2">&quot;awac&quot;</span><span class="p">:</span> <span class="n">r_awac</span><span class="p">,</span>
+    <span class="s2">&quot;signature&quot;</span><span class="p">:</span> <span class="n">r_sig</span><span class="p">,</span>
+    <span class="s2">&quot;ad2cp&quot;</span><span class="p">:</span> <span class="n">r_sig</span><span class="p">,</span>
+    <span class="c1"># TRDI instruments</span>
+    <span class="s2">&quot;rdi&quot;</span><span class="p">:</span> <span class="n">r_rdi</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="rotate2">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.api.rotate2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">out_frame</span><span class="o">=</span><span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate a dataset to a new coordinate system.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xr.Dataset</span>
+<span class="sd">      The dolfyn dataset (ADV or ADCP) to rotate.</span>
+<span class="sd">    out_frame : string {&#39;beam&#39;, &#39;inst&#39;, &#39;earth&#39;, &#39;principal&#39;}</span>
+<span class="sd">      The coordinate system to rotate the data into.</span>
+<span class="sd">    inplace : bool</span>
+<span class="sd">      When True ``ds`` is modified. When False a copy is returned.</span>
+<span class="sd">      Default = True</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset or None</span>
+<span class="sd">      Returns a new rotated dataset **when ``inplace=False``**, otherwise</span>
+<span class="sd">      returns None.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - This function rotates all variables in ``ds.attrs[&#39;rotate_vars&#39;]``.</span>
+
+<span class="sd">    - In order to rotate to the &#39;principal&#39; frame, a value should exist for</span>
+<span class="sd">      ``ds.attrs[&#39;principal_heading&#39;]``. The function</span>
+<span class="sd">      :func:`calc_principal_heading &lt;dolfyn.calc_principal_heading&gt;`</span>
+<span class="sd">      is recommended for this purpose, e.g.:</span>
+
+<span class="sd">          ds.attrs[&#39;principal_heading&#39;] = dolfyn.calc_principal_heading(ds[&#39;vel&#39;].mean(range))</span>
+
+<span class="sd">      where here we are using the depth-averaged velocity to calculate</span>
+<span class="sd">      the principal direction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create and return deep copy if not writing &quot;in place&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">csin</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">csin</span> <span class="o">==</span> <span class="s2">&quot;ship&quot;</span><span class="p">:</span>
+        <span class="n">csin</span> <span class="o">=</span> <span class="s2">&quot;inst&quot;</span>
+
+    <span class="c1"># Returns True/False if head2inst_rotmat has been set/not-set.</span>
+    <span class="n">r_vec</span><span class="o">.</span><span class="n">_check_inst2head_rotmat</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">out_frame</span> <span class="o">==</span> <span class="s2">&quot;principal&quot;</span> <span class="ow">and</span> <span class="n">csin</span> <span class="o">!=</span> <span class="s2">&quot;earth&quot;</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;You are attempting to rotate into the &#39;principal&#39; &quot;</span>
+            <span class="s2">&quot;coordinate system, but the dataset is in the </span><span class="si">{}</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;coordinate system. Be sure that &#39;principal_heading&#39; is &quot;</span>
+            <span class="s2">&quot;defined based on the earth coordinate system.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">csin</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">rmod</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">rot_module_dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">_make_model</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+            <span class="n">rmod</span> <span class="o">=</span> <span class="n">rot_module_dict</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">rmod</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Rotations are not defined for &quot;</span> <span class="s2">&quot;instrument &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_make_model</span><span class="p">(</span><span class="n">ds</span><span class="p">))</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Get the &#39;indices&#39; of the rotation chain</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iframe_in</span> <span class="o">=</span> <span class="n">rc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">csin</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;The coordinate system of the input &quot;</span>
+            <span class="s2">&quot;dataset, &#39;</span><span class="si">{}</span><span class="s2">&#39;, is invalid.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iframe_out</span> <span class="o">=</span> <span class="n">rc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">out_frame</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;The specified output coordinate system &quot;</span>
+            <span class="s2">&quot;is invalid, please select one of: &#39;beam&#39;, &#39;inst&#39;, &quot;</span>
+            <span class="s2">&quot;&#39;earth&#39;, &#39;principal&#39;.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">iframe_out</span> <span class="o">==</span> <span class="n">iframe_in</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data is already in the </span><span class="si">{}</span><span class="s2"> coordinate system&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out_frame</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">iframe_out</span> <span class="o">&gt;</span> <span class="n">iframe_in</span><span class="p">:</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">while</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="n">out_frame</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">csin</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span>
+        <span class="k">if</span> <span class="n">csin</span> <span class="o">==</span> <span class="s2">&quot;ship&quot;</span><span class="p">:</span>
+            <span class="n">csin</span> <span class="o">=</span> <span class="s2">&quot;inst&quot;</span>
+        <span class="n">inow</span> <span class="o">=</span> <span class="n">rc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">csin</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rmod</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">rc</span><span class="p">[</span><span class="n">inow</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;2&quot;</span> <span class="o">+</span> <span class="n">rc</span><span class="p">[</span><span class="n">inow</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rmod</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">rc</span><span class="p">[</span><span class="n">inow</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;2&quot;</span> <span class="o">+</span> <span class="n">rc</span><span class="p">[</span><span class="n">inow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span></div>
+
+
+
+<div class="viewcode-block" id="calc_principal_heading">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.api.calc_principal_heading">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_principal_heading</span><span class="p">(</span><span class="n">vel</span><span class="p">,</span> <span class="n">tidal_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the principal angle of the horizontal velocity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vel : np.ndarray (2,...,Nt), or (3,...,Nt)</span>
+<span class="sd">      The 2D or 3D velocity array (3rd-dim is ignored in this calculation)</span>
+<span class="sd">    tidal_mode : bool</span>
+<span class="sd">      If true, range is set from 0 to +/-180 degrees. If false, range is 0 to</span>
+<span class="sd">      360 degrees. Default = True</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    p_heading : float or ndarray</span>
+<span class="sd">      The principal heading in degrees clockwise from North.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    When tidal_mode=True, this tool calculates the heading that is</span>
+<span class="sd">    aligned with the bidirectional flow. It does so following these</span>
+<span class="sd">    steps:</span>
+<span class="sd">      1. rotates vectors with negative velocity by 180 degrees</span>
+<span class="sd">      2. then doubles those angles to make a complete circle again</span>
+<span class="sd">      3. computes a mean direction from this, and halves that angle</span>
+<span class="sd">         (to undo the doubled-angles in step 2)</span>
+<span class="sd">      4. The returned angle is forced to be between 0 and 180. So, you</span>
+<span class="sd">         may need to add 180 to this if you want your positive</span>
+<span class="sd">         direction to be in the western-half of the plane.</span>
+
+<span class="sd">    Otherwise, this function simply computes the average direction</span>
+<span class="sd">    using a vector method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">vel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">vel</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
+    <span class="k">if</span> <span class="n">tidal_mode</span><span class="p">:</span>
+        <span class="c1"># Flip all vectors that are below the x-axis</span>
+        <span class="n">dt</span><span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">imag</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># Now double the angle, so that angles near pi and 0 get averaged</span>
+        <span class="c1"># together correctly:</span>
+        <span class="n">dt</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">dt</span><span class="p">))</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="c1"># Divide the angle by 2 to remove the doubling done on the previous</span>
+        <span class="c1"># line.</span>
+        <span class="n">pang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">((</span><span class="mi">90</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">pang</span><span class="p">)),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set_declination">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.api.set_declination">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_declination</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">declin</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the magnetic declination</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset or :class:`dolfyn.velocity.Velocity`</span>
+<span class="sd">      The input dataset or velocity class</span>
+<span class="sd">    declination : float</span>
+<span class="sd">      The value of the magnetic declination in degrees (positive</span>
+<span class="sd">      values specify that Magnetic North is clockwise from True North)</span>
+<span class="sd">    inplace : bool</span>
+<span class="sd">      When True ``ds`` is modified. When False a copy is returned.</span>
+<span class="sd">      Default = True</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset or None</span>
+<span class="sd">      Returns a new dataset with declination set **when</span>
+<span class="sd">      ``inplace=False``**, otherwise returns None.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function modifies the data object in the following ways:</span>
+
+<span class="sd">    - If the dataset is in the *earth* reference frame at the time of</span>
+<span class="sd">      setting declination, it will be rotated into the &quot;*True-East*,</span>
+<span class="sd">      *True-North*, Up&quot; (hereafter, ETU) coordinate system</span>
+
+<span class="sd">    - ``dat[&#39;orientmat&#39;]`` is modified to be an ETU to</span>
+<span class="sd">      instrument (XYZ) rotation matrix (rather than the magnetic-ENU to</span>
+<span class="sd">      XYZ rotation matrix). Therefore, all rotations to/from the &#39;earth&#39;</span>
+<span class="sd">      frame will now be to/from this ETU coordinate system.</span>
+
+<span class="sd">    - The value of the specified declination will be stored in</span>
+<span class="sd">      ``dat.attrs[&#39;declination&#39;]``</span>
+
+<span class="sd">    - ``dat[&#39;heading&#39;]`` is adjusted for declination</span>
+<span class="sd">      (i.e., it is relative to True North).</span>
+
+<span class="sd">    - If ``dat.attrs[&#39;principal_heading&#39;]`` is set, it is</span>
+<span class="sd">      adjusted to account for the orientation of the new &#39;True&#39;</span>
+<span class="sd">      earth coordinate system (i.e., calling set_declination on a</span>
+<span class="sd">      data object in the principal coordinate system, then calling</span>
+<span class="sd">      dat.rotate2(&#39;earth&#39;) will yield a data object in the new</span>
+<span class="sd">      &#39;True&#39; earth coordinate system)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create and return deep copy if not writing &quot;in place&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;declination&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">declin</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;declination&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">declin</span>
+    <span class="n">cd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+
+    <span class="c1"># The ordering is funny here because orientmat is the</span>
+    <span class="c1"># transpose of the inst-&gt;earth rotation matrix:</span>
+    <span class="n">Rdec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">cd</span><span class="p">,</span> <span class="o">-</span><span class="n">sd</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">sd</span><span class="p">,</span> <span class="n">cd</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span> <span class="o">==</span> <span class="s2">&quot;earth&quot;</span><span class="p">:</span>
+        <span class="n">rotate2earth</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rotate2earth</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientmat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;kj...,ij-&gt;ki...&quot;</span><span class="p">,</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientmat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">Rdec</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;heading&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;heading&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">angle</span>
+        <span class="n">heading</span><span class="p">[</span><span class="n">heading</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">360</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;heading&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">heading</span>
+
+    <span class="k">if</span> <span class="n">rotate2earth</span><span class="p">:</span>
+        <span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;principal_heading&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;principal_heading&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">angle</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;declination&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">declin</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;declination_in_orientmat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># logical</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span></div>
+
+
+
+<div class="viewcode-block" id="set_inst2head_rotmat">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.api.set_inst2head_rotmat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_inst2head_rotmat</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">rotmat</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the instrument to head rotation matrix for the Nortek ADV if it</span>
+<span class="sd">    hasn&#39;t already been set through a &#39;.userdata.json&#39; file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      The data set to assign inst2head_rotmat</span>
+<span class="sd">    rotmat : float</span>
+<span class="sd">      3x3 rotation matrix</span>
+<span class="sd">    inplace : bool</span>
+<span class="sd">      When True ``ds`` is modified. When False a copy is returned.</span>
+<span class="sd">      Default = True</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset or None</span>
+<span class="sd">      Returns a new dataset with inst2head_rotmat set **when</span>
+<span class="sd">      ``inplace=False``**, otherwise returns None.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If the data object is in earth or principal coords, it is first</span>
+<span class="sd">    rotated to &#39;inst&#39; before assigning inst2head_rotmat, it is then</span>
+<span class="sd">    rotated back to the coordinate system in which it was input. This</span>
+<span class="sd">    way the inst2head_rotmat gets applied correctly (in inst</span>
+<span class="sd">    coordinate system).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create and return deep copy if not writing &quot;in place&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">inst_model</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;vector&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;Setting &#39;inst2head_rotmat&#39; is only supported &quot;</span> <span class="s2">&quot;for Nortek Vector ADVs.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;inst2head_rotmat&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;You are setting &#39;inst2head_rotmat&#39; after it has already &quot;</span>
+            <span class="s2">&quot;been set. You can only set it once.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">csin</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span>
+    <span class="k">if</span> <span class="n">csin</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="s2">&quot;beam&quot;</span><span class="p">]:</span>
+        <span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;inst2head_rotmat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rotmat</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">],</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}</span>
+    <span class="p">)</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;inst2head_rotmat_was_set&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># logical</span>
+    <span class="c1"># Note that there is no validation that the user doesn&#39;t</span>
+    <span class="c1"># change `ds.attrs[&#39;inst2head_rotmat&#39;]` after calling this</span>
+    <span class="c1"># function.</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">csin</span> <span class="o">==</span> <span class="s2">&quot;beam&quot;</span><span class="p">:</span>  <span class="c1"># csin not &#39;beam&#39;, then we&#39;re in inst</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">r_vec</span><span class="o">.</span><span class="n">_rotate_inst2head</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">csin</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="s2">&quot;beam&quot;</span><span class="p">]:</span>
+        <span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">csin</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,778 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.wave.io.cdip &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.wave.io.cdip</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.wave.io.cdip</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">netCDF4</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">handle_caching</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_nested_dict_and_pandas</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_date</span><span class="p">(</span><span class="n">date_text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks date format to ensure YYYY-MM-DD format and return date in</span>
+<span class="sd">    datetime format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    date_text: string</span>
+<span class="sd">        Date string format to check</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dt: datetime</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">date_text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;date_text must be of type string. Got: </span><span class="si">{date_text}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date_text</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incorrect data format, should be YYYY-MM-DD&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dt</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_start_and_end_of_year</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a datetime start and end for a given year</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    year: int</span>
+<span class="sd">        Year to get start and end dates</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    start_year: datetime object</span>
+<span class="sd">        start of the year</span>
+<span class="sd">    end_year: datetime object</span>
+<span class="sd">        end of the year</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;year must be of type int, list, or None. Got: {type(year)}&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">year</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">start_year</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="s2">&quot;%Y&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incorrect years format, should be YYYY&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">next_year</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;%Y&quot;</span><span class="p">)</span>
+        <span class="n">end_year</span> <span class="o">=</span> <span class="n">next_year</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dates_to_timestamp</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns timestamps from dates.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nc: netCDF Object</span>
+<span class="sd">        netCDF data for the given station number and data type</span>
+<span class="sd">    start_date: string</span>
+<span class="sd">        Start date in YYYY-MM-DD, e.g. &#39;2012-04-01&#39;</span>
+<span class="sd">    end_date: string</span>
+<span class="sd">        End date in YYYY-MM-DD, e.g. &#39;2012-04-30&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    start_stamp: float</span>
+<span class="sd">         seconds since the Epoch to start_date</span>
+<span class="sd">    end_stamp: float</span>
+<span class="sd">         seconds since the Epoch to end_date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;start_date must be of type datetime.datetime or None. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">end_date</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end_date</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;end_date must be of type datetime.datetime or None. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">time_all</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;waveTime&quot;</span><span class="p">][:]</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+    <span class="n">t_i</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">time_all</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">))</span>
+    <span class="n">t_f</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">time_all</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">))</span>
+    <span class="n">time_range_all</span> <span class="o">=</span> <span class="p">[</span><span class="n">t_i</span><span class="p">,</span> <span class="n">t_f</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">start_date</span><span class="p">:</span>
+        <span class="n">start_date</span> <span class="o">=</span> <span class="n">start_date</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">start_date</span> <span class="o">&gt;</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">start_date</span> <span class="o">&lt;</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">start_stamp</span> <span class="o">=</span> <span class="n">start_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;WARNING: Provided start_date (</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">) is &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;not in the returned data range </span><span class="si">{</span><span class="n">time_range_all</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Setting start_date to the earliest date in range &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_range_all</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">start_stamp</span> <span class="o">=</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">end_date</span><span class="p">:</span>
+        <span class="n">end_date</span> <span class="o">=</span> <span class="n">end_date</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">end_date</span> <span class="o">&gt;</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">end_date</span> <span class="o">&lt;</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">end_stamp</span> <span class="o">=</span> <span class="n">end_date</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;WARNING: Provided end_date (</span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">) is &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;not in the returned data range </span><span class="si">{</span><span class="n">time_range_all</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Setting end_date to the latest date in range &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_range_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">end_stamp</span> <span class="o">=</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">end_date</span><span class="p">:</span>
+        <span class="n">end_stamp</span> <span class="o">=</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+
+    <span class="k">elif</span> <span class="n">end_date</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">start_date</span><span class="p">:</span>
+        <span class="n">start_stamp</span> <span class="o">=</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">start_date</span><span class="p">:</span>
+        <span class="n">start_stamp</span> <span class="o">=</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">end_date</span><span class="p">:</span>
+        <span class="n">end_stamp</span> <span class="o">=</span> <span class="n">time_range_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">start_stamp</span><span class="p">,</span> <span class="n">end_stamp</span>
+
+
+<div class="viewcode-block" id="request_netCDF">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.cdip.request_netCDF">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_netCDF</span><span class="p">(</span><span class="n">station_number</span><span class="p">,</span> <span class="n">data_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns historic or realtime data from CDIP THREDDS server</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    station_number: string</span>
+<span class="sd">        CDIP station number of interest</span>
+<span class="sd">    data_type: string</span>
+<span class="sd">        &#39;historic&#39; or &#39;realtime&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nc: xarray Dataset</span>
+<span class="sd">        netCDF data for the given station number and data type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">station_number</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;station_number must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">station_number</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data_type must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;historic&quot;</span><span class="p">,</span> <span class="s2">&quot;realtime&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;data_type must be &quot;historic&quot; or &quot;realtime&quot;. Got: </span><span class="si">{data_type}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;http://thredds.cdip.ucsd.edu/thredds/dodsC/cdip/&quot;</span>
+
+    <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;historic&quot;</span><span class="p">:</span>
+        <span class="n">data_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">archive/</span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">p1/</span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">p1_historic.nc&quot;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># data_type == &#39;realtime&#39;</span>
+        <span class="n">data_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">realtime/</span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">p1_rt.nc&quot;</span>
+
+    <span class="n">nc</span> <span class="o">=</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nc</span></div>
+
+
+
+<div class="viewcode-block" id="request_parse_workflow">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.cdip.request_parse_workflow">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_parse_workflow</span><span class="p">(</span>
+    <span class="n">nc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">station_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;historic&quot;</span><span class="p">,</span>
+    <span class="n">all_2D_variables</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses a passed CDIP netCDF file or requests a station number</span>
+<span class="sd">    from http://cdip.ucsd.edu/) and parses. This function can return specific</span>
+<span class="sd">    parameters is passed. Years may be non-consecutive e.g. [2001, 2010].</span>
+<span class="sd">    Time may be sliced by dates (start_date or end date in YYYY-MM-DD).</span>
+<span class="sd">    data_type defaults to historic but may also be set to &#39;realtime&#39;.</span>
+<span class="sd">    By default 2D variables are not parsed if all 2D varaibles are needed. See</span>
+<span class="sd">    the MHKiT CDiP example Jupyter notbook for information on available parameters.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nc: netCDF Object</span>
+<span class="sd">        netCDF data for the given station number and data type. Can be the output of</span>
+<span class="sd">        request_netCDF</span>
+<span class="sd">    station_number: string</span>
+<span class="sd">        Station number of CDIP wave buoy</span>
+<span class="sd">    parameters: string or list of strings</span>
+<span class="sd">        Parameters to return. If None will return all varaibles except</span>
+<span class="sd">        2D-variables.</span>
+<span class="sd">    years: int or list of int</span>
+<span class="sd">        Year date, e.g. 2001 or [2001, 2010]</span>
+<span class="sd">    start_date: string</span>
+<span class="sd">        Start date in YYYY-MM-DD, e.g. &#39;2012-04-01&#39;</span>
+<span class="sd">    end_date: string</span>
+<span class="sd">        End date in YYYY-MM-DD, e.g. &#39;2012-04-30&#39;</span>
+<span class="sd">    data_type: string</span>
+<span class="sd">        Either &#39;historic&#39; or &#39;realtime&#39;</span>
+<span class="sd">    all_2D_variables: boolean</span>
+<span class="sd">        Will return all 2D data. Enabling this will add significant</span>
+<span class="sd">        processing time. If all 2D variables are not needed it is</span>
+<span class="sd">        recomended to pass 2D parameters of interest using the</span>
+<span class="sd">        &#39;parameters&#39; keyword and leave this set to False. Default False.</span>
+<span class="sd">    silent: boolean</span>
+<span class="sd">        Set to True to prevent the print statement that announces when 2D</span>
+<span class="sd">        variable processing begins. Default False.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output a dictionary of pandas objects instead of a dictionary</span>
+<span class="sd">        of xarray objects. Default = True.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data: dictionary</span>
+<span class="sd">        &#39;data&#39;: dictionary of variables</span>
+<span class="sd">            &#39;vars&#39;: pandas DataFrame or xarray Dataset</span>
+<span class="sd">                1D variables indexed by time</span>
+<span class="sd">            &#39;vars2D&#39;: dictionary of DataFrames or Datasets, optional</span>
+<span class="sd">                If 2D-vars are passed in the &#39;parameters key&#39; or if run</span>
+<span class="sd">                with all_2D_variables=True, then this key will appear</span>
+<span class="sd">                with a dictonary of DataFrames of 2D variables.</span>
+<span class="sd">        &#39;metadata&#39;: dictionary</span>
+<span class="sd">            Anything not of length time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">station_number</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;station_number must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">station_number</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;parameters must be of type str or list of strings. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">start_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">start_date</span> <span class="o">=</span> <span class="n">start_date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incorrect data format, should be YYYY-MM-DD&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start_date must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end_date</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">end_date</span> <span class="o">=</span> <span class="n">end_date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incorrect data format, should be YYYY-MM-DD&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;end_date must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;years must be of type int or list of ints. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">years</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data_type must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;historic&quot;</span><span class="p">,</span> <span class="s2">&quot;realtime&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;data_type must be &quot;historic&quot; or &quot;realtime&quot;. Got: </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">nc</span><span class="p">,</span> <span class="n">station_number</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide either a CDIP netCDF file or a station number.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nc</span><span class="p">:</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="n">request_netCDF</span><span class="p">(</span><span class="n">station_number</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+
+    <span class="c1"># Define the path to the cache directory</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;mhkit&quot;</span><span class="p">,</span> <span class="s2">&quot;cdip&quot;</span><span class="p">)</span>
+
+    <span class="n">buoy_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;metaStationName&quot;</span><span class="p">][:]</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">multiyear</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">years</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+            <span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">years</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+                <span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">multiyear</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">multiyear</span><span class="p">:</span>
+        <span class="c1"># Check the cache first</span>
+        <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+            <span class="n">hash_params</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">get_netcdf_variables</span><span class="p">(</span>
+                <span class="n">nc</span><span class="p">,</span>
+                <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span>
+                <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                <span class="n">all_2D_variables</span><span class="o">=</span><span class="n">all_2D_variables</span><span class="p">,</span>
+                <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">handle_caching</span><span class="p">(</span>
+                <span class="n">hash_params</span><span class="p">,</span>
+                <span class="n">cache_dir</span><span class="p">,</span>
+                <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+            <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="n">multiyear_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+            <span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
+
+            <span class="c1"># Check the cache for each individual year</span>
+            <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">year_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+                <span class="n">hash_params</span><span class="p">,</span>
+                <span class="n">cache_dir</span><span class="p">,</span>
+                <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">year_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">year_data</span> <span class="o">=</span> <span class="n">get_netcdf_variables</span><span class="p">(</span>
+                    <span class="n">nc</span><span class="p">,</span>
+                    <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span>
+                    <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                    <span class="n">all_2D_variables</span><span class="o">=</span><span class="n">all_2D_variables</span><span class="p">,</span>
+                    <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="c1"># Cache the individual year&#39;s data</span>
+                <span class="n">handle_caching</span><span class="p">(</span>
+                    <span class="n">hash_params</span><span class="p">,</span>
+                    <span class="n">cache_dir</span><span class="p">,</span>
+                    <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">year_data</span><span class="p">,</span>
+                        <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">)</span>
+            <span class="n">multiyear_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">data_key</span> <span class="ow">in</span> <span class="n">year_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">data_key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;2D&quot;</span><span class="p">):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">data_key2D</span> <span class="ow">in</span> <span class="n">year_data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">data_list</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+                        <span class="n">data2D</span> <span class="o">=</span> <span class="n">multiyear_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">data_key</span><span class="p">][</span><span class="n">data_key2D</span><span class="p">]</span>
+                        <span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data2D</span><span class="p">)</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">data_key</span><span class="p">][</span><span class="n">data_key2D</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_list</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">multiyear_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_list</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">buoy_name</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="p">{})[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buoy_name</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">convert_nested_dict_and_pandas</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="get_netcdf_variables">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.cdip.get_netcdf_variables">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_netcdf_variables</span><span class="p">(</span>
+    <span class="n">nc</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">all_2D_variables</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Iterates over and extracts variables from CDIP bouy data. See</span>
+<span class="sd">    the MHKiT CDiP example Jupyter notbook for information on available</span>
+<span class="sd">    parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nc: netCDF Object</span>
+<span class="sd">        netCDF data for the given station number and data type</span>
+<span class="sd">    start_stamp: float</span>
+<span class="sd">        Data of interest start in seconds since epoch</span>
+<span class="sd">    end_stamp: float</span>
+<span class="sd">        Data of interest end in seconds since epoch</span>
+<span class="sd">    parameters: string or list of strings</span>
+<span class="sd">        Parameters to return. If None will return all varaibles except</span>
+<span class="sd">        2D-variables. Default None.</span>
+<span class="sd">    all_2D_variables: boolean</span>
+<span class="sd">        Will return all 2D data. Enabling this will add significant</span>
+<span class="sd">        processing time. If all 2D variables are not needed it is</span>
+<span class="sd">        recomended to pass 2D parameters of interest using the</span>
+<span class="sd">        &#39;parameters&#39; keyword and leave this set to False. Default False.</span>
+<span class="sd">    silent: boolean</span>
+<span class="sd">        Set to True to prevent the print statement that announces when 2D</span>
+<span class="sd">        variable processing begins. Default False.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output a dictionary of pandas objects instead of a dictionary</span>
+<span class="sd">        of xarray objects. Default = True.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    results: dictionary</span>
+<span class="sd">        &#39;data&#39;: dictionary of variables</span>
+<span class="sd">            &#39;vars&#39;: pandas DataFrame or xarray Dataset</span>
+<span class="sd">                1D variables indexed by time</span>
+<span class="sd">            &#39;vars2D&#39;: dictionary of DataFrames or Datasets, optional</span>
+<span class="sd">                If 2D-vars are passed in the &#39;parameters key&#39; or if run</span>
+<span class="sd">                with all_2D_variables=True, then this key will appear</span>
+<span class="sd">                with a dictonary of DataFrames/Datasets of 2D variables.</span>
+<span class="sd">        &#39;metadata&#39;: dictionary</span>
+<span class="sd">            Anything not of length time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;nc must be netCDF4 dataset. Got: {type(nc)}&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">end_date</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end_date</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;parameters must be of type str or list of strings. Got: {type(parameters)}&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">all_2D_variables</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;all_2D_variables must be a boolean. Got: {type(all_2D_variables)}&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameters</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;All elements of parameters must be strings.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">buoy_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;metaStationName&quot;</span><span class="p">][:]</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">allVariables</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">]</span>
+    <span class="n">allVariableSet</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">allVariables</span><span class="p">)</span>
+
+    <span class="n">twoDimensionalVars</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;waveEnergyDensity&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveMeanDirection&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveA1Value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveB1Value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveA2Value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveB2Value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveCheckFactor&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveSpread&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveM2Value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;waveN2Value&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">twoDimensionalVarsSet</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">twoDimensionalVars</span><span class="p">)</span>
+
+    <span class="c1"># If parameters are provided, convert them into a set</span>
+    <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># If all_2D_variables is True, add all 2D variables to params</span>
+    <span class="k">if</span> <span class="n">all_2D_variables</span><span class="p">:</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">twoDimensionalVarsSet</span><span class="p">)</span>
+
+    <span class="n">include_params</span> <span class="o">=</span> <span class="n">params</span> <span class="o">&amp;</span> <span class="n">allVariableSet</span>
+    <span class="k">if</span> <span class="n">params</span> <span class="o">!=</span> <span class="n">include_params</span><span class="p">:</span>
+        <span class="n">not_found</span> <span class="o">=</span> <span class="n">params</span> <span class="o">-</span> <span class="n">include_params</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;WARNING: </span><span class="si">{</span><span class="n">not_found</span><span class="si">}</span><span class="s2"> was not found in data.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Possible parameters are:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">allVariables</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">include_params_2D</span> <span class="o">=</span> <span class="n">include_params</span> <span class="o">&amp;</span> <span class="n">twoDimensionalVarsSet</span>
+    <span class="n">include_params</span> <span class="o">-=</span> <span class="n">include_params_2D</span>
+
+    <span class="n">include_2D_variables</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">include_params_2D</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">include_2D_variables</span><span class="p">:</span>
+        <span class="n">include_params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;waveFrequency&quot;</span><span class="p">)</span>
+
+    <span class="n">include_vars</span> <span class="o">=</span> <span class="n">include_params</span>
+
+    <span class="c1"># when parameters is None and all_2D_variables is False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">parameters</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">all_2D_variables</span><span class="p">:</span>
+        <span class="n">include_vars</span> <span class="o">=</span> <span class="n">allVariableSet</span> <span class="o">-</span> <span class="n">twoDimensionalVarsSet</span>
+
+    <span class="n">start_stamp</span><span class="p">,</span> <span class="n">end_stamp</span> <span class="o">=</span> <span class="n">_dates_to_timestamp</span><span class="p">(</span>
+        <span class="n">nc</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span>
+    <span class="p">)</span>
+
+    <span class="n">prefixs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;wave&quot;</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span> <span class="s2">&quot;gps&quot;</span><span class="p">,</span> <span class="s2">&quot;dwr&quot;</span><span class="p">,</span> <span class="s2">&quot;meta&quot;</span><span class="p">]</span>
+    <span class="n">variables_by_type</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">prefix</span><span class="p">:</span> <span class="p">[</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">include_vars</span> <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">prefixs</span>
+    <span class="p">}</span>
+    <span class="n">variables_by_type</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">prefix</span><span class="p">:</span> <span class="nb">vars</span> <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="nb">vars</span> <span class="ow">in</span> <span class="n">variables_by_type</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">vars</span>
+    <span class="p">}</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">variables_by_type</span><span class="p">:</span>
+        <span class="n">time_variables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">prefix</span> <span class="o">!=</span> <span class="s2">&quot;meta&quot;</span><span class="p">:</span>
+            <span class="n">prefixTime</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">Time&quot;</span><span class="p">][:]</span>
+
+            <span class="n">masked_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_outside</span><span class="p">(</span><span class="n">prefixTime</span><span class="p">,</span> <span class="n">start_stamp</span><span class="p">,</span> <span class="n">end_stamp</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">masked_time</span><span class="o">.</span><span class="n">mask</span>
+            <span class="n">var_time</span> <span class="o">=</span> <span class="n">masked_time</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+            <span class="n">N_time</span> <span class="o">=</span> <span class="n">masked_time</span><span class="o">.</span><span class="n">size</span>
+
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables_by_type</span><span class="p">[</span><span class="n">prefix</span><span class="p">]:</span>
+                <span class="n">variable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">filled</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">N_time</span><span class="p">:</span>
+                    <span class="n">variable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                    <span class="n">time_variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">var</span><span class="p">][:]</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+
+            <span class="n">time_slice</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">var_time</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_variables</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_slice</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="n">prefix</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">buoy_name</span>
+
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;wave&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">include_2D_variables</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">silent</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Processing 2D Variables:&quot;</span><span class="p">)</span>
+
+            <span class="n">vars2D</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;waveFrequency&quot;</span><span class="p">]</span>
+            <span class="n">N_time</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_slice</span><span class="p">)</span>
+            <span class="n">N_frequency</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="n">N_time</span><span class="p">)</span>
+
+            <span class="n">mask2D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">include_params_2D</span><span class="p">:</span>
+                <span class="n">variable2D</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">var</span><span class="p">][:]</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">variable2D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">(</span><span class="n">variable2D</span><span class="p">,</span> <span class="n">mask2D</span><span class="p">)</span>
+                <span class="n">variable2D</span> <span class="o">=</span> <span class="n">variable2D</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N_time</span><span class="p">,</span> <span class="n">N_frequency</span><span class="p">)</span>
+                <span class="n">variable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">variable2D</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">time_slice</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+                <span class="n">vars2D</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;wave2D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vars2D</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buoy_name</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">convert_nested_dict_and_pandas</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_process_multiyear_data</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">all_2D_variables</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper function to process multiyear data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nc : netCDF4.Dataset</span>
+<span class="sd">        netCDF file containing the data</span>
+<span class="sd">    years : list of int</span>
+<span class="sd">        A list of years to process</span>
+<span class="sd">    parameters : list of str</span>
+<span class="sd">        A list of parameters to return</span>
+<span class="sd">    all_2D_variables : bool</span>
+<span class="sd">        Whether to return all 2D variables</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : dict</span>
+<span class="sd">        A dictionary containing the processed data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">year_data</span> <span class="o">=</span> <span class="n">get_netcdf_variables</span><span class="p">(</span>
+            <span class="n">nc</span><span class="p">,</span>
+            <span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span>
+            <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="n">all_2D_variables</span><span class="o">=</span><span class="n">all_2D_variables</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_data</span>
+
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.adv.motion &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.adv.motion</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.adv.motion</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector</span> <span class="k">as</span> <span class="n">rot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_model</span><span class="p">,</span> <span class="n">rotate2</span>
+
+
+<div class="viewcode-block" id="MissingDataError">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.MissingDataError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MissingDataError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="DataAlreadyProcessedError">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.DataAlreadyProcessedError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataAlreadyProcessedError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="MissingRequiredDataError">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.MissingRequiredDataError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MissingRequiredDataError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_body2imu</span><span class="p">(</span><span class="n">make_model</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">make_model</span> <span class="o">==</span> <span class="s2">&quot;nortek vector&quot;</span><span class="p">:</span>
+        <span class="c1"># In inches it is: (0.25, 0.25, 5.9)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.00635</span><span class="p">,</span> <span class="mf">0.00635</span><span class="p">,</span> <span class="mf">0.14986</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The imu-&gt;body vector is unknown for this instrument.&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CalcMotion">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.CalcMotion">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CalcMotion</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A &#39;calculator&#39; for computing the velocity of points that are</span>
+<span class="sd">    rigidly connected to an ADV-body with an IMU.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      The IMU-adv data that will be used to compute motion.</span>
+<span class="sd">    accel_filtfreq : float</span>
+<span class="sd">      The frequency at which to high-pass filter the acceleration</span>
+<span class="sd">      sigal to remove low-frequency drift. Default = 0.03 Hz</span>
+<span class="sd">    vel_filtfreq : float (optional)</span>
+<span class="sd">      a second frequency to high-pass filter the integrated</span>
+<span class="sd">      acceleration.  Default = 1/3 of `accel_filtfreq`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_default_accel_filtfreq</span> <span class="o">=</span> <span class="mf">0.03</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">accel_filtfreq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vel_filtfreq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_earth</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_filtfreqs</span><span class="p">(</span><span class="n">accel_filtfreq</span><span class="p">,</span> <span class="n">vel_filtfreq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_earth</span> <span class="o">=</span> <span class="n">to_earth</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_accel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_acclow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;angrt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># No copy because not modified.</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_filtfreqs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accel_filtfreq</span><span class="p">,</span> <span class="n">vel_filtfreq</span><span class="p">):</span>
+        <span class="n">datval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motion accel_filtfreq Hz&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">datval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">accel_filtfreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">accel_filtfreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_accel_filtfreq</span>
+                <span class="c1"># else use the accel_filtfreq value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">accel_filtfreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">accel_filtfreq</span> <span class="o">=</span> <span class="n">datval</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">datval</span> <span class="o">!=</span> <span class="n">accel_filtfreq</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;The default accel_filtfreq is </span><span class="si">{</span><span class="n">datval</span><span class="si">}</span><span class="s2"> Hz. &quot;</span>
+                        <span class="s2">&quot;Overriding this with the user-specified &quot;</span>
+                        <span class="s2">&quot;value: </span><span class="si">{accel_filtfreq}</span><span class="s2"> Hz.&quot;</span>
+                    <span class="p">)</span>
+        <span class="k">if</span> <span class="n">vel_filtfreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vel_filtfreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motion vel_filtfreq Hz&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">vel_filtfreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vel_filtfreq</span> <span class="o">=</span> <span class="n">accel_filtfreq</span> <span class="o">/</span> <span class="mf">3.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accel_filtfreq</span> <span class="o">=</span> <span class="n">accel_filtfreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accelvel_filtfreq</span> <span class="o">=</span> <span class="n">vel_filtfreq</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_accel</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span>
+        <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span> <span class="o">==</span> <span class="s2">&quot;inst&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                <span class="s2">&quot;ij...,i...-&gt;j...&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientmat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;accel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span> <span class="o">==</span> <span class="s2">&quot;earth&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;accel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Invalid coordinate system &#39;</span><span class="si">%s</span><span class="s2">&#39;. The coordinate &quot;</span>
+                    <span class="s2">&quot;system must either be &#39;earth&#39; or &#39;inst&#39; to &quot;</span>
+                    <span class="s2">&quot;perform motion correction.&quot;</span>
+                <span class="p">)</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_duty_cycle</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to check if duty cycle exists and if it is followed</span>
+<span class="sd">        consistently in the datafile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">n_burst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;duty_cycle_n_burst&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">n_burst</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># duty cycle interval in seconds</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;duty_cycle_interval&quot;</span><span class="p">)</span>
+        <span class="n">actual_interval</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">n_burst</span><span class="p">:]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="p">[:</span><span class="o">-</span><span class="n">n_burst</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="mf">1e9</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">actual_interval</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">actual_interval</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">actual_interval</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="c1"># Range will vary depending on how datetime64 rounds the timestamp</span>
+        <span class="c1"># But isn&#39;t an issue if it does</span>
+        <span class="k">if</span> <span class="n">rng</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="p">(</span><span class="n">mean</span> <span class="o">&gt;</span> <span class="n">interval</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">mean</span> <span class="o">&lt;</span> <span class="n">interval</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Bad duty cycle detected&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If this passes, it means we&#39;re safe to blindly skip n_burst for every integral</span>
+        <span class="k">return</span> <span class="n">n_burst</span>
+
+<div class="viewcode-block" id="CalcMotion.reshape">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.CalcMotion.reshape">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">n_bin</span><span class="p">):</span>
+        <span class="c1"># Assumes shape is (3, time)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">n_bin</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span> <span class="n">length</span> <span class="o">*</span> <span class="n">n_bin</span><span class="p">],</span> <span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">length</span><span class="p">,</span> <span class="n">n_bin</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_acclow</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Check if file is duty cycled</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_duty_cycle</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;   Duty Cycle detected. &quot;</span>
+                <span class="s2">&quot;Motion corrected data may contain edge effects &quot;</span>
+                <span class="s2">&quot;at the beginning and end of each duty cycle.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accel</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">acclow</span> <span class="o">=</span> <span class="n">acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">accel_filtfreq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">acc</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">acc</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flt</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">accel_filtfreq</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">acc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">flt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">flt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">acc</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Fill nan with zeros - happens for some filter frequencies</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;Error filtering acceleration data. &quot;</span>
+                    <span class="s2">&quot;Please decrease `accel_filtfreq`.&quot;</span>
+                <span class="p">)</span>
+                <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CalcMotion.calc_velacc">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.CalcMotion.calc_velacc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_velacc</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the translational velocity from the high-pass</span>
+<span class="sd">        filtered acceleration signal.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        velacc : numpy.ndarray (3 x n_time)</span>
+<span class="sd">          The acceleration-induced velocity array (3, n_time).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">samp_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span>
+
+        <span class="c1"># Check if file is duty cycled</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_duty_cycle</span><span class="p">()</span>
+        <span class="c1"># accel &amp; accel-low will already be reshaped if n isn&#39;t none</span>
+
+        <span class="c1"># Get high-pass accelerations</span>
+        <span class="n">hp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">acclow</span>
+
+        <span class="c1"># Integrate in time to get velocities</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">hp</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">samp_freq</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">accelvel_filtfreq</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">filt_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accelvel_filtfreq</span>
+            <span class="c1"># 2nd order Butterworth filter</span>
+            <span class="c1"># Applied twice by &#39;filtfilt&#39; = 4th order butterworth</span>
+            <span class="n">filt</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">filt_freq</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">samp_freq</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">ss</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">filt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">filt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Fill nan with zeros - happens for some filter frequencies</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;Error filtering acceleration data. &quot;</span>
+                    <span class="s2">&quot;Please decrease `vel_filtfreq`. &quot;</span>
+                    <span class="s2">&quot;(default is 1/3 `accel_filtfreq`)&quot;</span>
+                <span class="p">)</span>
+                <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n</span><span class="p">:</span>
+            <span class="c1"># remove reshape</span>
+            <span class="n">velacc_shaped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">acclow_shaped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">accel_shaped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">velacc_shaped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+                <span class="n">acclow_shaped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">acclow</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+                <span class="n">accel_shaped</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accel</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+
+            <span class="c1"># return acclow and velacc</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">acclow</span> <span class="o">=</span> <span class="n">acclow_shaped</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">accel</span> <span class="o">=</span> <span class="n">accel_shaped</span>
+            <span class="k">return</span> <span class="n">velacc_shaped</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dat</span></div>
+
+
+<div class="viewcode-block" id="CalcMotion.calc_velrot">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.CalcMotion.calc_velrot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_velrot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">to_earth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the induced velocity due to rotations of the</span>
+<span class="sd">        instrument about the IMU center.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vec : numpy.ndarray (len(3) or 3 x M)</span>
+<span class="sd">          The vector in meters (or vectors) from the body-origin</span>
+<span class="sd">          (center of head end-cap) to the point of interest (in the</span>
+<span class="sd">          body coord-sys).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        velrot : numpy.ndarray (3 x M x N_time)</span>
+<span class="sd">          The rotation-induced velocity array (3, n_time).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">to_earth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">to_earth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_earth</span>
+
+        <span class="n">dimflag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">vec</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">vec</span> <span class="o">=</span> <span class="n">vec</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">dimflag</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Correct for the body-&gt;imu distance.</span>
+        <span class="c1"># The nortek_body2imu vector is subtracted because of</span>
+        <span class="c1"># vector addition:</span>
+        <span class="c1"># body2head = body2imu + imu2head</span>
+        <span class="c1"># Thus:</span>
+        <span class="c1"># imu2head = body2head - body2imu</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">vec</span> <span class="o">-</span> <span class="n">_get_body2imu</span><span class="p">(</span><span class="n">_make_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">))[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="c1"># This motion of the point *vec* due to rotations should be the</span>
+        <span class="c1"># cross-product of omega (rotation vector) and the vector.</span>
+        <span class="c1">#   u=dz*omegaY-dy*omegaZ,v=dx*omegaZ-dz*omegaX,w=dy*omegaX-dx*omegaY</span>
+        <span class="c1"># where vec=[dx,dy,dz], and angrt=[omegaX,omegaY,omegaZ]</span>
+        <span class="n">velrot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                <span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">angrt</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">to_earth</span><span class="p">:</span>
+            <span class="n">velrot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ji...,j...-&gt;i...&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientmat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">velrot</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dimflag</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">velrot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">velrot</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_calc_probe_pos</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">separate_probes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the position of probe (or &quot;head&quot;) of an ADV.</span>
+
+<span class="sd">    Paratmeters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      ADV dataset</span>
+<span class="sd">    separate_probes : bool</span>
+<span class="sd">      If a Nortek Vector ADV, this function returns the</span>
+<span class="sd">      transformation matrix of positions of the probe&#39;s</span>
+<span class="sd">      acoustic recievers to the ADV&#39;s instrument frame of</span>
+<span class="sd">      reference. Optional, default = False</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vec : 3x3 numpy.ndarray</span>
+<span class="sd">      Transformation matrix to convert from ADV probe to</span>
+<span class="sd">      instrument frame of reference</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">vec</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">inst2head_vec</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+
+    <span class="c1"># According to the ADV technical drawing, the probe-length radius</span>
+    <span class="c1"># is 8.6 cm @ 120 deg from probe-stem axis.  If I subtract 1 cm</span>
+    <span class="c1"># to get the center of a acoustic receiver, this is 7.6 cm.</span>
+    <span class="c1"># In the coordinate system of the center of the probe (origin at</span>
+    <span class="c1"># the acoustic transmitter) then, the positions of the centers of</span>
+    <span class="c1"># the receivers is:</span>
+    <span class="k">if</span> <span class="n">separate_probes</span> <span class="ow">and</span> <span class="n">_make_model</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;nortek vector&quot;</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">0.076</span>
+        <span class="c1"># The angle between the x-y plane and the probes</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
+        <span class="c1"># The angles of the probes from the x-axis:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;inst2head_rotmat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="n">vec</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vec</span>
+
+
+<div class="viewcode-block" id="correct_motion">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adv.motion.correct_motion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_motion</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">accel_filtfreq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vel_filtfreq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_earth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">separate_probes</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function performs motion correction on an IMU-ADV data</span>
+<span class="sd">    object. The IMU and ADV data should be tightly synchronized and</span>
+<span class="sd">    contained in a single data object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      Cleaned ADV dataset in &quot;inst&quot; coordinates</span>
+
+<span class="sd">    accel_filtfreq : float</span>
+<span class="sd">      the frequency at which to high-pass filter the acceleration</span>
+<span class="sd">      sigal to remove low-frequency drift.</span>
+
+<span class="sd">    vel_filtfreq : float</span>
+<span class="sd">      a second frequency to high-pass filter the integrated</span>
+<span class="sd">      acceleration.  Optional, default = 1/3 of `accel_filtfreq`</span>
+
+<span class="sd">    to_earth : bool</span>
+<span class="sd">      All variables in the ds.props[&#39;rotate_vars&#39;] list will be</span>
+<span class="sd">      rotated into either the earth frame (to_earth=True) or the</span>
+<span class="sd">      instrument frame (to_earth=False). Optional, default = True</span>
+
+<span class="sd">    separate_probes : bool</span>
+<span class="sd">      a flag to perform motion-correction at the probe tips, and</span>
+<span class="sd">      perform motion correction in beam-coordinates, then transform</span>
+<span class="sd">      back into XYZ/earth coordinates. This correction seems to be</span>
+<span class="sd">      lower than the noise levels of the ADV, so the default is to not</span>
+<span class="sd">      use it (False).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    This function returns None, it operates on the input data object,</span>
+<span class="sd">    ``ds``. The following attributes are added to `ds`:</span>
+
+<span class="sd">      ``velraw`` is the uncorrected velocity</span>
+
+<span class="sd">      ``velrot`` is the rotational component of the head motion (from</span>
+<span class="sd">                 angrt)</span>
+
+<span class="sd">      ``velacc`` is the translational component of the head motion (from</span>
+<span class="sd">                 accel, the high-pass filtered accel sigal)</span>
+
+<span class="sd">      ``acclow`` is the low-pass filtered accel sigal (i.e.,</span>
+
+<span class="sd">    The primary velocity vector attribute, ``vel``, is motion corrected</span>
+<span class="sd">    such that:</span>
+
+<span class="sd">          vel = velraw + velrot + velacc</span>
+
+<span class="sd">    The sigs are correct in this equation. The measured velocity</span>
+<span class="sd">    induced by head-motion is *in the opposite direction* of the head</span>
+<span class="sd">    motion.  i.e. when the head moves one way in stationary flow, it</span>
+<span class="sd">    measures a velocity in the opposite direction. Therefore, to</span>
+<span class="sd">    remove the motion from the raw sigal we *add* the head motion.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Acceleration signals from inertial sensors are notorious for</span>
+<span class="sd">    having a small bias that can drift slowly in time. When</span>
+<span class="sd">    integrating these sigals to estimate velocity the bias is</span>
+<span class="sd">    amplified and leads to large errors in the estimated</span>
+<span class="sd">    velocity. There are two methods for removing these errors,</span>
+
+<span class="sd">    1) high-pass filter the acceleration sigal prior and/or after</span>
+<span class="sd">       integrating. This implicitly assumes that the low-frequency</span>
+<span class="sd">       translational velocity is zero.</span>
+<span class="sd">    2) provide a slowly-varying reference position (often from a GPS)</span>
+<span class="sd">       to an IMU that can use the sigal (usually using Kalman</span>
+<span class="sd">       filters) to debias the acceleration sigal.</span>
+
+<span class="sd">    Because method (1) removes `real` low-frequency acceleration,</span>
+<span class="sd">    method (2) is more accurate. However, providing reference position</span>
+<span class="sd">    estimates to undersea instruments is practically challenging and</span>
+<span class="sd">    expensive. Therefore, lacking the ability to use method (2), this</span>
+<span class="sd">    function utilizes method (1).</span>
+
+<span class="sd">    For deployments in which the ADV is mounted on a mooring, or other</span>
+<span class="sd">    semi-fixed structure, the assumption of zero low-frequency</span>
+<span class="sd">    translational velocity is a reasonable one. However, for</span>
+<span class="sd">    deployments on ships, gliders, or other moving objects it is</span>
+<span class="sd">    not. The measured velocity, after motion-correction, will still</span>
+<span class="sd">    hold some of this contamination and will be a sum of the ADV</span>
+<span class="sd">    motion and the measured velocity on long time scales.  If</span>
+<span class="sd">    low-frequency motion is known separate from the ADV (e.g. from a</span>
+<span class="sd">    bottom-tracking ADP, or from a ship&#39;s GPS), it may be possible to</span>
+<span class="sd">    remove that sigal from the ADV sigal in post-processing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Ensure acting on new dataset</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Check that no nan&#39;s exist</span>
+    <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;accel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">MissingDataError</span><span class="p">(</span><span class="s2">&quot;There should be no missing data in `accel` variable&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;angrt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">MissingDataError</span><span class="p">(</span><span class="s2">&quot;There should be no missing data in `angrt` variable&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;velrot&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;motion corrected&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">DataAlreadyProcessedError</span><span class="p">(</span>
+            <span class="s2">&quot;The data appears to already have been &quot;</span> <span class="s2">&quot;motion corrected.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;has_imu&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;accel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">MissingRequiredDataError</span><span class="p">(</span><span class="s2">&quot;The instrument does not appear to have an IMU.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span> <span class="o">!=</span> <span class="s2">&quot;inst&quot;</span><span class="p">:</span>
+        <span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Returns True/False if head2inst_rotmat has been set/not-set.</span>
+    <span class="c1"># Bad configs raises errors (this is to check for those)</span>
+    <span class="n">rot</span><span class="o">.</span><span class="n">_check_inst2head_rotmat</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="c1"># Create the motion &#39;calculator&#39;:</span>
+    <span class="n">calcobj</span> <span class="o">=</span> <span class="n">CalcMotion</span><span class="p">(</span>
+        <span class="n">ds</span><span class="p">,</span> <span class="n">accel_filtfreq</span><span class="o">=</span><span class="n">accel_filtfreq</span><span class="p">,</span> <span class="n">vel_filtfreq</span><span class="o">=</span><span class="n">vel_filtfreq</span><span class="p">,</span> <span class="n">to_earth</span><span class="o">=</span><span class="n">to_earth</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########</span>
+    <span class="c1"># Calculate the translational velocity (from the accel):</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;velacc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">calcobj</span><span class="o">.</span><span class="n">calc_velacc</span><span class="p">(),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dirIMU&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Velocity from IMU Accelerometer&quot;</span><span class="p">},</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="c1"># Copy acclow to the adv-object.</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;acclow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">calcobj</span><span class="o">.</span><span class="n">acclow</span><span class="p">,</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dirIMU&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-2&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Low-Frequency Acceleration from IMU&quot;</span><span class="p">},</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="c1">##########</span>
+    <span class="c1"># Calculate rotational velocity (from angrt):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">_calc_probe_pos</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">separate_probes</span><span class="p">)</span>
+    <span class="c1"># Calculate the velocity of the head (or probes).</span>
+    <span class="n">velrot</span> <span class="o">=</span> <span class="n">calcobj</span><span class="o">.</span><span class="n">calc_velrot</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">to_earth</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">separate_probes</span><span class="p">:</span>
+        <span class="c1"># The head-&gt;beam transformation matrix</span>
+        <span class="n">transMat</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;beam2inst_orientmat&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># The inst-&gt;head transformation matrix</span>
+        <span class="n">rmat</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;inst2head_rotmat&quot;</span><span class="p">]</span>
+
+        <span class="c1"># 1) Rotate body-coordinate velocities to head-coord.</span>
+        <span class="n">velrot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rmat</span><span class="p">,</span> <span class="n">velrot</span><span class="p">)</span>
+        <span class="c1"># 2) Rotate body-coord to beam-coord (einsum),</span>
+        <span class="c1"># 3) Take along beam-component (diagonal),</span>
+        <span class="c1"># 4) Rotate back to head-coord (einsum),</span>
+        <span class="n">velrot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+            <span class="s2">&quot;ij,kj-&gt;ik&quot;</span><span class="p">,</span>
+            <span class="n">transMat</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,j...-&gt;i...&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">transMat</span><span class="p">),</span> <span class="n">velrot</span><span class="p">)),</span>
+        <span class="p">)</span>
+        <span class="c1"># 5) Rotate back to body-coord.</span>
+        <span class="n">velrot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rmat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">velrot</span><span class="p">)</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;velrot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">velrot</span><span class="p">,</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dirIMU&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Velocity from IMU Gyroscope&quot;</span><span class="p">},</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="c1">##########</span>
+    <span class="c1"># Rotate the data into the correct coordinate system.</span>
+    <span class="c1"># inst2earth expects a &#39;rotate_vars&#39; property.</span>
+    <span class="c1"># Add velrot, velacc, acclow, to it.</span>
+    <span class="k">if</span> <span class="s2">&quot;rotate_vars&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;vel&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;velrot&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;velacc&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;accel&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;acclow&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;angrt&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mag&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;velrot&quot;</span><span class="p">,</span> <span class="s2">&quot;velacc&quot;</span><span class="p">,</span> <span class="s2">&quot;acclow&quot;</span><span class="p">])</span>
+
+    <span class="c1"># NOTE: accel, acclow, and velacc are in the earth-frame after</span>
+    <span class="c1">#       calc_velacc() call.</span>
+    <span class="n">inst2earth</span> <span class="o">=</span> <span class="n">rot</span><span class="o">.</span><span class="n">_inst2earth</span>
+    <span class="k">if</span> <span class="n">to_earth</span><span class="p">:</span>
+        <span class="c1"># accel was converted to earth coordinates</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;accel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">calcobj</span><span class="o">.</span><span class="n">accel</span>
+        <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;accel&quot;</span><span class="p">,</span> <span class="s2">&quot;acclow&quot;</span><span class="p">,</span> <span class="s2">&quot;velacc&quot;</span><span class="p">]</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">inst2earth</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="n">rotate_vars</span><span class="o">=</span><span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_remove</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># rotate these variables back to the instrument frame.</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">inst2earth</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotate_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;acclow&quot;</span><span class="p">,</span> <span class="s2">&quot;velacc&quot;</span><span class="p">],</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">##########</span>
+    <span class="c1"># Copy vel -&gt; velraw prior to motion correction:</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel_raw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Add it to rotate_vars:</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;vel_raw&quot;</span><span class="p">)</span>
+
+    <span class="c1">##########</span>
+    <span class="c1"># Remove motion from measured velocity</span>
+    <span class="c1"># NOTE: The plus sign is because the measured-induced velocities</span>
+    <span class="c1">#       are in the opposite direction of the head motion.</span>
+    <span class="c1">#       i.e. when the head moves one way in stationary flow, it</span>
+    <span class="c1">#       measures a velocity in the opposite direction.</span>
+
+    <span class="c1"># use xarray to keep dimensions consistent</span>
+    <span class="n">velmot</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;velrot&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;velacc&quot;</span><span class="p">]</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+=</span> <span class="n">velmot</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;motion corrected&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;motion accel_filtfreq Hz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calcobj</span><span class="o">.</span><span class="n">accel_filtfreq</span>
+
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

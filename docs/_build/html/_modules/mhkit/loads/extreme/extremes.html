@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.loads.extreme.extremes &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.loads.extreme.extremes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.loads.extreme.extremes</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides functionality for estimating the short-term and</span>
+<span class="sd">long-term extreme distributions of responses in a time series. It </span>
+<span class="sd">includes methods for analyzing peaks, block maxima, and applying </span>
+<span class="sd">statistical distributions to model extreme events. The module supports </span>
+<span class="sd">various methods for short-term extreme estimation, including peaks </span>
+<span class="sd">fitting with Weibull, tail fitting, peaks over threshold, and block </span>
+<span class="sd">maxima methods with GEV (Generalized Extreme Value) and Gumbel </span>
+<span class="sd">distributions. Additionally, it offers functionality to approximate </span>
+<span class="sd">the long-term extreme distribution by weighting short-term extremes </span>
+<span class="sd">across different sea states.</span>
+
+<span class="sd">Functions:</span>
+<span class="sd">- ste_peaks: Estimates the short-term extreme distribution from peaks </span>
+<span class="sd">    distribution using specified statistical methods.</span>
+<span class="sd">- block_maxima: Finds the block maxima in a time-series data to be used</span>
+<span class="sd">    in block maxima methods.</span>
+<span class="sd">- ste_block_maxima_gev: Approximates the short-term extreme distribution </span>
+<span class="sd">    using the block maxima method with the GEV distribution.</span>
+<span class="sd">- ste_block_maxima_gumbel: Approximates the short-term extreme </span>
+<span class="sd">    distribution using the block maxima method with the Gumbel distribution.</span>
+<span class="sd">- ste: Alias for `short_term_extreme`, facilitating easier access to the </span>
+<span class="sd">    primary functionality of estimating short-term extremes.</span>
+<span class="sd">- short_term_extreme: Core function to approximate the short-term extreme </span>
+<span class="sd">    distribution from a time series using chosen methods.</span>
+<span class="sd">- full_seastate_long_term_extreme: Combines short-term extreme </span>
+<span class="sd">    distributions using weights to estimate the long-term extreme distribution.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">rv_continuous</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">mhkit.loads.extreme.peaks</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">peaks_distributions</span>
+
+
+<div class="viewcode-block" id="ste_peaks">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.ste_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ste_peaks</span><span class="p">(</span><span class="n">peaks_distribution</span><span class="p">:</span> <span class="n">rv_continuous</span><span class="p">,</span> <span class="n">npeaks</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rv_continuous</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the short-term extreme distribution from the peaks</span>
+<span class="sd">    distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks_distribution: scipy.stats.rv_frozen</span>
+<span class="sd">        Probability distribution of the peaks.</span>
+<span class="sd">    npeaks : float</span>
+<span class="sd">        Number of peaks in short term period.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    short_term_extreme: scipy.stats.rv_frozen</span>
+<span class="sd">            Short-term extreme distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">peaks_distribution</span><span class="o">.</span><span class="n">cdf</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;peaks_distribution must be a scipy.stat distribution.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">npeaks</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;npeaks must be of type float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">npeaks</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_ShortTermExtreme</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">rv_continuous</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;peaks_distribution&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">npeaks</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;npeaks&quot;</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">peaks_cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+            <span class="n">peaks_cdf</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">peaks_cdf</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks_cdf</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">peaks_cdf</span> <span class="o">=</span> <span class="n">peaks_cdf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">peaks_cdf</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">npeaks</span>
+
+    <span class="n">short_term_extreme_peaks</span> <span class="o">=</span> <span class="n">_ShortTermExtreme</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;short_term_extreme&quot;</span><span class="p">,</span> <span class="n">peaks_distribution</span><span class="o">=</span><span class="n">peaks_distribution</span><span class="p">,</span> <span class="n">npeaks</span><span class="o">=</span><span class="n">npeaks</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">short_term_extreme_peaks</span></div>
+
+
+
+<div class="viewcode-block" id="block_maxima">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.block_maxima">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">block_maxima</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">global_peaks_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">time_st</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the block maxima of a time-series.</span>
+
+<span class="sd">    The timeseries (time, global_peaks) is divided into blocks of length t_st, and the</span>
+<span class="sd">    maxima of each bloock is returned.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : np.array</span>
+<span class="sd">        Time array.</span>
+<span class="sd">    global_peaks_data : np.array</span>
+<span class="sd">        global peaks timeseries.</span>
+<span class="sd">    time_st : float</span>
+<span class="sd">        Short-term period.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    block_max: np.array</span>
+<span class="sd">        Block maxima (i.e. largest peak in each block).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">global_peaks_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;global_peaks_data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">global_peaks_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_st</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time_st must be of type float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time_st</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">nblock</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">time_st</span><span class="p">)</span>
+    <span class="n">block_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nblock</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">iblock</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nblock</span><span class="p">):</span>
+        <span class="n">i_x</span> <span class="o">=</span> <span class="n">global_peaks_data</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">iblock</span> <span class="o">*</span> <span class="n">time_st</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">iblock</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_st</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">block_max</span><span class="p">[</span><span class="n">iblock</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">i_x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">block_max</span></div>
+
+
+
+<div class="viewcode-block" id="ste_block_maxima_gev">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.ste_block_maxima_gev">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ste_block_maxima_gev</span><span class="p">(</span><span class="n">block_max</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Approximate the short-term extreme distribution using the block</span>
+<span class="sd">    maxima method and the Generalized Extreme Value distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    block_max: np.array</span>
+<span class="sd">        Block maxima (i.e. largest peak in each block).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    short_term_extreme_rv: scipy.stats.rv_frozen</span>
+<span class="sd">            Short-term extreme distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block_max</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;block_max must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">block_max</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">ste_params</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">genextreme</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">block_max</span><span class="p">)</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+    <span class="n">ste_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">ste_params</span><span class="p">))</span>
+    <span class="n">short_term_extreme_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">genextreme</span><span class="p">(</span><span class="o">**</span><span class="n">ste_params</span><span class="p">)</span>
+    <span class="n">short_term_extreme_rv</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">ste_params</span>
+    <span class="k">return</span> <span class="n">short_term_extreme_rv</span></div>
+
+
+
+<div class="viewcode-block" id="ste_block_maxima_gumbel">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.ste_block_maxima_gumbel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ste_block_maxima_gumbel</span><span class="p">(</span><span class="n">block_max</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Approximate the short-term extreme distribution using the block</span>
+<span class="sd">    maxima method and the Gumbel (right) distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    block_max: np.array</span>
+<span class="sd">        Block maxima (i.e. largest peak in each block).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ste: scipy.stats.rv_frozen</span>
+<span class="sd">            Short-term extreme distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block_max</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;block_max must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">block_max</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">ste_params</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gumbel_r</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">block_max</span><span class="p">)</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+    <span class="n">ste_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">ste_params</span><span class="p">))</span>
+    <span class="n">short_term_extreme_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gumbel_r</span><span class="p">(</span><span class="o">**</span><span class="n">ste_params</span><span class="p">)</span>
+    <span class="n">short_term_extreme_rv</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">ste_params</span>
+    <span class="k">return</span> <span class="n">short_term_extreme_rv</span></div>
+
+
+
+<div class="viewcode-block" id="ste">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.ste">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ste</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">t_st</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rv_continuous</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alias for `short_term_extreme`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ste_dist</span> <span class="o">=</span> <span class="n">short_term_extreme</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">t_st</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ste_dist</span></div>
+
+
+
+<div class="viewcode-block" id="short_term_extreme">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.short_term_extreme">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">short_term_extreme</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">t_st</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">rv_continuous</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Approximate the short-term  extreme distribution from a</span>
+<span class="sd">    timeseries of the response using chosen method.</span>
+
+<span class="sd">    The availabe methods are: &#39;peaks_weibull&#39;, &#39;peaks_weibull_tail_fit&#39;,</span>
+<span class="sd">    &#39;peaks_over_threshold&#39;, &#39;block_maxima_gev&#39;, and &#39;block_maxima_gumbel&#39;.</span>
+<span class="sd">    For the block maxima methods the timeseries needs to be many times</span>
+<span class="sd">    longer than the short-term period. For the peak-fitting methods the</span>
+<span class="sd">    timeseries can be of arbitrary length.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time: np.array</span>
+<span class="sd">        Time array.</span>
+<span class="sd">    data: np.array</span>
+<span class="sd">        Response timeseries.</span>
+<span class="sd">    t_st: float</span>
+<span class="sd">        Short-term period.</span>
+<span class="sd">    method : string</span>
+<span class="sd">        Method for estimating the short-term extreme distribution.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    short_term_extreme_dist: scipy.stats.rv_frozen</span>
+<span class="sd">            Short-term extreme distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t_st</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t_st must be of type float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">t_st</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;method must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">peaks_methods</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;peaks_weibull&quot;</span><span class="p">:</span> <span class="n">peaks_distributions</span><span class="o">.</span><span class="n">peaks_distribution_weibull</span><span class="p">,</span>
+        <span class="s2">&quot;peaks_weibull_tail_fit&quot;</span><span class="p">:</span> <span class="n">peaks_distributions</span><span class="o">.</span><span class="n">peaks_distribution_weibull_tail_fit</span><span class="p">,</span>
+        <span class="s2">&quot;peaks_over_threshold&quot;</span><span class="p">:</span> <span class="n">peaks_distributions</span><span class="o">.</span><span class="n">peaks_distribution_peaks_over_threshold</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">blockmaxima_methods</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;block_maxima_gev&quot;</span><span class="p">:</span> <span class="n">ste_block_maxima_gev</span><span class="p">,</span>
+        <span class="s2">&quot;block_maxima_gumbel&quot;</span><span class="p">:</span> <span class="n">ste_block_maxima_gumbel</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">peaks_methods</span><span class="p">:</span>
+        <span class="n">fit_peaks</span> <span class="o">=</span> <span class="n">peaks_methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">peaks_distributions</span><span class="o">.</span><span class="n">global_peaks</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">npeaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nst</span> <span class="o">=</span> <span class="n">peaks_distributions</span><span class="o">.</span><span class="n">number_of_short_term_peaks</span><span class="p">(</span><span class="n">npeaks</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">t_st</span><span class="p">)</span>
+        <span class="n">peaks_dist</span> <span class="o">=</span> <span class="n">fit_peaks</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
+        <span class="n">short_term_extreme_dist</span> <span class="o">=</span> <span class="n">ste_peaks</span><span class="p">(</span><span class="n">peaks_dist</span><span class="p">,</span> <span class="n">nst</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">blockmaxima_methods</span><span class="p">:</span>
+        <span class="n">fit_maxima</span> <span class="o">=</span> <span class="n">blockmaxima_methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">maxima</span> <span class="o">=</span> <span class="n">block_maxima</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">t_st</span><span class="p">)</span>
+        <span class="n">short_term_extreme_dist</span> <span class="o">=</span> <span class="n">fit_maxima</span><span class="p">(</span><span class="n">maxima</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Passed `method` not found.&quot;</span><span class="p">)</span>
+        <span class="n">short_term_extreme_dist</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">short_term_extreme_dist</span></div>
+
+
+
+<div class="viewcode-block" id="full_seastate_long_term_extreme">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.full_seastate_long_term_extreme">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">full_seastate_long_term_extreme</span><span class="p">(</span><span class="n">short_term_extreme_dist</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the long-term extreme distribution of a response of</span>
+<span class="sd">    interest using the full sea state approach.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ste: list[scipy.stats.rv_frozen]</span>
+<span class="sd">        Short-term extreme distribution of the quantity of interest for</span>
+<span class="sd">        each sample sea state.</span>
+<span class="sd">    weights: list, np.ndarray</span>
+<span class="sd">        The weights from the full sea state sampling</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ste: scipy.stats.rv_frozen</span>
+<span class="sd">        Short-term extreme distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">short_term_extreme_dist</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;short_term_extreme_dist must be of type list[scipy.stats.rv_frozen].&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">short_term_extreme_dist</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;weights must be of type list or np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_LongTermExtreme</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">rv_continuous</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">)</span>
+            <span class="c1"># make sure weights add to 1.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ste</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ste&quot;</span><span class="p">)</span>
+            <span class="c1"># Disabled bc not sure where/ how n is applied</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>  <span class="c1"># pylint: disable=invalid-name</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">weighted_cdf</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">ste_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ste</span><span class="p">):</span>
+                <span class="n">weighted_cdf</span> <span class="o">+=</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">ste_i</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">weighted_cdf</span>
+
+    <span class="k">return</span> <span class="n">_LongTermExtreme</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;long_term_extreme&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">ste</span><span class="o">=</span><span class="n">short_term_extreme_dist</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

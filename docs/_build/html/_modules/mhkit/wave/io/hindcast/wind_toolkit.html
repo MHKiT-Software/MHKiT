@@ -1,0 +1,634 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.wave.io.hindcast.wind_toolkit &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.wave.io.hindcast.wind_toolkit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.wave.io.hindcast.wind_toolkit</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Wind Toolkit Data Utility Functions</span>
+<span class="sd">===================================</span>
+
+<span class="sd">This module contains a collection of utility functions designed to facilitate </span>
+<span class="sd">the extraction, caching, and visualization of wind data from the WIND Toolkit </span>
+<span class="sd">hindcast dataset hosted on AWS. This dataset includes offshore wind hindcast data </span>
+<span class="sd">with various parameters like wind speed, direction, temperature, and pressure.</span>
+
+<span class="sd">Key Functions:</span>
+<span class="sd">--------------</span>
+<span class="sd">- `region_selection`: Determines which predefined wind region a given latitude </span>
+<span class="sd">  and longitude fall within.</span>
+<span class="sd">  </span>
+<span class="sd">- `get_region_data`: Retrieves latitude and longitude data points for a specified </span>
+<span class="sd">  wind region. Uses caching to speed up repeated requests.</span>
+<span class="sd">  </span>
+<span class="sd">- `plot_region`: Plots the geographical extent of a specified wind region and </span>
+<span class="sd">  can overlay a given latitude-longitude point.</span>
+<span class="sd">  </span>
+<span class="sd">- `elevation_to_string`: Converts a parameter (e.g., &#39;windspeed&#39;) and elevation </span>
+<span class="sd">  values (e.g., [20, 40, 120]) to the formatted strings used in the WIND Toolkit.</span>
+<span class="sd">  </span>
+<span class="sd">- `request_wtk_point_data`: Fetches specified wind data parameters for given </span>
+<span class="sd">  latitude-longitude points and years from the WIND Toolkit hindcast dataset. </span>
+<span class="sd">  Supports caching for faster repeated data retrieval.</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">-------------</span>
+<span class="sd">- rex: Library to handle renewable energy datasets.</span>
+<span class="sd">- pandas: Data manipulation and analysis.</span>
+<span class="sd">- os, hashlib, pickle: Used for caching functionality.</span>
+<span class="sd">- matplotlib: Used for plotting.</span>
+
+<span class="sd">Notes:</span>
+<span class="sd">------</span>
+<span class="sd">- To access the WIND Toolkit hindcast data, users need to configure `h5pyd` </span>
+<span class="sd">  for data access on HSDS (see the metocean_example or WPTO_hindcast_example</span>
+<span class="sd">  notebook for more details).</span>
+<span class="sd">  </span>
+<span class="sd">- While some functions perform basic checks (e.g., verifying that latitude </span>
+<span class="sd">  and longitude are within a predefined region), it&#39;s essential to understand </span>
+<span class="sd">  the boundaries of each region and the available parameters and elevations in the dataset.</span>
+
+<span class="sd">Author: </span>
+<span class="sd">-------</span>
+<span class="sd">akeeste</span>
+<span class="sd">ssolson</span>
+
+<span class="sd">Date:</span>
+<span class="sd">-----</span>
+<span class="sd">2023-09-26</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rex</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiYearWindX</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">handle_caching</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.type_handling</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataset</span>
+
+
+<div class="viewcode-block" id="region_selection">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.wind_toolkit.region_selection">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">region_selection</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="n">preferred_region</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the name of the predefined region in which the given coordinates reside.</span>
+<span class="sd">    Can be used to check if the passed lat/lon pair is within the WIND Toolkit hindcast dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lat_lon : tuple</span>
+<span class="sd">        Latitude and longitude coordinates as floats or integers</span>
+
+<span class="sd">    preferred_region : string (optional)</span>
+<span class="sd">        Latitude and longitude coordinates as floats or integers</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    region : string</span>
+<span class="sd">        Name of predefined region for given coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lat_lon must be of type tuple, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lat_lon must be of length 2, got length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;lat_lon values must be floats or ints, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;lat_lon values must be floats or ints, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">preferred_region</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;preferred_region must be a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">preferred_region</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Note that this check is fast, but not robust because region are not</span>
+    <span class="c1"># rectangular on a lat-lon grid</span>
+    <span class="n">rDict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;CA_NWP_overlap&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">41.213</span><span class="p">,</span> <span class="mf">42.642</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">129.090</span><span class="p">,</span> <span class="o">-</span><span class="mf">121.672</span><span class="p">]},</span>
+        <span class="s2">&quot;Offshore_CA&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">31.932</span><span class="p">,</span> <span class="mf">42.642</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">129.090</span><span class="p">,</span> <span class="o">-</span><span class="mf">115.806</span><span class="p">]},</span>
+        <span class="s2">&quot;Hawaii&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">15.565</span><span class="p">,</span> <span class="mf">26.221</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">164.451</span><span class="p">,</span> <span class="o">-</span><span class="mf">151.278</span><span class="p">]},</span>
+        <span class="s2">&quot;NW_Pacific&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">41.213</span><span class="p">,</span> <span class="mf">49.579</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">130.831</span><span class="p">,</span> <span class="o">-</span><span class="mf">121.672</span><span class="p">]},</span>
+        <span class="s2">&quot;Mid_Atlantic&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">37.273</span><span class="p">,</span> <span class="mf">42.211</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">76.427</span><span class="p">,</span> <span class="o">-</span><span class="mf">64.800</span><span class="p">]},</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">region_search</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="kc">True</span> <span class="k">if</span> <span class="n">rDict</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">dk</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="n">rDict</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">dk</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">dk</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="n">lat_lon</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">rDict</span> <span class="k">if</span> <span class="n">region_search</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CA_NWP_overlap&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">preferred_region</span> <span class="o">==</span> <span class="s2">&quot;Offshore_CA&quot;</span><span class="p">:</span>
+            <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Offshore_CA&quot;</span>
+        <span class="k">elif</span> <span class="n">preferred_region</span> <span class="o">==</span> <span class="s2">&quot;NW_Pacific&quot;</span><span class="p">:</span>
+            <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;NW_Pacific&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Preferred_region (</span><span class="si">{</span><span class="n">preferred_region</span><span class="si">}</span><span class="s2">) must be &#39;Offshore_CA&#39; or &#39;NW_Pacific&#39; when lat_lon </span><span class="si">{</span><span class="n">lat_lon</span><span class="si">}</span><span class="s2"> falls in the overlap region&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">region</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coordinates </span><span class="si">{</span><span class="n">lat_lon</span><span class="si">}</span><span class="s2"> out of bounds. Must be within </span><span class="si">{</span><span class="n">rDict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="get_region_data">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.wind_toolkit.get_region_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_region_data</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the latitude and longitude data points for the specified region</span>
+<span class="sd">    from the cache if available; otherwise, fetches the data and caches it for</span>
+<span class="sd">    subsequent calls.</span>
+
+<span class="sd">    The function forms a unique identifier from the `region` parameter and checks</span>
+<span class="sd">    whether the corresponding data is available in the cache. If the data is found,</span>
+<span class="sd">    it&#39;s loaded and returned. If not, the data is fetched, cached, and then returned.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    region : str</span>
+<span class="sd">        Name of the predefined region in the WIND Toolkit for which to</span>
+<span class="sd">        retrieve latitude and longitude data points. It is case-sensitive.</span>
+<span class="sd">        Examples: &#39;Offshore_CA&#39;,&#39;Hawaii&#39;,&#39;Mid_Atlantic&#39;,&#39;NW_Pacific&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lats : numpy.ndarray</span>
+<span class="sd">        A 1D array containing the latitude coordinates of data points</span>
+<span class="sd">        in the specified region.</span>
+
+<span class="sd">    lons : numpy.ndarray</span>
+<span class="sd">        A 1D array containing the longitude coordinates of data points</span>
+<span class="sd">        in the specified region.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; lats, lons = get_region_data(&#39;Offshore_CA&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;region must be of type string&quot;</span><span class="p">)</span>
+    <span class="c1"># Define the path to the cache directory</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;mhkit&quot;</span><span class="p">,</span> <span class="s2">&quot;hindcast&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create a unique identifier for this function call</span>
+    <span class="n">hash_id</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+    <span class="c1"># Create cache directory if it doesn&#39;t exist</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Create a path to the cache file for this function call</span>
+    <span class="n">cache_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hash_id</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cache_file</span><span class="p">):</span>
+        <span class="c1"># If the cache file exists, load the data from the cache</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cache_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">wind_path</span> <span class="o">=</span> <span class="s2">&quot;/nrel/wtk/&quot;</span> <span class="o">+</span> <span class="n">region</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">region</span> <span class="o">+</span> <span class="s2">&quot;_*.h5&quot;</span>
+        <span class="n">windKwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;unscale&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;str_decode&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;hsds&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;years&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2019</span><span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Get the latitude and longitude list from the region in rex</span>
+        <span class="n">rex_wind</span> <span class="o">=</span> <span class="n">MultiYearWindX</span><span class="p">(</span><span class="n">wind_path</span><span class="p">,</span> <span class="o">**</span><span class="n">windKwargs</span><span class="p">)</span>
+        <span class="n">lats</span> <span class="o">=</span> <span class="n">rex_wind</span><span class="o">.</span><span class="n">lat_lon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">lons</span> <span class="o">=</span> <span class="n">rex_wind</span><span class="o">.</span><span class="n">lat_lon</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Save data to cache</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cache_file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span></div>
+
+
+
+<div class="viewcode-block" id="plot_region">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.wind_toolkit.plot_region">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_region</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">lat_lon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualizes the area that a given region covers. Can help users understand</span>
+<span class="sd">    the extent of a region since they are not all rectangular.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    region : string</span>
+<span class="sd">        Name of predefined region in the WIND Toolkit</span>
+<span class="sd">        Options: &#39;Offshore_CA&#39;,&#39;Hawaii&#39;,&#39;Mid_Atlantic&#39;,&#39;NW_Pacific&#39;</span>
+<span class="sd">    lat_lon : couple (optional)</span>
+<span class="sd">        Latitude and longitude pair to plot on top of the chosen region. Useful</span>
+<span class="sd">        to inform accurate latitude-longitude selection for data analysis.</span>
+<span class="sd">    ax : matplotlib axes object (optional)</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure is created.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;region must be of type string&quot;</span><span class="p">)</span>
+
+    <span class="n">supported_regions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Offshore_CA&quot;</span><span class="p">,</span> <span class="s2">&quot;Hawaii&quot;</span><span class="p">,</span> <span class="s2">&quot;Mid_Atlantic&quot;</span><span class="p">,</span> <span class="s2">&quot;NW_Pacific&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">region</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_regions</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s1"> not in list of supported regions: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">supported_regions</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+
+    <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="n">get_region_data</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+
+    <span class="c1"># Plot the latitude longitude pairs</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2"> region&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lat_lon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Specified lat-lon point&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Longitude (deg)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Latitude (deg)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Extent of the WIND Toolkit </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2"> region&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="elevation_to_string">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.wind_toolkit.elevation_to_string">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">elevation_to_string</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">elevations</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes in a parameter (e.g. &#39;windspeed&#39;) and elevations (e.g. [20, 40, 120])</span>
+<span class="sd">    and returns the formatted strings that are input to WIND Toolkit (e.g. windspeed_10m).</span>
+<span class="sd">    Does not check parameter against the elevation levels. This is done in request_wtk_point_data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: string</span>
+<span class="sd">        Name of the WIND toolkit parameter.</span>
+<span class="sd">        Options: &#39;windspeed&#39;, &#39;winddirection&#39;, &#39;temperature&#39;, &#39;pressure&#39;</span>
+<span class="sd">    elevations : list</span>
+<span class="sd">        List of elevations (float).</span>
+<span class="sd">        Values can range from approxiamtely 20 to 200 in increments of 20, depending</span>
+<span class="sd">        on the parameter in question. See Documentation for request_wtk_point_data</span>
+<span class="sd">        for the full list of available parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    parameter_list: list</span>
+<span class="sd">        Formatted List of WIND Toolkit parameter strings</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elevations</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;elevations must be a float or list, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">elevations</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parameter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;windspeed&quot;</span><span class="p">,</span> <span class="s2">&quot;winddirection&quot;</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid parameter: </span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">parameter_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elevations</span><span class="p">:</span>
+        <span class="n">parameter_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parameter_list</span></div>
+
+
+
+<div class="viewcode-block" id="request_wtk_point_data">
+<a class="viewcode-back" href="../../../../../mhkit-python/api.wave.html#mhkit.wave.io.hindcast.wind_toolkit.request_wtk_point_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_wtk_point_data</span><span class="p">(</span>
+    <span class="n">time_interval</span><span class="p">,</span>
+    <span class="n">parameter</span><span class="p">,</span>
+    <span class="n">lat_lon</span><span class="p">,</span>
+    <span class="n">years</span><span class="p">,</span>
+    <span class="n">preferred_region</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">unscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">str_decode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hsds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">clear_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns data from the WIND Toolkit offshore wind hindcast hosted on</span>
+<span class="sd">    AWS at the specified latitude and longitude point(s), or the closest</span>
+<span class="sd">    available point(s).Visit https://registry.opendata.aws/nrel-pds-wtk/</span>
+<span class="sd">    for more information about the dataset and available locations and years.</span>
+
+<span class="sd">    Calls with multiple parameters must have the same time interval. Calls</span>
+<span class="sd">    with multiple locations must use the same region (use the plot_region function).</span>
+
+<span class="sd">    Note: To access the WIND Toolkit hindcast data, you will need to</span>
+<span class="sd">    configure h5pyd for data access on HSDS. Please see the</span>
+<span class="sd">    metocean_example or WPTO_hindcast_example notebook for more information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time_interval : string</span>
+<span class="sd">        Data set type of interest</span>
+<span class="sd">        Options: &#39;1-hour&#39; &#39;5-minute&#39;</span>
+<span class="sd">    parameter : string or list of strings</span>
+<span class="sd">        Dataset parameter to be downloaded. Other parameters may be available.</span>
+<span class="sd">        This list is limited to those available at both 5-minute and 1-hour</span>
+<span class="sd">        time intervals for all regions.</span>
+<span class="sd">        Options:</span>
+<span class="sd">            &#39;precipitationrate_0m&#39;, &#39;inversemoninobukhovlength_2m&#39;,</span>
+<span class="sd">            &#39;relativehumidity_2m&#39;, &#39;surface_sea_temperature&#39;,</span>
+<span class="sd">            &#39;pressure_0m&#39;, &#39;pressure_100m&#39;, &#39;pressure_200m&#39;,</span>
+<span class="sd">            &#39;temperature_10m&#39;, &#39;temperature_20m&#39;, &#39;temperature_40m&#39;,</span>
+<span class="sd">            &#39;temperature_60m&#39;, &#39;temperature_80m&#39;, &#39;temperature_100m&#39;,</span>
+<span class="sd">            &#39;temperature_120m&#39;, &#39;temperature_140m&#39;, &#39;temperature_160m&#39;,</span>
+<span class="sd">            &#39;temperature_180m&#39;, &#39;temperature_200m&#39;,</span>
+<span class="sd">            &#39;winddirection_10m&#39;, &#39;winddirection_20m&#39;, &#39;winddirection_40m&#39;,</span>
+<span class="sd">            &#39;winddirection_60m&#39;, &#39;winddirection_80m&#39;, &#39;winddirection_100m&#39;,</span>
+<span class="sd">            &#39;winddirection_120m&#39;, &#39;winddirection_140m&#39;, &#39;winddirection_160m&#39;,</span>
+<span class="sd">            &#39;winddirection_180m&#39;, &#39;winddirection_200m&#39;,</span>
+<span class="sd">            &#39;windspeed_10m&#39;, &#39;windspeed_20m&#39;, &#39;windspeed_40m&#39;,</span>
+<span class="sd">            &#39;windspeed_60m&#39;, &#39;windspeed_80m&#39;, &#39;windspeed_100m&#39;,</span>
+<span class="sd">            &#39;windspeed_120m&#39;, &#39;windspeed_140m&#39;, &#39;windspeed_160m&#39;,</span>
+<span class="sd">            &#39;windspeed_180m&#39;, &#39;windspeed_200m&#39;</span>
+<span class="sd">    lat_lon : tuple or list of tuples</span>
+<span class="sd">        Latitude longitude pairs at which to extract data. Use plot_region() or</span>
+<span class="sd">        region_selection() to see the corresponding region for a given location.</span>
+<span class="sd">    years : list</span>
+<span class="sd">        Year(s) to be accessed. The years 2000-2019 available (up to 2020</span>
+<span class="sd">        for Mid-Atlantic). Examples: [2015] or [2004,2006,2007]</span>
+<span class="sd">    preferred_region : string (optional)</span>
+<span class="sd">        Region that the lat_lon belongs to (&#39;Offshore_CA&#39; or &#39;NW_Pacific&#39;).</span>
+<span class="sd">        Required when a lat_lon point falls in both the Offshore California</span>
+<span class="sd">        and NW Pacific regions. Overlap region defined by</span>
+<span class="sd">        latitude = (41.213, 42.642) and longitude = (-129.090, -121.672).</span>
+<span class="sd">        Default = &#39;&#39;</span>
+<span class="sd">    tree : str | cKDTree (optional)</span>
+<span class="sd">        cKDTree or path to .pkl file containing pre-computed tree</span>
+<span class="sd">        of lat, lon coordinates, default = None</span>
+<span class="sd">    unscale : bool (optional)</span>
+<span class="sd">        Boolean flag to automatically unscale variables on extraction</span>
+<span class="sd">        Default = True</span>
+<span class="sd">    str_decode : bool (optional)</span>
+<span class="sd">        Boolean flag to decode the bytestring meta data into normal</span>
+<span class="sd">        strings. Setting this to False will speed up the meta data read.</span>
+<span class="sd">        Default = True</span>
+<span class="sd">    hsds : bool (optional)</span>
+<span class="sd">        Boolean flag to use h5pyd to handle .h5 &#39;files&#39; hosted on AWS</span>
+<span class="sd">        behind HSDS. Setting to False will indicate to look for files on</span>
+<span class="sd">        local machine, not AWS. Default = True</span>
+<span class="sd">    clear_cache : bool (optional)</span>
+<span class="sd">        Boolean flag to clear the cache related to this specific request.</span>
+<span class="sd">        Default is False.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data: DataFrame</span>
+<span class="sd">        Data indexed by datetime with columns named for parameter and</span>
+<span class="sd">        cooresponding metadata index</span>
+<span class="sd">    meta: DataFrame</span>
+<span class="sd">        Location metadata for the requested data location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;parameter must be of type string or list&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;lat_lon must be of type list or tuple&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_interval</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;time_interval must be a string&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;years must be a list&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">preferred_region</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;preferred_region must be a string&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;tree must be a string or None&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unscale</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;unscale must be bool type&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">str_decode</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;str_decode must be bool type&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hsds</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;hsds must be bool type&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clear_cache</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;clear_cache must be of type bool&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Define the path to the cache directory</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;mhkit&quot;</span><span class="p">,</span> <span class="s2">&quot;hindcast&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Construct a string representation of the function parameters</span>
+    <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_interval</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">lat_lon</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">years</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">preferred_region</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">tree</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">unscale</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">str_decode</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">hsds</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Use handle_caching to manage caching.</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+        <span class="n">hash_params</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">,</span>
+        <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="n">clear_cache_file</span><span class="o">=</span><span class="n">clear_cache</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">meta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">meta</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span>  <span class="c1"># Return cached data and meta if available</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># check for multiple region selection</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="n">region_selection</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">,</span> <span class="n">preferred_region</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reglist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">lat_lon</span><span class="p">:</span>
+                <span class="n">reglist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">region_selection</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">preferred_region</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">reglist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">reglist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_lon</span><span class="p">):</span>
+                <span class="n">region</span> <span class="o">=</span> <span class="n">reglist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Coordinates must be within the same region!&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">time_interval</span> <span class="o">==</span> <span class="s2">&quot;1-hour&quot;</span><span class="p">:</span>
+            <span class="n">wind_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/nrel/wtk/</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">_*.h5&quot;</span>
+        <span class="k">elif</span> <span class="n">time_interval</span> <span class="o">==</span> <span class="s2">&quot;5-minute&quot;</span><span class="p">:</span>
+            <span class="n">wind_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/nrel/wtk/</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">-5min/</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">_*.h5&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid time_interval &#39;</span><span class="si">{</span><span class="n">time_interval</span><span class="si">}</span><span class="s2">&#39;, must be &#39;1-hour&#39; or &#39;5-minute&#39;&quot;</span>
+            <span class="p">)</span>
+        <span class="n">windKwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="n">tree</span><span class="p">,</span>
+            <span class="s2">&quot;unscale&quot;</span><span class="p">:</span> <span class="n">unscale</span><span class="p">,</span>
+            <span class="s2">&quot;str_decode&quot;</span><span class="p">:</span> <span class="n">str_decode</span><span class="p">,</span>
+            <span class="s2">&quot;hsds&quot;</span><span class="p">:</span> <span class="n">hsds</span><span class="p">,</span>
+            <span class="s2">&quot;years&quot;</span><span class="p">:</span> <span class="n">years</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">data_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="n">MultiYearWindX</span><span class="p">(</span><span class="n">wind_path</span><span class="p">,</span> <span class="o">**</span><span class="n">windKwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">rex_wind</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">:</span>
+                    <span class="n">temp_data</span> <span class="o">=</span> <span class="n">rex_wind</span><span class="o">.</span><span class="n">get_lat_lon_df</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">lat_lon</span><span class="p">)</span>
+                    <span class="n">col</span> <span class="o">=</span> <span class="n">temp_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)),</span> <span class="n">col</span><span class="p">):</span>
+                        <span class="n">temp</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="n">temp_data</span> <span class="o">=</span> <span class="n">temp_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">temp</span><span class="p">})</span>
+
+                    <span class="n">data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">rex_wind</span><span class="o">.</span><span class="n">get_lat_lon_df</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">lat_lon</span><span class="p">)</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:]</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)),</span> <span class="n">col</span><span class="p">):</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">temp</span><span class="p">})</span>
+
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">rex_wind</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">col</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Save the retrieved data and metadata to cache.</span>
+        <span class="n">handle_caching</span><span class="p">(</span>
+            <span class="n">hash_params</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">meta</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
