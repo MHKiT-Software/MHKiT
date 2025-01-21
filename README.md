@@ -26,16 +26,6 @@ To update the MHKiT documentation you will need Python 3.6+, Git, Sphinx, and a 
 
 The `MHKiT-Python` and `MHKiT-MATLAB` folders should now contain source code.
 
-To build the Python API documentation for submitting a pull request you will want to use the submodule MHKiT-Python included here. To do so first uninstall any MHKiT you may have and then use the python package manager to install this MHKiT submodule.
-
-```bash
-pip uninstall mhkit
-cd MHKiT-Python
-pip install -e .
-```
-
-**NOTE:** After building the documentation (see below) be sure to reinstall your MHKiT-Python distribution from pypi (e.g. `pip install mhkit`) or from your fork of the repository as an editable package (e.g. `pip install -e /path/to/my/fork/of/MHKiT-Python`)
-
 ### Step 2. Download/Install Sphinx and Dependencies
 
 #### Option 1: Using conda (recommended)
@@ -51,24 +41,24 @@ conda activate mhkit-docs
 
 If you prefer to install packages manually:
 
-- Install Sphinx from the command line
-  **NOTE:** You may need to add PROXY settings ([see info here](https://cinhtau.net/2018/04/16/python-proxy-windows/))
+1. Install the local MHKiT-Python submodule:
 
 ```bash
-pip install -U Sphinx
+pip uninstall mhkit  # Remove any existing MHKiT installation
+cd MHKiT-Python
+pip install -e .     # Install the submodule in editable mode
 ```
 
-- Sphinx --> Version: 8.1.3
+**NOTE:** After building the documentation, remember to reinstall your preferred MHKiT-Python distribution:
 
-- Install the needed Sphinx extensions and dependencies:
+- From PyPI: `pip install mhkit`
+- From your fork: `pip install -e /path/to/your/fork/of/MHKiT-Python`
 
-```bash
-pip install -U sphinxcontrib-bibtex sphinxcontrib-matlabdomain sphinx-rtd-theme nbsphinx sphinxcontrib-googleanalytics ipython
-```
-
-- Install pandoc using conda:
+2. Install Sphinx and dependencies:
 
 ```bash
+pip install -U Sphinx==8.1.3
+pip install -U sphinxcontrib-bibtex==2.6.3 sphinxcontrib-matlabdomain==0.22.1 sphinx-rtd-theme==3.0.2 nbsphinx==0.9.5 sphinxcontrib-googleanalytics==0.4 ipython
 conda install pandoc
 ```
 
