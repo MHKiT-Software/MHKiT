@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - automate_docs
   pull_request:
     branches: [main]
 
@@ -34,7 +33,7 @@ jobs:
           touch _build/html/.nojekyll
 
       - name: Deploy to GitHub Pages
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/automate_docs')
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
