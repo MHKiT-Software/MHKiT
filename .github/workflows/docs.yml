@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - automate_docs
   pull_request:
     branches: [main]
 
@@ -27,17 +28,17 @@ jobs:
         shell: bash -l {0}
         run: |
           cd docs
-          rm -rf *.html doctrees *.js *.inv _sources _static _images
-          sphinx-build -b html -d ./doctrees source .
+          rm -rf _build/*
+          sphinx-build -b html source _build/html
           # Create .nojekyll file to prevent GitHub Pages from ignoring files that begin with an underscore
-          touch .nojekyll
+          touch _build/html/.nojekyll
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' )
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./docs/_build/html
           force_orphan: true
           enable_jekyll: false
           full_commit_message: ${{ github.event.head_commit.message }}
