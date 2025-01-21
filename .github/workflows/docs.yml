@@ -1,0 +1,43 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Conda Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: mhkit-docs
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: Build Documentation
+        shell: bash -l {0}
+        run: |
+          cd docs
+          rm -rf _build/*
+          sphinx-build -b html source _build/html
+          # Create .nojekyll file to prevent GitHub Pages from ignoring files that begin with an underscore
+          touch _build/html/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
+          force_orphan: true
+          enable_jekyll: false
+          full_commit_message: ${{ github.event.head_commit.message }}
