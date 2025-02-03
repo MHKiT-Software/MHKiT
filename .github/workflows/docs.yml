@@ -43,3 +43,14 @@ jobs:
           force_orphan: true
           enable_jekyll: false
           full_commit_message: ${{ github.event.head_commit.message }}
+
+      - name: Deploy Preview for PRs
+        if: github.event_name == 'pull_request'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
+          destination_dir: pr-previews/${{ github.event.number }}
+          force_orphan: true
+          enable_jekyll: false
+          full_commit_message: ${{ github.event.head_commit.message }}
