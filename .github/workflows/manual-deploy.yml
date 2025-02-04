@@ -1,0 +1,59 @@
+name: Manual Deploy PR Preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch of the PR'
+        required: true
+      repository:
+        description: 'Fork repository'
+        required: true
+      pr_number:
+        description: 'Pull Request Number'
+        required: true
+
+jobs:
+  deploy_preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.ref }}
+          repository: ${{ github.event.inputs.repository }}
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Conda Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: mhkit-docs
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GH_PAGES_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Build Documentation
+        shell: bash -l {0}
+        run: |
+          cd docs
+          rm -rf _build/*
+          cp -r ../MHKiT-Python/examples/* source/
+          sphinx-build -b html source _build/html
+          cp ../MHKiT-MATLAB/examples/*.html ./_build/html/mhkit-matlab 
+          touch _build/html/.nojekyll
+
+      - name: Deploy PR Preview
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.GH_PAGES_DEPLOY_KEY }}
+          publish_dir: ./docs/_build/html
+          destination_dir: pr-previews/${{ github.event.inputs.pr_number }}
+          external_repository: MHKiT-Software/MHKiT
+          keep_files: true
+          enable_jekyll: false
