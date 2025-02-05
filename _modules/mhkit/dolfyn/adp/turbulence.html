@@ -1,0 +1,1278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.adp.turbulence &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.adp.turbulence</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.adp.turbulence</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..velocity</span><span class="w"> </span><span class="kn">import</span> <span class="n">VelBinner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">calc_tilt</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_diffz_first</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Newton&#39;s Method first difference.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dat : array-like</span>
+<span class="sd">      1 dimensional vector to be differentiated</span>
+<span class="sd">    z : array-like</span>
+<span class="sd">      Vertical dimension to differentiate across</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : array-like</span>
+<span class="sd">      Numerically-derived derivative of `dat`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">z</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_diffz_centered</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Newton&#39;s Method centered difference.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dat : array-like</span>
+<span class="sd">      1 dimensional vector to be differentiated</span>
+<span class="sd">    z : array-like</span>
+<span class="sd">      Vertical dimension to differentiate across</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : array-like</span>
+<span class="sd">      Numerically-derived derivative of `dat`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Want top - bottom here: (u_x+1 - u_x-1)/dx</span>
+<span class="sd">    Can use 2*np.diff b/c depth bin size never changes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="n">dat</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">z</span><span class="p">)[</span><span class="mi">1</span><span class="p">:,</span> <span class="kc">None</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_diffz_centered_extended</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extended centered difference method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dat : array-like</span>
+<span class="sd">      1 dimensional vector to be differentiated</span>
+<span class="sd">    z : array-like</span>
+<span class="sd">      Vertical dimension to differentiate across</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : array-like</span>
+<span class="sd">      Numerically-derived derivative of `dat`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Top - bottom centered difference with endpoints determined</span>
+<span class="sd">    with a first difference. Ensures the output array is the</span>
+<span class="sd">    same size as the input array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="n">_diffz_first</span><span class="p">(</span><span class="n">dat</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">z</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="n">_diffz_centered</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span>
+            <span class="n">_diffz_first</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:],</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<div class="viewcode-block" id="ADPBinner">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ADPBinner</span><span class="p">(</span><span class="n">VelBinner</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_bin</span><span class="p">,</span>
+        <span class="n">fs</span><span class="p">,</span>
+        <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_fft_coh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">noise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;up&quot;</span><span class="p">,</span>
+        <span class="n">diff_style</span><span class="o">=</span><span class="s2">&quot;centered_extended&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class for calculating turbulence statistics from ADCP data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_bin : int</span>
+<span class="sd">          Number of data points to include in a &#39;bin&#39; (ensemble), not the</span>
+<span class="sd">          number of bins</span>
+<span class="sd">        fs : int</span>
+<span class="sd">          Instrument sampling frequency in Hz</span>
+<span class="sd">        n_fft : int</span>
+<span class="sd">          Number of data points to use for fft (`n_fft`&lt;=`n_bin`).</span>
+<span class="sd">          Default: `n_fft`=`n_bin`</span>
+<span class="sd">        n_fft_coh : int</span>
+<span class="sd">          Number of data points to use for coherence and cross-spectra ffts</span>
+<span class="sd">          Default: `n_fft_coh`=`n_fft`</span>
+<span class="sd">        noise : float or array-like</span>
+<span class="sd">          Instrument noise level in same units as velocity. Typically</span>
+<span class="sd">          found from `adp.turbulence.doppler_noise_level`.</span>
+<span class="sd">          Default: None.</span>
+<span class="sd">        orientation : str, default=&#39;up&#39;</span>
+<span class="sd">          Instrument&#39;s orientation, either &#39;up&#39; or &#39;down&#39;</span>
+<span class="sd">        diff_style : str, default=&#39;centered_extended&#39;</span>
+<span class="sd">          Style of numerical differentiation using Newton&#39;s Method.</span>
+<span class="sd">          Either &#39;first&#39; (first difference), &#39;centered&#39; (centered difference),</span>
+<span class="sd">          or &#39;centered_extended&#39; (centered difference with first and last points</span>
+<span class="sd">          extended using a first difference).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">VelBinner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_bin</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_fft_coh</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diff_style</span> <span class="o">=</span> <span class="n">diff_style</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="n">orientation</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_diff_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">orientation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Applies the chosen style of numerical differentiation to velocity data.</span>
+
+<span class="sd">        This method calculates the derivative of the velocity data &#39;vel&#39; with respect to the &#39;range&#39;</span>
+<span class="sd">        using the differentiation style specified in &#39;self.diff_style&#39;. The styles can be &#39;first&#39;</span>
+<span class="sd">        for first difference, &#39;centered&#39; for centered difference, and &#39;centered_extended&#39; for</span>
+<span class="sd">        centered difference with first and last points extended using a first difference.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vel : xarray.DataArray</span>
+<span class="sd">          Velocity data with dimensions &#39;range&#39; and &#39;time&#39;.</span>
+<span class="sd">        u : str or int</span>
+<span class="sd">          Velocity component</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : numpy.ndarray</span>
+<span class="sd">            The calculated derivative of the velocity data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">orientation</span><span class="p">:</span>
+            <span class="n">orientation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span>
+        <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s2">&quot;down&quot;</span><span class="p">:</span>
+            <span class="n">sign</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_style</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">_diffz_first</span><span class="p">(</span><span class="n">vel</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">vel</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">out</span><span class="p">,</span> <span class="n">vel</span><span class="o">.</span><span class="n">range</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_style</span> <span class="o">==</span> <span class="s2">&quot;centered&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">_diffz_centered</span><span class="p">(</span><span class="n">vel</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">vel</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">out</span><span class="p">,</span> <span class="n">vel</span><span class="o">.</span><span class="n">range</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_style</span> <span class="o">==</span> <span class="s2">&quot;centered_extended&quot;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">_diffz_centered_extended</span><span class="p">(</span><span class="n">vel</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">vel</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">out</span><span class="p">,</span> <span class="n">vel</span><span class="o">.</span><span class="n">range</span>
+
+<div class="viewcode-block" id="ADPBinner.dudz">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.dudz">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dudz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The shear in the first velocity component.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vel : xarray.DataArray</span>
+<span class="sd">          ADCP raw velocity</span>
+<span class="sd">        orientation : str, default=ADPBinner.orientation</span>
+<span class="sd">          Direction ADCP is facing (&#39;up&#39; or &#39;down&#39;)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dudz: xarray.DataArray</span>
+<span class="sd">          Vertical shear in the X-direction</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The derivative direction is along the profiler&#39;s &#39;z&#39;</span>
+<span class="sd">        coordinate (&#39;dz&#39; is actually diff(self[&#39;range&#39;])), not necessarily the</span>
+<span class="sd">        &#39;true vertical&#39; direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dudz</span><span class="p">,</span> <span class="n">rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_func</span><span class="p">(</span><span class="n">vel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">orientation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">dudz</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">[</span><span class="n">rng</span><span class="p">,</span> <span class="n">vel</span><span class="o">.</span><span class="n">time</span><span class="p">],</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Shear in X-direction&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.dvdz">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.dvdz">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dvdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The shear in the second velocity component.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vel : xarray.DataArray</span>
+<span class="sd">          ADCP raw velocity</span>
+<span class="sd">        orientation : str, default=ADPBinner.orientation</span>
+<span class="sd">          Direction ADCP is facing (&#39;up&#39; or &#39;down&#39;)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dvdz: xarray.DataArray</span>
+<span class="sd">          Vertical shear in the Y-direction</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The derivative direction is along the profiler&#39;s &#39;z&#39;</span>
+<span class="sd">        coordinate (&#39;dz&#39; is actually diff(self[&#39;range&#39;])), not necessarily the</span>
+<span class="sd">        &#39;true vertical&#39; direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dvdz</span><span class="p">,</span> <span class="n">rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_func</span><span class="p">(</span><span class="n">vel</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">orientation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">dvdz</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">[</span><span class="n">rng</span><span class="p">,</span> <span class="n">vel</span><span class="o">.</span><span class="n">time</span><span class="p">],</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Shear in Y-direction&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.dwdz">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.dwdz">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dwdz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The shear in the third velocity component.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vel : xarray.DataArray</span>
+<span class="sd">          ADCP raw velocity</span>
+<span class="sd">        orientation : str, default=ADPBinner.orientation</span>
+<span class="sd">          Direction ADCP is facing (&#39;up&#39; or &#39;down&#39;)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dwdz: xarray.DataArray</span>
+<span class="sd">          Vertical shear in the Z-direction</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The derivative direction is along the profiler&#39;s &#39;z&#39;</span>
+<span class="sd">        coordinate (&#39;dz&#39; is actually diff(self[&#39;range&#39;])), not necessarily the</span>
+<span class="sd">        &#39;true vertical&#39; direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dwdz</span><span class="p">,</span> <span class="n">rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff_func</span><span class="p">(</span><span class="n">vel</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">orientation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">dwdz</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">[</span><span class="n">rng</span><span class="p">,</span> <span class="n">vel</span><span class="o">.</span><span class="n">time</span><span class="p">],</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Shear in Z-direction&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.shear_squared">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.shear_squared">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shear_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The horizontal shear squared.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vel : xarray.DataArray</span>
+<span class="sd">          ADCP raw velocity</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out: xarray.DataArray</span>
+<span class="sd">          Shear squared in 1/s^2</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This is actually (dudz)^2 + (dvdz)^2. So, if those variables</span>
+<span class="sd">        are not actually vertical derivatives of the horizontal</span>
+<span class="sd">        velocity, then this is not the &#39;horizontal shear squared&#39;.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :math:`dudz`, :math:`dvdz`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">shear2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dudz</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dvdz</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">shear2</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;s-2&quot;</span>
+        <span class="n">shear2</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Horizontal Shear Squared&quot;</span>
+
+        <span class="k">return</span> <span class="n">shear2</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.doppler_noise_level">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.doppler_noise_level">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">doppler_noise_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">pct_fN</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate bias due to Doppler noise using the noise floor</span>
+<span class="sd">        of the velocity spectra.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        psd : xarray.DataArray (time, f)</span>
+<span class="sd">          The velocity spectra from a single depth bin (range), typically</span>
+<span class="sd">          in the mid-water range</span>
+<span class="sd">        pct_fN : float</span>
+<span class="sd">          Percent of Nyquist frequency to calculate characeristic frequency</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        doppler_noise (xarray.DataArray):</span>
+<span class="sd">          Doppler noise level in units of m/s</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Approximates bias from</span>
+
+<span class="sd">        .. :math: \\sigma^{2}_{noise} = N x f_{c}</span>
+
+<span class="sd">        where :math: `\\sigma_{noise}` is the bias due to Doppler noise,</span>
+<span class="sd">        `N` is the constant variance or spectral density, and `f_{c}`</span>
+<span class="sd">        is the characteristic frequency.</span>
+
+<span class="sd">        The characteristic frequency is then found as</span>
+
+<span class="sd">        .. :math: f_{c} = pct_fN * (f_{s}/2)</span>
+
+<span class="sd">        where `f_{s}/2` is the Nyquist frequency.</span>
+
+
+<span class="sd">        Richard, Jean-Baptiste, et al. &quot;Method for identification of Doppler noise</span>
+<span class="sd">        levels in turbulent flow measurements dedicated to tidal energy.&quot; International</span>
+<span class="sd">        Journal of Marine Energy 3 (2013): 52-64.</span>
+
+<span class="sd">        Thiébaut, Maxime, et al. &quot;Investigating the flow dynamics and turbulence at a</span>
+<span class="sd">        tidal-stream energy site in a highly energetic estuary.&quot; Renewable Energy 195</span>
+<span class="sd">        (2022): 252-262.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">psd</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`psd` must be an instance of `xarray.DataArray`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pct_fN</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">pct_fN</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`pct_fN` must be a float within the range [0, 1].&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">psd</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;PSD should be 2-dimensional (time, frequency)&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Characteristic frequency set to 80% of Nyquist frequency</span>
+        <span class="n">fN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">fc</span> <span class="o">=</span> <span class="n">pct_fN</span> <span class="o">*</span> <span class="n">fN</span>
+
+        <span class="c1"># Get units right</span>
+        <span class="k">if</span> <span class="n">psd</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="s2">&quot;Hz&quot;</span><span class="p">:</span>
+            <span class="n">f_range</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="n">fN</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f_range</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fc</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fN</span><span class="p">)</span>
+
+        <span class="c1"># Noise floor</span>
+        <span class="n">N2</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">f_range</span><span class="p">)</span> <span class="o">*</span> <span class="n">psd</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">f_range</span><span class="p">)</span>
+        <span class="n">noise_level</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;freq&quot;</span><span class="p">))</span>
+
+        <span class="n">time_coord</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># no reason this shouldn&#39;t be time or time_b5</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">noise_level</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">time_coord</span><span class="p">:</span> <span class="n">psd</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">time_coord</span><span class="p">]},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Doppler Noise Level&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Doppler noise level calculated &quot;</span> <span class="s2">&quot;from PSD white noise&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_stress_func_warnings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">beam_angle</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">tilt_thresh</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs a series of checks and raises warnings for ADCP stress calculations.</span>
+
+<span class="sd">        This method checks several conditions relevant for ADCP stress calculations and raises</span>
+<span class="sd">        warnings if these conditions are not met. It checks if the beam angle is defined,</span>
+<span class="sd">        if the instrument&#39;s coordinate system is aligned with the principal flow directions,</span>
+<span class="sd">        if the tilt is above a threshold, if the noise level is specified, and if the data</span>
+<span class="sd">        set is in the &#39;beam&#39; coordinate system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ds : xarray.Dataset</span>
+<span class="sd">          Raw dataset in beam coordinates</span>
+<span class="sd">        beam_angle : int, default=ds.attrs[&#39;beam_angle&#39;]</span>
+<span class="sd">          ADCP beam angle in units of degrees</span>
+<span class="sd">        noise : int or xarray.DataArray (time)</span>
+<span class="sd">          Doppler noise level in units of m/s</span>
+<span class="sd">        tilt_thresh: numeric</span>
+<span class="sd">          Angle threshold beyond which violates a small angle assumption</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        b_angle : float</span>
+<span class="sd">          If &#39;beam_angle&#39; was None, it tries to find it in &#39;ds&#39;.</span>
+<span class="sd">        noise : float</span>
+<span class="sd">          If &#39;noise&#39; was None, it is set to 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Error 1. Beam Angle</span>
+        <span class="n">b_angle</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;beam_angle&quot;</span><span class="p">,</span> <span class="n">beam_angle</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b_angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;    Beam angle not found in dataset and no beam angle supplied.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Warning 1. Memo</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;    The beam-variance algorithms assume the instrument&#39;s &quot;</span>
+            <span class="s2">&quot;(XYZ) coordinate system is aligned with the principal &quot;</span>
+            <span class="s2">&quot;flow directions.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Warning 2. Check tilt</span>
+        <span class="n">tilt_mask</span> <span class="o">=</span> <span class="n">calc_tilt</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pitch&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;roll&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">tilt_thresh</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">tilt_mask</span><span class="p">):</span>
+            <span class="n">pct_above_thresh</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">tilt_mask</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">tilt_mask</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">pct_above_thresh</span><span class="si">}</span><span class="s2"> % of measurements have a tilt &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;greater than </span><span class="si">{</span><span class="n">tilt_thresh</span><span class="si">}</span><span class="s2"> degrees.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Warning 3. Noise level of instrument is important considering 50 % of variance</span>
+        <span class="c1"># in ADCP data can be noise</span>
+        <span class="k">if</span> <span class="n">noise</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s1">&#39;    No &quot;noise&quot; input supplied. Consider calculating &quot;noise&quot; &#39;</span>
+                <span class="s2">&quot;using `calc_doppler_noise`&quot;</span>
+            <span class="p">)</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Warning 4. Likely not in beam coordinates after running a typical analysis workflow</span>
+        <span class="k">if</span> <span class="s2">&quot;beam&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;    Raw dataset must be in the &#39;beam&#39; coordinate system. &quot;</span>
+                <span class="s2">&quot;Rotating raw dataset...&quot;</span>
+            <span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="s2">&quot;beam&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">b_angle</span><span class="p">,</span> <span class="n">noise</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_orientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">beam5</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines the beam order for the beam-stress rotation algorithm based on</span>
+<span class="sd">        the instrument orientation.</span>
+
+<span class="sd">        Note: Stacey defines the beams for down-looking Workhorse ADCPs.</span>
+<span class="sd">              According to the workhorse coordinate transformation</span>
+<span class="sd">              documentation, the instrument&#39;s:</span>
+<span class="sd">                               x-axis points from beam 1 to 2, and</span>
+<span class="sd">                               y-axis points from beam 4 to 3.</span>
+<span class="sd">        Nortek Signature x-axis points from beam 3 to 1</span>
+<span class="sd">                         y-axis points from beam 2 to 4</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ds : xarray.Dataset</span>
+<span class="sd">          Raw dataset in beam coordinates</span>
+<span class="sd">        orientation : str</span>
+<span class="sd">          The orientation of the instrument, either &#39;up&#39; or &#39;down&#39;.</span>
+<span class="sd">          If None, the orientation will be retrieved from the dataset or the</span>
+<span class="sd">          instance&#39;s default orientation.</span>
+<span class="sd">        beam5 : bool, default=False</span>
+<span class="sd">          A flag indicating whether a fifth beam is present.</span>
+<span class="sd">          If True, the number 4 will be appended to the beam order.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        beams : list of int</span>
+<span class="sd">          Beam order.</span>
+<span class="sd">        phi2 : float, optional</span>
+<span class="sd">          The mean of the roll values in radians. Only returned if &#39;beam5&#39; is True.</span>
+<span class="sd">        phi3 : float, optional</span>
+<span class="sd">          The mean of the pitch values in radians, negated for Nortek instruments.</span>
+<span class="sd">          Only returned if &#39;beam5&#39; is True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">orientation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">orientation</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;orientation&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;TRDI&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">inst_make</span><span class="p">:</span>
+            <span class="n">phi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pitch&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="n">phi3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;roll&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="k">if</span> <span class="s2">&quot;down&quot;</span> <span class="ow">in</span> <span class="n">orientation</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="c1"># this order is correct given the note above</span>
+                <span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>  <span class="c1"># for down-facing RDIs</span>
+            <span class="k">elif</span> <span class="s2">&quot;up&quot;</span> <span class="ow">in</span> <span class="n">orientation</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># for up-facing RDIs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;Please provide instrument orientation [&#39;up&#39; or &#39;down&#39;]&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># For Nortek Signatures</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;Signature&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">inst_model</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;AD2CP&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">inst_model</span><span class="p">):</span>
+            <span class="n">phi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;roll&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="n">phi3</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pitch&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="k">if</span> <span class="s2">&quot;down&quot;</span> <span class="ow">in</span> <span class="n">orientation</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># for down-facing Norteks</span>
+            <span class="k">elif</span> <span class="s2">&quot;up&quot;</span> <span class="ow">in</span> <span class="n">orientation</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">beams</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># for up-facing Norteks</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;Please provide instrument orientation [&#39;up&#39; or &#39;down&#39;]&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">beam5</span><span class="p">:</span>
+            <span class="n">beams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">beams</span><span class="p">,</span> <span class="n">phi2</span><span class="p">,</span> <span class="n">phi3</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">beams</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_beam_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">beam_order</span><span class="p">,</span> <span class="n">n_beams</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the variance of the along-beam velocities and then subtracts</span>
+<span class="sd">        noise from the result.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ds : xarray.Dataset</span>
+<span class="sd">          Raw dataset in beam coordinates</span>
+<span class="sd">        time : xarray.DataArray</span>
+<span class="sd">          Ensemble-averaged time coordinate</span>
+<span class="sd">        noise : int or xarray.DataArray (time)</span>
+<span class="sd">          Doppler noise level in units of m/s</span>
+<span class="sd">        beam_order : list of int</span>
+<span class="sd">          Beam order in pairs, per manufacturer and orientation</span>
+<span class="sd">        n_beams : int</span>
+<span class="sd">          Number of beams</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bp2_ : xarray.DataArray</span>
+<span class="sd">          Enxemble-averaged along-beam velocity variance,</span>
+<span class="sd">          written &quot;beam-velocity prime squared bar&quot; in units of m^2/s^2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Concatenate 5th beam velocity if need be</span>
+        <span class="k">if</span> <span class="n">n_beams</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">beam_vel</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">elif</span> <span class="n">n_beams</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">beam_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel_b5&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Calculate along-beam velocity prime squared bar</span>
+        <span class="n">bp2_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_beams</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">beam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">beam_order</span><span class="p">):</span>
+            <span class="n">bp2_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanvar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">beam_vel</span><span class="p">[</span><span class="n">beam</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Remove doppler_noise</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="p">):</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="n">noise</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">bp2_</span> <span class="o">-=</span> <span class="n">noise</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">bp2_</span>
+
+<div class="viewcode-block" id="ADPBinner.reynolds_stress_4beam">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.reynolds_stress_4beam">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reynolds_stress_4beam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beam_angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the stresses from the covariance of along-beam</span>
+<span class="sd">        velocity measurements</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ds : xarray.Dataset</span>
+<span class="sd">          Raw dataset in beam coordinates</span>
+<span class="sd">        noise : int or xarray.DataArray (time)</span>
+<span class="sd">          Doppler noise level in units of m/s</span>
+<span class="sd">        orientation : str, default=ds.attrs[&#39;orientation&#39;]</span>
+<span class="sd">          Direction ADCP is facing (&#39;up&#39; or &#39;down&#39;)</span>
+<span class="sd">        beam_angle : int, default=ds.attrs[&#39;beam_angle&#39;]</span>
+<span class="sd">          ADCP beam angle in units of degrees</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        stress_vec : xarray.DataArray(s)</span>
+<span class="sd">          Stress vector with u&#39;w&#39;_ and v&#39;w&#39;_ components</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Assumes zero mean pitch and roll.</span>
+
+<span class="sd">        Assumes ADCP instrument coordinate system is aligned with principal flow</span>
+<span class="sd">        directions.</span>
+
+<span class="sd">        Stacey, Mark T., Stephen G. Monismith, and Jon R. Burau. &quot;Measurements</span>
+<span class="sd">        of Reynolds stress profiles in unstratified tidal flow.&quot; Journal of</span>
+<span class="sd">        Geophysical Research: Oceans 104.C5 (1999): 10933-10949.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Run through warnings</span>
+        <span class="n">b_angle</span><span class="p">,</span> <span class="n">noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress_func_warnings</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="n">beam_angle</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">tilt_thresh</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Fetch beam order</span>
+        <span class="n">beam_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_orientation</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">beam5</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Calculate beam variance and subtract noise</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">bp2_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">beam_order</span><span class="p">,</span> <span class="n">n_beams</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1"># Run stress calculations</span>
+        <span class="n">denm</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">b_angle</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">b_angle</span><span class="p">))</span>
+        <span class="n">upwp_</span> <span class="o">=</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">denm</span>
+        <span class="n">vpwp_</span> <span class="o">=</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="n">denm</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">upwp_</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">upwp_</span><span class="p">,</span> <span class="n">vpwp_</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;upvp_&quot;</span><span class="p">,</span> <span class="s2">&quot;upwp_&quot;</span><span class="p">,</span> <span class="s2">&quot;vpwp_&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-2&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Specific Reynolds Stress Vector&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.stress_tensor_5beam">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.stress_tensor_5beam">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stress_tensor_5beam</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beam_angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tke_only</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the stresses from the covariance of along-beam</span>
+<span class="sd">        velocity measurements</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ds : xarray.Dataset</span>
+<span class="sd">          Raw dataset in beam coordinates</span>
+<span class="sd">        noise : int or xarray.DataArray with dim &#39;time&#39;, default=0</span>
+<span class="sd">          Doppler noise level in units of m/s</span>
+<span class="sd">        orientation : str, default=ds.attrs[&#39;orientation&#39;]</span>
+<span class="sd">          Direction ADCP is facing (&#39;up&#39; or &#39;down&#39;)</span>
+<span class="sd">        beam_angle : int, default=ds.attrs[&#39;beam_angle&#39;]</span>
+<span class="sd">          ADCP beam angle in units of degrees</span>
+<span class="sd">        tke_only : bool, default=False</span>
+<span class="sd">          If true, only calculates tke components</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tke_vec(, stress_vec) : xarray.DataArray or tuple[xarray.DataArray]</span>
+<span class="sd">          If tke_only is set to False, function returns `tke_vec` and `stress_vec`.</span>
+<span class="sd">          Otherwise only `tke_vec` is returned</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Assumes small-angle approximation is applicable.</span>
+
+<span class="sd">        Assumes ADCP instrument coordinate system is aligned with principal flow</span>
+<span class="sd">        directions, i.e. u&#39;, v&#39; and w&#39; are aligned to the instrument&#39;s (XYZ)</span>
+<span class="sd">        frame of reference.</span>
+
+<span class="sd">        The stress equations here utilize u&#39;v&#39;_ to account for small variations</span>
+<span class="sd">        in pitch and roll. u&#39;v&#39;_ cannot be directly calculated by a 5-beam ADCP,</span>
+<span class="sd">        so it is approximated by the covariance of `u` and `v`. The uncertainty</span>
+<span class="sd">        introduced by using this approximation is small if deviations from pitch</span>
+<span class="sd">        and roll are small (&lt;= 5 degrees).</span>
+
+<span class="sd">        Dewey, R., and S. Stringer. &quot;Reynolds stresses and turbulent kinetic</span>
+<span class="sd">        energy estimates from various ADCP beam configurations: Theory.&quot; J. of</span>
+<span class="sd">        Phys. Ocean (2007): 1-35.</span>
+
+<span class="sd">        Guerra, Maricarmen, and Jim Thomson. &quot;Turbulence measurements from</span>
+<span class="sd">        five-beam acoustic Doppler current profilers.&quot; Journal of Atmospheric</span>
+<span class="sd">        and Oceanic Technology 34.6 (2017): 1267-1284.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check that beam 5 velocity exists</span>
+        <span class="k">if</span> <span class="s2">&quot;vel_b5&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Must have 5th beam data to use this function.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Run through warnings</span>
+        <span class="n">b_angle</span><span class="p">,</span> <span class="n">noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stress_func_warnings</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span> <span class="n">beam_angle</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">tilt_thresh</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Fetch beam order</span>
+        <span class="n">beam_order</span><span class="p">,</span> <span class="n">phi2</span><span class="p">,</span> <span class="n">phi3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_orientation</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">orientation</span><span class="p">,</span> <span class="n">beam5</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Calculate beam variance and subtract noise</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">bp2_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beam_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">beam_order</span><span class="p">,</span> <span class="n">n_beams</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># Run tke and stress calculations</span>
+        <span class="n">th</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">b_angle</span><span class="p">)</span>
+        <span class="n">sin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span>
+        <span class="n">cos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span>
+        <span class="n">denm</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="n">upup_</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="mi">2</span>
+            <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+            <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+            <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi3</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">denm</span>
+
+        <span class="n">vpvp_</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="mi">2</span>
+            <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+            <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+            <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi3</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">phi3</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi2</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">denm</span>
+
+        <span class="n">wpwp_</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="mi">2</span>
+            <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span>
+            <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi2</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">denm</span>
+
+        <span class="n">tke_vec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">upup_</span><span class="p">,</span> <span class="n">vpvp_</span><span class="p">,</span> <span class="n">wpwp_</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;tke&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;upup_&quot;</span><span class="p">,</span> <span class="s2">&quot;vpvp_&quot;</span><span class="p">,</span> <span class="s2">&quot;wpwp_&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE Vector&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;specific_turbulent_kinetic_energy_of_sea_water&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tke_only</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tke_vec</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Guerra Thomson calculate u&#39;v&#39; bar from from the covariance of u&#39; and v&#39;</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="s2">&quot;inst&quot;</span><span class="p">)</span>
+            <span class="n">vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">upvp_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">vel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">vel</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+            <span class="p">)</span>
+
+            <span class="n">upwp_</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi3</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi3</span> <span class="o">*</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi2</span> <span class="o">*</span> <span class="n">upvp_</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="n">denm</span>
+
+            <span class="n">vpwp_</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi2</span> <span class="o">*</span> <span class="p">(</span><span class="n">bp2_</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi2</span> <span class="o">*</span> <span class="n">bp2_</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">phi3</span> <span class="o">*</span> <span class="n">upvp_</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="n">denm</span>
+
+            <span class="n">stress_vec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">upvp_</span><span class="p">,</span> <span class="n">upwp_</span><span class="p">,</span> <span class="n">vpwp_</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+                <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;upvp_&quot;</span><span class="p">,</span> <span class="s2">&quot;upwp_&quot;</span><span class="p">,</span> <span class="s2">&quot;vpwp_&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-2&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Specific Reynolds Stress Vector&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">tke_vec</span><span class="p">,</span> <span class="n">stress_vec</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.check_turbulence_cascade_slope">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.check_turbulence_cascade_slope">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_turbulence_cascade_slope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">freq_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function calculates the slope of the PSD, the power spectra</span>
+<span class="sd">        of velocity, within the given frequency range. The purpose of this</span>
+<span class="sd">        function is to check that the region of the PSD containing the</span>
+<span class="sd">        isotropic turbulence cascade decreases at a rate of :math:`f^{-5/3}`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        psd : xarray.DataArray ([[range,] time,] freq)</span>
+<span class="sd">          The power spectral density (1D, 2D or 3D)</span>
+<span class="sd">        freq_range : iterable(2) (default: [6.28, 12.57])</span>
+<span class="sd">          The range over which the isotropic turbulence cascade occurs, in</span>
+<span class="sd">          units of the psd frequency vector (Hz or rad/s)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        (m, b): tuple (slope, y-intercept)</span>
+<span class="sd">          A tuple containing the coefficients of the log-adjusted linear</span>
+<span class="sd">          regression between PSD and frequency</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Calculates slope based on the `standard` formula for dissipation:</span>
+
+<span class="sd">        .. math:: S(k) = \\alpha \\epsilon^{2/3} k^{-5/3} + N</span>
+
+<span class="sd">        The slope of the isotropic turbulence cascade, which should be</span>
+<span class="sd">        equal to :math:`k^{-5/3}` or :math:`f^{-5/3}`, where k and f are</span>
+<span class="sd">        the wavenumber and frequency vectors, is estimated using linear</span>
+<span class="sd">        regression with a log transformation:</span>
+
+<span class="sd">        .. math:: log10(y) = m*log10(x) + b</span>
+
+<span class="sd">        Which is equivalent to</span>
+
+<span class="sd">        .. math:: y = 10^{b} x^{m}</span>
+
+<span class="sd">        Where :math:`y` is S(k) or S(f), :math:`x` is k or f, :math:`m`</span>
+<span class="sd">        is the slope (ideally -5/3), and :math:`10^{b}` is the intercept of</span>
+<span class="sd">        y at x^m=1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">psd</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`psd` must be an instance of `xarray.DataArray`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">freq_range</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_range</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`freq_range` must be an iterable of length 2.&quot;</span><span class="p">)</span>
+
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">freq_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">psd</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">psd</span><span class="o">.</span><span class="n">freq</span> <span class="o">&lt;</span> <span class="n">freq_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">psd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">idx</span><span class="p">))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">psd</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">idx</span><span class="p">))</span>
+
+        <span class="n">y_bar</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">)</span>
+        <span class="n">x_bar</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">)</span>
+
+        <span class="c1"># using the formula to calculate the slope and intercept</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_bar</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="n">d</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">y_bar</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">x_bar</span>
+
+        <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">b</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.dissipation_rate_LT83">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.dissipation_rate_LT83">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dissipation_rate_LT83</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">U_mag</span><span class="p">,</span> <span class="n">freq_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span> <span class="n">noise</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the TKE dissipation rate from the velocity spectra.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        psd : xarray.DataArray (time,f)</span>
+<span class="sd">          The power spectral density from a single depth bin (range)</span>
+<span class="sd">        U_mag : xarray.DataArray (time)</span>
+<span class="sd">          The bin-averaged horizontal velocity (a.k.a. speed) from a single depth bin (range)</span>
+<span class="sd">        f_range : iterable(2)</span>
+<span class="sd">          The range over which to integrate/average the spectrum, in units</span>
+<span class="sd">          of the psd frequency vector (Hz or rad/s)</span>
+<span class="sd">        noise : float or array-like</span>
+<span class="sd">          Instrument noise level in same units as velocity. Typically</span>
+<span class="sd">          found from `adp.turbulence.doppler_noise_level`.</span>
+<span class="sd">          Default: None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dissipation_rate : xarray.DataArray (...,n_time)</span>
+<span class="sd">          Turbulent kinetic energy dissipation rate</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This uses the `standard` formula for dissipation:</span>
+
+<span class="sd">        .. math:: S(k) = \\alpha \\epsilon^{2/3} k^{-5/3} + N</span>
+
+<span class="sd">        where :math:`\\alpha = 0.5` (1.5 for all three velocity</span>
+<span class="sd">        components), `k` is wavenumber, `S(k)` is the turbulent</span>
+<span class="sd">        kinetic energy spectrum, and `N&#39; is the doppler noise level</span>
+<span class="sd">        associated with the TKE spectrum.</span>
+
+<span class="sd">        With :math:`k \\rightarrow \\omega / U`, then -- to preserve variance --</span>
+<span class="sd">        :math:`S(k) = U S(\\omega)`, and so this becomes:</span>
+
+<span class="sd">        .. math:: S(\\omega) = \\alpha \\epsilon^{2/3} \\omega^{-5/3} U^{2/3} + N</span>
+
+<span class="sd">        With :math:`k \\rightarrow (2\\pi f) / U`, then</span>
+
+<span class="sd">        .. math:: S(\\omega) = \\alpha \\epsilon^{2/3} f^{-5/3} (U/(2*\\pi))^{2/3} + N</span>
+
+<span class="sd">        LT83 : Lumley and Terray, &quot;Kinematics of turbulence convected</span>
+<span class="sd">        by a random wave field&quot;. JPO, 1983, vol13, pp2000-2007.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">psd</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;PSD should be 2-dimensional (time, frequency)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">U_mag</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;U_mag should be 1-dimensional (time)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">freq_range</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">freq_range</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`freq_range` must be an iterable of length 2.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">noise</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">noise</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">psd</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Noise should have same first dimension as PSD&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Noise subtraction from binner.TimeBinner._psd_base</span>
+        <span class="n">psd</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">noise</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">psd</span> <span class="o">-=</span> <span class="n">noise</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fs</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">psd</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">psd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">psd</span><span class="p">))</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">psd</span><span class="o">.</span><span class="n">freq</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">freq_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">freq</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">freq</span> <span class="o">&lt;</span> <span class="n">freq_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">freq</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="s2">&quot;Hz&quot;</span><span class="p">:</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U_mag</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U_mag</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">psd</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">freq</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span>
+            <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">U</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE Dissipation Rate&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;specific_turbulent_kinetic_energy_dissipation_in_sea_water&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE dissipation rate calculated using &quot;</span>
+                <span class="s2">&quot;the method from Lumley and Terray, 1983&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.dissipation_rate_SF">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.dissipation_rate_SF">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dissipation_rate_SF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel_raw</span><span class="p">,</span> <span class="n">r_range</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate TKE dissipation rate from ADCP along-beam velocity using the</span>
+<span class="sd">        &quot;structure function&quot; (SF) method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vel_raw : xarray.DataArray</span>
+<span class="sd">          The raw beam velocity data (one beam, last dimension time) upon</span>
+<span class="sd">          which to perform the SF technique.</span>
+<span class="sd">        r_range : numeric, default=[1,5]</span>
+<span class="sd">          Range of r in [m] to calc dissipation across. Low end of range should be</span>
+<span class="sd">          bin size, upper end of range is limited to the length of largest eddies</span>
+<span class="sd">          in the inertial subrange.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dissipation_rate : xarray.DataArray (range, time)</span>
+<span class="sd">          Dissipation rate estimated from the structure function</span>
+<span class="sd">        noise : xarray.DataArray (range, time)</span>
+<span class="sd">          Noise offset estimated from the structure function at r = 0</span>
+<span class="sd">        structure_function : xarray.DataArray (range, r, time)</span>
+<span class="sd">          Structure function D(z,r)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Dissipation rate outputted by this function is only valid if the isotropic</span>
+<span class="sd">        turbulence cascade can be seen in the TKE spectra.</span>
+
+<span class="sd">        Velocity data must be in beam coordinates and should be cleaned of surface</span>
+<span class="sd">        interference.</span>
+
+<span class="sd">        This method calculates the 2nd order structure function:</span>
+
+<span class="sd">        .. math:: D(z,r) = [(u&#39;(z) - u`(z+r))^2]</span>
+
+<span class="sd">        where `u&#39;` is the velocity fluctuation `z` is the depth bin,</span>
+<span class="sd">        `r` is the separation between depth bins, and [] denotes a time average</span>
+<span class="sd">        (size &#39;ADPBinner.n_bin&#39;).</span>
+
+<span class="sd">        The stucture function can then be used to estimate the dissipation rate:</span>
+
+<span class="sd">        .. math:: D(z,r) = C^2 \\epsilon^{2/3} r^{2/3} + N</span>
+
+<span class="sd">        where `C` is a constant (set to 2.1), `\\epsilon` is the dissipation rate,</span>
+<span class="sd">        and `N` is the offset due to noise. Noise is then calculated by</span>
+
+<span class="sd">        .. math:: \\sigma = (N/2)^{1/2}</span>
+
+<span class="sd">        Wiles, et al, &quot;A novel technique for measuring the rate of</span>
+<span class="sd">        turbulent dissipation in the marine environment&quot;</span>
+<span class="sd">        GRL, 2006, 33, L21608.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vel_raw</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`vel_raw` must be an instance of `xarray.DataArray`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">r_range</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">r_range</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`r_range` must be an iterable of length 2.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vel_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;Function input must be single beam and in &#39;beam&#39; coordinate system&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;range_b5&quot;</span> <span class="ow">in</span> <span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">vel_raw</span><span class="p">[</span><span class="s2">&quot;range_b5&quot;</span><span class="p">]</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vel_raw</span><span class="p">[</span><span class="s2">&quot;time_b5&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">vel_raw</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vel_raw</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="c1"># bm shape is [range, ensemble time, &#39;data within ensemble&#39;]</span>
+        <span class="n">bm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">demean</span><span class="p">(</span><span class="n">vel_raw</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>  <span class="c1"># take out the ensemble mean</span>
+
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">bm</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">bm</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">bin_size</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">rng</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">bin_size</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="n">r_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bin_size</span><span class="p">,</span> <span class="n">bin_size</span><span class="p">)</span>
+
+        <span class="c1"># D(z,r,time)</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">bm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">bm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">r_value</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+            <span class="c1"># the i in d is the index based on r and bin size</span>
+            <span class="c1"># bin size index, &gt; 1</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r_value</span> <span class="o">/</span> <span class="n">bin_size</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  <span class="c1"># for each ensemble</span>
+                <span class="c1"># subtract the variance of adjacent depth cells</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">((</span><span class="n">bm</span><span class="p">[:</span><span class="o">-</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">bm</span><span class="p">[</span><span class="n">i</span><span class="p">:,</span> <span class="n">idx</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># have to insert 0/nan in first bin to match length</span>
+                <span class="n">spaces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">i</span><span class="p">,))</span>
+                <span class="n">spaces</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="n">D</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">spaces</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+
+        <span class="c1"># find best fit line y = mx + b (aka D(z,r) = A*r^2/3 + N) to solve</span>
+        <span class="c1"># epsilon for each depth and ensemble</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  <span class="c1"># for each ensemble</span>
+            <span class="c1"># start at minimum r_range and work up to surface</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="c1"># average ensembles together</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">R</span><span class="p">:,</span> <span class="n">idx</span><span class="p">])):</span>  <span class="c1"># if no nan&#39;s</span>
+                    <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span>
+                        <span class="n">r</span><span class="p">[</span><span class="n">R</span><span class="p">:]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">R</span><span class="p">:,</span> <span class="n">idx</span><span class="p">],</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="c1"># A taken as 2.1, n = y-intercept</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">/</span> <span class="mf">2.1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">epsilon</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">rng</span><span class="p">,</span> <span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">time</span><span class="p">},</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE Dissipation Rate&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;specific_turbulent_kinetic_energy_dissipation_in_sea_water&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;TKE dissipation rate calculated from the &quot;</span>
+                <span class="s1">&#39;&quot;structure function&quot; method from Wiles et al, 2006.&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">noise</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">rng</span><span class="p">,</span> <span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">time</span><span class="p">},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Structure Function Noise Offset&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="n">SF</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">D</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">rng</span><span class="p">,</span> <span class="s2">&quot;range_SF&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="n">vel_raw</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">time</span><span class="p">},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m2 s-2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Structure Function D(z,r)&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s1">&#39;&quot;Structure function&quot; from Wiles et al, 2006.&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">SF</span></div>
+
+
+<div class="viewcode-block" id="ADPBinner.friction_velocity">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.adp.turbulence.ADPBinner.friction_velocity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">friction_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds_avg</span><span class="p">,</span> <span class="n">upwp_</span><span class="p">,</span> <span class="n">z_inds</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">H</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Approximate friction velocity from shear stress using a</span>
+<span class="sd">        logarithmic profile.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ds_avg : xarray.Dataset</span>
+<span class="sd">          Bin-averaged dataset containing `stress_vec`</span>
+<span class="sd">        upwp_ : xarray.DataArray</span>
+<span class="sd">          First component of Reynolds shear stress vector, &quot;u-prime v-prime bar&quot;</span>
+<span class="sd">          Ex `ds_avg[&#39;stress_vec&#39;].sel(tau=&#39;upwp_&#39;)`</span>
+<span class="sd">        z_inds : slice(int,int)</span>
+<span class="sd">          Depth indices to use for profile. Default = slice(1, 5)</span>
+<span class="sd">        H : numeric (default=`ds_avg.depth`)</span>
+<span class="sd">          Total water depth</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        u_star : xarray.DataArray</span>
+<span class="sd">          Friction velocity</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds_avg</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`ds_avg` must be an instance of `xarray.Dataset`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">upwp_</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`upwp_` must be an instance of `xarray.DataArray`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">z_inds</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`z_inds` must be an instance of `slice(int,int)`.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">H</span><span class="p">:</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">upwp_</span> <span class="o">=</span> <span class="n">upwp_</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="n">sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">upwp_</span><span class="p">[</span><span class="n">z_inds</span><span class="p">,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">u_star</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">sign</span> <span class="o">*</span> <span class="n">upwp_</span><span class="p">[</span><span class="n">z_inds</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="n">z_inds</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">/</span> <span class="n">H</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">u_star</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ds_avg</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Friction Velocity&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

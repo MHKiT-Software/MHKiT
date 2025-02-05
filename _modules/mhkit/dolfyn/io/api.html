@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.io.api &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.io.api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.io.api</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span><span class="p">,</span> <span class="n">normpath</span><span class="p">,</span> <span class="n">relpath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nortek</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_nortek</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nortek2</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.rdi</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rdi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_create_dataset</span><span class="p">,</span> <span class="n">_get_filetype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_set_coords</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..time</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">date2matlab</span><span class="p">,</span>
+    <span class="n">matlab2date</span><span class="p">,</span>
+    <span class="n">date2dt64</span><span class="p">,</span>
+    <span class="n">dt642date</span><span class="p">,</span>
+    <span class="n">date2epoch</span><span class="p">,</span>
+    <span class="n">epoch2date</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_file_ext</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ext</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># windows/linux</span>
+    <span class="c1"># for a filename like mcrl.water_velocity-1s.b1.20200813.150000.nc</span>
+    <span class="n">file_ext</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">file_ext</span> <span class="o">!=</span> <span class="n">ext</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;File extension must be of the type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ext</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">file_ext</span> <span class="o">==</span> <span class="n">ext</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">path</span>
+
+    <span class="k">return</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">ext</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_cf</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper around `xarray.decode_cf()` which handles additional edge cases.</span>
+
+<span class="sd">    This helps ensure that the dataset is formatted and encoded correctly after it has</span>
+<span class="sd">    been constructed or modified. Handles edge cases for units and data type encodings</span>
+<span class="sd">    on datetime variables.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dataset (xr.Dataset): The dataset to decode.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        xr.Dataset: The decoded dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># We have to make sure that time variables do not have units set as attrs, and</span>
+    <span class="c1"># instead have units set on the encoding or else xarray will crash when trying</span>
+    <span class="c1"># to save: https://github.com/pydata/xarray/issues/3739</span>
+    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="s2">&quot;units&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="p">):</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">variable</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
+            <span class="n">variable</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span>
+
+        <span class="c1"># If the _FillValue is already encoded, remove it since it can&#39;t be overwritten per xarray</span>
+        <span class="k">if</span> <span class="s2">&quot;_FillValue&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">encoding</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">variable</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Leaving the &quot;dtype&quot; entry in the encoding for datetime64 variables causes a crash</span>
+    <span class="c1"># when saving the dataset. Not fixed by: https://github.com/pydata/xarray/pull/4684</span>
+    <span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">decode_cf</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;dtype&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">encoding</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">variable</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ds</span>
+
+
+<div class="viewcode-block" id="read">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.read">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">userdata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a binary Nortek (e.g., .VEC, .wpr, .ad2cp, etc.) or RDI</span>
+<span class="sd">    (.000, .PD0, .ENX, etc.) data file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : string</span>
+<span class="sd">      Filename of instrument file to read.</span>
+<span class="sd">    userdata : True, False, or string of userdata.json filename (default ``True``)</span>
+<span class="sd">      Whether to read the &#39;&lt;base-filename&gt;.userdata.json&#39; file.</span>
+<span class="sd">    nens : None, int or 2-element tuple (start, stop)</span>
+<span class="sd">      Number of pings or ensembles to read from the file.</span>
+<span class="sd">      Default is None, read entire file</span>
+<span class="sd">    **kwargs : dict</span>
+<span class="sd">      Passed to instrument-specific parser.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      An xarray dataset from instrument datafile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">file_type</span> <span class="o">=</span> <span class="n">_get_filetype</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;&lt;GIT-LFS pointer&gt;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span>
+            <span class="s2">&quot;File &#39;</span><span class="si">{}</span><span class="s2">&#39; looks like a git-lfs pointer. You may need to &quot;</span>
+            <span class="s2">&quot;install and initialize git-lfs. See https://git-lfs.github.com&quot;</span>
+            <span class="s2">&quot; for details.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">file_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span>
+            <span class="s2">&quot;File &#39;</span><span class="si">{}</span><span class="s2">&#39; is not recognized as a file-type that is readable by &quot;</span>
+            <span class="s2">&quot;DOLfYN. If you think it should be readable, try using the &quot;</span>
+            <span class="s2">&quot;appropriate read function (`read_rdi`, `read_nortek`, or &quot;</span>
+            <span class="s2">&quot;`read_signature`) found in dolfyn.io.api.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">func_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">RDI</span><span class="o">=</span><span class="n">read_rdi</span><span class="p">,</span> <span class="n">nortek</span><span class="o">=</span><span class="n">read_nortek</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="n">read_signature</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">func_map</span><span class="p">[</span><span class="n">file_type</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">userdata</span><span class="o">=</span><span class="n">userdata</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_example">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.read_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_example</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read an ADCP or ADV datafile from the examples directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">      A few available files:</span>
+
+<span class="sd">            AWAC_test01.wpr</span>
+<span class="sd">            BenchFile01.ad2cp</span>
+<span class="sd">            RDI_test01.000</span>
+<span class="sd">            vector_burst_mode01.VEC</span>
+<span class="sd">            vector_data01.VEC</span>
+<span class="sd">            vector_data_imu01.VEC</span>
+<span class="sd">            winriver01.PD0</span>
+<span class="sd">            winriver02.PD0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      An xarray dataset from the binary instrument data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">testdir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+    <span class="n">exdir</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">testdir</span><span class="p">,</span> <span class="n">relpath</span><span class="p">(</span><span class="s2">&quot;../../../examples/data/dolfyn/&quot;</span><span class="p">)))</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">exdir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">name</span>
+
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="save">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.save">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;netcdf4&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save xarray dataset as netCDF (.nc).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      Dataset to save</span>
+<span class="sd">    filename : str</span>
+<span class="sd">      Filename and/or path with the &#39;.nc&#39; extension</span>
+<span class="sd">    compression : bool</span>
+<span class="sd">      When true, compress all variables with zlib complevel=1.</span>
+<span class="sd">      Default is False</span>
+<span class="sd">    **kwargs : dict</span>
+<span class="sd">      These are passed directly to :func:`xarray.Dataset.to_netcdf`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Drops &#39;config&#39; lines.</span>
+
+<span class="sd">    Rewrites variable encoding dict</span>
+
+<span class="sd">    More detailed compression options can be specified by specifying</span>
+<span class="sd">    &#39;encoding&#39; in kwargs. The values in encoding will take precedence</span>
+<span class="sd">    over whatever is set according to the compression option above.</span>
+<span class="sd">    See the xarray.to_netcdf documentation for more details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;nc&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Handling complex values for netCDF4</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]):</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_real&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_imag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span>
+
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="c1"># For variables that get rewritten to float64</span>
+        <span class="k">elif</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Write variable encoding</span>
+    <span class="n">enc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;encoding&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">enc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;encoding&quot;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="c1"># Save prior encoding</span>
+        <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">encoding</span>
+        <span class="c1"># Remove unexpected netCDF4 encoding parameters</span>
+        <span class="c1"># https://github.com/pydata/xarray/discussions/5709</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;szip&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;zstd&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bzip2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;blosc&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;contiguous&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;chunksizes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;preferred_chunks&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="p">[</span><span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">compression</span><span class="p">:</span>
+            <span class="c1"># New netcdf4-c cannot compress variable length strings</span>
+            <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">enc</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;encoding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">enc</span>
+
+    <span class="c1"># Fix encoding on datetime64 variables.</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">_decode_cf</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="load">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.load">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load xarray dataset from netCDF (.nc)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">      Filename and/or path with the &#39;.nc&#39; extension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      An xarray dataset from the binary instrument data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;nc&quot;</span><span class="p">)</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;netcdf4&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert numpy arrays and strings back to lists</span>
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Convert list items from numpy to generic python type</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]]</span>
+
+    <span class="c1"># Rejoin complex numbers</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;complex_vars&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">complex_vars</span><span class="p">:</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_real&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_imag&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_real&quot;</span><span class="p">,</span> <span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_imag&quot;</span><span class="p">])</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;complex_vars&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+
+
+<div class="viewcode-block" id="save_mat">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.save_mat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_mat</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">datenum</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save xarray dataset as a MATLAB (.mat) file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      Dataset to save</span>
+<span class="sd">    filename : str</span>
+<span class="sd">      Filename and/or path with the &#39;.mat&#39; extension</span>
+<span class="sd">    datenum : bool</span>
+<span class="sd">      If true, converts time to datenum. If false, time will be saved</span>
+<span class="sd">      in &quot;epoch time&quot;.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The xarray data format is saved as a MATLAB structure with the fields</span>
+<span class="sd">    &#39;vars, coords, config, units&#39;. Converts time to datenum</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.io.savemat()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_attrs</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s2">&quot;units&quot;</span><span class="p">):</span>
+            <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">units</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s2">&quot;long_name&quot;</span><span class="p">):</span>
+            <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">long_name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="s2">&quot;standard_name&quot;</span><span class="p">):</span>
+            <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">standard_name</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;mat&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert time to datenum</span>
+    <span class="n">t_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)]</span>
+    <span class="n">t_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">datenum</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">date2matlab</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">date2epoch</span>
+
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_coords</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">dt642date</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]))</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">ky</span><span class="p">:</span> <span class="p">(</span><span class="n">ky</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)})</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_data</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">dt642date</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]))</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dt</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coords&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_coords</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_data</span>
+
+    <span class="c1"># Save xarray structure with more descriptive structure names</span>
+    <span class="n">matfile</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;vars&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;vars&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">copy_attrs</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">ky</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+        <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">copy_attrs</span><span class="p">(</span><span class="n">matfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">ky</span><span class="p">)</span>
+    <span class="n">matfile</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span>
+
+    <span class="n">sio</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">matfile</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="load_mat">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.api.load_mat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_mat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">datenum</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load xarray dataset from MATLAB (.mat) file, complimentary to `save_mat()`</span>
+
+<span class="sd">    A .mat file must contain the fields: {vars, coords, config, units},</span>
+<span class="sd">    where &#39;coords&#39; contain the dimensions of all variables in &#39;vars&#39;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">      Filename and/or path with the &#39;.mat&#39; extension</span>
+<span class="sd">    datenum : bool</span>
+<span class="sd">      If true, converts time from datenum. If false, converts time from</span>
+<span class="sd">      &quot;epoch time&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      An xarray dataset from the binary instrument data.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.io.loadmat()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">_check_file_ext</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;mat&quot;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">struct_as_record</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">squeeze_me</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">ds_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;vars&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">ds_dict</span><span class="p">:</span>
+        <span class="n">key_list</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">_fieldnames</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
+            <span class="n">ds_dict</span><span class="p">[</span><span class="n">nm</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">ky</span><span class="p">)</span>
+
+    <span class="n">ds_dict</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;vars&quot;</span><span class="p">)</span>
+    <span class="n">ds_dict</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Recreate dataset</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">_create_dataset</span><span class="p">(</span><span class="n">ds_dict</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">_set_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">)</span>
+
+    <span class="c1"># Convert numpy arrays and strings back to lists</span>
+    <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">list</span><span class="p">))]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;time_coords&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_data_vars&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rotate_vars&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">nm</span><span class="p">]]</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;orientation_down&quot;</span><span class="p">):</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientation_down&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientation_down&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">datenum</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">matlab2date</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">epoch2date</span>
+
+    <span class="c1"># Restore datnum to np.dt64</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;time_coords&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coords&quot;</span><span class="p">]:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">date2dt64</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">ky</span><span class="p">:</span> <span class="n">dt</span><span class="p">})</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;time_coords&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;time_data_vars&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_vars&quot;</span><span class="p">]:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">date2dt64</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;time_data_vars&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

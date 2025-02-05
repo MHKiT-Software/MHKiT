@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.mooring.graphics &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.mooring.graphics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.mooring.graphics</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides a function for creating animated visualizations of a </span>
+<span class="sd">MoorDyn node position dataset using the matplotlib animation API. </span>
+
+<span class="sd">It includes the main function `animate`, which creates either 2D or 3D </span>
+<span class="sd">animations depending on the input parameters. </span>
+
+<span class="sd">In the animations, the position of nodes in the MoorDyn dataset are plotted </span>
+<span class="sd">over time, allowing the user to visualize how these positions change. </span>
+
+<span class="sd">This module also includes several helper functions that are used by </span>
+<span class="sd">`animate` to validate inputs, generate lists of nodes along each axis, </span>
+<span class="sd">calculate plot limits, and set labels and titles for plots. </span>
+
+<span class="sd">The user can specify various parameters for the animation such as the </span>
+<span class="sd">dimension (2D or 3D), the axes to plot along, the plot limits for each </span>
+<span class="sd">axis, the interval between frames, whether the animation repeats, and the </span>
+<span class="sd">labels and title for the plot.</span>
+
+<span class="sd">Requires:</span>
+<span class="sd">- matplotlib</span>
+<span class="sd">- xarray</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.animation</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncAnimation</span>
+
+
+<div class="viewcode-block" id="animate">
+<a class="viewcode-back" href="../../../mhkit-python/api.mooring.html#mhkit.mooring.graphics.animate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">animate</span><span class="p">(</span>
+    <span class="n">dsani</span><span class="p">,</span>
+    <span class="n">dimension</span><span class="o">=</span><span class="s2">&quot;2d&quot;</span><span class="p">,</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span>
+    <span class="n">zaxis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">zlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">zlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Graphics function that creates a 2D or 3D animation of the node positions of a mooring line over time.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsani : xr.Dataset</span>
+<span class="sd">        Xarray dataset object containing MoorDyn node variables (ie &#39;Node0px&#39;)</span>
+<span class="sd">    dimension : str, optional</span>
+<span class="sd">        Dimension of animation (&#39;2d&#39; or &#39;3d&#39;), by default &#39;2d&#39;</span>
+<span class="sd">    xaxis : str, optional</span>
+<span class="sd">        lowercase letter of node axis to plot along x-axis, by default &#39;x&#39;</span>
+<span class="sd">    yaxis : str, optional</span>
+<span class="sd">        lowercase latter of node axis to plot along y-axis, by default &#39;z&#39;</span>
+<span class="sd">    zaxis : str, optional</span>
+<span class="sd">        lowercase latter of node axis to plot along z-axis, by default &#39;y&#39; (only used in 3d)</span>
+<span class="sd">    xlim : list, optional</span>
+<span class="sd">        Two element list for plot: [min x-axis limit, max x-axis limit], by default None</span>
+<span class="sd">    ylim : list, optional</span>
+<span class="sd">        Two element list for plot: [min y-axis limit, max y-axis limit], by default None</span>
+<span class="sd">    zlim : list, optional</span>
+<span class="sd">        Two element list for plot: [min z-axis limit, max z-axis limit], by default None (only used in 3d)</span>
+<span class="sd">    interval : int, optional</span>
+<span class="sd">        Delay between frames in milliseconds, by default 10</span>
+<span class="sd">    repeat : bool, optional</span>
+<span class="sd">        Whether the animation repeats when the sequence of frames is completed, by default False</span>
+<span class="sd">    xlabel : str, optional</span>
+<span class="sd">        X-label for plot, by default None</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        Y-label for plot, by default None</span>
+<span class="sd">    zlabel : str, optional</span>
+<span class="sd">        Z-label for plot, by default None (only used in 3d)</span>
+<span class="sd">    title : str, optional</span>
+<span class="sd">        Set title of plot, by default None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    matplotlib.animation.FuncAnimation</span>
+<span class="sd">        Animation object</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        Checks for correct input types for dsani, dimension, xaxis, yaxis, zaxis, xlim, ylim,</span>
+<span class="sd">        zlim, interval, repeat, xlabel, ylabel, zlabel, and title</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_validate_input</span><span class="p">(</span>
+        <span class="n">dsani</span><span class="p">,</span> <span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">repeat</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">dimension</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;3d&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zlim</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;zlim must be of type list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zlabel</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;zlabel must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xaxis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;xaxis must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">yaxis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;yaxis must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaxis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;zaxis must be of type str&quot;</span><span class="p">)</span>
+
+    <span class="n">current_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dsani</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dsani</span> <span class="o">=</span> <span class="n">dsani</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">current_idx</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})</span>
+
+    <span class="n">nodes_x</span><span class="p">,</span> <span class="n">nodes_y</span><span class="p">,</span> <span class="n">nodes_z</span> <span class="o">=</span> <span class="n">_get_axis_nodes</span><span class="p">(</span><span class="n">dsani</span><span class="p">,</span> <span class="n">xaxis</span><span class="p">,</span> <span class="n">yaxis</span><span class="p">,</span> <span class="n">zaxis</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">xlim</span><span class="p">:</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="n">_find_limits</span><span class="p">(</span><span class="n">dsani</span><span class="p">[</span><span class="n">nodes_x</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ylim</span><span class="p">:</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="n">_find_limits</span><span class="p">(</span><span class="n">dsani</span><span class="p">[</span><span class="n">nodes_y</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;3d&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">zlim</span><span class="p">:</span>
+        <span class="n">zlim</span> <span class="o">=</span> <span class="n">_find_limits</span><span class="p">(</span><span class="n">dsani</span><span class="p">[</span><span class="n">nodes_z</span><span class="p">])</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;3d&quot;</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;2d&quot;</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">ln</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="s2">&quot;-o&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">init</span><span class="p">():</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+            <span class="n">_set_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ln</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">dsani</span><span class="p">[</span><span class="n">nodes_x</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">dsani</span><span class="p">[</span><span class="n">nodes_y</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ln</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;3d&quot;</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">ln</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="s2">&quot;-o&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">init</span><span class="p">():</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim3d</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim3d</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span> <span class="n">zlim3d</span><span class="o">=</span><span class="n">zlim</span><span class="p">)</span>
+            <span class="n">_set_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">zlabel</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ln</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">dsani</span><span class="p">[</span><span class="n">nodes_x</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">dsani</span><span class="p">[</span><span class="n">nodes_y</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">dsani</span><span class="p">[</span><span class="n">nodes_z</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ln</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">ln</span><span class="o">.</span><span class="n">set_3d_properties</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+    <span class="n">ani</span> <span class="o">=</span> <span class="n">FuncAnimation</span><span class="p">(</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">update</span><span class="p">,</span>
+        <span class="n">frames</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dsani</span><span class="o">.</span><span class="n">time</span><span class="p">),</span>
+        <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span>
+        <span class="n">interval</span><span class="o">=</span><span class="n">interval</span><span class="p">,</span>
+        <span class="n">repeat</span><span class="o">=</span><span class="n">repeat</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ani</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_input</span><span class="p">(</span>
+    <span class="n">dsani</span><span class="p">,</span> <span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">repeat</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">dimension</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate common input parameters for animate function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dsani</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;dsani must be of type xr.Dataset&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xlim</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;xlim must be of type list&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ylim</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;ylim must be of type list&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;interval must be of type int&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">repeat</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;repeat must be of type bool&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">xlabel</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;xlabel must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ylabel</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;ylabel must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;title must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;2d&quot;</span><span class="p">,</span> <span class="s2">&quot;3d&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dimension must be either &quot;2d&quot; or &quot;3d&quot;&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_axis_nodes</span><span class="p">(</span><span class="n">dsani</span><span class="p">,</span> <span class="n">xaxis</span><span class="p">,</span> <span class="n">yaxis</span><span class="p">,</span> <span class="n">zaxis</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to generate the list of nodes along each axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsani : xr.Dataset</span>
+<span class="sd">        Xarray dataset object containing MoorDyn node variables (ie &#39;Node0px&#39;)</span>
+<span class="sd">    xaxis : str</span>
+<span class="sd">        lowercase letter of node axis to plot along x-axis</span>
+<span class="sd">    yaxis : str</span>
+<span class="sd">        lowercase latter of node axis to plot along y-axis</span>
+<span class="sd">    zaxis : str</span>
+<span class="sd">        lowercase latter of node axis to plot along z-axis</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nodesX : list</span>
+<span class="sd">        List of nodes along the x-axis</span>
+<span class="sd">    nodesY : list</span>
+<span class="sd">        List of nodes along the y-axis</span>
+<span class="sd">    nodesZ : list</span>
+<span class="sd">        List of nodes along the z-axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dsani</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)</span> <span class="k">if</span> <span class="s2">&quot;Node&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+    <span class="n">nodes_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;p</span><span class="si">{</span><span class="n">xaxis</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+    <span class="n">nodes_y</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;p</span><span class="si">{</span><span class="n">yaxis</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+    <span class="n">nodes_z</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;p</span><span class="si">{</span><span class="n">zaxis</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">nodes_x</span><span class="p">,</span> <span class="n">nodes_y</span><span class="p">,</span> <span class="n">nodes_z</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_limits</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Auto calculate the min and max plot limits based on provided dataset</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset : xr.Dataset</span>
+<span class="sd">        Dataset containing data pertaining to specific axis</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        Min and max plot limits for axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x_1</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x_1</span> <span class="o">=</span> <span class="n">x_1</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_1</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">x_2</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x_2</span> <span class="o">=</span> <span class="n">x_2</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_2</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_set_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to set the labels and title for a plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        The axes object to set labels and title on.</span>
+<span class="sd">    xlabel : str, optional</span>
+<span class="sd">        X-axis label, by default None</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        Y-axis label, by default None</span>
+<span class="sd">    title : str, optional</span>
+<span class="sd">        Title of the plot, by default None</span>
+<span class="sd">    zlabel : str, optional</span>
+<span class="sd">        Z-axis label, by default None for 2D plots</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">xlabel</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylabel</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">zlabel</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

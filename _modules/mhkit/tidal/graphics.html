@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.tidal.graphics &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.tidal.graphics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.tidal.graphics</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bisect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpn</span> <span class="k">as</span> <span class="n">_interpn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.river.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">exceedance_probability</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.tidal.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">_histogram</span><span class="p">,</span> <span class="n">_flood_or_ebb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.river.graphics</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_velocity_duration_curve</span><span class="p">,</span> <span class="n">_xy_plot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataarray</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_initialize_polar</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes a polar plots with cardinal directions and ebb/flow</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax :axes</span>
+<span class="sd">    metadata: dictionary</span>
+<span class="sd">        Contains site meta data</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax: axes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Initialize polar plot</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">polar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Angles are measured clockwise from true north</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_theta_zero_location</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_theta_direction</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;NE&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;SE&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;SW&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;NW&quot;</span><span class="p">]</span>
+    <span class="c1"># Polar plots do not have minor ticks, insert flood/ebb into major ticks</span>
+    <span class="n">xtickDegrees</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">135.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">225.0</span><span class="p">,</span> <span class="mf">270.0</span><span class="p">,</span> <span class="mf">315.0</span><span class="p">]</span>
+    <span class="c1"># Set title and metadata box</span>
+    <span class="k">if</span> <span class="n">metadata</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Set the Title</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+        <span class="c1"># List of strings for metadata box</span>
+        <span class="n">bouy_str</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s1">&#39;Lat = </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">])</span><span class="si">:</span><span class="s1">0.2f</span><span class="si">}</span><span class="s1">$</span><span class="se">\\</span><span class="s1">degree$&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;Lon = </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">])</span><span class="si">:</span><span class="s1">0.2f</span><span class="si">}</span><span class="s1">$</span><span class="se">\\</span><span class="s1">degree$&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="c1"># Create string for text box</span>
+        <span class="n">bouy_data</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bouy_str</span><span class="p">)</span>
+        <span class="c1"># Set the text box</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span>
+            <span class="mf">0.80</span><span class="p">,</span>
+            <span class="n">bouy_data</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+            <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="c1"># If defined plot flood and ebb directions as major ticks</span>
+    <span class="k">if</span> <span class="n">flood</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Get flood direction in degrees</span>
+        <span class="n">floodDirection</span> <span class="o">=</span> <span class="n">flood</span>
+        <span class="c1"># Polar plots do not have minor ticks,</span>
+        <span class="c1">#    insert flood/ebb into major ticks</span>
+        <span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="n">xtickDegrees</span><span class="p">,</span> <span class="n">floodDirection</span><span class="p">)</span>
+        <span class="c1"># Get location in list</span>
+        <span class="n">idxFlood</span> <span class="o">=</span> <span class="n">xtickDegrees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">floodDirection</span><span class="p">)</span>
+        <span class="c1"># Insert label at appropriate location</span>
+        <span class="n">xticks</span><span class="p">[</span><span class="n">idxFlood</span><span class="p">:</span><span class="n">idxFlood</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Flood&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ebb</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Get flood direction in degrees</span>
+        <span class="n">ebbDirection</span> <span class="o">=</span> <span class="n">ebb</span>
+        <span class="c1"># Polar plots do not have minor ticks,</span>
+        <span class="c1">#    insert flood/ebb into major ticks</span>
+        <span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="n">xtickDegrees</span><span class="p">,</span> <span class="n">ebbDirection</span><span class="p">)</span>
+        <span class="c1"># Get location in list</span>
+        <span class="n">idxEbb</span> <span class="o">=</span> <span class="n">xtickDegrees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ebbDirection</span><span class="p">)</span>
+        <span class="c1"># Insert label at appropriate location</span>
+        <span class="n">xticks</span><span class="p">[</span><span class="n">idxEbb</span><span class="p">:</span><span class="n">idxEbb</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ebb&quot;</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xtickDegrees</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xticks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_inputs</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs checks on inputs for the graphics functions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array-like</span>
+<span class="sd">        Directions in degrees with 0 degrees specified as true north</span>
+<span class="sd">    velocities: array-like</span>
+<span class="sd">        Velocities in m/s</span>
+<span class="sd">    flood: float</span>
+<span class="sd">        Direction in degrees added to theta ticks</span>
+<span class="sd">    ebb: float</span>
+<span class="sd">        Direction in degrees added to theta ticks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">velocities</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">velocities</span><span class="p">)</span>
+    <span class="n">directions</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">velocities</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">directions</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;velocities and directions must have the same length&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">velocities</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All velocities must be positive&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">directions</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">directions</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">360</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;directions must be between 0 and 360 degrees&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flood</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;flood must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ebb</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;ebb must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">flood</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">flood</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">flood</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;flood must be between 0 and 360 degrees&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ebb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ebb</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ebb</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ebb must be between 0 and 360 degrees&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="plot_rose">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.graphics.plot_rose">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_rose</span><span class="p">(</span>
+    <span class="n">directions</span><span class="p">,</span>
+    <span class="n">velocities</span><span class="p">,</span>
+    <span class="n">width_dir</span><span class="p">,</span>
+    <span class="n">width_vel</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">flood</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ebb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a polar histogram. Direction angles from binned histogram must</span>
+<span class="sd">    be specified such that 0  degrees is north.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array-like</span>
+<span class="sd">        Directions in degrees with 0 degrees specified as true north</span>
+<span class="sd">    velocities: array-like</span>
+<span class="sd">        Velocities in m/s</span>
+<span class="sd">    width_dir: float</span>
+<span class="sd">        Width of directional bins for histogram in degrees</span>
+<span class="sd">    width_vel: float</span>
+<span class="sd">        Width of velocity bins for histogram in m/s</span>
+<span class="sd">    ax: float</span>
+<span class="sd">        Polar plot axes to add polar histogram</span>
+<span class="sd">    metadata: dictonary</span>
+<span class="sd">        If provided needs keys [&#39;name&#39;, &#39;lat&#39;, &#39;lon&#39;] for plot title</span>
+<span class="sd">        and information box on plot</span>
+<span class="sd">    flood: float</span>
+<span class="sd">        Direction in degrees added to theta ticks</span>
+<span class="sd">    ebb: float</span>
+<span class="sd">        Direction in degrees added to theta ticks</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax: figure</span>
+<span class="sd">        Water current rose plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_inputs</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">width_dir</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;width_dir must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">width_vel</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;width_vel must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">width_dir</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;width_dir must be greater than 0&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">width_vel</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;width_vel must be greater than 0&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the 2D histogram</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">dir_edges</span><span class="p">,</span> <span class="n">vel_edges</span> <span class="o">=</span> <span class="n">_histogram</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">,</span> <span class="n">width_vel</span><span class="p">)</span>
+    <span class="c1"># Determine number of bins</span>
+    <span class="n">dir_bins</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">vel_bins</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Create the angles</span>
+    <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">dir_bins</span><span class="p">)</span>
+    <span class="c1"># Initialize the polar polt</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_initialize_polar</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
+    <span class="c1"># Set bar color based on wind speed</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">vel_bins</span><span class="p">))</span>
+    <span class="c1"># Set the current speed bin label names</span>
+    <span class="c1"># Calculate the 2D histogram</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">j</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="c1"># Initialize the vertical-offset (polar radius) for the stacked bar chart.</span>
+    <span class="n">r_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dir_bins</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">vel_bin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vel_bins</span><span class="p">):</span>
+        <span class="c1"># Plot fist set of bars in all directions</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+            <span class="n">thetas</span><span class="p">,</span>
+            <span class="n">H</span><span class="p">[:,</span> <span class="n">vel_bin</span><span class="p">],</span>
+            <span class="n">width</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">dir_bins</span><span class="p">),</span>
+            <span class="n">bottom</span><span class="o">=</span><span class="n">r_offset</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">vel_bin</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">vel_bin</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1"># Increase the radius offset in all directions</span>
+        <span class="n">r_offset</span> <span class="o">=</span> <span class="n">r_offset</span> <span class="o">+</span> <span class="n">H</span><span class="p">[:,</span> <span class="n">vel_bin</span><span class="p">]</span>
+    <span class="c1"># Add the a legend for current speed bins</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+        <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Velocity bins [m/s]&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.29</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="c1"># Get the r-ticks (polar y-ticks)</span>
+    <span class="n">yticks</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">()</span>
+    <span class="c1"># Format y-ticks with  units for clarity</span>
+    <span class="n">rticks</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="c1"># Set the y-ticks</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">yticks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rticks</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_joint_probability_distribution">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.graphics.plot_joint_probability_distribution">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_joint_probability_distribution</span><span class="p">(</span>
+    <span class="n">directions</span><span class="p">,</span>
+    <span class="n">velocities</span><span class="p">,</span>
+    <span class="n">width_dir</span><span class="p">,</span>
+    <span class="n">width_vel</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">flood</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ebb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a polar histogram. Direction angles from binned histogram must</span>
+<span class="sd">    be specified such that 0 is north.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array-like</span>
+<span class="sd">        Directions in degrees with 0 degrees specified as true north</span>
+<span class="sd">    velocities: array-like</span>
+<span class="sd">        Velocities in m/s</span>
+<span class="sd">    width_dir: float</span>
+<span class="sd">        Width of directional bins for histogram in degrees</span>
+<span class="sd">    width_vel: float</span>
+<span class="sd">        Width of velocity bins for histogram in m/s</span>
+<span class="sd">    ax: float</span>
+<span class="sd">        Polar plot axes to add polar histogram</span>
+<span class="sd">    metadata: dictonary</span>
+<span class="sd">        If provided needs keys [&#39;name&#39;, &#39;Lat&#39;, &#39;Lon&#39;] for plot title</span>
+<span class="sd">        and information box on plot</span>
+<span class="sd">    flood: float</span>
+<span class="sd">        Direction in degrees added to theta ticks</span>
+<span class="sd">    ebb: float</span>
+<span class="sd">        Direction in degrees added to theta ticks</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax: figure</span>
+<span class="sd">        Joint probability distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_inputs</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">width_dir</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;width_dir must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">width_vel</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;width_vel must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">width_dir</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;width_dir must be greater than 0&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">width_vel</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;width_vel must be greater than 0&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the 2D histogram</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">dir_edges</span><span class="p">,</span> <span class="n">vel_edges</span> <span class="o">=</span> <span class="n">_histogram</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">width_dir</span><span class="p">,</span> <span class="n">width_vel</span><span class="p">)</span>
+    <span class="c1"># Initialize the polar polt</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_initialize_polar</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="n">ebb</span><span class="p">)</span>
+    <span class="c1"># Set the current speed bin label names</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">j</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="c1"># Set vel &amp; dir bins to middle of bin except at ends</span>
+    <span class="n">dir_bins</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dir_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">dir_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># set all bins to middle</span>
+    <span class="n">vel_bins</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">vel_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">vel_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Reset end of bin range to edge of bin</span>
+    <span class="n">dir_bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dir_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">vel_bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">vel_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dir_bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dir_edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">vel_bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">vel_edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Interpolate the bins back to specific data points</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">_interpn</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">dir_bins</span><span class="p">,</span> <span class="n">vel_bins</span><span class="p">),</span>
+        <span class="n">H</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;splinef2d&quot;</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Plot the most probable data last</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+    <span class="c1"># Convert to radians and order points by probability</span>
+    <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">directions</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">,</span> <span class="n">velocities</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">z</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="c1"># Create scatter plot colored by probability density</span>
+    <span class="n">sx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Create colorbar</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Joint Probability [%]&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get the r-ticks (polar y-ticks)</span>
+    <span class="n">yticks</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">()</span>
+    <span class="c1"># Set y-ticks labels</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">yticks</span><span class="p">)</span>  <span class="c1"># to avoid matplotlib warning</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> $m/s$&quot;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_current_timeseries">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.graphics.plot_current_timeseries">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_current_timeseries</span><span class="p">(</span>
+    <span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">principal_direction</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a plot of velocity from an array of direction and speed</span>
+<span class="sd">    data in the direction of the supplied principal_direction.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array-like</span>
+<span class="sd">        Time-series of directions [degrees]</span>
+<span class="sd">    velocities: array-like</span>
+<span class="sd">        Time-series of speeds [m/s]</span>
+<span class="sd">    principal_direction: float</span>
+<span class="sd">        Direction to compute the velocity in [degrees]</span>
+<span class="sd">    label: string</span>
+<span class="sd">        Label to use in the legend</span>
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax: figure</span>
+<span class="sd">        Time-series plot of current-speed velocity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_inputs</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ebb</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">principal_direction</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;principal_direction must be of type int or float&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">principal_direction</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">principal_direction</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;principal_direction must be between 0 and 360 degrees&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Rotate coordinate system by supplied principal_direction</span>
+    <span class="n">principal_directions</span> <span class="o">=</span> <span class="n">directions</span> <span class="o">-</span> <span class="n">principal_direction</span>
+    <span class="c1"># Calculate the velocity</span>
+    <span class="n">velocity</span> <span class="o">=</span> <span class="n">velocities</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">principal_directions</span><span class="p">)</span>
+    <span class="c1"># Call on standard xy plotting</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">velocities</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+        <span class="n">velocity</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Velocity [$m/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="tidal_phase_probability">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.graphics.tidal_phase_probability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tidal_phase_probability</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Discretizes the tidal series speed by bin size and returns a plot</span>
+<span class="sd">    of the probability for each bin in the flood or ebb tidal phase.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array-like</span>
+<span class="sd">        Time-series of directions [degrees]</span>
+<span class="sd">    speed: array-like</span>
+<span class="sd">        Time-series of speeds [m/s]</span>
+<span class="sd">    flood: float or int</span>
+<span class="sd">        Principal component of flow in the flood direction [degrees]</span>
+<span class="sd">    ebb: float or int</span>
+<span class="sd">        Principal component of flow in the ebb direction [degrees]</span>
+<span class="sd">    bin_size: float</span>
+<span class="sd">        Speed bin size. Optional. Deaful = 0.1 m/s</span>
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax: figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_inputs</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bin_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bin_size must be greater than 0&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="n">isEbb</span> <span class="o">=</span> <span class="n">_flood_or_ebb</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
+
+    <span class="n">decimals</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">bin_size</span> <span class="o">/</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">N_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">velocities</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">decimals</span><span class="p">)</span> <span class="o">/</span> <span class="n">bin_size</span><span class="p">)</span>
+
+    <span class="n">H</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">N_bins</span><span class="p">)</span>
+    <span class="n">H_ebb</span><span class="p">,</span> <span class="n">bins1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">velocities</span><span class="p">[</span><span class="n">isEbb</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">H_flood</span><span class="p">,</span> <span class="n">bins2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">velocities</span><span class="p">[</span><span class="o">~</span><span class="n">isEbb</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+
+    <span class="n">p_ebb</span> <span class="o">=</span> <span class="n">H_ebb</span> <span class="o">/</span> <span class="n">H</span>
+    <span class="n">p_flood</span> <span class="o">=</span> <span class="n">H_flood</span> <span class="o">/</span> <span class="n">H</span>
+
+    <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">mask1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">p_ebb</span> <span class="o">&gt;=</span> <span class="n">p_flood</span><span class="p">)</span>
+    <span class="n">mask2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">p_flood</span> <span class="o">&gt;=</span> <span class="n">p_ebb</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+        <span class="n">center</span><span class="p">[</span><span class="n">mask1</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">p_ebb</span><span class="p">[</span><span class="n">mask1</span><span class="p">],</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ebb&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+        <span class="n">center</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">p_flood</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Flood&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+        <span class="n">center</span><span class="p">[</span><span class="n">mask2</span><span class="p">],</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">p_ebb</span><span class="p">[</span><span class="n">mask2</span><span class="p">],</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Velocity [m/s]&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="tidal_phase_exceedance">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.graphics.tidal_phase_exceedance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tidal_phase_exceedance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a stacked area plot of the exceedance probability for the</span>
+<span class="sd">    flood and ebb tidal phases.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directions: array-like</span>
+<span class="sd">        Time-series of directions [degrees]</span>
+<span class="sd">    velocities: array-like</span>
+<span class="sd">        Time-series of speeds [m/s]</span>
+<span class="sd">    flood: float or int</span>
+<span class="sd">        Principal component of flow in the flood direction [degrees]</span>
+<span class="sd">    ebb: float or int</span>
+<span class="sd">        Principal component of flow in the ebb direction [degrees]</span>
+<span class="sd">    bin_size: float</span>
+<span class="sd">        Speed bin size. Optional. Deaful = 0.1 m/s</span>
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax: figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_check_inputs</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">velocities</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bin_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bin_size must be greater than 0&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="n">isEbb</span> <span class="o">=</span> <span class="n">_flood_or_ebb</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">flood</span><span class="p">,</span> <span class="n">ebb</span><span class="p">)</span>
+
+    <span class="n">s_ebb</span> <span class="o">=</span> <span class="n">velocities</span><span class="p">[</span><span class="n">isEbb</span><span class="p">]</span>
+    <span class="n">s_flood</span> <span class="o">=</span> <span class="n">velocities</span><span class="p">[</span><span class="o">~</span><span class="n">isEbb</span><span class="p">]</span>
+
+    <span class="n">F</span> <span class="o">=</span> <span class="n">exceedance_probability</span><span class="p">(</span><span class="n">velocities</span><span class="p">)[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span>
+    <span class="n">F_ebb</span> <span class="o">=</span> <span class="n">exceedance_probability</span><span class="p">(</span><span class="n">s_ebb</span><span class="p">)[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span>
+    <span class="n">F_flood</span> <span class="o">=</span> <span class="n">exceedance_probability</span><span class="p">(</span><span class="n">s_flood</span><span class="p">)[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span>
+
+    <span class="n">decimals</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">bin_size</span> <span class="o">/</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">s_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">velocities</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">decimals</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">velocities</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">decimals</span><span class="p">)</span> <span class="o">+</span> <span class="n">bin_size</span><span class="p">,</span>
+        <span class="n">bin_size</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">f_total</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">f_ebb</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">s_ebb</span><span class="p">,</span> <span class="n">F_ebb</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">f_flood</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">s_flood</span><span class="p">,</span> <span class="n">F_flood</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">F_total</span> <span class="o">=</span> <span class="n">f_total</span><span class="p">(</span><span class="n">s_new</span><span class="p">)</span>
+    <span class="n">F_ebb</span> <span class="o">=</span> <span class="n">f_ebb</span><span class="p">(</span><span class="n">s_new</span><span class="p">)</span>
+    <span class="n">F_flood</span> <span class="o">=</span> <span class="n">f_flood</span><span class="p">(</span><span class="n">s_new</span><span class="p">)</span>
+
+    <span class="n">F_max_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">F_ebb</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">F_flood</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">stackplot</span><span class="p">(</span>
+        <span class="n">s_new</span><span class="p">,</span>
+        <span class="n">F_ebb</span> <span class="o">/</span> <span class="n">F_max_total</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="n">F_flood</span> <span class="o">/</span> <span class="n">F_max_total</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ebb&quot;</span><span class="p">,</span> <span class="s2">&quot;Flood&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;velocity [m/s]&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability of Exceedance&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

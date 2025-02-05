@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.utils.type_handling &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.utils.type_handling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.utils.type_handling</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides utility functions for converting various data types</span>
+<span class="sd">to xarray structures such as xarray.DataArray and xarray.Dataset. It also</span>
+<span class="sd">includes functions for handling nested dictionaries containing pandas </span>
+<span class="sd">DataFrames by converting them to xarray Datasets.</span>
+
+<span class="sd">Functions:</span>
+<span class="sd">----------</span>
+<span class="sd">- to_numeric_array: Converts input data to a numeric NumPy array.</span>
+<span class="sd">- convert_to_dataset: Converts pandas or xarray data structures to xarray.Dataset.</span>
+<span class="sd">- convert_to_dataarray: Converts various data types to xarray.DataArray.</span>
+<span class="sd">- convert_nested_dict_and_pandas: Recursively converts pandas DataFrames </span>
+<span class="sd">  in nested dictionaries to xarray Datasets.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+
+<div class="viewcode-block" id="to_numeric_array">
+<a class="viewcode-back" href="../../../mhkit-python/api.utils.html#mhkit.utils.to_numeric_array">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_numeric_array</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert input data to a numeric array, ensuring all elements are numeric.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must contain numeric data.&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Got data type: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a list, np.ndarray, pd.Series,&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; or xr.DataArray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="convert_to_dataset">
+<a class="viewcode-back" href="../../../mhkit-python/api.utils.html#mhkit.utils.convert_to_dataset">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_dataset</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the given data to an xarray.Dataset.</span>
+
+<span class="sd">    This function is designed to handle inputs that can be either a</span>
+<span class="sd">    pandas DataFrame, a pandas Series, an xarray DataArray, or an</span>
+<span class="sd">    xarray Dataset. It ensures that the output is consistently an</span>
+<span class="sd">    xarray.Dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        The data to be converted.</span>
+
+<span class="sd">    name: str (Optional)</span>
+<span class="sd">        The name to assign to the data variable in case the input is an</span>
+<span class="sd">        xarray DataArray without a name.</span>
+<span class="sd">        Default value is &#39;data&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        The input data converted to an xarray.Dataset. If the input is</span>
+<span class="sd">        already an xarray.Dataset, it is returned as is.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [1, 2, 3], &#39;B&#39;: [4, 5, 6]})</span>
+<span class="sd">    &gt;&gt;&gt; ds = convert_to_dataset(df)</span>
+<span class="sd">    &gt;&gt;&gt; type(ds)</span>
+<span class="sd">    &lt;class &#39;xarray.core.dataset.Dataset&#39;&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; series = pd.Series([1, 2, 3], name=&#39;C&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ds = convert_to_dataset(series)</span>
+<span class="sd">    &gt;&gt;&gt; type(ds)</span>
+<span class="sd">    &lt;class &#39;xarray.core.dataset.Dataset&#39;&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; data_array = xr.DataArray([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; ds = convert_to_dataset(data_array, name=&#39;D&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; type(ds)</span>
+<span class="sd">    &lt;class &#39;xarray.core.dataset.Dataset&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Input data must be of type pandas.DataFrame, pandas.Series, &quot;</span>
+            <span class="s2">&quot;xarray.DataArray, or xarray.Dataset.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The &#39;name&#39; parameter must be a string&quot;</span> <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Takes data that could be pd.DataFrame, pd.Series, xr.DataArray, or</span>
+    <span class="c1"># xr.Dataset and converts it to xr.Dataset</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="c1"># xr.Dataset(data) is drastically faster (1e1 - 1e2x faster)</span>
+        <span class="c1">#  than using pd.DataFrame.to_xarray()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="c1"># Converting to a DataArray then to a dataset makes the variable and</span>
+        <span class="c1"># dimension naming cleaner than going straight to a Dataset with</span>
+        <span class="c1"># xr.Dataset(pd.Series)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="c1"># xr.DataArray.to_dataset() breaks if the data variable is unnamed</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="convert_to_dataarray">
+<a class="viewcode-back" href="../../../mhkit-python/api.utils.html#mhkit.utils.convert_to_dataarray">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_dataarray</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the given data to an xarray.DataArray.</span>
+
+<span class="sd">    This function takes in a numpy ndarray, pandas Series, pandas</span>
+<span class="sd">    Dataframe, or xarray Dataset and outputs an equivalent xarray</span>
+<span class="sd">    DataArray. DataArrays can be passed through with no changes.</span>
+
+<span class="sd">    Xarray datasets can only be input when all variable have the same</span>
+<span class="sd">    dimensions.</span>
+
+<span class="sd">    Multivariate pandas Dataframes become 2D DataArrays, which is</span>
+<span class="sd">    especially useful when IO functions return Dataframes with an</span>
+<span class="sd">    extremely large number of variable. Use the function</span>
+<span class="sd">    convert_to_dataset to change a multivariate Dataframe into a</span>
+<span class="sd">    multivariate Dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: numpy ndarray, pandas DataFrame, pandas Series, xarray</span>
+<span class="sd">    DataArray, or xarray Dataset</span>
+<span class="sd">        The data to be converted.</span>
+
+<span class="sd">    name: str (Optional)</span>
+<span class="sd">        The name to overwrite the name of the input data variable for pandas or xarray input.</span>
+<span class="sd">        Default value is &#39;data&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataArray</span>
+<span class="sd">        The input data converted to an xarray.DataArray. If the input</span>
+<span class="sd">        is already an xarray.DataArray, it is returned as is.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [1, 2, 3]})</span>
+<span class="sd">    &gt;&gt;&gt; da = convert_to_dataarray(df)</span>
+<span class="sd">    &gt;&gt;&gt; type(da)</span>
+<span class="sd">    &lt;class &#39;xarray.core.datarray.DataArray&#39;&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; series = pd.Series([1, 2, 3], name=&#39;C&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; da = convert_to_dataarray(series)</span>
+<span class="sd">    &gt;&gt;&gt; type(da)</span>
+<span class="sd">    &lt;class &#39;xarray.core.datarray.DataArray&#39;&gt;</span>
+
+<span class="sd">    &gt;&gt;&gt; data_array = xr.DataArray([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; da = convert_to_dataarray(data_array, name=&#39;D&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; type(da)</span>
+<span class="sd">    &lt;class &#39;xarray.core.datarray.DataArray&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Input data must be of type np.ndarray, pandas.Series, pandas.DataFrame, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;xarray.DataArray, or xarray.Dataset. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The &#39;name&#39; parameter must be a string. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Checks pd.DataFrame input and converts to pd.Series if possible</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Convert the 1D, univariate case to a Series, which will</span>
+            <span class="c1"># be caught by the Series conversion below. This eliminates</span>
+            <span class="c1"># an unnecessary variable dimension and names the DataArray</span>
+            <span class="c1"># with the DataFrame variable name.</span>
+            <span class="c1">#</span>
+            <span class="c1"># Use iloc instead of squeeze. For DataFrames/Series with only a</span>
+            <span class="c1"># single value, squeeze returns a scalar which is unexpected.</span>
+            <span class="c1"># iloc returns a Series with one value as expected.</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># With this conversion, dataframe columns always become &quot;dim_1&quot;.</span>
+            <span class="c1"># Rename to &quot;variable&quot; to match how multiple Dataset variables get</span>
+            <span class="c1"># converted into a DataArray dimension</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;dim_1&quot;</span><span class="p">:</span> <span class="s2">&quot;variable&quot;</span><span class="p">})</span>
+    <span class="c1"># Checks xr.Dataset input and converts to xr.DataArray if possible</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># if only one variable, select that variable so reduce the Dataset to a DataArray</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Allow multiple variables if they have the same dimensions</span>
+            <span class="c1"># transpose so that the new &quot;variable dimension&quot; is the last</span>
+            <span class="c1"># dimension (matches DataFrame to DataArray behavior)</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">dims</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Multivariate Datasets can only be input if all </span><span class="se">\</span>
+<span class="s2">                        variables have the same dimensions.&quot;</span>
+                <span class="p">)</span>
+
+    <span class="c1"># Converts pd.Series to xr.DataArray</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+
+    <span class="c1"># Converts np.ndarray to xr.DataArray. Assigns a simple 0-based</span>
+    <span class="c1"># dimension named index to match how pandas converts to xarray</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))}</span>
+        <span class="p">)</span>
+
+    <span class="c1"># If there&#39;s no data name, add one to prevent issues calling or</span>
+    <span class="c1"># converting to a Dataset later on</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="convert_nested_dict_and_pandas">
+<a class="viewcode-back" href="../../../mhkit-python/api.utils.html#mhkit.utils.convert_nested_dict_and_pandas">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_nested_dict_and_pandas</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively searches inside nested dictionaries for pandas DataFrames to</span>
+<span class="sd">    convert to xarray Datasets. Typically called by wave.io functions that read</span>
+<span class="sd">    SWAN, WEC-Sim, CDIP, NDBC data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: dictionary of dictionaries and pandas DataFrames</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : dictionary of dictionaries and xarray Datasets</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_nested_dict_and_pandas</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

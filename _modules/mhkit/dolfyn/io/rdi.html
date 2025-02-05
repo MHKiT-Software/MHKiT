@@ -1,0 +1,1116 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.io.rdi &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.io.rdi</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.io.rdi</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">getsize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span> <span class="k">as</span> <span class="n">tmlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rdi_lib</span> <span class="k">as</span> <span class="n">lib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rdi_defs</span> <span class="k">as</span> <span class="n">defs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate.rdi</span><span class="w"> </span><span class="kn">import</span> <span class="n">_calc_beam_orientmat</span><span class="p">,</span> <span class="n">_calc_orientmat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_set_coords</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..rotate.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_declination</span>
+
+
+<div class="viewcode-block" id="read_rdi">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.io.rdi.read_rdi">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_rdi</span><span class="p">(</span>
+    <span class="n">filename</span><span class="p">,</span>
+    <span class="n">userdata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">nens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">debug_level</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">vmdas_search</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">winriver</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a TRDI binary data file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : string</span>
+<span class="sd">      Filename of TRDI file to read.</span>
+<span class="sd">    userdata : True, False, or string of userdata.json filename</span>
+<span class="sd">      Whether to read the &#39;&lt;base-filename&gt;.userdata.json&#39; file. Default = True</span>
+<span class="sd">    nens : None, int or 2-element tuple (start, stop)</span>
+<span class="sd">      Number of pings or ensembles to read from the file.</span>
+<span class="sd">      Default is None, read entire file</span>
+<span class="sd">    debug_level : int</span>
+<span class="sd">      Debug level [0 - 2]. Default = -1</span>
+<span class="sd">    vmdas_search : bool</span>
+<span class="sd">      Search from the end of each ensemble for the VMDAS navigation</span>
+<span class="sd">      block.  The byte offsets are sometimes incorrect. Default = False</span>
+<span class="sd">    winriver : bool</span>
+<span class="sd">      If file is winriver or not. Automatically set by dolfyn, this is helpful</span>
+<span class="sd">      for debugging. Default = False</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">      An xarray dataset from the binary instrument data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Start debugger logging</span>
+    <span class="k">if</span> <span class="n">debug_level</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.dolfyn.log&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+            <span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">logfile</span><span class="p">),</span>
+            <span class="n">filemode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+            <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Reads into a dictionary of dictionaries using netcdf naming conventions</span>
+    <span class="c1"># Should be easier to debug</span>
+    <span class="n">rdr</span> <span class="o">=</span> <span class="n">_RDIReader</span><span class="p">(</span>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">debug_level</span><span class="o">=</span><span class="n">debug_level</span><span class="p">,</span> <span class="n">vmdas_search</span><span class="o">=</span><span class="n">vmdas_search</span><span class="p">,</span> <span class="n">winriver</span><span class="o">=</span><span class="n">winriver</span>
+    <span class="p">)</span>
+    <span class="n">datNB</span><span class="p">,</span> <span class="n">datBB</span> <span class="o">=</span> <span class="n">rdr</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">)</span>
+
+    <span class="n">dats</span> <span class="o">=</span> <span class="p">[</span><span class="n">dat</span> <span class="k">for</span> <span class="n">dat</span> <span class="ow">in</span> <span class="p">[</span><span class="n">datNB</span><span class="p">,</span> <span class="n">datBB</span><span class="p">]</span> <span class="k">if</span> <span class="n">dat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="c1"># Read in userdata</span>
+    <span class="n">userdata</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_find_userdata</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">userdata</span><span class="p">)</span>
+    <span class="n">dss</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">dats</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">userdata</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">userdata</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
+
+        <span class="c1"># Pass one if only one ds returned</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># GPS data not necessarily sampling at the same rate as ADCP DAQ.</span>
+        <span class="k">if</span> <span class="s2">&quot;time_gps&quot;</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]:</span>
+            <span class="n">dat</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_remove_gps_duplicates</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+
+        <span class="c1"># Convert time coords to dt64</span>
+        <span class="n">t_coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_coords</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">])</span>
+
+        <span class="c1"># Convert time vars to dt64</span>
+        <span class="n">t_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">t</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">t_data</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">epoch2dt64</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">][</span><span class="n">ky</span><span class="p">])</span>
+
+        <span class="c1"># Create xarray dataset from upper level dictionary</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_create_dataset</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">_set_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ref_frame</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">coord_sys</span><span class="p">)</span>
+
+        <span class="c1"># Create orientation matrices</span>
+        <span class="k">if</span> <span class="s2">&quot;beam2inst_orientmat&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;beam2inst_orientmat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">_calc_beam_orientmat</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">beam_angle</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">beam_pattern</span> <span class="o">==</span> <span class="s2">&quot;convex&quot;</span><span class="p">),</span>
+                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]},</span>
+                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">],</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Rotation Matrix&quot;</span><span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;orientmat&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;orientmat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_calc_orientmat</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+        <span class="c1"># Check magnetic declination if provided via software and/or userdata</span>
+        <span class="n">_set_rdi_declination</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">dss</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ds</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dss</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Two profiling configurations retrieved from file&quot;</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Returning first.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Close handler</span>
+    <span class="k">if</span> <span class="n">debug_level</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">handlers</span><span class="p">[:]:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+            <span class="n">handler</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">dss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_set_rdi_declination</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">inplace</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If magnetic_var_deg is set, this means that the declination is already</span>
+<span class="sd">    included in the heading and in the velocity data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">declin</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;declination&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># userdata declination</span>
+
+    <span class="k">if</span> <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;magnetic_var_deg&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># from TRDI software if set</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;declination&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;magnetic_var_deg&quot;</span><span class="p">]</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;declination_in_orientmat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># logical</span>
+
+    <span class="k">if</span> <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;magnetic_var_deg&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">declin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;magnetic_var_deg&#39; is set to </span><span class="si">{:.2f}</span><span class="s2"> degrees in the binary &quot;</span>
+            <span class="s2">&quot;file &#39;</span><span class="si">{}</span><span class="s2">&#39;, AND &#39;declination&#39; is set in the &#39;userdata.json&#39; &quot;</span>
+            <span class="s2">&quot;file. DOLfYN WILL USE THE VALUE of </span><span class="si">{:.2f}</span><span class="s2"> degrees in &quot;</span>
+            <span class="s2">&quot;userdata.json. If you want to use the value in &quot;</span>
+            <span class="s2">&quot;&#39;magnetic_var_deg&#39;, delete the value from userdata.json and &quot;</span>
+            <span class="s2">&quot;re-read the file.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;magnetic_var_deg&quot;</span><span class="p">],</span> <span class="n">fname</span><span class="p">,</span> <span class="n">declin</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;declination&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">declin</span>
+
+    <span class="k">if</span> <span class="n">declin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">set_declination</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">declin</span><span class="p">,</span> <span class="n">inplace</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_RDIReader</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">navg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug_level</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmdas_search</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">winriver</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_abspath</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Reading file </span><span class="si">{}</span><span class="s2"> ...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">=</span> <span class="n">debug_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vmdas_search</span> <span class="o">=</span> <span class="n">vmdas_search</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_winrivprob</span> <span class="o">=</span> <span class="n">winriver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vm_source</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cfac32</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">)</span>  <span class="c1"># signed 32 to float</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cfac16</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="mi">15</span><span class="p">)</span>  <span class="c1"># unsigned16 to float</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixoffset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbyte</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_cells_diff</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_cells_sl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs_diff</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfgbb</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">bin_reader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+
+        <span class="c1"># Check header, double buffer, and get filesize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filesize</span> <span class="o">=</span> <span class="n">getsize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_spacing</span><span class="p">()</span>  <span class="c1"># &#39;0x7F&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_npings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesize</span> <span class="o">//</span> <span class="n">space</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">))</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;self._bb </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">))</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;self.cfgbb: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgbb</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_avg</span> <span class="o">=</span> <span class="n">navg</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_ensemble</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_avg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ensembleBB</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_ensemble</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_avg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgbb</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vars_read</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_variable_setlist</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vars_readBB</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_variable_setlist</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">code_spacing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iternum</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the average spacing, in bytes, between pings.</span>
+<span class="sd">        Repeat this * iternum * times(default 50).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span>
+        <span class="c1"># Get basic header data and check dual profile</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_hdr</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No header in this file&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_for_double_buffer</span><span class="p">()</span>
+
+        <span class="c1"># Turn off debugging to check code spacing</span>
+        <span class="n">debug_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iternum</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_hdr</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="c1"># Compute the average of the data size:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">fd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="n">p0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">=</span> <span class="n">debug_level</span>
+        <span class="k">return</span> <span class="n">size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_hdr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scan file until 7f7f is found&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_buffer</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_hdrseg</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_hdrseg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="n">hdr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span>
+        <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_i16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">spare</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ndat</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="n">ndat</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbyte</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">ndat</span> <span class="o">*</span> <span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_for_double_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        VMDAS will record two buffers in NB or NB/BB mode, so we need to</span>
+<span class="sd">        figure out if that is happening here</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">pos</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;pos </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_positions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span> <span class="o">+</span> <span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">rel</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_positions</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;id </span><span class="si">{}</span><span class="s2"> offset </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">offset</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">defs</span><span class="o">.</span><span class="n">read_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bb</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">defs</span><span class="o">.</span><span class="n">read_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">16</span><span class="p">:</span>
+                <span class="n">defs</span><span class="o">.</span><span class="n">read_fixed_sl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c1"># bb=True</span>
+            <span class="k">elif</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">8192</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_vmdas_search</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">found</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Main function run after reader class is initiated.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">nens</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Attempt to overshoot WinRiver2 or *Pro filesize</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;coord_sys&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ship&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;inst_model&quot;</span><span class="p">]</span>
+                <span class="ow">in</span> <span class="p">[</span>
+                    <span class="s2">&quot;RiverPro&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;StreamPro&quot;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filesize</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_avg</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Attempt to overshoot other instrument filesizes</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_npings</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_avg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">nens</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">tuple</span> <span class="ow">or</span> <span class="n">nens</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;    `nens` must be a integer&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span> <span class="o">=</span> <span class="n">nens</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  taking data from pings 0 - </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">%d</span><span class="s2"> ensembles will be produced.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_data</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">iens</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nens</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_buffer</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">remove_end</span><span class="p">(</span><span class="n">iens</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">clean_data</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ensembleBB</span><span class="o">.</span><span class="n">clean_data</span><span class="p">()</span>
+            <span class="n">ens</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="p">]</span>
+            <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vars_read</span><span class="p">]</span>
+            <span class="n">datl</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">outd</span><span class="p">]</span>
+            <span class="n">cfgl</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+                <span class="n">ens</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ensembleBB</span><span class="p">]</span>
+                <span class="nb">vars</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vars_readBB</span><span class="p">]</span>
+                <span class="n">datl</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">outdBB</span><span class="p">]</span>
+                <span class="n">cfgl</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgbb</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">dat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">ens</span><span class="p">,</span> <span class="n">datl</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
+                    <span class="n">dat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_profiles</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">iens</span><span class="p">)</span>
+                <span class="c1"># reset flag after all variables run</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_cells_diff</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="c1"># Set clock</span>
+                <span class="n">clock</span> <span class="o">=</span> <span class="n">en</span><span class="o">.</span><span class="n">rtc</span><span class="p">[:,</span> <span class="p">:]</span>
+                <span class="k">if</span> <span class="n">clock</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+                    <span class="n">clock</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">defs</span><span class="o">.</span><span class="n">century</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">dates</span> <span class="o">=</span> <span class="n">tmlib</span><span class="o">.</span><span class="n">date2epoch</span><span class="p">(</span>
+                        <span class="n">tmlib</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+                            <span class="o">*</span><span class="n">clock</span><span class="p">[:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">microsecond</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">clock</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">10000</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="s2">&quot;Invalid time stamp in ping </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">number</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">iens</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">iens</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
+
+        <span class="c1"># Finalize dataset (runs through both nb and bb)</span>
+        <span class="k">for</span> <span class="n">dat</span><span class="p">,</span> <span class="n">cfg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">datl</span><span class="p">,</span> <span class="n">cfgl</span><span class="p">):</span>
+            <span class="n">dat</span><span class="p">,</span> <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+            <span class="n">dat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;vel_bt&quot;</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">]:</span>
+                <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;vel_bt&quot;</span><span class="p">)</span>
+
+        <span class="n">datbb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outdBB</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outd</span><span class="p">,</span> <span class="n">datbb</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initiate data structure&quot;&quot;&quot;</span>
+        <span class="n">outd</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;data_vars&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;attrs&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;sys&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="n">outd</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;inst_make&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TRDI&quot;</span>
+        <span class="n">outd</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;inst_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ADCP&quot;</span>
+        <span class="n">outd</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;vel&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="c1"># Currently RDI doesn&#39;t use IMUs</span>
+        <span class="n">outd</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;has_imu&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+            <span class="n">outdbb</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;data_vars&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;attrs&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;sys&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="p">}</span>
+            <span class="n">outdbb</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;inst_make&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TRDI&quot;</span>
+            <span class="n">outdbb</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;inst_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ADCP&quot;</span>
+            <span class="n">outdbb</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;vel&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">outdbb</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;has_imu&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Preallocate variables and data sizes</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">defs</span><span class="o">.</span><span class="n">data_defs</span><span class="p">:</span>
+            <span class="n">outd</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_idata</span><span class="p">(</span>
+                <span class="n">outd</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">sz</span><span class="o">=</span><span class="n">lib</span><span class="o">.</span><span class="n">_get_size</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outd</span> <span class="o">=</span> <span class="n">outd</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">defs</span><span class="o">.</span><span class="n">data_defs</span><span class="p">:</span>
+                <span class="n">outdbb</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_idata</span><span class="p">(</span>
+                    <span class="n">outdbb</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">sz</span><span class="o">=</span><span class="n">lib</span><span class="o">.</span><span class="n">_get_size</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgbb</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outdBB</span> <span class="o">=</span> <span class="n">outdbb</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">outdbb</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">][</span><span class="s2">&quot;vel&quot;</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> ncells, not BB&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> ncells, BB&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgbb</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">]))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read through the file&quot;&quot;&quot;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># so that k+=1 gives 0 on the first loop.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bb</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ensembleBB</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># so that k+=1 gives 0 on the first loop.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_progress</span><span class="p">()</span>
+        <span class="n">hdr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">n_avg</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_buffer</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="n">startpos</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_hdrseg</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Read Header&quot;</span><span class="p">,</span> <span class="n">hdr</span><span class="p">)</span>
+            <span class="n">byte_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbyte</span> <span class="o">+</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_vmdas</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">])):</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">id</span><span class="si">:</span><span class="s2">04x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">()</span>
+                <span class="n">retval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_dat</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">retval</span> <span class="o">==</span> <span class="s2">&quot;FAIL&quot;</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">byte_offset</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbyte</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">oset</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">][</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">byte_offset</span>
+                    <span class="k">if</span> <span class="n">oset</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">%s</span><span class="s2">: Adjust location by </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">oset</span><span class="p">))</span>
+                        <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">oset</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">byte_offset</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;dat_offsets&quot;</span><span class="p">][</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">!=</span> <span class="n">byte_offset</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_winrivprob</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                                    <span class="s2">&quot;  </span><span class="si">{:d}</span><span class="s2">: Adjust location by </span><span class="si">{:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                        <span class="nb">id</span><span class="p">,</span> <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">byte_offset</span>
+                                    <span class="p">)</span>
+                                <span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">byte_offset</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">byte_offset</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span>
+            <span class="c1"># Check for vmdas again because vmdas doesn&#39;t set the offsets</span>
+            <span class="c1"># correctly, and we need this info:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_vmdas</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vmdas_search</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Searching for vmdas nav data. Going to next ensemble&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">search_buffer</span><span class="p">()</span>
+                <span class="c1"># now go back to where vmdas would be:</span>
+                <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">98</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">read_ui16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">id</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">8192</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">read_dat</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+            <span class="n">readbytes</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">-</span> <span class="n">startpos</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">readbytes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_offset</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">readbytes</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">byte_offset</span><span class="o">=</span><span class="n">byte_offset</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">search_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check to see if the next bytes indicate the beginning of a</span>
+<span class="sd">        data block.  If not, search for the next data block, up to</span>
+<span class="sd">        _search_num times.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">cfgid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">pos_7f79</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">search_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;pos </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">pos</span><span class="p">))</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;cfgid0: [</span><span class="si">{:x}</span><span class="s2">, </span><span class="si">{:x}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">cfgid</span><span class="p">))</span>
+        <span class="c1"># If not [127, 127] or if the file ends in the next ensemble</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">cfgid</span> <span class="o">!=</span> <span class="p">[</span><span class="mi">127</span><span class="p">,</span> <span class="mi">127</span><span class="p">])</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_eof</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">cfgid</span> <span class="o">==</span> <span class="p">[</span><span class="mi">127</span><span class="p">,</span> <span class="mi">121</span><span class="p">]:</span>
+                <span class="c1"># Search for the next header or the end of the file</span>
+                <span class="n">skipbytes</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_i16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">skipbytes</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># EOF</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="n">cfgid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+                <span class="n">pos_7f79</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Search til we find something or hit the end of the file</span>
+                <span class="n">search_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">nextbyte</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">nextbyte</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># EOF</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="n">cfgid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfgid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">cfgid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">nextbyte</span>
+
+        <span class="k">if</span> <span class="n">pos_7f79</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Skipped junk data: [</span><span class="si">{:x}</span><span class="s2">, </span><span class="si">{:x}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="mi">127</span><span class="p">,</span> <span class="mi">121</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">search_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;  Searched </span><span class="si">{}</span><span class="s2"> bytes to find next &quot;</span>
+                    <span class="s2">&quot;valid ensemble start [</span><span class="si">{:x}</span><span class="s2">, </span><span class="si">{:x}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">search_cnt</span><span class="p">,</span> <span class="o">*</span><span class="n">cfgid</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_eof</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns True if next header is bad or at end of file.&quot;&quot;&quot;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">numbytes</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_i16</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Search for next config id</span>
+        <span class="k">if</span> <span class="n">numbytes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">numbytes</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">cfgid</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read_ui8</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cfgid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;EOF&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="c1"># Make sure one is found, either 7f7f or 7f79</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cfgid</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="n">numbytes</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cfgid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">127</span> <span class="ow">and</span> <span class="n">cfgid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">127</span><span class="p">,</span> <span class="mi">121</span><span class="p">]:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the buffer progress, used for debugging.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;  pos </span><span class="si">%0.0f</span><span class="s2">mb/</span><span class="si">%0.0f</span><span class="s2">mb</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1048576</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesize</span> <span class="o">/</span> <span class="mi">1048576</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1048576</span><span class="p">:</span>
+            <span class="k">return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte_offset</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the position in the file, used for debugging.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;ensemble&quot;</span><span class="p">):</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">k</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  pos: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span><span class="si">}</span><span class="s2">, pos_: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="si">}</span><span class="s2">, nbyte: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbyte</span><span class="si">}</span><span class="s2">, k: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, byte_offset: </span><span class="si">{</span><span class="n">byte_offset</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_dat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Main function map used to read or skip stored IDs&quot;&quot;&quot;</span>
+        <span class="n">function_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># 0000 1st profile fixed leader</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_fixed</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="c1"># 0001 2nd profile fixed leader</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_fixed</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">]),</span>
+            <span class="c1"># 0010 Surface layer fixed leader (RiverPro &amp; StreamPro)</span>
+            <span class="mi">16</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_fixed_sl</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="c1"># 0080 1st profile variable leader</span>
+            <span class="mi">128</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_var</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="c1"># 0081 2nd profile variable leader</span>
+            <span class="mi">129</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_var</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">]),</span>
+            <span class="c1"># 0100 1st profile velocity</span>
+            <span class="mi">256</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_vel</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="c1"># 0101 2nd profile velocity</span>
+            <span class="mi">257</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_vel</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="c1"># 0103 Waves first leader</span>
+            <span class="mi">259</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">74</span><span class="p">]),</span>
+            <span class="c1"># 0110 Surface layer velocity (RiverPro &amp; StreamPro)</span>
+            <span class="mi">272</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_vel</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="c1"># 0200 1st profile correlation</span>
+            <span class="mi">512</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_corr</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="c1"># 0201 2nd profile correlation</span>
+            <span class="mi">513</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_corr</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="c1"># 0203 Waves data</span>
+            <span class="mi">515</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">186</span><span class="p">]),</span>
+            <span class="c1"># 020C Ambient sound profile</span>
+            <span class="mi">524</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]),</span>
+            <span class="c1"># 0210 Surface layer correlation (RiverPro &amp; StreamPro)</span>
+            <span class="mi">528</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_corr</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="c1"># 0300 1st profile amplitude</span>
+            <span class="mi">768</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_amp</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="c1"># 0301 2nd profile amplitude</span>
+            <span class="mi">769</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_amp</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="c1"># 0302 Beam 5 Sum of squared velocities</span>
+            <span class="mi">770</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="c1"># 0303 Waves last leader</span>
+            <span class="mi">771</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[</span><span class="mi">18</span><span class="p">]),</span>
+            <span class="c1"># 0310 Surface layer amplitude (RiverPro &amp; StreamPro)</span>
+            <span class="mi">784</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_amp</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="c1"># 0400 1st profile % good</span>
+            <span class="mi">1024</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_prcnt_gd</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="c1"># 0401 2nd profile pct good</span>
+            <span class="mi">1025</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_prcnt_gd</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="c1"># 0403 Waves HPR data</span>
+            <span class="mi">1027</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">6</span><span class="p">]),</span>
+            <span class="c1"># 0410 Surface layer pct good (RiverPro &amp; StreamPro)</span>
+            <span class="mi">1040</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_prcnt_gd</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="c1"># 0500 1st profile status</span>
+            <span class="mi">1280</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_status</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="c1"># 0501 2nd profile status</span>
+            <span class="mi">1281</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_status</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="c1"># 0510 Surface layer status (RiverPro &amp; StreamPro)</span>
+            <span class="mi">1296</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_status</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="mi">1536</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_bottom</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 0600 bottom tracking</span>
+            <span class="mi">1793</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]),</span>  <span class="c1"># 0701 number of pings</span>
+            <span class="mi">1794</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]),</span>  <span class="c1"># 0702 sum of squared vel</span>
+            <span class="mi">1795</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]),</span>  <span class="c1"># 0703 sum of velocities</span>
+            <span class="mi">2560</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 0A00 Beam 5 velocity</span>
+            <span class="mi">2816</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 0B00 Beam 5 correlation</span>
+            <span class="mi">3072</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 0C00 Beam 5 amplitude</span>
+            <span class="mi">3328</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Ncol</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 0D00 Beam 5 pct_good</span>
+            <span class="c1"># Fixed attitude data format for Ocean Surveyor ADCPs</span>
+            <span class="mi">3000</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">]),</span>
+            <span class="mi">3841</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">38</span><span class="p">]),</span>  <span class="c1"># 0F01 Beam 5 leader</span>
+            <span class="mi">8192</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_vmdas</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2000</span>
+            <span class="c1"># 2013 Navigation parameter data</span>
+            <span class="mi">8211</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">83</span><span class="p">]),</span>
+            <span class="mi">8226</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_winriver2</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2022</span>
+            <span class="mi">8448</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_winriver</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2100</span>
+            <span class="mi">8449</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_winriver</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2101</span>
+            <span class="mi">8450</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_winriver</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2102</span>
+            <span class="mi">8451</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_winriver</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2103</span>
+            <span class="mi">8452</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_winriver</span><span class="p">,</span> <span class="p">[]),</span>  <span class="c1"># 2104</span>
+            <span class="c1"># 3200 Transformation matrix</span>
+            <span class="mi">12800</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">]),</span>
+            <span class="c1"># 3000 Fixed attitude data format for Ocean Surveyor ADCPs</span>
+            <span class="mi">12288</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">]),</span>
+            <span class="mi">12496</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">24</span><span class="p">]),</span>  <span class="c1"># 30D0</span>
+            <span class="mi">12504</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">48</span><span class="p">]),</span>  <span class="c1"># 30D8</span>
+            <span class="c1"># 4100 beam 5 range</span>
+            <span class="mi">16640</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">read_alt</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="c1"># 4400 Firmware status data (RiverPro &amp; StreamPro)</span>
+            <span class="mi">17408</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">28</span><span class="p">]),</span>
+            <span class="c1"># 4401 Auto mode setup (RiverPro &amp; StreamPro)</span>
+            <span class="mi">17409</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">82</span><span class="p">]),</span>
+            <span class="c1"># 5803 High resolution bottom track velocity</span>
+            <span class="mi">22531</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">68</span><span class="p">]),</span>
+            <span class="c1"># 5804 Bottom track range</span>
+            <span class="mi">22532</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">21</span><span class="p">]),</span>
+            <span class="c1"># 5901 ISM (IMU) data</span>
+            <span class="mi">22785</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">65</span><span class="p">]),</span>
+            <span class="c1"># 5902 Ping attitude</span>
+            <span class="mi">22786</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">105</span><span class="p">]),</span>
+            <span class="c1"># 7001 ADC data</span>
+            <span class="mi">28673</span><span class="p">:</span> <span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">,</span> <span class="p">[</span><span class="mi">14</span><span class="p">]),</span>
+        <span class="p">}</span>
+        <span class="c1"># Call the correct function:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trying to Read </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">function_map</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Reading code </span><span class="si">{}</span><span class="s2">...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">)))</span>
+            <span class="n">retval</span> <span class="o">=</span> <span class="n">function_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="p">)[</span><span class="mi">0</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">function_map</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">retval</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">retval</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    success!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_nocode</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_nocode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Identify filler or unknown bytes and bypass them&quot;&quot;&quot;</span>
+        <span class="c1"># Skipping bytes from codes 0340-30FC, commented if needed</span>
+        <span class="n">hxid</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hxid</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;30&quot;</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Skipping bytes from codes 0340-30FC&quot;</span><span class="p">)</span>
+            <span class="c1"># I want to count the number of 1s in the middle 4 bits</span>
+            <span class="c1"># of the 2nd two bytes.</span>
+            <span class="c1"># 60 is a 0b00111100 mask</span>
+            <span class="n">nflds</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hxid</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">&amp;</span> <span class="mi">60</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hxid</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">&amp;</span> <span class="mi">60</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span>
+                <span class="s2">&quot;1&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># I want to count the number of 1s in the highest</span>
+            <span class="c1"># 2 bits of byte 3</span>
+            <span class="c1"># 3 is a 0b00000011 mask:</span>
+            <span class="n">dfac</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hxid</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">nflds</span> <span class="o">*</span> <span class="n">dfac</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;  Unrecognized ID code: </span><span class="si">%0.4X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip_nocode</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_nocode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Skips bytes when an ID code is not found in the function map.</span>
+
+<span class="sd">        This method calculates the byte length to skip based on the positions</span>
+<span class="sd">        of known ID codes and uses this length to bypass filler or irrelevant data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        id : int</span>
+<span class="sd">            The ID code that is not present in the function map.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_positions</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">offsets</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_positions</span><span class="p">[</span><span class="nb">id</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">byte_len</span> <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">offsets</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span>
+
+        <span class="n">defs</span><span class="o">.</span><span class="n">skip_Nbyte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte_len</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping ID code </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">readbytes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks and adjusts the file position based on the distance to the nearest function ID.</span>
+
+<span class="sd">        If the provided `offset` differs from the expected value and `_fixoffset` is zero,</span>
+<span class="sd">        this method updates `_fixoffset` and adjusts the file position in the data file</span>
+<span class="sd">        (`self.f`) accordingly. This adjustment is logged if `_debug_level` is set to a</span>
+<span class="sd">        positive value.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        offset : int</span>
+<span class="sd">            The current offset from the expected position.</span>
+<span class="sd">        readbytes : int</span>
+<span class="sd">            The number of bytes that have been read so far.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span>
+        <span class="k">if</span> <span class="n">offset</span> <span class="o">!=</span> <span class="mi">4</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixoffset</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">fd</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesize</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot; EOF reached unexpectedly - discarding this last ensemble</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s2">&quot;  Adjust location by </span><span class="si">{:d}</span><span class="s2"> (readbytes=</span><span class="si">{:d}</span><span class="s2">,hdr[&#39;nbyte&#39;]=</span><span class="si">{:d}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">offset</span><span class="p">,</span> <span class="n">readbytes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">[</span><span class="s2">&quot;nbyte&quot;</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fixoffset</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">4</span>
+        <span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">4</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixoffset</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iens</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes incomplete measurements from the dataset.</span>
+
+<span class="sd">        This method cleans up any partially read data by truncating measurements</span>
+<span class="sd">        to the specified ensemble index (`iens`). This is typically called upon</span>
+<span class="sd">        reaching the end of the file to ensure only complete data is retained.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iens : int</span>
+<span class="sd">            The index up to which data is considered complete and should be retained.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outd</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debug_level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Encountered end of file.  Cleaning up data.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vars_read</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">_setd</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">lib</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="n">iens</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">iens</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reformats profile measurements in the retrieved measurements.</span>
+
+<span class="sd">        This method processes profile measurements from individual pings,</span>
+<span class="sd">        adapting to changing cell counts and cell sizes as needed (from the WinRiver2</span>
+<span class="sd">        program with one of the ***Pro ADCPs).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dat : dict</span>
+<span class="sd">            Raw data dictionary</span>
+<span class="sd">        nm : str</span>
+<span class="sd">            The name of the profile variable</span>
+<span class="sd">        en : dict</span>
+<span class="sd">            The dictionary containing ensemble profiles</span>
+<span class="sd">        iens : int</span>
+<span class="sd">            The index of the current ensemble</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The updated dataset dictionary with the reformatted profile measurements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_avg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">bn</span> <span class="o">=</span> <span class="n">en</span><span class="p">[</span><span class="n">nm</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">en</span><span class="p">[</span><span class="n">nm</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># If n_cells has changed (RiverPro/StreamPro WinRiver transects)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;_sl&quot;</span> <span class="ow">in</span> <span class="n">nm</span><span class="p">:</span>
+                <span class="c1"># This works here b/c the max number of surface layer cells</span>
+                <span class="c1"># is smaller than the min number of normal profile cells used.</span>
+                <span class="c1"># Extra nan cells created after this if-statement</span>
+                <span class="c1"># are trimmed off in self.cleanup.</span>
+                <span class="n">bn</span> <span class="o">=</span> <span class="n">bn</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells_sl&quot;</span><span class="p">]]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Set bn to current ping size</span>
+                <span class="n">bn</span> <span class="o">=</span> <span class="n">bn</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">]]</span>
+                <span class="c1"># If n_cells has increased, we also need to increment defs</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_cells_diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cells_diff</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">lib</span><span class="o">.</span><span class="n">_setd</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span>
+            <span class="c1"># If the number of cells decreases, set extra cells to nan instead of</span>
+            <span class="c1"># whatever is stuck in memory</span>
+            <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">bn</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">n_cells</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">bn</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_cells</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="n">bn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bn</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Keep track of when the cell size changes</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs_diff</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">iens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cell_size&quot;</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cs_diff</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Then copy the ensemble to the dataset.</span>
+        <span class="n">ds</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">iens</span><span class="p">]</span> <span class="o">=</span> <span class="n">bn</span>
+        <span class="n">lib</span><span class="o">.</span><span class="n">_setd</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dat</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cleans up recorded data by adjusting variable cell sizes and profile ranges.</span>
+
+<span class="sd">        This method handles adjustments when cell sizes change during data collection,</span>
+<span class="sd">        performing depth-bin averaging for smaller cells if needed. It also updates</span>
+<span class="sd">        the configuration data, range coordinates, and manages any surface layer profiles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dat : dict</span>
+<span class="sd">            The dataset dictionary containing data variables and coordinates to be cleaned up.</span>
+<span class="sd">        cfg : dict</span>
+<span class="sd">            Configuration dictionary, which is updated with cell size, range, and additional</span>
+<span class="sd">            attributes after cleanup.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - dict : The updated dataset dictionary with cleaned data.</span>
+<span class="sd">            - dict : The updated configuration dictionary with new attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clean up changing cell size, if necessary</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">cell_sizes</span> <span class="o">=</span> <span class="n">cs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># If cell sizes change, depth-bin average the smaller cell sizes</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">bins_to_merge</span> <span class="o">=</span> <span class="n">cell_sizes</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">cell_sizes</span>
+            <span class="n">idx_start</span> <span class="o">=</span> <span class="n">cs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">idx_end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cs</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nens</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+            <span class="n">dv</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dv</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;_sl&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">var</span><span class="p">):</span>
+                    <span class="c1"># Create a new NaN var to save data in</span>
+                    <span class="n">new_var</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                    <span class="c1"># For each cell size change, reshape and bin-average</span>
+                    <span class="k">for</span> <span class="n">id1</span><span class="p">,</span> <span class="n">id2</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_end</span><span class="p">,</span> <span class="n">bins_to_merge</span><span class="p">):</span>
+                        <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="n">id1</span><span class="p">:</span><span class="n">id2</span><span class="p">])</span>
+                        <span class="n">bin_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+                        <span class="n">new_var</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_arr</span><span class="p">),</span> <span class="p">:,</span> <span class="n">id1</span><span class="p">:</span><span class="n">id2</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_arr</span>
+                    <span class="c1"># Reset data. This often leaves nan data at farther ranges</span>
+                    <span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_var</span>
+
+        <span class="c1"># Set cell size and range</span>
+        <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ensemble</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">]</span>
+        <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cell_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">cell_sizes</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="s2">&quot;range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;bin1_dist_m&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;n_cells&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cell_size&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="c1"># Save configuration data as attributes</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
+
+        <span class="c1"># Clean up surface layer profiles</span>
+        <span class="k">if</span> <span class="s2">&quot;surface_layer&quot;</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">:</span>  <span class="c1"># RiverPro/StreamPro</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="s2">&quot;range_sl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;bin1_dist_m_sl&quot;</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_cells_sl</span><span class="p">)</span> <span class="o">*</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;cell_size_sl&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="c1"># Trim off extra nan data</span>
+            <span class="n">dv</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;data_vars&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dv</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;sl&quot;</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
+                    <span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">dv</span><span class="p">[</span><span class="n">var</span><span class="p">][:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_cells_sl</span><span class="p">]</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="s2">&quot;rotate_vars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;vel_sl&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dat</span><span class="p">,</span> <span class="n">cfg</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reshapes the input array `arr` to a shape of (..., n, n_bin).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arr : np.ndarray</span>
+<span class="sd">            The array to reshape. The last dimension of `arr` will be divided into</span>
+<span class="sd">            `(n, n_bin)` based on the value of `n_bin`.</span>
+<span class="sd">        n_bin : int or float, optional</span>
+<span class="sd">            The bin size for reshaping. If `n_bin` is an integer, it divides the</span>
+<span class="sd">            last dimension directly. If not, indices are adjusted, and excess</span>
+<span class="sd">            bins may be removed. Default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            The reshaped array with shape (..., n, n_bin).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">n_bin</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">shp</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">n_bin</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># n_bin needs to be int</span>
+            <span class="n">n_bin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
+            <span class="c1"># If n_bin is an integer, we can do this simply.</span>
+            <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="n">n_bin</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span> <span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">shp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]))</span> <span class="o">*</span> <span class="n">n_bin</span> <span class="o">//</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
+            <span class="c1"># If there are too many indices, drop one bin</span>
+            <span class="k">if</span> <span class="n">inds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[:</span> <span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)]</span>
+                <span class="n">shp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span>
+            <span class="n">n_bin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="n">n_bin</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">inds</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+            <span class="n">n_bin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_bin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method cleans up the dataset by removing any attributes that were</span>
+<span class="sd">        defined but not loaded, updates configuration attributes, and sets the</span>
+<span class="sd">        sampling frequency (fs) based on the data source program. Additionally,</span>
+<span class="sd">        it adjusts the axes of certain variables as defined in data_defs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dat : dict</span>
+<span class="sd">            The dataset dictionary to be finalized. This dictionary is modified</span>
+<span class="sd">            in place by removing unused attributes, setting configuration values</span>
+<span class="sd">            as attributes, and calculating `fs`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The finalized dataset dictionary with cleaned attributes and added metadata.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">defs</span><span class="o">.</span><span class="n">data_defs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">vars_read</span><span class="p">:</span>
+            <span class="n">lib</span><span class="o">.</span><span class="n">_pop</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="p">[</span><span class="n">nm</span><span class="p">]</span>
+
+        <span class="c1"># VMDAS and WinRiver have different set sampling frequency</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;attrs&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;sourceprog&quot;</span> <span class="ow">in</span> <span class="n">da</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">da</span><span class="p">[</span><span class="s2">&quot;sourceprog&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vmdas&quot;</span><span class="p">,</span> <span class="s2">&quot;winriver&quot;</span><span class="p">,</span> <span class="s2">&quot;winriver2&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">da</span><span class="p">[</span><span class="s2">&quot;fs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">])),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">da</span><span class="p">[</span><span class="s2">&quot;fs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;sec_between_ping_groups&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">da</span><span class="p">[</span><span class="s2">&quot;pings_per_ensemble&quot;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">defs</span><span class="o">.</span><span class="n">data_defs</span><span class="p">:</span>
+            <span class="n">shp</span> <span class="o">=</span> <span class="n">defs</span><span class="o">.</span><span class="n">data_defs</span><span class="p">[</span><span class="n">nm</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">shp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;nc&quot;</span> <span class="ow">and</span> <span class="n">lib</span><span class="o">.</span><span class="n">_in_group</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">):</span>
+                <span class="n">lib</span><span class="o">.</span><span class="n">_setd</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">nm</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">dat</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

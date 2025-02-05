@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.power.quality &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.power.quality</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.power.quality</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains functions for calculating various aspects of power quality, </span>
+<span class="sd">particularly focusing on the analysis of harmonics, interharmonics and distortion </span>
+<span class="sd">in electrical power systems. These functions are designed to assist in power </span>
+<span class="sd">quality assessments by providing tools to analyze voltage and current signals </span>
+<span class="sd">for their harmonic and interharmonic components based on the guidelines and methodologies </span>
+<span class="sd">outlined in IEC 61000-4-7:2008 ED2 and in IEC 62600-30:2018 ED1.</span>
+
+<span class="sd">Functions in this module include:</span>
+
+<span class="sd">- harmonics: Calculates the harmonics from time series of voltage or current. </span>
+<span class="sd">  This function returns the amplitude of the time-series data harmonics indexed by </span>
+<span class="sd">  the harmonic frequency, aiding in the identification of harmonic distortions </span>
+<span class="sd">  within the power system.</span>
+
+<span class="sd">- harmonic_subgroups: Computes the harmonic subgroups as per IEC 61000-4-7 standards. </span>
+<span class="sd">  Harmonic subgroups provide insights into the distribution of power across </span>
+<span class="sd">  different harmonic frequencies, which is crucial for understanding the behavior </span>
+<span class="sd">  of non-linear loads and their impact on the power quality.</span>
+
+<span class="sd">- total_harmonic_current_distortion (THCD): Determines the total harmonic current </span>
+<span class="sd">  distortion, offering a summary metric that quantifies the overall level of </span>
+<span class="sd">  harmonic distortion present in the current waveform. This metric is essential </span>
+<span class="sd">  for assessing compliance with power quality standards and guidelines.</span>
+
+<span class="sd">- interharmonics: Identifies and calculates the interharmonics present in the </span>
+<span class="sd">  power system. Interharmonics, which are frequencies that occur between the </span>
+<span class="sd">  fundamental and harmonic frequencies, can arise from various sources and </span>
+<span class="sd">  potentially lead to power quality issues.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">fftpack</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataset</span>
+
+
+<div class="viewcode-block" id="harmonics">
+<a class="viewcode-back" href="../../../mhkit-python/api.power.html#mhkit.power.quality.harmonics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">harmonics</span><span class="p">(</span>
+    <span class="n">signal_data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span>
+    <span class="n">freq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">grid_freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the harmonics from time series of voltage or current based on IEC 61000-4-7.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    signal_data: pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Time-series of voltage [V] or current [A]</span>
+
+<span class="sd">    freq: float or Int</span>
+<span class="sd">        Frequency of the time-series data [Hz]</span>
+
+<span class="sd">    grid_freq: int</span>
+<span class="sd">        Value indicating if the power supply is 50 or 60 Hz. Options = 50 or 60</span>
+
+<span class="sd">    to_pandas: bool (Optional)</span>
+<span class="sd">        Flag to save output to pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    harmonic_amplitudes: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Amplitude of the time-series data harmonics indexed by the harmonic</span>
+<span class="sd">        frequency with signal name columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal_data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;signal_data must be of type pd.Series, pd.DataFrame, &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;xr.DataArray, or xr.Dataset. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">signal_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;freq must be of type float or integer. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">grid_freq</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grid_freq must be either 50 or 60. Got </span><span class="si">{</span><span class="n">grid_freq</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert input to xr.Dataset</span>
+    <span class="n">signal_data</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">signal_data</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">)</span>
+
+    <span class="n">sample_spacing</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">freq</span>
+
+    <span class="c1"># Loop through all variables in signal_data</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">signal_data</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">dataarray</span> <span class="o">=</span> <span class="n">signal_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="n">dataarray</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+        <span class="n">frequency_bin_centers</span> <span class="o">=</span> <span class="n">fftpack</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataarray</span><span class="p">),</span> <span class="n">d</span><span class="o">=</span><span class="n">sample_spacing</span><span class="p">)</span>
+        <span class="n">harmonics_amplitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">dataarray</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">var</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;frequency&quot;</span><span class="p">],</span> <span class="n">harmonics_amplitude</span><span class="p">)}</span>
+        <span class="p">)</span>
+        <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">frequency_bin_centers</span><span class="p">}</span>
+        <span class="p">)</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;frequency&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">grid_freq</span> <span class="o">==</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="n">hertz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3060</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">grid_freq</span> <span class="o">==</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">hertz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2570</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grid_freq must be either 50 or 60. Got </span><span class="si">{</span><span class="n">grid_freq</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">hertz</span><span class="p">},</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+    <span class="p">)</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">harmonic_amplitudes</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal_data</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">signal_data</span><span class="o">.</span><span class="n">dims</span><span class="p">)[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">harmonic_amplitudes</span></div>
+
+
+
+<div class="viewcode-block" id="harmonic_subgroups">
+<a class="viewcode-back" href="../../../mhkit-python/api.power.html#mhkit.power.quality.harmonic_subgroups">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">harmonic_subgroups</span><span class="p">(</span>
+    <span class="n">harmonic_amplitudes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span>
+    <span class="n">grid_freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the harmonic subgroups based on IEC 61000-4-7</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    harmonic_amplitudes: pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Harmonic amplitude indexed by the harmonic frequency</span>
+
+<span class="sd">    grid_freq: int</span>
+<span class="sd">        Value indicating if the power supply is 50 or 60 Hz. Options = 50 or 60</span>
+
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+
+<span class="sd">    to_pandas: bool (Optional)</span>
+<span class="sd">        Flag to save output to pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    subgroup_results: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Harmonic subgroups indexed by harmonic frequency</span>
+<span class="sd">        with signal name columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">harmonic_amplitudes</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;harmonic_amplitudes must be of type pd.Series, pd.DataFrame, &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;xr.DataArray, or xr.Dataset. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">harmonic_amplitudes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">grid_freq</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grid_freq must be either 50 or 60. Got </span><span class="si">{</span><span class="n">grid_freq</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Convert input to xr.Dataset</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">harmonic_amplitudes</span><span class="p">,</span> <span class="s2">&quot;harmonic_amplitudes&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">frequency_dimension</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
+        <span class="ow">and</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">coords</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;frequency_dimension was supplied but is not a dimension &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;of harmonic_amplitudes. Got </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">grid_freq</span> <span class="o">==</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="n">hertz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3060</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hertz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2550</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="c1"># Sort input data index</span>
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">dims</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+    <span class="c1"># Loop through all variables in harmonics</span>
+    <span class="n">subgroup_results</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">dataarray</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="n">subgroup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">hertz</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">ihz</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hertz</span><span class="p">)):</span>
+            <span class="n">current_frequency</span> <span class="o">=</span> <span class="n">hertz</span><span class="p">[</span><span class="n">ihz</span><span class="p">]</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">current_frequency</span><span class="p">)</span>
+
+            <span class="n">data_subset</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="p">[</span><span class="n">ind</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]})</span>
+            <span class="n">subgroup</span><span class="p">[</span><span class="n">ihz</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_subset</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+        <span class="n">subgroup_results</span> <span class="o">=</span> <span class="n">subgroup_results</span><span class="o">.</span><span class="n">assign</span><span class="p">({</span><span class="n">var</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;frequency&quot;</span><span class="p">],</span> <span class="n">subgroup</span><span class="p">)})</span>
+        <span class="n">subgroup_results</span> <span class="o">=</span> <span class="n">subgroup_results</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">hertz</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">subgroup_results</span> <span class="o">=</span> <span class="n">subgroup_results</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">subgroup_results</span></div>
+
+
+
+<div class="viewcode-block" id="total_harmonic_current_distortion">
+<a class="viewcode-back" href="../../../mhkit-python/api.power.html#mhkit.power.quality.total_harmonic_current_distortion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">total_harmonic_current_distortion</span><span class="p">(</span>
+    <span class="n">harmonics_subgroup</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span>
+    <span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the total harmonic current distortion (THC) based on IEC/TS 62600-30</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    harmonics_subgroup: pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Subgrouped current harmonics indexed by harmonic frequency</span>
+
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to save output to pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    thcd_result: pd.DataFrame or xarray Dataset</span>
+<span class="sd">        Total harmonic current distortion indexed by signal name with THCD column</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">harmonics_subgroup</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;harmonics_subgroup must be of type pd.Series, pd.DataFrame, &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;xr.DataArray, or xr.Dataset. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">harmonics_subgroup</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Convert input to xr.Dataset</span>
+    <span class="n">harmonics_subgroup</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">harmonics_subgroup</span><span class="p">,</span> <span class="s2">&quot;harmonics_subgroup&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">frequency_dimension</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
+        <span class="ow">and</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">harmonics_subgroup</span><span class="o">.</span><span class="n">coords</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;frequency_dimension was supplied but is not a dimension &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;of harmonics. Got </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">harmonics_subgroup</span><span class="o">.</span><span class="n">dims</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">harmonics_sq</span> <span class="o">=</span> <span class="n">harmonics_subgroup</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)})</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">harmonics_sum</span> <span class="o">=</span> <span class="n">harmonics_sq</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="n">thcd_result</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">harmonics_sum</span><span class="p">)</span> <span class="o">/</span> <span class="n">harmonics_subgroup</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+    <span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">thcd_result</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="n">thcd_result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;THCD&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">thcd_result</span> <span class="o">=</span> <span class="n">thcd_result</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">thcd_result</span></div>
+
+
+
+<div class="viewcode-block" id="interharmonics">
+<a class="viewcode-back" href="../../../mhkit-python/api.power.html#mhkit.power.quality.interharmonics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">interharmonics</span><span class="p">(</span>
+    <span class="n">harmonic_amplitudes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span>
+    <span class="n">grid_freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the interharmonics from the harmonic_amplitudes of current</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    harmonic_amplitudes: pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Harmonic amplitude indexed by the harmonic frequency</span>
+
+<span class="sd">    grid_freq: int</span>
+<span class="sd">        Value indicating if the power supply is 50 or 60 Hz. Options = 50 or 60</span>
+
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+
+<span class="sd">    to_pandas: bool (Optional)</span>
+<span class="sd">        Flag to save output to pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    interharmonic_groups: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Interharmonics groups</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">harmonic_amplitudes</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;harmonic_amplitudes must be of type pd.Series, pd.DataFrame, &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;xr.DataArray, or xr.Dataset. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">harmonic_amplitudes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">grid_freq</span> <span class="o">==</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="n">hertz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3060</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">grid_freq</span> <span class="o">==</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">hertz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2550</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grid_freq must be either 50 or 60. Got </span><span class="si">{</span><span class="n">grid_freq</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert input to xr.Dataset</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">harmonic_amplitudes</span><span class="p">,</span> <span class="s2">&quot;harmonic_amplitudes&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">frequency_dimension</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
+        <span class="ow">and</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">coords</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;frequency_dimension was supplied but is not a dimension &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;of harmonic_amplitudes. Got </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Sort input data index</span>
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">dims</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">harmonic_amplitudes</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+    <span class="c1"># Loop through all variables in harmonic_amplitudes</span>
+    <span class="n">interharmonic_groups</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">harmonic_amplitudes</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">dataarray</span> <span class="o">=</span> <span class="n">harmonic_amplitudes</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">hertz</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">ihz</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hertz</span><span class="p">)):</span>
+            <span class="n">current_frequency</span> <span class="o">=</span> <span class="n">hertz</span><span class="p">[</span><span class="n">ihz</span><span class="p">]</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">current_frequency</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">grid_freq</span> <span class="o">==</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ind</span> <span class="o">+</span> <span class="mi">11</span><span class="p">)})</span>
+                <span class="n">subset</span><span class="p">[</span><span class="n">ihz</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dataarray</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ind</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)})</span>
+                <span class="n">subset</span><span class="p">[</span><span class="n">ihz</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+        <span class="n">interharmonic_groups</span> <span class="o">=</span> <span class="n">interharmonic_groups</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">var</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;frequency&quot;</span><span class="p">],</span> <span class="n">subset</span><span class="p">)}</span>
+        <span class="p">)</span>
+        <span class="n">interharmonic_groups</span> <span class="o">=</span> <span class="n">interharmonic_groups</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">hertz</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">interharmonic_groups</span> <span class="o">=</span> <span class="n">interharmonic_groups</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">interharmonic_groups</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

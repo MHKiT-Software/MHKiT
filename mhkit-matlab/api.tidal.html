@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tidal Module &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Power Module" href="api.power.html" />
+    <link rel="prev" title="River Module" href="api.river.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mhkit-python-api">MHKiT-Python API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#mhkit-matlab-api">MHKiT-MATLAB API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="api.qc.html">QC Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.wave.html">Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.dolfyn.html">DOLfYN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.river.html">River Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Tidal Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#io">IO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resource">Resource</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#performance">Performance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#graphics">Graphics</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.power.html">Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.loads.html">Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.utils.html">Utils Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API Documentation</a></li>
+      <li class="breadcrumb-item active">Tidal Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/mhkit-matlab/api.tidal.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tidal-module">
+<span id="tidal-api-matlab"></span><h1>Tidal Module<a class="headerlink" href="#tidal-module" title="Link to this heading"></a></h1>
+<p>The tidal module contains a set of functions to
+calculate quantities of interest for tidal energy converters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The names of the functions below are of the convention <code class="docutils literal notranslate"><span class="pre">path.path.function</span></code>. Only the function name is used when calling the function in MATLAB. For example, to call on <code class="docutils literal notranslate"><span class="pre">mhkit.tidal.io.request_noaa_data</span></code> simply use <code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code>.</p>
+</div>
+<section id="io">
+<h2>IO<a class="headerlink" href="#io" title="Link to this heading"></a></h2>
+<p>The io submodule contains the following functions to
+load USGS Discharge data into structures.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">read_noaa_json</span></code></p></td>
+<td><p>Returns site structure from a json saved from the request_noaa_data function</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">request_noaa_data</span></code></p></td>
+<td><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a GET request into a structure</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="mat function" id="module-mhkit.tidal.io">
+<dt class="sig sig-object mat" id="mhkit.tidal.io.read_noaa_json">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.io.</span></span><span class="sig-name descname"><span class="pre">read_noaa_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.read_noaa_json" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Returns site structure from a json saved from the
+request_noaa_data</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span></code></span>) – filename with path of json file to load</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>data</strong> (<em>Structure</em>)</p>
+<p>data.Data: Timeseries Site data, will be named based on parameters in JSON file</p>
+<p>data.time</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.io.request_noaa_data">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.io.</span></span><span class="sig-name descname"><span class="pre">request_noaa_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">station</span></em>, <em class="sig-param"><span class="pre">parameter</span></em>, <em class="sig-param"><span class="pre">start_date</span></em>, <em class="sig-param"><span class="pre">end_date</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.io.request_noaa_data" title="Link to this definition"></a></dt>
+<dd><p>Loads NOAA current data directly from <a class="reference external" href="https://tidesandcurrents.noaa.gov/api/">https://tidesandcurrents.noaa.gov/api/</a> using a
+GET request into a structure. NOAA sets max of 31 days between start and end date.
+See <a class="reference external" href="https://co-ops.nos.noaa.gov/api/">https://co-ops.nos.noaa.gov/api/</a> for options. All times are reported as GMT and metric
+units are returned for data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>station</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">str</span></code></span>) – NOAA current station number (e.g. ‘s08010’)</p></li>
+<li><p><strong>parameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">str</span></code></span>) – NOAA paramter (e.g. ‘currents’)</p></li>
+<li><p><strong>start_date</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">str</span></code></span>) – Start date in the format yyyyMMdd</p></li>
+<li><p><strong>end_date</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">str</span></code></span>) – End date in the format yyyyMMdd</p></li>
+<li><p><strong>proxy</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">None</span></code></span>) – <p>Parameter is now deprecated.
+To request data from behind a firewall, configure in MATLAB
+Preferences by navigating to:</p>
+<blockquote>
+<div><p>Home -&gt; Environment -&gt; Preferences</p>
+</div></blockquote>
+<dl class="simple">
+<dt>then:</dt><dd><p>MATLAB -&gt; Web -&gt; Use a proxy server to connect to the Internet</p>
+</dd>
+<dt>See the following for details:</dt><dd><p><a class="reference external" href="https://www.mathworks.com/help/matlab/import_export/proxy.html">https://www.mathworks.com/help/matlab/import_export/proxy.html</a></p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>write_json</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">str</span> <span class="pre">or</span> <span class="pre">None</span> <span class="pre">(optional)</span></code></span>) – Name of json file to write data
+to call: request_noaa_data(station,parameter,start_date,end_date,”write_json”,write_json)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>data</strong> (<em>structure</em>)</p>
+<p>data.id: station ID</p>
+<p>data.name: station name</p>
+<p>data.lat: station Latitude</p>
+<p>data.lon: station Longitude</p>
+<p>data.vars: this will vary depending on parameter input.</p>
+<p>data.time: epoch time [s]</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="resource">
+<h2>Resource<a class="headerlink" href="#resource" title="Link to this heading"></a></h2>
+<p>The resource submodule uses discharge data to compute
+exeedance probability, velocity, and power.  The module also contains functions
+to compute the Froude number and to fit a polynomial to a series of points.
+The polynomial is used to estimate the relationship between discharge and velocity
+or velocity and power at an individual turbine.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">principal_flow_direction</span></code></p></td>
+<td><p>Calculates the principal flow directions of current data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Froude_number</span></code></p></td>
+<td><p>Calculate the Froude Number of the river, channel or duct flow, to check subcritical flow assumption (if Fr &lt;1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exceedance_probability</span></code></p></td>
+<td><p>Calculates the exceedance probability</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="mat function" id="module-mhkit.tidal.resource">
+<dt class="sig sig-object mat" id="mhkit.tidal.resource.principal_flow_directions">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.resource.</span></span><span class="sig-name descname"><span class="pre">principal_flow_directions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">directions</span></em>, <em class="sig-param"><span class="pre">width_dir</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.resource.principal_flow_directions" title="Link to this definition"></a></dt>
+<dd><p>Calculates the principal flow directions of current data
+The weighted average (over the working velocity range of the TEC)
+should be considered to be the principal direction of the current,
+and should be used for both the ebb and flood cycles to determine
+the TEC optimum orientation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directions</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – flow directions [degrees]</p></li>
+<li><p><strong>width_dir</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">int</span> <span class="pre">or</span> <span class="pre">vector</span></code></span>) – width of direction bins [degrees]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>ebb</strong> (<em>float</em>) – principal ebb direction [degrees]</p></li>
+<li><p><strong>flood</strong> (<em>float</em>) – principal flood direction [degrees]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Link to this heading"></a></h2>
+<p>The performance submodule contains functions to compute equivalent diameter
+and capture area for circular, ducted, rectangular, adn multiple circular devices.
+A circular device is a vertical axis water turbine (VAWT). A
+rectangular device is a horizontal axis water turbine. A ducted device
+is an enclosed VAWT. A multiple-circular devices is a device with
+multiple VAWTs per device.
+This submodule also contains functions for computing tip speed ratio and the power coefficient from blade/rotor type devices.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">circular</span></code></p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a circular turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ducted</span></code></p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a ducted turbine</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">multiple_circular</span></code></p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a multiple circular turbine</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rectangular</span></code></p></td>
+<td><p>Calculates the equivalent diameter and projected capture area of a retangular turbine</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tip_speed_ratio</span></code></p></td>
+<td><p>Calculates the tip speed ratio (TSR) of a MEC device with rotor</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">power_coefficient</span></code></p></td>
+<td><p>Calculates the calculates the power coefficient of MEC device</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="mat function" id="module-mhkit.river.performance">
+<dt class="sig sig-object mat" id="mhkit.river.performance.tip_speed_ratio">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">tip_speed_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rotor_speed</span></em>, <em class="sig-param"><span class="pre">rotor_diameter</span></em>, <em class="sig-param"><span class="pre">inflow_speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.tip_speed_ratio" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Function used to calculate the tip speed ratio (TSR) of a MEC device with rotor</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotor_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Rotor Speed [rps]</p></li>
+<li><p><strong>rotor_diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – diameter -f rotor [m]</p></li>
+<li><p><strong>inflow_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Velocity of inflow condition [m/s]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TSR</strong> (<em>vector</em>) – Calculated tip speed ratio (TSR)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.river.performance.rectangular">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">rectangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">h</span></em>, <em class="sig-param"><span class="pre">w</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.rectangular" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Calculates the equivalent diameter and projected capture area of a
+retangular turbine</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine height [m]</p></li>
+<li><p><strong>w</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine width [m]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D_E</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.river.performance.circular">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">diameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.circular" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Calculates the equivalent diameter and projected capture area of a
+circular turbine</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Turbine diameter [m]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D_E</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.river.performance.power_coefficient">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">power_coefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">power</span></em>, <em class="sig-param"><span class="pre">inflow_speed</span></em>, <em class="sig-param"><span class="pre">capture_area</span></em>, <em class="sig-param"><span class="pre">rho</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.power_coefficient" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Function that calculates the power coefficient of MEC device</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>power</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Power output signal of device after losses [W]</p></li>
+<li><p><strong>inflow_speed</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">vector</span></code></span>) – Velocity of inflow condition [m/s]</p></li>
+<li><p><strong>capture_area</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Projected area of rotor normal to inflow [m^2]</p></li>
+<li><p><strong>rho</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">double</span> <span class="pre">or</span> <span class="pre">int</span></code></span>) – Density of environment [kg/m^3]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Cp</strong> (<em>vector</em>) – Power coefficient of device [-]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.river.performance.multiple_circular">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">multiple_circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">diameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.multiple_circular" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Calculates the equivalent diameter and projected capture area of a
+multiple circular turbine</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>diameters</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">array</span> <span class="pre">or</span> <span class="pre">vector</span></code></span>) – vector of device diameters [m]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D_E</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.river.performance.ducted">
+<span class="sig-prename descclassname"><span class="pre">mhkit.river.performance.</span></span><span class="sig-name descname"><span class="pre">ducted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">diameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.river.performance.ducted" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Calculates the equivalent diameter and projected capture area of a
+ducted turbine</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>diameter</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – ducted diameter [m]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>D_E</strong> (<em>float</em>) – Equivalent diameter [m]</p></li>
+<li><p><strong>projected_capture_area</strong> (<em>float</em>) – Projected capture area [m^2]</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tidal device functions are the same as the River device functions</p>
+</div>
+</section>
+<section id="graphics">
+<h2>Graphics<a class="headerlink" href="#graphics" title="Link to this heading"></a></h2>
+<p>The graphics submodule contains functions to plot river data and related metrics.
+The functions are designed to work in parallel with the <a class="reference internal" href="../mhkit-python/api.tidal.html#module-mhkit.tidal.resource" title="mhkit.tidal.resource"><code class="xref py py-class docutils literal notranslate"><span class="pre">resource</span></code></a> submodule.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Functions</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_velocity_duration_curve</span></code></p></td>
+<td><p>Plots velocity vs exceedance probability as a Flow Duration Curve (FDC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_rose</span></code></p></td>
+<td><p>Creates a polar histogram. Direction angles from binned histogram must be specified such that 0  degrees is north.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_joint_probability_distribution</span></code></p></td>
+<td><p>Creates a polar histogram. Direction angles from binned histogram must be specified such that 0 is north.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_current_timeseries</span></code></p></td>
+<td><p>Returns a plot of velocity from an array of direction and speed data in the direction of the supplied principal_direction.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_tidal_phase_exceedance</span></code></p></td>
+<td><p>Creates a stacked area plot of the exceedance probability for the flood and ebb tidal phases.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_tidal_phase_probability</span></code></p></td>
+<td><p>Discretizes the tidal series speed by bin size and returns a plot of the probability for each bin in the flood or ebb tidal phase.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="mat function" id="module-mhkit.tidal.graphics">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_current_timeseries">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_current_timeseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">principal_direction</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_current_timeseries" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Returns a plot of velocity from an array of direction and speed
+data in the direction of the supplied principal_direction.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>principal_direction</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span></code></span>) – Direction to compute the velocity in [degrees]</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_current_timeseries(data,principal_direction,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_current_timeseries(data,principal_direction,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>figure</strong> (<em>timeseries plot of current-speed velocity</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_tidal_phase_exceedance">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_tidal_phase_exceedance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">flood</span></em>, <em class="sig-param"><span class="pre">ebb</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_tidal_phase_exceedance" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Returns a stacked area plot of the exceedance probability for the
+flood and ebb tidal phases.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>flood</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal flood direction [degrees]</p></li>
+<li><p><strong>ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal ebb direction [degrees]</p></li>
+<li><p><strong>bin_size</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span> <span class="pre">(optional)</span></code></span>) – Speed bin size. Default = 0.1 m/s
+to call: plot_tidal_phase_probability(data, flood, ebb,”bin_size”,bin_size)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_tidal_phase_probability(data, flood, ebb,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_tidal_phase_probability(data, flood, ebb,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>figure</strong> (<em>stacked bar graph of the probability of exceedance in</em>) – flood and ebb directions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_tidal_phase_probability">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_tidal_phase_probability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">flood</span></em>, <em class="sig-param"><span class="pre">ebb</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_tidal_phase_probability" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Discretizes the tidal series speed by bin size and returns a plot
+of the probability for each bin in the flood or ebb tidal phase.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>flood</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal flood direction [degrees]</p></li>
+<li><p><strong>ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – principal ebb direction [degrees]</p></li>
+<li><p><strong>bin_size</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">numeric</span> <span class="pre">(optional)</span></code></span>) – Speed bin size. Default = 0.1 m/s
+to call: plot_tidal_phase_probability(data, flood, ebb,”bin_size”,bin_size)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_tidal_phase_probability(data, flood, ebb,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_tidal_phase_probability(data, flood, ebb,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>figure</strong> (<em>stacked bar graph of the probability of exceedance in</em>) – flood and ebb directions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_rose">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_rose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">width_dir</span></em>, <em class="sig-param"><span class="pre">width_vel</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_rose" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Creates a polar histogram. Direction angles from binned histogram must
+be specified such that 0  degrees is north.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>width_dir</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of directional bins for histogram in degrees</p></li>
+<li><p><strong>width_vel</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of velocity bins for histogram in m/s</p></li>
+<li><p><strong>flood_ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">2</span> <span class="pre">element</span> <span class="pre">vector</span> <span class="pre">(optional)</span></code></span>) – Direction in degrees added to theta ticks
+to call: plot_rose(Q, width_dir, width_vel,”flood_ebb”,flood_ebb)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_rose(Q, width_dir, width_vel,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_rose(Q, width_dir, width_vel,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>figure handle to water current rose plot</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="mhkit.tidal.graphics.plot_joint_probability_distribution">
+<span class="sig-prename descclassname"><span class="pre">mhkit.tidal.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_joint_probability_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">Q</span></em>, <em class="sig-param"><span class="pre">width_dir</span></em>, <em class="sig-param"><span class="pre">width_vel</span></em>, <em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhkit.tidal.graphics.plot_joint_probability_distribution" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Creates a polar histogram. Direction angles from binned histogram must
+be specified such that 0 is north.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">structure</span></code></span>) – <dl class="simple">
+<dt>data.time: vector</dt><dd><p>days from January 0, 0000 in the proleptic ISO calendar</p>
+</dd>
+<dt>data.d: vector</dt><dd><p>time-series of directions [degrees]</p>
+</dd>
+<dt>data.s: vector</dt><dd><p>time-series of speeds [cm/s]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>width_dir</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of directional bins for histogram in degrees</p></li>
+<li><p><strong>width_vel</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">float</span></code></span>) – Width of velocity bins for histogram in m/s</p></li>
+<li><p><strong>flood_ebb</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">2</span> <span class="pre">element</span> <span class="pre">vector</span> <span class="pre">(optional)</span></code></span>) – Direction in degrees added to theta ticks
+to call: plot_joint_probability_distribution(Q, width_dir, width_vel,”flood_ebb”,flood_ebb)</p></li>
+<li><p><strong>title</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – title for the plot
+to call: plot_joint_probability_distribution(Q, width_dir, width_vel,”title”,title)</p></li>
+<li><p><strong>savepath</strong> (<span><code class="xref mat mat-obj docutils literal notranslate"><span class="pre">string</span> <span class="pre">(optional)</span></code></span>) – path and filename to save figure.
+to call: plot_joint_probability_distribution(Q, width_dir, width_vel,”savepath”,savepath)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>figure handle to joint probability distribution plot</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api.river.html" class="btn btn-neutral float-left" title="River Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.power.html" class="btn btn-neutral float-right" title="Power Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

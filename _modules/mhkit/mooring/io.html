@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.mooring.io &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.mooring.io</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.mooring.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides functions to read and parse MoorDyn output files.</span>
+
+<span class="sd">The main function read_moordyn takes as input the path to a MoorDyn output file and optionally</span>
+<span class="sd">the path to a MoorDyn input file. It reads the data from the output file, stores it in an </span>
+<span class="sd">xarray dataset, and then if provided, parses the input file for additional metadata to store </span>
+<span class="sd">as attributes in the dataset.</span>
+
+<span class="sd">The helper function _moordyn_input is used to parse the MoorDyn output file. It loops through </span>
+<span class="sd">each line in the output file, parses various sets of properties and parameters, and stores </span>
+<span class="sd">them as attributes in the provided dataset.</span>
+
+<span class="sd">Typical usage example:</span>
+
+<span class="sd">    dataset = read_moordyn(filepath=&quot;FAST.MD.out&quot;, input_file=&quot;FAST.MD.input&quot;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="read_moordyn">
+<a class="viewcode-back" href="../../../mhkit-python/api.mooring.html#mhkit.mooring.io.read_moordyn">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_moordyn</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">input_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads in MoorDyn OUT files such as &quot;FAST.MD.out&quot; and</span>
+<span class="sd">    &quot;FAST.MD.Line1.out&quot; and stores inside xarray. Also allows for</span>
+<span class="sd">    parsing and storage of MoorDyn input file as attributes inside</span>
+<span class="sd">    the xarray.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">        Path to MoorDyn OUT file</span>
+<span class="sd">    inputfile : str (optional)</span>
+<span class="sd">        Path to MoorDyn input file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        Dataset containing parsed MoorDyn OUT file</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        Checks for correct input types for filepath and input_file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;filepath must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;input_file must be of type str&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No file found at provided path: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">filepath</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">_moordyn_input</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dataset</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_moordyn_input</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal function used to parse MoorDyn input file and write attributes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_file : str</span>
+<span class="sd">        Path to moordyn input file</span>
+<span class="sd">    dataset : xr.Dataset</span>
+<span class="sd">        xarray Dataset to be written to</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        return Dataset that includes input file parameters as attributes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">moordyn_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">moordyn_file</span><span class="p">:</span>  <span class="c1"># loop through each line in the file</span>
+            <span class="c1"># get line type property sets</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;LINE DICTIONARY&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;LINE TYPES&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="n">linetypes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="c1"># skip this header line, plus channel names and units lines</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="k">while</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">entries</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">linetypes</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)):</span>
+                        <span class="n">linetypes</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">variables</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">linetypes</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;LINE_TYPES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">linetypes</span>
+
+            <span class="c1"># get properties of each Point</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;POINTS&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;POINT LIST&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;POINT PROPERTIES&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="c1"># skip this header line, plus channel names and units lines</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">points</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">while</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">entries</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">points</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)):</span>
+                        <span class="n">points</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">variables</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">points</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;POINTS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span>
+
+            <span class="c1"># get properties of each line</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;LINES&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;LINE LIST&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;LINE PROPERTIES&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="c1"># skip this header line, plus channel names and units lines</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">while</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">entries</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">lines</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)):</span>
+                        <span class="n">lines</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">variables</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">lines</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;LINES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span>
+
+            <span class="c1"># get options entries</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;options&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>  <span class="c1"># skip this header line</span>
+                <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">while</span> <span class="n">line</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">entries</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">options</span><span class="p">[</span><span class="n">entries</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">moordyn_file</span><span class="p">)</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;OPTIONS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span>
+
+    <span class="n">moordyn_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">dataset</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

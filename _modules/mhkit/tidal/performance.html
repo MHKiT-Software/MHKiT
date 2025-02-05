@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.tidal.performance &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.tidal.performance</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.tidal.performance</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataarray</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">dolfyn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.river.performance</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">circular</span><span class="p">,</span>
+    <span class="n">ducted</span><span class="p">,</span>
+    <span class="n">rectangular</span><span class="p">,</span>
+    <span class="n">multiple_circular</span><span class="p">,</span>
+    <span class="n">tip_speed_ratio</span><span class="p">,</span>
+    <span class="n">power_coefficient</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_slice_circular_capture_area</span><span class="p">(</span><span class="n">diameter</span><span class="p">,</span> <span class="n">hub_height</span><span class="p">,</span> <span class="n">doppler_cell_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Slices a circle (capture area) based on ADCP depth bins mapped</span>
+<span class="sd">    across the face of the capture area.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    diameter: numeric</span>
+<span class="sd">        Diameter of the capture area.</span>
+
+<span class="sd">    hub_height: numeric</span>
+<span class="sd">        Turbine hub height altitude above the seabed. Assumes ADCP</span>
+<span class="sd">        depth bins are referenced to the seafloor.</span>
+
+<span class="sd">    doppler_cell_size: numeric</span>
+<span class="sd">        ADCP depth bin size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    capture_area_slice: xarray.DataArray</span>
+<span class="sd">        Capture area sliced into horizontal slices of height</span>
+<span class="sd">        `doppler_cell_size`, centered on `hub height`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">area_of_circle_segment</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="c1"># Calculating area of sector</span>
+        <span class="n">area_of_sector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">radius</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">360</span><span class="p">)</span>
+        <span class="c1"># Calculating area of triangle</span>
+        <span class="n">area_of_triangle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">radius</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">area_of_sector</span> <span class="o">-</span> <span class="n">area_of_triangle</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">point_on_circle</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Capture area - from mhkit.river.performance</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">diameter</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">doppler_cell_size</span>
+
+    <span class="n">A_cap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>  <span class="c1"># m^2</span>
+    <span class="c1"># Need to chop up capture area into slices based on bin size</span>
+    <span class="c1"># For a cirle:</span>
+    <span class="n">r_min</span> <span class="o">=</span> <span class="n">hub_height</span> <span class="o">-</span> <span class="n">d</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">r_max</span> <span class="o">=</span> <span class="n">hub_height</span> <span class="o">+</span> <span class="n">d</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">A_edge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r_min</span><span class="p">,</span> <span class="n">r_max</span> <span class="o">+</span> <span class="n">cs</span><span class="p">,</span> <span class="n">cs</span><span class="p">)</span>
+    <span class="n">A_rng</span> <span class="o">=</span> <span class="n">A_edge</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">cs</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Center of each slice</span>
+
+    <span class="c1"># y runs from the bottom edge of the lower centerline slice to</span>
+    <span class="c1"># the top edge of the lowest slice</span>
+    <span class="c1"># Will need to figure out y if the hub height isn&#39;t centered</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">A_edge</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">A_edge</span><span class="p">))</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))]</span> <span class="o">=</span> <span class="n">d</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Even vs odd number of slices</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">odd</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">odd</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">point_on_circle</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># Segments go from outside of circle towards middle</span>
+    <span class="n">As</span> <span class="o">=</span> <span class="n">area_of_circle_segment</span><span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">radii</span><span class="p">)</span>
+    <span class="c1"># Subtract segments to get area of slices</span>
+    <span class="n">As_slc</span> <span class="o">=</span> <span class="n">As</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">As</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">odd</span><span class="p">:</span>
+        <span class="c1"># Make middle slice half whole</span>
+        <span class="n">As_slc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">As_slc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="c1"># Copy-flip the other slices to get the whole circle</span>
+        <span class="n">As_slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">As_slc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">As_slc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">As_slc</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">As_slc</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">As_slc</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">A_rng</span><span class="p">})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_slice_rectangular_capture_area</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">hub_height</span><span class="p">,</span> <span class="n">doppler_cell_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Slices a rectangular (capture area) based on ADCP depth bins mapped</span>
+<span class="sd">    across the face of the capture area.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    height: numeric</span>
+<span class="sd">        Height of the capture area.</span>
+
+<span class="sd">    width: numeric</span>
+<span class="sd">        Width of the capture area.</span>
+
+<span class="sd">    hub_height: numeric</span>
+<span class="sd">        Turbine hub height altitude above the seabed. Assumes ADCP depth</span>
+<span class="sd">        bins are referenced to the seafloor.</span>
+
+<span class="sd">    doppler_cell_size: numeric</span>
+<span class="sd">        ADCP depth bin size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    capture_area_slice: xarray.DataArray</span>
+<span class="sd">        Capture area sliced into horizontal slices of height</span>
+<span class="sd">        `doppler_cell_size`, centered on `hub height`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Need to chop up capture area into slices based on bin size</span>
+    <span class="c1"># For a rectangle it&#39;s pretty simple</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">doppler_cell_size</span>
+    <span class="n">r_min</span> <span class="o">=</span> <span class="n">hub_height</span> <span class="o">-</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">r_max</span> <span class="o">=</span> <span class="n">hub_height</span> <span class="o">+</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">A_edge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r_min</span><span class="p">,</span> <span class="n">r_max</span> <span class="o">+</span> <span class="n">cs</span><span class="p">,</span> <span class="n">cs</span><span class="p">)</span>
+    <span class="n">A_rng</span> <span class="o">=</span> <span class="n">A_edge</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">cs</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Center of each slice</span>
+
+    <span class="n">As_slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A_rng</span><span class="p">))</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="n">cs</span>
+
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">As_slc</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">A_rng</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="power_curve">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.performance.power_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">power_curve</span><span class="p">(</span>
+    <span class="n">power</span><span class="p">,</span>
+    <span class="n">velocity</span><span class="p">,</span>
+    <span class="n">hub_height</span><span class="p">,</span>
+    <span class="n">doppler_cell_size</span><span class="p">,</span>
+    <span class="n">sampling_frequency</span><span class="p">,</span>
+    <span class="n">window_avg_time</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">turbine_profile</span><span class="o">=</span><span class="s2">&quot;circular&quot;</span><span class="p">,</span>
+    <span class="n">diameter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates power curve and power statistics for a marine energy</span>
+<span class="sd">    device based on IEC/TS 62600-200 section 9.3.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    power: numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Device power output timeseries.</span>
+<span class="sd">    velocity: numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        1D or 2D streamwise sea water velocity or sea water speed.</span>
+<span class="sd">    hub_height: numeric</span>
+<span class="sd">        Turbine hub height altitude above the seabed. Assumes ADCP</span>
+<span class="sd">        depth bins are referenced to the seafloor.</span>
+<span class="sd">    doppler_cell_size: numeric</span>
+<span class="sd">        ADCP depth bin size.</span>
+<span class="sd">    sampling_frequency: numeric</span>
+<span class="sd">        ADCP sampling frequency in Hz.</span>
+<span class="sd">    window_avg_time: int, optional</span>
+<span class="sd">        Time averaging window in seconds. Defaults to 600.</span>
+<span class="sd">    turbine_profile: &#39;circular&#39; or &#39;rectangular&#39;, optional</span>
+<span class="sd">        Shape of swept area of the turbine. Defaults to &#39;circular&#39;.</span>
+<span class="sd">    diameter: numeric, optional</span>
+<span class="sd">        Required for turbine_profile=&#39;circular&#39;. Defaults to None.</span>
+<span class="sd">    height: numeric, optional</span>
+<span class="sd">        Required for turbine_profile=&#39;rectangular&#39;. Defaults to None.</span>
+<span class="sd">    width: numeric, optional</span>
+<span class="sd">        Required for turbine_profile=&#39;rectangular&#39;. Defaults to None.</span>
+<span class="sd">    to_pandas: bool, optional</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    device_power_curve: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Power-weighted velocity, mean power, power std dev, max and</span>
+<span class="sd">        min power vs hub-height velocity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Velocity should be a 2D xarray or pandas array and have dims (range, time)</span>
+    <span class="c1"># Power should have a timestamp coordinate/index</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
+    <span class="n">velocity</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">velocity</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Velocity should be 2 dimensional and have </span><span class="se">\</span>
+<span class="s2">                         dimensions of &#39;time&#39; (temporal) and &#39;range&#39; (spatial).&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Numeric positive checks</span>
+    <span class="n">numeric_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">hub_height</span><span class="p">,</span>
+        <span class="n">doppler_cell_size</span><span class="p">,</span>
+        <span class="n">sampling_frequency</span><span class="p">,</span>
+        <span class="n">window_avg_time</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">numeric_param_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;hub_height&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;doppler_cell_size&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sampling_frequency&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;window_avg_time&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numeric_params</span><span class="p">,</span> <span class="n">numeric_param_names</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be numeric.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be positive.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Turbine profile related checks</span>
+    <span class="k">if</span> <span class="n">turbine_profile</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;circular&quot;</span><span class="p">,</span> <span class="s2">&quot;rectangular&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;`turbine_profile` must be one of &#39;circular&#39; or &#39;rectangular&#39;.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">turbine_profile</span> <span class="o">==</span> <span class="s2">&quot;circular&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">diameter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;`diameter` cannot be None for input `turbine_profile` = &#39;circular&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">diameter</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">or</span> <span class="n">diameter</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`diameter` must be a positive number.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># If the checks pass, calculate A_slc</span>
+            <span class="n">A_slc</span> <span class="o">=</span> <span class="n">_slice_circular_capture_area</span><span class="p">(</span>
+                <span class="n">diameter</span><span class="p">,</span> <span class="n">hub_height</span><span class="p">,</span> <span class="n">doppler_cell_size</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Rectangular profile</span>
+        <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;`height` and `width` cannot be None for input `turbine_profile` = &#39;rectangular&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`height` and `width` must be positive numbers.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># If the checks pass, calculate A_slc</span>
+            <span class="n">A_slc</span> <span class="o">=</span> <span class="n">_slice_rectangular_capture_area</span><span class="p">(</span>
+                <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">hub_height</span><span class="p">,</span> <span class="n">doppler_cell_size</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Streamwise data</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="c1"># Interpolate power to velocity timestamps</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">power</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Power weighted velocity in capture area</span>
+    <span class="c1"># Interpolate U range to capture area slices, then cube and multiply by area</span>
+    <span class="n">U_hat</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="n">A_slc</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">A_slc</span>
+    <span class="c1"># Average the velocity across the capture area and divide out area</span>
+    <span class="n">U_hat</span> <span class="o">=</span> <span class="p">(</span><span class="n">U_hat</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">A_slc</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="c1"># Time-average velocity at hub-height</span>
+    <span class="n">bnr</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">VelBinner</span><span class="p">(</span>
+        <span class="n">n_bin</span><span class="o">=</span><span class="n">window_avg_time</span> <span class="o">*</span> <span class="n">sampling_frequency</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">sampling_frequency</span>
+    <span class="p">)</span>
+    <span class="c1"># Hub-height velocity mean</span>
+    <span class="n">mean_hub_vel</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="n">hub_height</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time</span><span class="p">)},</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Power-weighted hub-height velocity mean</span>
+    <span class="n">U_hat_bar</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U_hat</span><span class="o">.</span><span class="n">values</span><span class="o">**</span><span class="mi">3</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time</span><span class="p">)}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Average power</span>
+    <span class="n">P_bar</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time</span><span class="p">)})</span>
+
+    <span class="c1"># Then reorganize into 0.1 m velocity bins and average</span>
+    <span class="n">U_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">mean_hub_vel</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">U_hub_vel</span> <span class="o">=</span> <span class="n">mean_hub_vel</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">mean_hub_vel</span><span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">U_hub_mean</span> <span class="o">=</span> <span class="n">U_hub_vel</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">U_hat_vel</span> <span class="o">=</span> <span class="n">U_hat_bar</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">mean_hub_vel</span><span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">U_hat_mean</span> <span class="o">=</span> <span class="n">U_hat_vel</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">P_bar_vel</span> <span class="o">=</span> <span class="n">P_bar</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">mean_hub_vel</span><span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">})</span>
+    <span class="n">P_bar_mean</span> <span class="o">=</span> <span class="n">P_bar_vel</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">P_bar_std</span> <span class="o">=</span> <span class="n">P_bar_vel</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="n">P_bar_max</span> <span class="o">=</span> <span class="n">P_bar_vel</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">P_bar_min</span> <span class="o">=</span> <span class="n">P_bar_vel</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+    <span class="n">device_power_curve</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;U_avg&quot;</span><span class="p">:</span> <span class="n">U_hub_mean</span><span class="p">,</span>
+            <span class="s2">&quot;U_avg_power_weighted&quot;</span><span class="p">:</span> <span class="n">U_hat_mean</span><span class="p">,</span>
+            <span class="s2">&quot;P_avg&quot;</span><span class="p">:</span> <span class="n">P_bar_mean</span><span class="p">,</span>
+            <span class="s2">&quot;P_std&quot;</span><span class="p">:</span> <span class="n">P_bar_std</span><span class="p">,</span>
+            <span class="s2">&quot;P_max&quot;</span><span class="p">:</span> <span class="n">P_bar_max</span><span class="p">,</span>
+            <span class="s2">&quot;P_min&quot;</span><span class="p">:</span> <span class="n">P_bar_min</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">device_power_curve</span> <span class="o">=</span> <span class="n">device_power_curve</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;speed_bins&quot;</span><span class="p">:</span> <span class="s2">&quot;U_bins&quot;</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">device_power_curve</span> <span class="o">=</span> <span class="n">device_power_curve</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">device_power_curve</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_average_velocity_bins</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">U_hub</span><span class="p">,</span> <span class="n">bin_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Groups time-ensembles into velocity bins based on hub-height</span>
+<span class="sd">    velocity and averages them.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    U: xarray.DataArray</span>
+<span class="sd">        Input variable to group by velocity.</span>
+<span class="sd">    U_hub: xarray.DataArray</span>
+<span class="sd">        Sea water velocity at hub height.</span>
+<span class="sd">    bin_size: numeric</span>
+<span class="sd">        Velocity averaging window size in m/s.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    U_binned: xarray.DataArray</span>
+<span class="sd">        Data grouped into velocity bins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Reorganize into velocity bins and average</span>
+    <span class="n">U_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">U_hub</span><span class="p">)</span> <span class="o">+</span> <span class="n">bin_size</span><span class="p">,</span> <span class="n">bin_size</span><span class="p">)</span>
+
+    <span class="c1"># Group time-ensembles into velocity bins based on hub-height velocity and average</span>
+    <span class="n">U_binned</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">U_hub</span><span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;speed&quot;</span><span class="p">})</span>
+    <span class="n">U_binned</span> <span class="o">=</span> <span class="n">U_binned</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="n">U_bins</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">U_binned</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_function</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">bnr</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies a specified function (&#39;mean&#39;, &#39;rms&#39;, or &#39;std&#39;) to the input</span>
+<span class="sd">    data array U, grouped into bins as specified by the binning rules in bnr.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    function: str</span>
+<span class="sd">        The name of the function to apply. Must be one of &#39;mean&#39;,</span>
+<span class="sd">        &#39;rms&#39;, or &#39;std&#39;.</span>
+<span class="sd">    bnr: dolfyn.VelBinner or similar</span>
+<span class="sd">        The binning rule object that determines how data in U is</span>
+<span class="sd">        grouped into bins.</span>
+<span class="sd">    U: xarray.DataArray</span>
+<span class="sd">        The input data array to which the function is applied.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    xarray.DataArray</span>
+<span class="sd">        The input data array U after the specified function has been</span>
+<span class="sd">        applied, grouped into bins according to bnr.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">function</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+        <span class="c1"># Average data into 5-10 minute ensembles</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">U</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">U</span><span class="o">.</span><span class="n">range</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)},</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">function</span> <span class="o">==</span> <span class="s2">&quot;rms&quot;</span><span class="p">:</span>
+        <span class="c1"># Reshape tidal velocity - returns (range, ensemble-time, ensemble elements)</span>
+        <span class="n">U_reshaped</span> <span class="o">=</span> <span class="n">bnr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">U</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="c1"># Take root-mean-square</span>
+        <span class="n">U_rms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">U_reshaped</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">U_rms</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">U</span><span class="o">.</span><span class="n">range</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)}</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">function</span> <span class="o">==</span> <span class="s2">&quot;std&quot;</span><span class="p">:</span>
+        <span class="c1"># Standard deviation</span>
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">bnr</span><span class="o">.</span><span class="n">standard_deviation</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">U</span><span class="o">.</span><span class="n">range</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)},</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown function </span><span class="si">{</span><span class="n">function</span><span class="si">}</span><span class="s2">. Should be one of &#39;mean&#39;, &#39;rms&#39;, or &#39;std&#39;&quot;</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="velocity_profiles">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.performance.velocity_profiles">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">velocity_profiles</span><span class="p">(</span>
+    <span class="n">velocity</span><span class="p">,</span>
+    <span class="n">hub_height</span><span class="p">,</span>
+    <span class="n">water_depth</span><span class="p">,</span>
+    <span class="n">sampling_frequency</span><span class="p">,</span>
+    <span class="n">window_avg_time</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">function</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates profiles of the mean, root-mean-square (RMS), or standard</span>
+<span class="sd">    deviation(std) of velocity. The chosen metric, specified by `function`,</span>
+<span class="sd">    is calculated for each `window_avg_time` and bin-averaged based on</span>
+<span class="sd">    ensemble velocity, as per IEC/TS 62600-200 sections 9.4 and 9.5.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    velocity : numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        1D or 2D streamwise sea water velocity or sea water speed.</span>
+<span class="sd">    hub_height : numeric</span>
+<span class="sd">        Turbine hub height altitude above the seabed. Assumes ADCP depth bins</span>
+<span class="sd">        are referenced to the seafloor.</span>
+<span class="sd">    water_depth : numeric</span>
+<span class="sd">        Water depth to seafloor, in same units as velocity `range` coordinate.</span>
+<span class="sd">    sampling_frequency : numeric</span>
+<span class="sd">        ADCP sampling frequency in Hz.</span>
+<span class="sd">    window_avg_time : int, optional</span>
+<span class="sd">        Time averaging window in seconds. Defaults to 600.</span>
+<span class="sd">    func : string</span>
+<span class="sd">        Function to apply. One of &#39;mean&#39;,&#39;rms&#39;, or &#39;std&#39;</span>
+<span class="sd">    to_pandas: bool, optional</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    iec_profiles: pandas.DataFrame</span>
+<span class="sd">        Average velocity profiles based on ensemble mean velocity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">velocity</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="s2">&quot;velocity&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">velocity</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Velocity should be 2 dimensional and have </span><span class="se">\</span>
+<span class="s2">                         dimensions of &#39;time&#39; (temporal) and &#39;range&#39; (spatial).&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">function</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;rms&quot;</span><span class="p">,</span> <span class="s2">&quot;std&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`function` must be one of &#39;mean&#39;, &#39;rms&#39;, or &#39;std&#39;.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Streamwise data</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">velocity</span>
+
+    <span class="c1"># Create binner</span>
+    <span class="n">bnr</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">VelBinner</span><span class="p">(</span>
+        <span class="n">n_bin</span><span class="o">=</span><span class="n">window_avg_time</span> <span class="o">*</span> <span class="n">sampling_frequency</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">sampling_frequency</span>
+    <span class="p">)</span>
+    <span class="c1"># Take velocity at hub height</span>
+    <span class="n">mean_hub_vel</span> <span class="o">=</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="n">hub_height</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="c1"># Apply mean, root-mean-square, or standard deviation</span>
+    <span class="n">U_out</span> <span class="o">=</span> <span class="n">_apply_function</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">bnr</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+
+    <span class="c1"># Then reorganize into 0.5 m/s velocity bins and average</span>
+    <span class="n">profiles</span> <span class="o">=</span> <span class="n">_average_velocity_bins</span><span class="p">(</span><span class="n">U_out</span><span class="p">,</span> <span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Extend top and bottom of profiles to the seafloor and sea surface</span>
+    <span class="c1"># Clip off extra depth bins with nans</span>
+    <span class="n">rdx</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">speed_bins</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">profiles</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rdx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># Set seafloor velocity to 0 m/s</span>
+    <span class="n">out_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">profiles</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Set max range to the user-provided water depth</span>
+    <span class="n">new_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">profiles</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">new_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_range</span><span class="p">,</span> <span class="n">water_depth</span><span class="p">)</span>
+    <span class="c1"># Create a profiles with new range</span>
+    <span class="n">iec_profiles</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">out_data</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="n">new_range</span><span class="p">,</span> <span class="s2">&quot;speed_bins&quot;</span><span class="p">:</span> <span class="n">profiles</span><span class="p">[</span><span class="s2">&quot;speed_bins&quot;</span><span class="p">]}</span>
+    <span class="p">)</span>
+    <span class="c1"># Forward fill to surface</span>
+    <span class="n">iec_profiles</span> <span class="o">=</span> <span class="n">iec_profiles</span><span class="o">.</span><span class="n">ffill</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">iec_profiles</span> <span class="o">=</span> <span class="n">iec_profiles</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">iec_profiles</span></div>
+
+
+
+<div class="viewcode-block" id="device_efficiency">
+<a class="viewcode-back" href="../../../mhkit-python/api.tidal.html#mhkit.tidal.performance.device_efficiency">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">device_efficiency</span><span class="p">(</span>
+    <span class="n">power</span><span class="p">,</span>
+    <span class="n">velocity</span><span class="p">,</span>
+    <span class="n">water_density</span><span class="p">,</span>
+    <span class="n">capture_area</span><span class="p">,</span>
+    <span class="n">hub_height</span><span class="p">,</span>
+    <span class="n">sampling_frequency</span><span class="p">,</span>
+    <span class="n">window_avg_time</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates marine energy device efficiency based on IEC/TS 62600-200 Section 9.7.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    power : numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Device power output timeseries in Watts.</span>
+<span class="sd">    velocity : numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        1D or 2D streamwise sea water velocity or sea water speed in m/s.</span>
+<span class="sd">    water_density : float, pandas.Series or xarray.DataArray</span>
+<span class="sd">        Sea water density in kg/m^3.</span>
+<span class="sd">    capture_area : numeric</span>
+<span class="sd">        Swept area of marine energy device.</span>
+<span class="sd">    hub_height : numeric</span>
+<span class="sd">        Turbine hub height altitude above the seabed. Assumes ADCP depth bins</span>
+<span class="sd">        are referenced to the seafloor.</span>
+<span class="sd">    sampling_frequency : numeric</span>
+<span class="sd">        ADCP sampling frequency in Hz.</span>
+<span class="sd">    window_avg_time : int, optional</span>
+<span class="sd">        Time averaging window in seconds. Defaults to 600.</span>
+<span class="sd">    to_pandas: bool, optional</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    device_eta : pandas.Series or xarray.DataArray</span>
+<span class="sd">        Device efficiency (power coefficient) in percent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Velocity should be a 2D xarray or pandas array and have dims (range, time)</span>
+    <span class="c1"># Power should have a timestamp coordinate/index</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="s2">&quot;power&quot;</span><span class="p">)</span>
+    <span class="n">velocity</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="s2">&quot;velocity&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">velocity</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Velocity should be 2 dimensional and have </span><span class="se">\</span>
+<span class="s2">                            dimensions of &#39;time&#39; (temporal) and &#39;range&#39; (spatial).&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Streamwise data</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="c1"># Power: Interpolate to velocity timeseries</span>
+    <span class="n">power</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">U</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create binner</span>
+    <span class="n">bnr</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">VelBinner</span><span class="p">(</span>
+        <span class="n">n_bin</span><span class="o">=</span><span class="n">window_avg_time</span> <span class="o">*</span> <span class="n">sampling_frequency</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">sampling_frequency</span>
+    <span class="p">)</span>
+    <span class="c1"># Hub-height velocity</span>
+    <span class="n">mean_hub_vel</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="n">hub_height</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time</span><span class="p">)},</span>
+    <span class="p">)</span>
+    <span class="n">vel_hub</span> <span class="o">=</span> <span class="n">_average_velocity_bins</span><span class="p">(</span><span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="c1"># Water density</span>
+    <span class="n">rho_vel</span> <span class="o">=</span> <span class="n">_calculate_density</span><span class="p">(</span><span class="n">water_density</span><span class="p">,</span> <span class="n">bnr</span><span class="p">,</span> <span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+
+    <span class="c1"># Bin average power</span>
+    <span class="n">P_avg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time</span><span class="p">)})</span>
+    <span class="n">P_vel</span> <span class="o">=</span> <span class="n">_average_velocity_bins</span><span class="p">(</span><span class="n">P_avg</span><span class="p">,</span> <span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="c1"># Theoretical power resource</span>
+    <span class="n">P_resource</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">rho_vel</span> <span class="o">*</span> <span class="n">capture_area</span> <span class="o">*</span> <span class="n">vel_hub</span><span class="o">**</span><span class="mi">3</span>
+
+    <span class="c1"># Efficiency</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">P_vel</span> <span class="o">/</span> <span class="n">P_resource</span>
+
+    <span class="n">device_eta</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s2">&quot;U_avg&quot;</span><span class="p">:</span> <span class="n">vel_hub</span><span class="p">,</span> <span class="s2">&quot;Efficiency&quot;</span><span class="p">:</span> <span class="n">eta</span><span class="p">})</span>
+    <span class="n">device_eta</span> <span class="o">=</span> <span class="n">device_eta</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;speed_bins&quot;</span><span class="p">:</span> <span class="s2">&quot;U_bins&quot;</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">device_eta</span> <span class="o">=</span> <span class="n">device_eta</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">device_eta</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_calculate_density</span><span class="p">(</span><span class="n">water_density</span><span class="p">,</span> <span class="n">bnr</span><span class="p">,</span> <span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the averaged density for the given time period.</span>
+
+<span class="sd">    This function first checks if the water_density is a scalar or an array.</span>
+<span class="sd">    If it is an array, the function calculates the mean density over the time</span>
+<span class="sd">    period using the binner object &#39;bnr&#39;, and then averages it over velocity bins.</span>
+<span class="sd">    If it is a scalar, it directly returns the input density.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    water_density : numpy.ndarray or float</span>
+<span class="sd">        Sea water density values in kg/m^3. It can be a scalar or a 1D array.</span>
+<span class="sd">    bnr : dolfyn.VelBinner object</span>
+<span class="sd">        Object for binning data over specified time periods.</span>
+<span class="sd">    mean_hub_vel : xarray.DataArray</span>
+<span class="sd">        Mean velocity at the hub height.</span>
+<span class="sd">    time : numpy.ndarray</span>
+<span class="sd">        Time data array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    xarray.DataArray or float</span>
+<span class="sd">        The averaged water density over velocity bins if water_density is an array,</span>
+<span class="sd">        or the input scalar water_density.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">water_density</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">rho_avg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">water_density</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">bnr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time</span><span class="p">)}</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_average_velocity_bins</span><span class="p">(</span><span class="n">rho_avg</span><span class="p">,</span> <span class="n">mean_hub_vel</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">water_density</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

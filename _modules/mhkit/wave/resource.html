@@ -1,0 +1,1429 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.wave.resource &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.wave.resource</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.wave.resource</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">fsolve</span> <span class="k">as</span> <span class="n">_fsolve</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">signal</span> <span class="k">as</span> <span class="n">_signal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_numeric_array</span><span class="p">,</span> <span class="n">convert_to_dataarray</span><span class="p">,</span> <span class="n">convert_to_dataset</span>
+
+
+<span class="c1">### Spectrum</span>
+<div class="viewcode-block" id="elevation_spectrum">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.elevation_spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">elevation_spectrum</span><span class="p">(</span>
+    <span class="n">eta</span><span class="p">,</span>
+    <span class="n">sample_rate</span><span class="p">,</span>
+    <span class="n">nnft</span><span class="p">,</span>
+    <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span>
+    <span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">noverlap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the wave energy spectrum from wave elevation time-series</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    eta: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Wave surface elevation [m] indexed by time [datetime or s]</span>
+<span class="sd">    sample_rate: float</span>
+<span class="sd">        Data frequency [Hz]</span>
+<span class="sd">    nnft: integer</span>
+<span class="sd">        Number of bins in the Fast Fourier Transform</span>
+<span class="sd">    window: string (optional)</span>
+<span class="sd">        Signal window type. &#39;hann&#39; is used by default given the broadband</span>
+<span class="sd">        nature of waves. See scipy.signal.get_window for more options.</span>
+<span class="sd">    detrend: bool (optional)</span>
+<span class="sd">        Specifies if a linear trend is removed from the data before</span>
+<span class="sd">        calculating the wave energy spectrum.  Data is detrended by default.</span>
+<span class="sd">    noverlap: int, optional</span>
+<span class="sd">        Number of points to overlap between segments. If None,</span>
+<span class="sd">        ``noverlap = nperseg / 2``.  Defaults to None.</span>
+<span class="sd">    time_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to time. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: Add confidence intervals, equal energy frequency spacing, and NDBC</span>
+    <span class="c1">#       frequency spacing</span>
+    <span class="c1"># TODO: may need to raise an error for the length of nnft- signal.welch breaks when nfft is too short</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="s2">&quot;eta&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;sample_rate must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nnft</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;nnft must be of type int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nnft</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;window must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">window</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">detrend</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;detrend must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">detrend</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nnft</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;nnft must be &gt; 0. Got: </span><span class="si">{</span><span class="n">nnft</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sample_rate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sample_rate must be &gt; 0. Got: </span><span class="si">{</span><span class="n">sample_rate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">time_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">time_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">eta</span><span class="o">.</span><span class="n">dims</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">time_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">eta</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;time_dimension is not a dimension of eta (</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">eta</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">). Got: </span><span class="si">{</span><span class="n">time_dimension</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">eta</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span>
+    <span class="n">delta_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">)[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">delta_t</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Time bins are not evenly spaced. Create a constant &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;temporal spacing for eta.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">eta</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">eta_subset</span> <span class="o">=</span> <span class="n">eta</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">detrend</span><span class="p">:</span>
+            <span class="n">eta_subset</span> <span class="o">=</span> <span class="n">_signal</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span>
+                <span class="n">eta_subset</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">bp</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
+        <span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="n">wave_spec_measured</span><span class="p">]</span> <span class="o">=</span> <span class="n">_signal</span><span class="o">.</span><span class="n">welch</span><span class="p">(</span>
+            <span class="n">eta_subset</span><span class="p">,</span>
+            <span class="n">fs</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
+            <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
+            <span class="n">nperseg</span><span class="o">=</span><span class="n">nnft</span><span class="p">,</span>
+            <span class="n">nfft</span><span class="o">=</span><span class="n">nnft</span><span class="p">,</span>
+            <span class="n">noverlap</span><span class="o">=</span><span class="n">noverlap</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">([</span><span class="s2">&quot;Frequency&quot;</span><span class="p">],</span> <span class="n">wave_spec_measured</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;Frequency&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+
+<div class="viewcode-block" id="pierson_moskowitz_spectrum">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.pierson_moskowitz_spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pierson_moskowitz_spectrum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Tp</span><span class="p">,</span> <span class="n">Hs</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates Pierson-Moskowitz Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    f: list, np.ndarray, pd.Series, xr.DataArray</span>
+<span class="sd">        Frequency [Hz]</span>
+<span class="sd">    Tp: float/int</span>
+<span class="sd">        Peak period [s]</span>
+<span class="sd">    Hs: float/int</span>
+<span class="sd">        Significant wave height [m]</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    S: xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed frequency [Hz]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tp</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tp must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">Tp</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Hs</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hs must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">Hs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">B_PM</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">Tp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+    <span class="n">A_PM</span> <span class="o">=</span> <span class="n">B_PM</span> <span class="o">*</span> <span class="p">(</span><span class="n">Hs</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="c1"># Avoid a divide by zero if the 0 frequency is provided</span>
+    <span class="c1"># The zero frequency should always have 0 amplitude, otherwise</span>
+    <span class="c1"># we end up with a mean offset when computing the surface elevation.</span>
+    <span class="n">Sf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="n">Sf</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_PM</span> <span class="o">*</span> <span class="n">f</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">B_PM</span> <span class="o">*</span> <span class="n">f</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Pierson-Moskowitz (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Tp</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s)&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;Frequency&quot;</span><span class="p">],</span> <span class="n">Sf</span><span class="p">)},</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Frequency&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+
+<div class="viewcode-block" id="jonswap_spectrum">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.jonswap_spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">jonswap_spectrum</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Tp</span><span class="p">,</span> <span class="n">Hs</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates JONSWAP Spectrum from IEC TS 62600-2 ED2 Annex C.2 (2019)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    f: list, np.ndarray, pd.Series, xr.DataArray</span>
+<span class="sd">        Frequency [Hz]</span>
+<span class="sd">    Tp: float/int</span>
+<span class="sd">        Peak period [s]</span>
+<span class="sd">    Hs: float/int</span>
+<span class="sd">        Significant wave height [m]</span>
+<span class="sd">    gamma: float (optional)</span>
+<span class="sd">        Gamma</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    S: pandas Series or xarray DataArray</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed frequency [Hz]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tp</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tp must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">Tp</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Hs</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hs must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">Hs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, gamma must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">B_PM</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">Tp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span>
+    <span class="n">A_PM</span> <span class="o">=</span> <span class="n">B_PM</span> <span class="o">*</span> <span class="p">(</span><span class="n">Hs</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="c1"># Avoid a divide by zero if the 0 frequency is provided</span>
+    <span class="c1"># The zero frequency should always have 0 amplitude, otherwise</span>
+    <span class="c1"># we end up with a mean offset when computing the surface elevation.</span>
+    <span class="n">S_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inds</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="n">S_f</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_PM</span> <span class="o">*</span> <span class="n">f</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">B_PM</span> <span class="o">*</span> <span class="n">f</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">gamma</span><span class="p">:</span>
+        <span class="n">TpsqrtHs</span> <span class="o">=</span> <span class="n">Tp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Hs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">TpsqrtHs</span> <span class="o">&lt;=</span> <span class="mf">3.6</span><span class="p">:</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="k">elif</span> <span class="n">TpsqrtHs</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">5.75</span> <span class="o">-</span> <span class="mf">1.15</span> <span class="o">*</span> <span class="n">TpsqrtHs</span><span class="p">)</span>
+
+    <span class="c1"># Cutoff frequencies for gamma function</span>
+    <span class="n">siga</span> <span class="o">=</span> <span class="mf">0.07</span>
+    <span class="n">sigb</span> <span class="o">=</span> <span class="mf">0.09</span>
+
+    <span class="n">fp</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Tp</span>  <span class="c1"># peak frequency</span>
+    <span class="n">lind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">f</span> <span class="o">&lt;=</span> <span class="n">fp</span><span class="p">)</span>
+    <span class="n">hind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">f</span> <span class="o">&gt;</span> <span class="n">fp</span><span class="p">)</span>
+    <span class="n">Gf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">Gf</span><span class="p">[</span><span class="n">lind</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">f</span><span class="p">[</span><span class="n">lind</span><span class="p">]</span> <span class="o">-</span> <span class="n">fp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">siga</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fp</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">Gf</span><span class="p">[</span><span class="n">hind</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">f</span><span class="p">[</span><span class="n">hind</span><span class="p">]</span> <span class="o">-</span> <span class="n">fp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigb</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fp</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.287</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="n">Sf</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">S_f</span> <span class="o">*</span> <span class="n">Gf</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;JONSWAP (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Hs</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;m,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Tp</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s)&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;Frequency&quot;</span><span class="p">],</span> <span class="n">Sf</span><span class="p">)},</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Frequency&quot;</span><span class="p">:</span> <span class="n">f</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+
+<span class="c1">### Metrics</span>
+<div class="viewcode-block" id="surface_elevation">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.surface_elevation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">surface_elevation</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span>
+    <span class="n">time_index</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">phases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ifft&quot;</span><span class="p">,</span>
+    <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave elevation time-series from spectrum</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    time_index: numpy array</span>
+<span class="sd">        Time used to create the wave elevation time-series [s],</span>
+<span class="sd">        for example, time = np.arange(0,100,0.01)</span>
+<span class="sd">    seed: int (optional)</span>
+<span class="sd">        Random seed</span>
+<span class="sd">    frequency_bins: numpy array, pandas Series, or xarray DataArray (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    phases: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Explicit phases for frequency components (overrides seed)</span>
+<span class="sd">        for example, phases = np.random.rand(len(S)) * 2 * np.pi</span>
+<span class="sd">    method: str (optional)</span>
+<span class="sd">        Method used to calculate the surface elevation. &#39;ifft&#39;</span>
+<span class="sd">        (Inverse Fast Fourier Transform) used by default if the</span>
+<span class="sd">        given frequency_bins==None or is evenly spaced.</span>
+<span class="sd">        &#39;sum_of_sines&#39; explicitly sums each frequency component</span>
+<span class="sd">        and used by default if uneven frequency_bins are provided.</span>
+<span class="sd">        The &#39;ifft&#39; method is significantly faster.</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension (the index for pandas input).</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    eta: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Wave surface elevation [m] indexed by time [s].</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">)</span>
+    <span class="n">time_index</span> <span class="o">=</span> <span class="n">to_numeric_array</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="s2">&quot;time_index&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, seed must be of type int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">phases</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;method must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+        <span class="c1"># frequency_dimension given, but not in list of possible dimensions</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension is not a dimension of S (</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">). Got: </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">frequency_axis</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+    <span class="c1"># Create dimensions and coordinates for the new dataset (frequency becomes time)</span>
+    <span class="n">new_dims</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+    <span class="n">new_dims</span><span class="p">[</span><span class="n">frequency_axis</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
+    <span class="n">new_coords</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span><span class="o">.</span><span class="n">coords</span>
+    <span class="n">new_coords</span> <span class="o">=</span> <span class="n">new_coords</span><span class="o">.</span><span class="n">assign</span><span class="p">({</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span> <span class="n">time_index</span><span class="p">})</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frequency_bins</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="n">frequency_bins</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">frequency_bins</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frequency_bins</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">frequency_bins</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">},</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">frequency_bins</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">frequency_bins</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;shape of frequency_bins must only contain 1 column and match the shape of the frequency dimension of S&quot;</span>
+            <span class="p">)</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">frequency_bins</span>
+        <span class="n">delta_f_even</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">frequency_bins</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">delta_f_even</span><span class="p">:</span>
+            <span class="c1"># reduce delta_f to a scalar if it is uniform</span>
+            <span class="n">delta_f</span> <span class="o">=</span> <span class="n">delta_f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">f</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">delta_f_even</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">delta_f</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">phases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">phases</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">phases</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">S</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;shape of variables in phases must match shape of variables in S&quot;</span>
+                <span class="p">)</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;ifft&quot;</span><span class="p">:</span>
+        <span class="c1"># ifft method must have a zero frequency and evenly spaced frequency bins</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;ifft method must have zero frequency defined. Lowest frequency is: </span><span class="si">{</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2">. Setting method to less efficient `sum_of_sines` method.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;sum_of_sines&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">delta_f_even</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;ifft method must have evenly spaced frequency bins. Setting method to less efficient `sum_of_sines` method.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;sum_of_sines&quot;</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sum_of_sines&quot;</span><span class="p">:</span>
+        <span class="c1"># For sum of sines, does not matter if there is a zero frequency or if frequency bins are evenly spaced</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method must be &#39;ifft&#39; or &#39;sum_of_sines&#39;. Got: </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">S_subset</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">phases</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+            <span class="n">phase</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="mi">2</span>
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_sample</span><span class="p">(</span><span class="n">S_subset</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+                <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">},</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">phase</span> <span class="o">=</span> <span class="n">phases</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+        <span class="c1"># Wave amplitude times delta f</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">S_subset</span> <span class="o">*</span> <span class="n">delta_f</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;ifft&quot;</span><span class="p">:</span>
+            <span class="n">A_cmplx</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase</span><span class="p">))</span>
+            <span class="n">eta_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">irfftn</span><span class="p">(</span>
+                <span class="mf">0.5</span> <span class="o">*</span> <span class="n">A_cmplx</span> <span class="o">*</span> <span class="n">time_index</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">time_index</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+                <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="n">frequency_axis</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">eta</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">eta_tmp</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">new_dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">new_coords</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sum_of_sines&quot;</span><span class="p">:</span>
+            <span class="c1"># Product of omega and time</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">time_index</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">omega</span><span class="p">)))</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">B</span><span class="p">,</span>
+                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="p">],</span>
+                <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span> <span class="n">time_index</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">},</span>
+            <span class="p">)</span>
+
+            <span class="c1"># wave elevation</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">B</span> <span class="o">+</span> <span class="n">phase</span><span class="p">)</span>
+            <span class="n">eta</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">eta</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;eta&quot;</span>
+
+    <span class="k">return</span> <span class="n">eta</span></div>
+
+
+
+<div class="viewcode-block" id="frequency_moment">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.frequency_moment">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">frequency_moment</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the Nth frequency moment of the spectrum</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    N: int</span>
+<span class="sd">        Moment (0 for 0th, 1 for 1st ....)</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    m: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Nth Frequency Moment indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N must be of type int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension is not a dimension of S (</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">). Got: </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span>
+
+    <span class="c1"># Eq 8 in IEC 62600-101</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">max</span><span class="p">())})</span>  <span class="c1"># omit frequency of 0</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span>  <span class="c1"># reset frequency_dimension without the 0 frequency</span>
+
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">frequency_bins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+        <span class="n">delta_f0</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">delta_f0</span> <span class="o">=</span> <span class="n">delta_f0</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]})</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">delta_f0</span><span class="p">,</span> <span class="n">delta_f</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">frequency_bins</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">fn</span> <span class="o">*</span> <span class="n">delta_f</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+
+<div class="viewcode-block" id="significant_wave_height">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.significant_wave_height">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">significant_wave_height</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave height from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Hm0: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Significant wave height [m] index by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Eq 12 in IEC 62600-101</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">Hm0</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Hm0</span> <span class="o">=</span> <span class="n">Hm0</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Hm0</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Hm0</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Hm0&quot;</span>
+
+    <span class="k">return</span> <span class="n">Hm0</span></div>
+
+
+
+<div class="viewcode-block" id="average_zero_crossing_period">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.average_zero_crossing_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_zero_crossing_period</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave average zero crossing period from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Tz: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Average zero crossing period [s] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Eq 15 in IEC 62600-101</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m2</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">Tz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m0</span> <span class="o">/</span> <span class="n">m2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Tz</span> <span class="o">=</span> <span class="n">Tz</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tz</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Tz</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tz&quot;</span>
+
+    <span class="k">return</span> <span class="n">Tz</span></div>
+
+
+
+<div class="viewcode-block" id="average_crest_period">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.average_crest_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_crest_period</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave average crest period from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Tavg: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Average wave period [s] indexed by S.columns</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">m2</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m4</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">Tavg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m2</span> <span class="o">/</span> <span class="n">m4</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Tavg</span> <span class="o">=</span> <span class="n">Tavg</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tavg</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Tavg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tavg&quot;</span>
+
+    <span class="k">return</span> <span class="n">Tavg</span></div>
+
+
+
+<div class="viewcode-block" id="average_wave_period">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.average_wave_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_wave_period</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates mean wave period from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Tm: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Mean wave period [s] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m1</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">Tm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m0</span> <span class="o">/</span> <span class="n">m1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Tm</span> <span class="o">=</span> <span class="n">Tm</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tm</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Tm</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tm&quot;</span>
+
+    <span class="k">return</span> <span class="n">Tm</span></div>
+
+
+
+<div class="viewcode-block" id="peak_period">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.peak_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">peak_period</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave peak period from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Tp: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Wave peak period [s] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension is not a dimension of S (</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">). Got: </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Eq 14 in IEC 62600-101</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>  <span class="c1"># Hz</span>
+    <span class="n">Tp</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">fp</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Tp</span> <span class="o">=</span> <span class="n">Tp</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tp</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Tp</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tp&quot;</span>
+
+    <span class="k">return</span> <span class="n">Tp</span></div>
+
+
+
+<div class="viewcode-block" id="energy_period">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.energy_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">energy_period</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave energy period from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Te: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Wave energy period [s] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">mn1</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Eq 13 in IEC 62600-101</span>
+    <span class="n">Te</span> <span class="o">=</span> <span class="n">mn1</span> <span class="o">/</span> <span class="n">m0</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Te</span> <span class="o">=</span> <span class="n">Te</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Te</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Te</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Te&quot;</span>
+
+    <span class="k">return</span> <span class="n">Te</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_bandwidth">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.spectral_bandwidth">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_bandwidth</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates bandwidth from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    e: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Spectral bandwidth [s] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">m2</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m4</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">m2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">m0</span> <span class="o">/</span> <span class="n">m4</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">e</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;e&quot;</span>
+
+    <span class="k">return</span> <span class="n">e</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_width">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.spectral_width">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_width</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">frequency_bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave spectral width from spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    frequency_bins: numpy array or pandas Series (optional)</span>
+<span class="sd">        Bin widths for frequency of S. Required for unevenly sized bins</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    v: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Spectral width [m] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">mn2</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mn1</span> <span class="o">=</span> <span class="n">frequency_moment</span><span class="p">(</span>
+        <span class="n">S</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">frequency_bins</span><span class="o">=</span><span class="n">frequency_bins</span><span class="p">,</span>
+        <span class="n">frequency_dimension</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span>
+        <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Eq 16 in IEC 62600-101</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">m0</span> <span class="o">*</span> <span class="n">mn2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;v&quot;</span>
+
+    <span class="k">return</span> <span class="n">v</span></div>
+
+
+
+<div class="viewcode-block" id="energy_flux">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.energy_flux">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">energy_flux</span><span class="p">(</span>
+    <span class="n">S</span><span class="p">,</span>
+    <span class="n">h</span><span class="p">,</span>
+    <span class="n">deep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">rho</span><span class="o">=</span><span class="mi">1025</span><span class="p">,</span>
+    <span class="n">g</span><span class="o">=</span><span class="mf">9.80665</span><span class="p">,</span>
+    <span class="n">ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the omnidirectional wave energy flux of the spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    S: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Spectral density [m^2/Hz] indexed by frequency [Hz]</span>
+<span class="sd">    h: float</span>
+<span class="sd">        Water depth [m]</span>
+<span class="sd">    deep: bool (optional)</span>
+<span class="sd">        If True use the deep water approximation. Default False. When</span>
+<span class="sd">        False a depth check is run to check for shallow water. The ratio</span>
+<span class="sd">        of the shallow water regime can be changed using the ratio</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    rho: float (optional)</span>
+<span class="sd">        Water Density [kg/m^3]. Default = 1025 kg/m^3</span>
+<span class="sd">    g : float (optional)</span>
+<span class="sd">        Gravitational acceleration [m/s^2]. Default = 9.80665 m/s^2</span>
+<span class="sd">    ratio: float or int (optional)</span>
+<span class="sd">        Only applied if depth=False. If h/l &gt; ratio,</span>
+<span class="sd">        water depth will be set to deep. Default ratio = 2.</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    J: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Omni-directional wave energy flux [W/m] indexed by S.columns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">deep</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;deep must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">deep</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rho must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;g must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ratio must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension is not a dimension of S (</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">). Got: </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">deep</span><span class="p">:</span>
+        <span class="c1"># Eq 8 in IEC 62600-100, deep water simplification</span>
+        <span class="n">Te</span> <span class="o">=</span> <span class="n">energy_period</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Hm0</span> <span class="o">=</span> <span class="n">significant_wave_height</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">coeff</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">64</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+        <span class="n">J</span> <span class="o">=</span> <span class="n">coeff</span> <span class="o">*</span> <span class="p">(</span><span class="n">Hm0</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">Te</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># deep water flag is false</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">wave_number</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># wave celerity (group velocity)</span>
+        <span class="n">Cg</span> <span class="o">=</span> <span class="n">wave_celerity</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">depth_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Calculating the wave energy flux, Eq 9 in IEC 62600-101</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+        <span class="n">delta_f0</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">delta_f0</span> <span class="o">=</span> <span class="n">delta_f0</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]})</span>
+        <span class="n">delta_f</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">delta_f0</span><span class="p">,</span> <span class="n">delta_f</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+        <span class="n">CgSdelF</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">delta_f</span> <span class="o">*</span> <span class="n">Cg</span>
+
+        <span class="n">J</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">CgSdelF</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">J</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;J&quot;</span>
+
+    <span class="k">return</span> <span class="n">J</span></div>
+
+
+
+<div class="viewcode-block" id="energy_period_to_peak_period">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.energy_period_to_peak_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">energy_period_to_peak_period</span><span class="p">(</span><span class="n">Te</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert from spectral energy period (Te) to peak period (Tp) using ITTC approximation for JONSWAP Spectrum.</span>
+
+<span class="sd">    Approximation is given in &quot;The Specialist Committee on Waves, Final Report</span>
+<span class="sd">    and Recommendations to the 23rd ITTC&quot;, Proceedings of the 23rd ITTC - Volume</span>
+<span class="sd">    2, Table A4.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Te: int, float, np.ndarray, pd.Series, pd.DataFrame, xr.DataArray, xr.Dataset</span>
+<span class="sd">    gamma: float or int</span>
+<span class="sd">        Peak enhancement factor for JONSWAP spectrum</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tp: float or array</span>
+<span class="sd">        Spectral peak period [s]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">Te</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Te must be an int, float, np.ndarray, pd.Series, pd.DataFrame, xr.DataArray or xr.Dataset. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">Te</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gamma must be of type float or int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">factor</span> <span class="o">=</span> <span class="mf">0.8255</span> <span class="o">+</span> <span class="mf">0.03852</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">-</span> <span class="mf">0.005537</span> <span class="o">*</span> <span class="n">gamma</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.0003154</span> <span class="o">*</span> <span class="n">gamma</span><span class="o">**</span><span class="mi">3</span>
+
+    <span class="n">Tp</span> <span class="o">=</span> <span class="n">Te</span> <span class="o">/</span> <span class="n">factor</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Tp</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Tp</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tp&quot;</span>
+
+    <span class="k">return</span> <span class="n">Tp</span></div>
+
+
+
+<div class="viewcode-block" id="wave_celerity">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.wave_celerity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wave_celerity</span><span class="p">(</span>
+    <span class="n">k</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">9.80665</span><span class="p">,</span> <span class="n">depth_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">frequency_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave celerity (group velocity)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k: pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Wave number [1/m] indexed by frequency [Hz]</span>
+<span class="sd">    h: float</span>
+<span class="sd">        Water depth [m]</span>
+<span class="sd">    g : float (optional)</span>
+<span class="sd">        Gravitational acceleration [m/s^2]. Default 9.80665 m/s.</span>
+<span class="sd">    depth_check: bool (optional)</span>
+<span class="sd">        If True check depth regime. Default False.</span>
+<span class="sd">    ratio: float or int (optional)</span>
+<span class="sd">        Only applied if depth_check=True. If h/l &gt; ratio,</span>
+<span class="sd">        water depth will be set to deep. Default ratio = 2</span>
+<span class="sd">    frequency_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to frequency. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Cg: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Water celerity [m/s] indexed by frequency [Hz]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;g must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">depth_check</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;depth_check must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">depth_check</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ratio must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">frequency_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">frequency_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">frequency_dimension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequency_dimension is not a dimension of k (</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">). Got: </span><span class="si">{</span><span class="n">frequency_dimension</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">frequency_dimension</span><span class="p">]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="k">if</span> <span class="n">depth_check</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">wave_length</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="c1"># get depth regime</span>
+        <span class="n">dr</span> <span class="o">=</span> <span class="n">depth_regime</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="n">ratio</span><span class="p">)</span>
+
+        <span class="c1"># deep frequencies</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span>
+        <span class="n">dk</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span>
+
+        <span class="c1"># deep water approximation</span>
+        <span class="n">dCg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">df</span> <span class="o">/</span> <span class="n">dk</span>
+        <span class="n">dCg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">dCg</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">df</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">dCg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cg&quot;</span>
+
+        <span class="c1"># shallow frequencies</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="o">~</span><span class="n">dr</span><span class="p">]</span>
+        <span class="n">sk</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="o">~</span><span class="n">dr</span><span class="p">]</span>
+        <span class="n">sCg</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sf</span> <span class="o">/</span> <span class="n">sk</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">sk</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">sk</span><span class="p">))</span>
+        <span class="n">sCg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">sCg</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">sf</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">sCg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cg&quot;</span>
+
+        <span class="n">Cg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">dCg</span><span class="p">,</span> <span class="n">sCg</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">)</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">frequency_dimension</span><span class="p">)</span>
+        <span class="n">Cg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cg&quot;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Eq 10 in IEC 62600-101</span>
+        <span class="n">Cg</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span> <span class="o">/</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="n">k</span><span class="p">))</span>
+        <span class="n">Cg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">Cg</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">frequency_dimension</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">frequency_dimension</span><span class="p">:</span> <span class="n">f</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">Cg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cg&quot;</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">Cg</span> <span class="o">=</span> <span class="n">Cg</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Cg</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">Cg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Cg&quot;</span>
+
+    <span class="k">return</span> <span class="n">Cg</span></div>
+
+
+
+<div class="viewcode-block" id="wave_length">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.wave_length">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wave_length</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave length from wave number</span>
+<span class="sd">    To compute: 2*pi/wavenumber</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -------------</span>
+<span class="sd">    k: int, float, numpy ndarray, pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Wave number [1/m] indexed by frequency</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    l: int, float, numpy ndarray, pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Wave length [m] indexed by frequency. Output type is identical to the type of k.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;k must be an int, float, np.ndarray, pd.Series, pd.DataFrame, xr.DataArray or xr.Dataset. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">k</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;l&quot;</span>
+
+    <span class="k">return</span> <span class="n">l</span></div>
+
+
+
+<div class="viewcode-block" id="wave_number">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.wave_number">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wave_number</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mi">1025</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">9.80665</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates wave number</span>
+
+<span class="sd">    To compute wave number from angular frequency (w), convert w to f before</span>
+<span class="sd">    using this function (f = w/2*pi)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    f: int, float, numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray</span>
+<span class="sd">        Frequency [Hz]</span>
+<span class="sd">    h: float</span>
+<span class="sd">        Water depth [m]</span>
+<span class="sd">    rho: float (optional)</span>
+<span class="sd">        Water density [kg/m^3]</span>
+<span class="sd">    g: float (optional)</span>
+<span class="sd">        Gravitational acceleration [m/s^2]</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    k: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Wave number [1/m] indexed by frequency [Hz]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">f</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rho must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;g must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span>  <span class="c1"># angular frequency</span>
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">g</span> <span class="o">/</span> <span class="n">h</span><span class="p">)</span>  <span class="c1"># note: =h*wa/sqrt(h*g/h)</span>
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">xi</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="mf">2.4908</span><span class="p">)),</span> <span class="mf">0.4015</span><span class="p">)</span>
+    <span class="n">k0</span> <span class="o">=</span> <span class="n">yi</span> <span class="o">/</span> <span class="n">h</span>  <span class="c1"># Initial guess without current-wave interaction</span>
+
+    <span class="c1"># Eq 11 in IEC 62600-101 using initial guess from Guo (2002)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">kk</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">g</span> <span class="o">*</span> <span class="n">kk</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">kk</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">k0</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mf">1e-9</span>
+    <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">k0_mask</span> <span class="o">=</span> <span class="n">k0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+        <span class="n">k</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">ier</span><span class="p">,</span> <span class="n">mesg</span> <span class="o">=</span> <span class="n">_fsolve</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">k0_mask</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ier</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Wave number not found. &quot;</span> <span class="o">+</span> <span class="n">mesg</span><span class="p">)</span>
+        <span class="n">k0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k0</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">k</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span>
+
+    <span class="k">return</span> <span class="n">k</span></div>
+
+
+
+<div class="viewcode-block" id="depth_regime">
+<a class="viewcode-back" href="../../../mhkit-python/api.wave.html#mhkit.wave.resource.depth_regime">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">depth_regime</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the depth regime based on wavelength and height</span>
+<span class="sd">    Deep water: h/l &gt; ratio</span>
+<span class="sd">    This function exists so sinh in wave celerity doesn&#39;t blow</span>
+<span class="sd">    up to infinity.</span>
+
+<span class="sd">    P.K. Kundu, I.M. Cohen (2000) suggest h/l &gt;&gt; 1 for deep water (pg 209)</span>
+<span class="sd">    Same citation as above, they also suggest for 3% accuracy, h/l &gt; 0.28 (pg 210)</span>
+<span class="sd">    However, since this function allows multiple wavelengths, higher ratio</span>
+<span class="sd">    numbers are more accurate across varying wavelengths.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    l: int, float, np.ndarray, pd.Series, pd.DataFrame, xr.DataArray, xr.Dataset</span>
+<span class="sd">        wavelength [m]</span>
+<span class="sd">    h: float or int</span>
+<span class="sd">        water column depth [m]</span>
+<span class="sd">    ratio: float or int (optional)</span>
+<span class="sd">        if h/l &gt; ratio, water depth will be set to deep. Default ratio = 2</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    depth_reg: boolean or boolean array-like</span>
+<span class="sd">        Boolean True if deep water, False otherwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">l</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;l must be of type int, float, np.ndarray, pd.DataFrame, pd.Series, xr.DataArray, or xr.Dataset. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">depth_reg</span> <span class="o">=</span> <span class="n">h</span> <span class="o">/</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">ratio</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">depth_reg</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+        <span class="n">depth_reg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;depth_reg&quot;</span>
+
+    <span class="k">return</span> <span class="n">depth_reg</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

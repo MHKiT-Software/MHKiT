@@ -1,0 +1,1437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.wave.io.ndbc &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.wave.io.ndbc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.wave.io.ndbc</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span> <span class="k">as</span> <span class="n">_OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span> <span class="k">as</span> <span class="n">_defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zlib</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas.errors</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">handle_caching</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">convert_to_dataset</span><span class="p">,</span>
+    <span class="n">convert_to_dataarray</span><span class="p">,</span>
+    <span class="n">convert_nested_dict_and_pandas</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="read_file">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.read_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">missing_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MM&quot;</span><span class="p">,</span> <span class="mi">9999</span><span class="p">,</span> <span class="mi">999</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a NDBC wave buoy data file (from https://www.ndbc.noaa.gov).</span>
+
+<span class="sd">    Realtime and historical data files can be loaded with this function.</span>
+
+<span class="sd">    Note: With realtime data, missing data is denoted by &quot;MM&quot;.  With</span>
+<span class="sd">    historical data, missing data is denoted using a variable number of</span>
+<span class="sd">    # 9&#39;s, depending on the data type (for example: 9999.0 999.0 99.0).</span>
+<span class="sd">    &#39;N/A&#39; is automatically converted to missing data.</span>
+
+<span class="sd">    Data values are converted to float/int when possible. Column names</span>
+<span class="sd">    are also converted to float/int when possible (this is useful when</span>
+<span class="sd">    column names are frequency).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    file_name: string</span>
+<span class="sd">        Name of NDBC wave buoy data file</span>
+
+<span class="sd">    missing_value: list of values</span>
+<span class="sd">        List of values that denote missing data</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Data indexed by datetime with columns named according to header row</span>
+
+<span class="sd">    metadata: dict or None</span>
+<span class="sd">        Dictionary with {column name: units} key value pairs when the NDBC file</span>
+<span class="sd">        contains unit information, otherwise None is returned</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file_name must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">missing_values</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, missing_values must be of type list. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">missing_values</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Open file and get header rows</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>  <span class="c1"># read potential headers</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>  <span class="c1"># read potential units</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># If first line is commented, remove comment sign #</span>
+    <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+        <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">header_commented</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">header_commented</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># If second line is commented, indicate that units exist</span>
+    <span class="k">if</span> <span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+        <span class="n">units_exist</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">units_exist</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Check if the time stamp contains minutes, and create list of column names</span>
+    <span class="c1"># to parse for date</span>
+    <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;mm&quot;</span><span class="p">:</span>
+        <span class="n">parse_vals</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">date_format</span> <span class="o">=</span> <span class="s2">&quot;%Y %m </span><span class="si">%d</span><span class="s2"> %H %M&quot;</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>  <span class="c1"># remove date columns from units</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">parse_vals</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">date_format</span> <span class="o">=</span> <span class="s2">&quot;%Y %m </span><span class="si">%d</span><span class="s2"> %H&quot;</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>  <span class="c1"># remove date columns from units</span>
+
+    <span class="c1"># If first line is commented, manually feed in column names</span>
+    <span class="k">if</span> <span class="n">header_commented</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="p">,</span>
+            <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">names</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+            <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span>
+            <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="n">parse_vals</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="c1"># If first line is not commented, then the first row can be used as header</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="n">parse_vals</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Convert index to datetime</span>
+    <span class="n">date_column</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parse_vals</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">date_column</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="n">date_format</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="c1"># Remove date columns</span>
+    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">date_column</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">]</span>
+
+    <span class="c1"># If there was a row of units, convert to dictionary</span>
+    <span class="k">if</span> <span class="n">units_exist</span><span class="p">:</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">column</span><span class="p">:</span> <span class="n">unit</span> <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">unit</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">units</span><span class="p">)}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Convert columns to numeric data if possible, otherwise leave as string</span>
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert column names to float if possible (handles frequency headers)</span>
+    <span class="c1"># if there is non-numeric name, just leave all as strings.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">column</span><span class="p">)</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+
+    <span class="c1"># Replace indicated missing values with nan</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">missing_values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">metadata</span></div>
+
+
+
+<div class="viewcode-block" id="available_data">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.available_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">available_data</span><span class="p">(</span>
+    <span class="n">parameter</span><span class="p">,</span> <span class="n">buoy_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For a given parameter this will return a DataFrame or Dataset of years,</span>
+<span class="sd">    station IDs and file names that contain that parameter data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: string</span>
+<span class="sd">        &#39;swden&#39;:  &#39;Raw Spectral Wave Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;swdir&#39;:  &#39;Spectral Wave Current Year Historical Data (alpha1)&#39;</span>
+<span class="sd">        &#39;swdir2&#39;: &#39;Spectral Wave Current Year Historical Data (alpha1)&#39;</span>
+<span class="sd">        &#39;swr1&#39;:   &#39;Spectral Wave Current Year Historical Data (r1)&#39;</span>
+<span class="sd">        &#39;swr2&#39;:   &#39;Spectral Wave Current Year Historical Data (r2)&#39;</span>
+<span class="sd">        &#39;stdmet&#39;: &#39;Standard Meteorological Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;cwind&#39; : &#39;Continuous Winds Current Year Historical Data&#39;</span>
+
+<span class="sd">    buoy_number: string (optional)</span>
+<span class="sd">        Buoy Number. 5-character alpha-numeric station identifier</span>
+
+<span class="sd">    proxy: dict</span>
+<span class="sd">        Proxy dict passed to python requests,</span>
+<span class="sd">        (e.g. proxy_dict= {&quot;http&quot;: &#39;http:wwwproxy.yourProxy:80/&#39;})</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    available_data: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        DataFrame with station ID, years, and NDBC file names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, buoy_number must be a string or list of strings. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, proxy must be a dict. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">proxy</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">_supported_params</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;buoy_number must be 5-character&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;alpha-numeric station identifier. Got: </span><span class="si">{</span><span class="n">buoy_number</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">buoy</span> <span class="ow">in</span> <span class="n">buoy_number</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">buoy</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Each value in the buoy_number list must be a 5-character&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;alpha-numeric station identifier. Got: </span><span class="si">{</span><span class="n">buoy_number</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Generate a unique hash_params based on the function parameters</span>
+    <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;parameter:</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">_buoy_number:</span><span class="si">{</span><span class="n">buoy_number</span><span class="si">}</span><span class="s2">_proxy:</span><span class="si">{</span><span class="n">proxy</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;mhkit&quot;</span><span class="p">,</span> <span class="s2">&quot;ndbc&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check the cache before making the request</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+        <span class="n">hash_params</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">,</span>
+        <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="n">clear_cache_file</span><span class="o">=</span><span class="n">clear_cache</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># no coverage bc in coverage runs we have already cached the data/ run this code</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">ndbc_data</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://www.ndbc.noaa.gov/data/historical/</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxy</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">Timeout</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The request timed out&quot;</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;request.get(</span><span class="si">{</span><span class="n">ndbc_data</span><span class="si">}</span><span class="s2">) failed by returning code of </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">filenames</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">buoys</span> <span class="o">=</span> <span class="n">_parse_filenames</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span>
+
+        <span class="n">available_data</span> <span class="o">=</span> <span class="n">buoys</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Set year to numeric (makes year key non-unique)</span>
+        <span class="n">available_data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">available_data</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+        <span class="n">available_data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">available_data</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;_old&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">available_data</span> <span class="o">=</span> <span class="n">available_data</span><span class="p">[</span><span class="n">available_data</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">buoy_number</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">available_data</span> <span class="o">=</span> <span class="n">available_data</span><span class="p">[</span><span class="n">available_data</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">buoy_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">buoy_number</span><span class="p">)):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">available_data</span><span class="p">[</span><span class="n">available_data</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">buoy_number</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                <span class="n">available_data</span> <span class="o">=</span> <span class="n">available_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># Cache the result</span>
+        <span class="n">handle_caching</span><span class="p">(</span>
+            <span class="n">hash_params</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">available_data</span><span class="p">,</span>
+                <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">available_data</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">available_data</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">available_data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">available_data</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_filenames</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a list of available filenames as a series from NDBC then</span>
+<span class="sd">    parses out the station ID and year from the file name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: string</span>
+<span class="sd">        &#39;swden&#39;	: &#39;Raw Spectral Wave Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;swdir&#39;:  &#39;Spectral wave data (alpha1)&#39;</span>
+<span class="sd">        &#39;swdir2&#39;: &#39;Spectral wave data (alpha2)&#39;</span>
+<span class="sd">        &#39;swr1&#39;:   &#39;Spectral wave data (r1)&#39;</span>
+<span class="sd">        &#39;swr2&#39;:   &#39;Spectral wave data (r2)&#39;</span>
+<span class="sd">        &#39;stdmet&#39;: &#39;Standard Meteorological Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;cwind&#39; :   &#39;Continuous Winds Current Year Historical Data&#39;</span>
+
+<span class="sd">    filenames: Series</span>
+<span class="sd">        List of compressed file names from NDBC</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    buoys: DataFrame</span>
+<span class="sd">        DataFrame with keys=[&#39;id&#39;,&#39;year&#39;,&#39;file_name&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;filenames must be of type pd.Series. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">supported</span> <span class="o">=</span> <span class="n">_supported_params</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+
+    <span class="n">file_seps</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;swden&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swdir&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swdir2&quot;</span><span class="p">:</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swr1&quot;</span><span class="p">:</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swr2&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stdmet&quot;</span><span class="p">:</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cwind&quot;</span><span class="p">:</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">file_sep</span> <span class="o">=</span> <span class="n">file_seps</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span>
+
+    <span class="n">filenames</span> <span class="o">=</span> <span class="n">filenames</span><span class="p">[</span><span class="n">filenames</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;.txt.gz&quot;</span><span class="p">)]</span>
+    <span class="n">buoy_id_year_str</span> <span class="o">=</span> <span class="n">filenames</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">buoy_id_year</span> <span class="o">=</span> <span class="n">buoy_id_year_str</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">file_sep</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">buoys</span> <span class="o">=</span> <span class="n">buoy_id_year</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;year&quot;</span><span class="p">})</span>
+
+    <span class="n">expected_station_id_length</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">buoys</span> <span class="o">=</span> <span class="n">buoys</span><span class="p">[</span><span class="n">buoys</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="o">==</span> <span class="n">expected_station_id_length</span><span class="p">]</span>
+    <span class="n">buoys</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filenames</span>
+    <span class="k">return</span> <span class="n">buoys</span>
+
+
+<div class="viewcode-block" id="request_data">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.request_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_data</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">filenames</span><span class="p">,</span> <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Requests data by filenames and returns a dictionary of DataFrames or dictionary of Datasets</span>
+<span class="sd">    for each filename passed. If filenames for a single buoy are passed</span>
+<span class="sd">    then the yearly DataFrames in the returned dictionary (ndbc_data) are</span>
+<span class="sd">    indexed by year (e.g. ndbc_data[&#39;2014&#39;]). If multiple buoy ids are</span>
+<span class="sd">    passed then the returned dictionary is indexed by buoy id and year</span>
+<span class="sd">    (e.g. ndbc_data[&#39;46022&#39;][&#39;2014&#39;]).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: string</span>
+<span class="sd">        &#39;swden&#39;	:	&#39;Raw Spectral Wave Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;swdir&#39;:  &#39;Spectral wave data (alpha1)&#39;</span>
+<span class="sd">        &#39;swdir2&#39;: &#39;Spectral wave data (alpha2)&#39;</span>
+<span class="sd">        &#39;swr1&#39;:   &#39;Spectral wave data (r1)&#39;</span>
+<span class="sd">        &#39;swr2&#39;:   &#39;Spectral wave data (r2)&#39;</span>
+<span class="sd">        &#39;stdmet&#39;:   &#39;Standard Meteorological Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;cwind&#39; :   &#39;Continuous Winds Current Year Historical Data&#39;</span>
+
+<span class="sd">    filenames: pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Data filenames on https://www.ndbc.noaa.gov/data/historical/{parameter}/</span>
+
+<span class="sd">    proxy: dict</span>
+<span class="sd">        Proxy dict passed to python requests,</span>
+<span class="sd">        (e.g. proxy_dict= {&quot;http&quot;: &#39;http:wwwproxy.yourProxy:80/&#39;})</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output a dictionary of pandas objects instead of a dictionary</span>
+<span class="sd">        of xarray objects. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndbc_data: dict</span>
+<span class="sd">        Dictionary of DataFrames/Datasets indexed by buoy and year.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If specified, proxy must be a dict. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">proxy</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">_supported_params</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least 1 filename must be passed&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Define the path to the cache directory</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.cache&quot;</span><span class="p">,</span> <span class="s2">&quot;mhkit&quot;</span><span class="p">,</span> <span class="s2">&quot;ndbc&quot;</span><span class="p">)</span>
+
+    <span class="n">buoy_data</span> <span class="o">=</span> <span class="n">_parse_filenames</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span>
+    <span class="n">ndbc_data</span> <span class="o">=</span> <span class="n">_defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">buoy_id</span> <span class="ow">in</span> <span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="n">buoy</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="p">[</span><span class="n">buoy_data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">buoy_id</span><span class="p">]</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="n">buoy</span><span class="o">.</span><span class="n">year</span>
+        <span class="n">filenames</span> <span class="o">=</span> <span class="n">buoy</span><span class="o">.</span><span class="n">filename</span>
+        <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+            <span class="c1"># Create a unique filename based on the function parameters for caching</span>
+            <span class="n">hash_params</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">buoy_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">cached_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">handle_caching</span><span class="p">(</span>
+                <span class="n">hash_params</span><span class="p">,</span>
+                <span class="n">cache_dir</span><span class="p">,</span>
+                <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+                <span class="n">clear_cache_file</span><span class="o">=</span><span class="n">clear_cache</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">cached_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ndbc_data</span><span class="p">[</span><span class="n">buoy_id</span><span class="p">][</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">cached_data</span>
+                <span class="k">continue</span>
+            <span class="n">file_url</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;https://www.ndbc.noaa.gov/data/historical/</span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">proxy</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_url</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxy</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="mi">16</span> <span class="o">+</span> <span class="n">zlib</span><span class="o">.</span><span class="n">MAX_WBITS</span><span class="p">)</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+                <span class="c1"># catch when units are included below the header</span>
+                <span class="n">firstYear</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;MM&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">firstYear</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">firstYear</span> <span class="o">==</span> <span class="s2">&quot;mo&quot;</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                        <span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="k">except</span> <span class="n">zlib</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Issue decompressing the NDBC file </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;(id: </span><span class="si">{</span><span class="n">buoy_id</span><span class="si">}</span><span class="s2">, year: </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">). Please request &quot;</span>
+                    <span class="s2">&quot;the data again.&quot;</span>
+                <span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">pandas</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">EmptyDataError</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The NDBC buoy </span><span class="si">{</span><span class="n">buoy_id</span><span class="si">}</span><span class="s2"> for year </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2"> with &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;filename </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> is empty or missing &quot;</span>
+                    <span class="s2">&quot;data. Please omit this file from your data &quot;</span>
+                    <span class="s2">&quot;request in the future.&quot;</span>
+                <span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ndbc_data</span><span class="p">[</span><span class="n">buoy_id</span><span class="p">][</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+
+                <span class="c1"># Cache the data after processing it if it exists</span>
+                <span class="k">if</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">ndbc_data</span><span class="p">[</span><span class="n">buoy_id</span><span class="p">]:</span>
+                    <span class="n">handle_caching</span><span class="p">(</span>
+                        <span class="n">hash_params</span><span class="p">,</span>
+                        <span class="n">cache_dir</span><span class="p">,</span>
+                        <span class="n">cache_content</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">ndbc_data</span><span class="p">[</span><span class="n">buoy_id</span><span class="p">][</span><span class="n">year</span><span class="p">],</span>
+                            <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="s2">&quot;write_json&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">buoy_id</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">ndbc_data</span> <span class="o">=</span> <span class="n">ndbc_data</span><span class="p">[</span><span class="n">buoy_id</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">ndbc_data</span> <span class="o">=</span> <span class="n">convert_nested_dict_and_pandas</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ndbc_data</span></div>
+
+
+
+<div class="viewcode-block" id="to_datetime_index">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.to_datetime_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_datetime_index</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">ndbc_data</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the NDBC date and time information reported in separate</span>
+<span class="sd">    columns into a DateTime index and removed the NDBC date &amp; time</span>
+<span class="sd">    columns.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: string</span>
+<span class="sd">        &#39;swden&#39;: &#39;Raw Spectral Wave Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;swdir&#39;: &#39;Spectral wave data (alpha1)&#39;</span>
+<span class="sd">        &#39;swdir2&#39;: &#39;Spectral wave data (alpha2)&#39;</span>
+<span class="sd">        &#39;swr1&#39;: &#39;Spectral wave data (r1)&#39;</span>
+<span class="sd">        &#39;swr2&#39;: &#39;Spectral wave data (r2)&#39;</span>
+<span class="sd">        &#39;stdmet&#39;: &#39;Standard Meteorological Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;cwind&#39;: &#39;Continuous Winds Current Year Historical Data&#39;</span>
+
+<span class="sd">    ndbc_data: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        NDBC data in dataframe with date and time columns to be converted</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        df_datetime: pandas DataFrame or xarray Dataset</span>
+<span class="sd">            Dataframe with NDBC date columns removed, and datetime index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="n">ndbc_data</span> <span class="o">=</span> <span class="n">ndbc_data</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;ndbc_data must be of type pd.DataFrame. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ndbc_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">df_datetime</span> <span class="o">=</span> <span class="n">ndbc_data</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_datetime</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">ndbc_date_cols</span> <span class="o">=</span> <span class="n">dates_to_datetime</span><span class="p">(</span>
+        <span class="n">df_datetime</span><span class="p">,</span> <span class="n">return_date_cols</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">df_datetime</span> <span class="o">=</span> <span class="n">df_datetime</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">ndbc_date_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">df_datetime</span> <span class="o">=</span> <span class="n">df_datetime</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;swden&quot;</span><span class="p">,</span> <span class="s2">&quot;swdir&quot;</span><span class="p">,</span> <span class="s2">&quot;swdir2&quot;</span><span class="p">,</span> <span class="s2">&quot;swr1&quot;</span><span class="p">,</span> <span class="s2">&quot;swr2&quot;</span><span class="p">]:</span>
+        <span class="n">df_datetime</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_datetime</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">df_datetime</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">df_datetime</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_datetime</span></div>
+
+
+
+<div class="viewcode-block" id="dates_to_datetime">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.dates_to_datetime">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dates_to_datetime</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">return_date_cols</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_as_dataframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a DataFrame/Dataset and converts the NDBC date columns</span>
+<span class="sd">        (e.g. &quot;#YY  MM DD hh mm&quot;) to datetime. Returns a DataFrame/Dataset with the</span>
+<span class="sd">        removed NDBC date columns a new [&#39;date&#39;] columns with DateTime Format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Dataframe with headers (e.g. [&#39;YY&#39;, &#39;MM&#39;, &#39;DD&#39;, &#39;hh&#39;, {&#39;mm&#39;}])</span>
+
+<span class="sd">    return_date_col: Bool (optional)</span>
+<span class="sd">        Default False. When true will return list of NDBC date columns</span>
+
+<span class="sd">    return_as_dataFrame: bool</span>
+<span class="sd">        Results returned as a DataFrame (useful for MHKiT-MATLAB)</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    date: pandas Series or xarray DataArray</span>
+<span class="sd">        Series with NDBC dates dropped and new [&#39;date&#39;]</span>
+<span class="sd">        column in DateTime format</span>
+
+<span class="sd">    ndbc_date_cols: list (optional)</span>
+<span class="sd">        List of the DataFrame/Dataset columns headers for dates as provided by</span>
+<span class="sd">        NDBC</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be of type pd.DataFrame. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_date_cols</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;return_date_cols must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">return_date_cols</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">minutes_loc</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+        <span class="n">minutes</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;mm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+        <span class="n">minutes</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">row_0_is_units</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">year_string</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">year_string</span><span class="p">:</span>
+        <span class="n">year_string</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">year_string</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: Could Not Find Year Column in </span><span class="si">{</span><span class="n">cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">year_string</span> <span class="o">=</span> <span class="n">year_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">year_fmt</span> <span class="o">=</span> <span class="s2">&quot;%Y&quot;</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">year_string</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+            <span class="n">row_0_is_units</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">year_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;YYYY&quot;</span><span class="p">:</span>
+        <span class="n">year_string</span> <span class="o">=</span> <span class="n">year_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">year_fmt</span> <span class="o">=</span> <span class="s2">&quot;%Y&quot;</span>
+    <span class="k">elif</span> <span class="n">year_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;YY&quot;</span><span class="p">:</span>
+        <span class="n">year_string</span> <span class="o">=</span> <span class="n">year_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">year_fmt</span> <span class="o">=</span> <span class="s2">&quot;%y&quot;</span>
+
+    <span class="n">parse_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">year_string</span><span class="p">,</span> <span class="s2">&quot;MM&quot;</span><span class="p">,</span> <span class="s2">&quot;DD&quot;</span><span class="p">,</span> <span class="s2">&quot;hh&quot;</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_date_string_to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">parse_columns</span><span class="p">,</span> <span class="n">year_fmt</span><span class="p">)</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">row_0_is_units</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]),</span> <span class="n">date</span><span class="p">])</span>
+    <span class="k">del</span> <span class="n">df</span>
+
+    <span class="k">if</span> <span class="n">return_as_dataframe</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">convert_to_dataset</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_date_cols</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">minutes</span><span class="p">:</span>
+            <span class="n">ndbc_date_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">year_string</span><span class="p">,</span> <span class="s2">&quot;MM&quot;</span><span class="p">,</span> <span class="s2">&quot;DD&quot;</span><span class="p">,</span> <span class="s2">&quot;hh&quot;</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ndbc_date_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">year_string</span><span class="p">,</span> <span class="s2">&quot;MM&quot;</span><span class="p">,</span> <span class="s2">&quot;DD&quot;</span><span class="p">,</span> <span class="s2">&quot;hh&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">date</span><span class="p">,</span> <span class="n">ndbc_date_cols</span>
+
+    <span class="k">return</span> <span class="n">date</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_date_string_to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">year_fmt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a NDBC df and creates a datetime from multiple columns headers</span>
+<span class="sd">    by combining each column into a single string. Then the datetime</span>
+<span class="sd">    method is applied  given the expected format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df: DataFrame</span>
+<span class="sd">        Dataframe with columns (e.g. [&#39;YY&#39;, &#39;MM&#39;, &#39;DD&#39;, &#39;hh&#39;, &#39;mm&#39;])</span>
+
+<span class="sd">    columns: list</span>
+<span class="sd">        list of strings for the columns to consider</span>
+<span class="sd">        (e.g. [&#39;YY&#39;, &#39;MM&#39;, &#39;DD&#39;, &#39;hh&#39;, &#39;mm&#39;])</span>
+
+<span class="sd">    year_fmt: str</span>
+<span class="sd">        Specifies if year is 2 digit or 4 digit for datetime</span>
+<span class="sd">        interpretation</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df: DataFrame</span>
+<span class="sd">        The passed df with a new column [&#39;date&#39;] with the datetime format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;df must be of type pd.DataFrame. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;columns must be a list. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">year_fmt</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;year_fmt must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">year_fmt</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert to str and zero pad</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date_string&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date_string&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;date_string&quot;</span><span class="p">,</span> <span class="n">column</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date_string&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_fmt</span><span class="si">}</span><span class="s2">%m%d%H%M&quot;</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date_string&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<div class="viewcode-block" id="parameter_units">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.parameter_units">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parameter_units</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns an ordered dictionary of NDBC parameters with unit values.</span>
+<span class="sd">    If no parameter is passed then an ordered dictionary of all NDBC</span>
+<span class="sd">    parameterz specified unites is returned. If a parameter is specified</span>
+<span class="sd">    then only the units associated with that parameter are returned.</span>
+<span class="sd">    Note that many NDBC parameters report multiple measurements and in</span>
+<span class="sd">    that case the returned dictionary will contain the NDBC measurement</span>
+<span class="sd">    name and associated unit for all the measurements associated with</span>
+<span class="sd">    the specified parameter. Optional parameter values are given below.</span>
+<span class="sd">    All units are based on https://www.ndbc.noaa.gov/measdes.shtml.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter: string (optional)</span>
+<span class="sd">        &#39;adcp&#39;: &#39;Acoustic Doppler Current Profiler Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;cwind&#39;: &#39;Continuous Winds Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;dart&#39;: &#39;Water Column Height (DART) Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;derived2&#39;: &#39;Derived Met Values&#39;</span>
+<span class="sd">        &#39;ocean&#39; : &#39;Oceanographic Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;rain&#39;	: &#39;Hourly Rain Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;rain10&#39;: &#39;10-Minute Rain Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;rain24&#39;: &#39;24-Hour Rain Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;realtime2&#39;: &#39;Detailed Wave Summary (Realtime `.spec` data files only)&#39;</span>
+<span class="sd">        &#39;srad&#39;: &#39;Solar Radiation Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;stdmet&#39;: &#39;Standard Meteorological Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;supl&#39;: &#39;Supplemental Measurements Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;swden&#39;: &#39;Raw Spectral Wave Current Year Historical Data&#39;</span>
+<span class="sd">        &#39;swdir&#39;: &#39;Spectral Wave Current Year Historical Data (alpha1)&#39;</span>
+<span class="sd">        &#39;swdir2&#39;: &#39;Spectral Wave Current Year Historical Data (alpha2)&#39;</span>
+<span class="sd">        &#39;swr1&#39;: &#39;Spectral Wave Current Year Historical Data (r1)&#39;</span>
+<span class="sd">        &#39;swr2&#39;: &#39;Spectral Wave Current Year Historical Data (r2)&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    units: dict</span>
+<span class="sd">        Dictionary of parameter units</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;adcp&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;DEP01&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DIR01&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SPD01&quot;</span><span class="p">:</span> <span class="s2">&quot;cm/s&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;cwind&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;WDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GDR&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GST&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GTIME&quot;</span><span class="p">:</span> <span class="s2">&quot;hhmm&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;dart&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HEIGHT&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;derived2&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;CHILL&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HEAT&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ICE&quot;</span><span class="p">:</span> <span class="s2">&quot;cm/hr&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD10&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD20&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;ocean&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;DEPTH&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;OTMP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;COND&quot;</span><span class="p">:</span> <span class="s2">&quot;mS/cm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SAL&quot;</span><span class="p">:</span> <span class="s2">&quot;psu&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;O2%&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;O2PPM&quot;</span><span class="p">:</span> <span class="s2">&quot;ppm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CLCON&quot;</span><span class="p">:</span> <span class="s2">&quot;ug/l&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TURB&quot;</span><span class="p">:</span> <span class="s2">&quot;FTU&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PH&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EH&quot;</span><span class="p">:</span> <span class="s2">&quot;mv&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;rain&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ACCUM&quot;</span><span class="p">:</span> <span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;rain10&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;RATE&quot;</span><span class="p">:</span> <span class="s2">&quot;mm/h&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;rain24&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;RATE&quot;</span><span class="p">:</span> <span class="s2">&quot;mm/h&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PCT&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SDEV&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;realtime2&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;WVHT&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SwH&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SwP&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WWH&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WWP&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SwD&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WWD&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;STEEPNESS&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;APD&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;MWD&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;srad&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;SRAD1&quot;</span><span class="p">:</span> <span class="s2">&quot;w/m2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SRAD2&quot;</span><span class="p">:</span> <span class="s2">&quot;w/m2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SRAD3&quot;</span><span class="p">:</span> <span class="s2">&quot;w/m2&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;stdmet&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;WDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GST&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WVHT&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DPD&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;APD&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;MWD&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PRES&quot;</span><span class="p">:</span> <span class="s2">&quot;hPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ATMP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WTMP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DEWP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;VIS&quot;</span><span class="p">:</span> <span class="s2">&quot;nmi&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PTDY&quot;</span><span class="p">:</span> <span class="s2">&quot;hPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TIDE&quot;</span><span class="p">:</span> <span class="s2">&quot;ft&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;supl&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;PRES&quot;</span><span class="p">:</span> <span class="s2">&quot;hPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PTIME&quot;</span><span class="p">:</span> <span class="s2">&quot;hhmm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WTIME&quot;</span><span class="p">:</span> <span class="s2">&quot;hhmm&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;swden&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;swden&quot;</span><span class="p">:</span> <span class="s2">&quot;(m*m)/Hz&quot;</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;swdir&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;swdir&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;swdir2&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;swdir2&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;swr1&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;swr1&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;swr2&quot;</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;swr2&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;swden&quot;</span><span class="p">:</span> <span class="s2">&quot;(m*m)/Hz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PRES&quot;</span><span class="p">:</span> <span class="s2">&quot;hPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PTIME&quot;</span><span class="p">:</span> <span class="s2">&quot;hhmm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WTIME&quot;</span><span class="p">:</span> <span class="s2">&quot;hhmm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DPD&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;MWD&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ATMP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WTMP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DEWP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;VIS&quot;</span><span class="p">:</span> <span class="s2">&quot;nmi&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PTDY&quot;</span><span class="p">:</span> <span class="s2">&quot;hPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TIDE&quot;</span><span class="p">:</span> <span class="s2">&quot;ft&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SRAD1&quot;</span><span class="p">:</span> <span class="s2">&quot;w/m2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SRAD2&quot;</span><span class="p">:</span> <span class="s2">&quot;w/m2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SRAD3&quot;</span><span class="p">:</span> <span class="s2">&quot;w/m2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WVHT&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SwH&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SwP&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WWH&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WWP&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SwD&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WWD&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;STEEPNESS&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;APD&quot;</span><span class="p">:</span> <span class="s2">&quot;sec&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;RATE&quot;</span><span class="p">:</span> <span class="s2">&quot;mm/h&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PCT&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SDEV&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ACCUM&quot;</span><span class="p">:</span> <span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DEPTH&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;OTMP&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;COND&quot;</span><span class="p">:</span> <span class="s2">&quot;mS/cm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SAL&quot;</span><span class="p">:</span> <span class="s2">&quot;psu&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;O2%&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;O2PPM&quot;</span><span class="p">:</span> <span class="s2">&quot;ppm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CLCON&quot;</span><span class="p">:</span> <span class="s2">&quot;ug/l&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TURB&quot;</span><span class="p">:</span> <span class="s2">&quot;FTU&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;PH&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EH&quot;</span><span class="p">:</span> <span class="s2">&quot;mv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CHILL&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HEAT&quot;</span><span class="p">:</span> <span class="s2">&quot;degC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ICE&quot;</span><span class="p">:</span> <span class="s2">&quot;cm/hr&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD10&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WSPD20&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HEIGHT&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GDR&quot;</span><span class="p">:</span> <span class="s2">&quot;degT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GST&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GTIME&quot;</span><span class="p">:</span> <span class="s2">&quot;hhmm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DEP01&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DIR01&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SPD01&quot;</span><span class="p">:</span> <span class="s2">&quot;cm/s&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">units</span> <span class="o">=</span> <span class="n">_OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">units</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="n">units</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_supported_params</span><span class="p">(</span><span class="n">parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There is a significant number of datasets provided by NDBC. There is</span>
+<span class="sd">    specific data processing required for each type. Therefore this</span>
+<span class="sd">    function throws an error for any data type not currently covered.</span>
+
+<span class="sd">    Available Data: https://www.ndbc.noaa.gov/data/</span>
+<span class="sd">    https://www.ndbc.noaa.gov/historical_data.shtml</span>
+<span class="sd">    Decription of Measurements: https://www.ndbc.noaa.gov/measdes.shtml</span>
+<span class="sd">    Changes made to historical data: https://www.ndbc.noaa.gov/mods.shtml</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    msg: bool</span>
+<span class="sd">        Whether the parameter is supported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">supported</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">supported_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;swden&quot;</span><span class="p">,</span> <span class="s2">&quot;swdir&quot;</span><span class="p">,</span> <span class="s2">&quot;swdir2&quot;</span><span class="p">,</span> <span class="s2">&quot;swr1&quot;</span><span class="p">,</span> <span class="s2">&quot;swr2&quot;</span><span class="p">,</span> <span class="s2">&quot;stdmet&quot;</span><span class="p">,</span> <span class="s2">&quot;cwind&quot;</span><span class="p">]</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">supported_params</span> <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="n">parameter</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">param</span><span class="p">:</span>
+        <span class="n">supported</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Currently parameters [&#39;swden&#39;, &#39;swdir&#39;, &#39;swdir2&#39;, &quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;&#39;swr1&#39;, &#39;swr2&#39;, &#39;stdmet&#39;, &#39;cwind&#39;]  are supported. </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;If you would like to see more data types please </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; open an issue or submit a Pull Request on GitHub&quot;</span>
+        <span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">supported</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_historical_parameters</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Names and description of all NDBC Historical Data.</span>
+
+<span class="sd">    Available Data: https://www.ndbc.noaa.gov/data/</span>
+<span class="sd">    https://www.ndbc.noaa.gov/historical_data.shtml</span>
+<span class="sd">    Decription of Measurements: https://www.ndbc.noaa.gov/measdes.shtml</span>
+<span class="sd">    Changes made to historical data: https://www.ndbc.noaa.gov/mods.shtml</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    msg: dict</span>
+<span class="sd">        Names and decriptions of historical parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;adcp&quot;</span><span class="p">:</span> <span class="s2">&quot;Acoustic Doppler Current Profiler Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;adcp2&quot;</span><span class="p">:</span> <span class="s2">&quot;Acoustic Doppler Current Profiler Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cwind&quot;</span><span class="p">:</span> <span class="s2">&quot;Continuous Winds Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dart&quot;</span><span class="p">:</span> <span class="s2">&quot;Water Column Height (DART) Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mmbcur&quot;</span><span class="p">:</span> <span class="s2">&quot;Marsh-McBirney Current Measurements&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ocean&quot;</span><span class="p">:</span> <span class="s2">&quot;Oceanographic Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rain&quot;</span><span class="p">:</span> <span class="s2">&quot;Hourly Rain Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rain10&quot;</span><span class="p">:</span> <span class="s2">&quot;10-Minute Rain Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rain24&quot;</span><span class="p">:</span> <span class="s2">&quot;24-Hour Rain Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;srad&quot;</span><span class="p">:</span> <span class="s2">&quot;Solar Radiation Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stdmet&quot;</span><span class="p">:</span> <span class="s2">&quot;Standard Meteorological Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;supl&quot;</span><span class="p">:</span> <span class="s2">&quot;Supplemental Measurements Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swden&quot;</span><span class="p">:</span> <span class="s2">&quot;Raw Spectral Wave Current Year Historical Data&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swdir&quot;</span><span class="p">:</span> <span class="s2">&quot;Spectral Wave Current Year Historical Data (alpha1)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swdir2&quot;</span><span class="p">:</span> <span class="s2">&quot;Spectral Wave Current Year Historical Data (alpha2)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swr1&quot;</span><span class="p">:</span> <span class="s2">&quot;Spectral Wave Current Year Historical Data (r1)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swr2&quot;</span><span class="p">:</span> <span class="s2">&quot;Spectral Wave Current Year Historical Data (r2)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;wlevel&quot;</span><span class="p">:</span> <span class="s2">&quot;Tide Current Year Historical Data&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">parameters</span>
+
+
+<span class="c1"># directional</span>
+<div class="viewcode-block" id="request_directional_data">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.request_directional_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">request_directional_data</span><span class="p">(</span><span class="n">buoy</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Request the directional spectrum data and return an</span>
+<span class="sd">    `xarray.Dataset` containing all 5 variables. The NDBC historical</span>
+<span class="sd">    data is organized into files based on buoy number, year, and</span>
+<span class="sd">    parameter. For a given buoy number and year, the five</span>
+<span class="sd">    files—corresponding to the 5 parameters NDBC uses to describe</span>
+<span class="sd">    directional wave spectrum—are fetched and processed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    buoy: string</span>
+<span class="sd">        Buoy Number.  Five character alpha-numeric station identifier.</span>
+<span class="sd">    year: int</span>
+<span class="sd">        Four digit year.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndbc_data: xr.Dataset</span>
+<span class="sd">        Dataset containing the five parameter data indexed by frequency</span>
+<span class="sd">        and date.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">buoy</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;buoy must be a string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">buoy</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;year must be an int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">directional_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;swden&quot;</span><span class="p">,</span> <span class="s2">&quot;swdir&quot;</span><span class="p">,</span> <span class="s2">&quot;swdir2&quot;</span><span class="p">,</span> <span class="s2">&quot;swr1&quot;</span><span class="p">,</span> <span class="s2">&quot;swr2&quot;</span><span class="p">]</span>
+
+    <span class="n">seps</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;swden&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swdir&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swdir2&quot;</span><span class="p">:</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swr1&quot;</span><span class="p">:</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;swr2&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">directional_parameters</span><span class="p">:</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">buoy</span><span class="si">}{</span><span class="n">seps</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="si">}{</span><span class="n">year</span><span class="si">}</span><span class="s2">.txt.gz&quot;</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">request_data</span><span class="p">(</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">file</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+        <span class="p">)[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)]</span>
+        <span class="n">pd_data</span> <span class="o">=</span> <span class="n">to_datetime_index</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">)</span>
+
+        <span class="n">xr_data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">pd_data</span><span class="p">)</span>
+        <span class="n">xr_data</span> <span class="o">=</span> <span class="n">xr_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;dim_1&quot;</span><span class="p">:</span> <span class="s2">&quot;frequency&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;swr1&quot;</span><span class="p">,</span> <span class="s2">&quot;swr2&quot;</span><span class="p">]:</span>
+            <span class="n">xr_data</span> <span class="o">=</span> <span class="n">xr_data</span> <span class="o">/</span> <span class="mf">100.0</span>
+        <span class="n">xr_data</span><span class="o">.</span><span class="n">frequency</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;Hz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;frequency&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">xr_data</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">data_dict</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_data</span>
+
+    <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;swden&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m^2/Hz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;omnidirecational spectrum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Omnidirectional *sea surface elevation variance (m^2)* spectrum (/Hz).&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;swdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mean wave direction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;α1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Mean wave direction.&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;swdir2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;principal wave direction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;α2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Principal wave direction.&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;swr1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate r1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;r1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;First normalized polar coordinate of the Fourier coefficients (nondimensional).&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;swr2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate r2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;r2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Second normalized polar coordinate of the Fourier coefficients (nondimensional).&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_spectrum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="n">directions</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">units</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an xarray.DataArray for storing spectrum data with correct</span>
+<span class="sd">    dimensions, coordinates, names, and units.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: np.ndarray</span>
+<span class="sd">        Spectrum values.</span>
+<span class="sd">        Size number of frequencies x number of directions.</span>
+<span class="sd">    frequencies: np.ndarray</span>
+<span class="sd">        One-dimensional array of frequencies in Hz.</span>
+<span class="sd">    directions: np.ndarray</span>
+<span class="sd">        One-dimensional array of wave directions in degrees.</span>
+<span class="sd">    name: string</span>
+<span class="sd">        Name of the (integral) quantity the spectrum is for.</span>
+<span class="sd">    units: string</span>
+<span class="sd">        Units of the (integral) quantity the spectrum is for.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spectrum: xr.Dataset</span>
+<span class="sd">        DataArray containing the spectrum values indexed by frequency</span>
+<span class="sd">        and wave direction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;frequencies must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;directions must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;name must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;units must be of type string. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">units</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;data has wrong shape </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;expected </span><span class="si">{</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frequencies</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">directions</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frequencies</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">directions</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">direction_attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;deg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;wave direction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;direction&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">frequency_attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;Hz&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;frequency&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">spectrum</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="n">frequency_attrs</span><span class="p">),</span>
+            <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">directions</span><span class="p">,</span> <span class="n">direction_attrs</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">/Hz/deg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> spectrum&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;spectrum&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;*</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">)* spectrum (/Hz/deg).&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">spectrum</span>
+
+
+<div class="viewcode-block" id="create_spread_function">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.create_spread_function">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_spread_function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create the spread function from the 4 relevant NDBC parameter data.</span>
+<span class="sd">    Return as an xarray.DataArray indexed by frequency and wave</span>
+<span class="sd">    direction.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: xr.Dataset</span>
+<span class="sd">        Dataset containing the four NDBC parameter data indexed by</span>
+<span class="sd">        frequency.</span>
+<span class="sd">    directions: np.ndarray</span>
+<span class="sd">        One-dimensional array of wave directions in degrees.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spread: xr.DataArray</span>
+<span class="sd">        DataArray containing the spread function values indexed by</span>
+<span class="sd">        frequency and wave direction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be of type xr.Dataset. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;directions must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">r1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;swr1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;swr2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;swdir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">a2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;swdir2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">directions</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">spread</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">1</span>
+        <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">a1</span><span class="p">))</span> <span class="o">+</span> <span class="n">r2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">a2</span><span class="p">)))</span>
+    <span class="p">)</span>
+    <span class="n">spread</span> <span class="o">=</span> <span class="n">_create_spectrum</span><span class="p">(</span>
+        <span class="n">spread</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">frequency</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">directions</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Spread&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">spread</span></div>
+
+
+
+<div class="viewcode-block" id="create_directional_spectrum">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.create_directional_spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_directional_spectrum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create the spectrum from the 5 relevant NDBC parameter data. Return</span>
+<span class="sd">    as an xarray.DataArray indexed by frequency and wave direction.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: xr.Dataset</span>
+<span class="sd">        Dataset containing the five NDBC parameter data indexed by</span>
+<span class="sd">        frequency.</span>
+<span class="sd">    directions: np.ndarray</span>
+<span class="sd">        One-dimensional array of wave directions in degrees.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spectrum: xr.DataArray</span>
+<span class="sd">        DataArray containing the spectrum values indexed by frequency</span>
+<span class="sd">        and wave direction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be of type xr.Dataset. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;directions must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">spread</span> <span class="o">=</span> <span class="n">create_spread_function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">directions</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">omnidirectional_spectrum</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;swden&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">spectrum</span> <span class="o">=</span> <span class="n">omnidirectional_spectrum</span> <span class="o">*</span> <span class="n">spread</span>
+    <span class="n">spectrum</span> <span class="o">=</span> <span class="n">_create_spectrum</span><span class="p">(</span>
+        <span class="n">spectrum</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">frequency</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">directions</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Elevation variance&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m^2&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">spectrum</span></div>
+
+
+
+<div class="viewcode-block" id="get_buoy_metadata">
+<a class="viewcode-back" href="../../../../mhkit-python/api.wave.html#mhkit.wave.io.ndbc.get_buoy_metadata">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_buoy_metadata</span><span class="p">(</span><span class="n">station_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetches and parses the metadata of a National Data Buoy Center (NDBC) station</span>
+<span class="sd">    from https://www.ndbc.noaa.gov.</span>
+
+<span class="sd">    Extracts information such as provider, buoy type, latitude, longitude, and</span>
+<span class="sd">    other metadata from the station&#39;s webpage.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    station_number: string</span>
+<span class="sd">        The station number (ID) of the NDBC buoy</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data: dict</span>
+<span class="sd">        A dictionary containing metadata of the buoy with keys representing</span>
+<span class="sd">        the information type and values containing the corresponding data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Define the URL for the station</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://www.ndbc.noaa.gov/station_page.php?station=</span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Fetch the page content</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+
+    <span class="c1"># Parse the HTML</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Find the title element</span>
+    <span class="n">title_element</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;h1&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract the title (remove the trailing image and whitespace)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">title_element</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Check if the title element exists</span>
+    <span class="k">if</span> <span class="n">title</span> <span class="o">==</span> <span class="s2">&quot;Station not found&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid or nonexistent station number: </span><span class="si">{</span><span class="n">station_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Save buoy name to a dictionary</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;buoy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>
+
+    <span class="c1"># Find the specific div containing the buoy metadata</span>
+    <span class="n">metadata_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;stn_metadata&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract the metadata</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">metadata_div</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">line_count</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&lt;b&gt;&quot;</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+        <span class="c1"># Line should be the data provider</span>
+        <span class="k">if</span> <span class="n">line_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span>
+        <span class="c1"># Line 2 should be the buoy type</span>
+        <span class="k">elif</span> <span class="n">line_count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span>
+        <span class="c1"># Special case look for lat/long</span>
+        <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+\.\d+\s+[NS]\s+\d+\.\d+\s+[EW]&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+            <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># Split key value pairs on colon</span>
+        <span class="k">elif</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># Catch all other lines as keys with empty values</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

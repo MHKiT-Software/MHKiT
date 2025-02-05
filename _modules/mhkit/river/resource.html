@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.river.resource &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.river.resource</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.river.resource</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span> <span class="k">as</span> <span class="n">_linregress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">rv_histogram</span> <span class="k">as</span> <span class="n">_rv_histogram</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataarray</span>
+
+
+<div class="viewcode-block" id="Froude_number">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.resource.Froude_number">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Froude_number</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">9.80665</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the Froude Number of the river, channel or duct flow,</span>
+<span class="sd">    to check subcritical flow assumption (if Fr &lt;1).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    v : int/float</span>
+<span class="sd">        Average velocity [m/s].</span>
+<span class="sd">    h : int/float</span>
+<span class="sd">        Mean hydraulic depth float [m].</span>
+<span class="sd">    g : int/float</span>
+<span class="sd">        Gravitational acceleration [m/s2].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Fr : float</span>
+<span class="sd">        Froude Number of the river [unitless].</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;h must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;g must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">Fr</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Fr</span></div>
+
+
+
+<div class="viewcode-block" id="exceedance_probability">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.resource.exceedance_probability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">exceedance_probability</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the exceedance probability</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    D : pandas Series, pandas DataFrame, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Discharge indexed by time [datetime or s].</span>
+
+<span class="sd">    dimension: string (optional)</span>
+<span class="sd">        Name of the relevant xarray dimension. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    F : pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Exceedance probability [unitless] indexed by time [datetime or s]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dimension must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">D</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Calculate exceedance probability (F)</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dimension</span><span class="p">)</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="n">dimension</span><span class="p">])</span> <span class="o">-</span> <span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># convert to descending rank</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">rank</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="n">dimension</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">F</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span>
+
+    <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>  <span class="c1"># for matlab</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">F</span></div>
+
+
+
+<div class="viewcode-block" id="polynomial_fit">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.resource.polynomial_fit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">polynomial_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a polynomial fit for y given x of order n</span>
+<span class="sd">    with an R-squared score of the fit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    x : numpy array</span>
+<span class="sd">        x data for polynomial fit.</span>
+<span class="sd">    y : numpy array</span>
+<span class="sd">        y data for polynomial fit.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        order of the polynomial fit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    polynomial_coefficients : numpy polynomial</span>
+<span class="sd">        List of polynomial coefficients</span>
+<span class="sd">    R2 : float</span>
+<span class="sd">        Polynomical fit coeffcient of determination</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;y must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n must be of type int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get coeffcients of polynomial of order n</span>
+    <span class="n">polynomial_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="c1"># Calculate the coeffcient of determination</span>
+    <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">_linregress</span><span class="p">(</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">polynomial_coefficients</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">R2</span> <span class="o">=</span> <span class="n">r_value</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">polynomial_coefficients</span><span class="p">,</span> <span class="n">R2</span></div>
+
+
+
+<div class="viewcode-block" id="discharge_to_velocity">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.resource.discharge_to_velocity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">discharge_to_velocity</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">polynomial_coefficients</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates velocity given discharge data and the relationship between</span>
+<span class="sd">    discharge and velocity at an individual turbine</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    D : numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Discharge data [m3/s] indexed by time [datetime or s]</span>
+<span class="sd">    polynomial_coefficients : numpy polynomial</span>
+<span class="sd">        List of polynomial coefficients that describe the relationship between</span>
+<span class="sd">        discharge and velocity at an individual turbine</span>
+<span class="sd">    dimension: string (optional)</span>
+<span class="sd">        Name of the relevant xarray dimension. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ------------</span>
+<span class="sd">    V: pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Velocity [m/s] indexed by time [datetime or s]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">polynomial_coefficients</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;polynomial_coefficients must be of type np.poly1d. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">polynomial_coefficients</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dimension must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">D</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Calculate velocity using polynomial</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">polynomial_coefficients</span><span class="p">(</span><span class="n">D</span><span class="p">),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">dimension</span><span class="p">:</span> <span class="n">D</span><span class="p">[</span><span class="n">dimension</span><span class="p">]},</span>
+    <span class="p">)</span>
+    <span class="n">V</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;V&quot;</span>
+
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>  <span class="c1"># for matlab</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">V</span></div>
+
+
+
+<div class="viewcode-block" id="velocity_to_power">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.resource.velocity_to_power">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">velocity_to_power</span><span class="p">(</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">polynomial_coefficients</span><span class="p">,</span> <span class="n">cut_in</span><span class="p">,</span> <span class="n">cut_out</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates power given velocity data and the relationship</span>
+<span class="sd">    between velocity and power from an individual turbine</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Velocity [m/s] indexed by time [datetime or s]</span>
+<span class="sd">    polynomial_coefficients : numpy polynomial</span>
+<span class="sd">        List of polynomial coefficients that describe the relationship between</span>
+<span class="sd">        velocity and power at an individual turbine</span>
+<span class="sd">    cut_in: int/float</span>
+<span class="sd">        Velocity values below cut_in are not used to compute P</span>
+<span class="sd">    cut_out: int/float</span>
+<span class="sd">        Velocity values above cut_out are not used to compute P</span>
+<span class="sd">    dimension: string (optional)</span>
+<span class="sd">        Name of the relevant xarray dimension. If not supplied,</span>
+<span class="sd">        defaults to the first dimension. Does not affect pandas input.</span>
+<span class="sd">    to_pandas: bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P : pandas DataFrame or xarray Dataset</span>
+<span class="sd">        Power [W] indexed by time [datetime or s]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">polynomial_coefficients</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;polynomial_coefficients must be of type np.poly1d. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">polynomial_coefficients</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cut_in</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cut_in must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">cut_in</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cut_out</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cut_out must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">cut_out</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dimension must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type str. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">V</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Calculate velocity using polynomial</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="n">polynomial_coefficients</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+
+    <span class="c1"># Power for velocity values outside lower and upper bounds Turbine produces 0 power</span>
+    <span class="n">power</span><span class="p">[</span><span class="n">V</span> <span class="o">&lt;</span> <span class="n">cut_in</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">power</span><span class="p">[</span><span class="n">V</span> <span class="o">&gt;</span> <span class="n">cut_out</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">power</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dimension</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">dimension</span><span class="p">:</span> <span class="n">V</span><span class="p">[</span><span class="n">dimension</span><span class="p">]})</span>
+    <span class="n">P</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">P</span></div>
+
+
+
+<div class="viewcode-block" id="energy_produced">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.resource.energy_produced">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">energy_produced</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">seconds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the energy produced for a given time period provided</span>
+<span class="sd">    exceedance probability and power.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : numpy ndarray, pandas DataFrame, pandas Series, xarray DataArray, or xarray Dataset</span>
+<span class="sd">        Power [W] indexed by time [datetime or s]</span>
+<span class="sd">    seconds: int or float</span>
+<span class="sd">        Seconds in the time period of interest</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    E : float</span>
+<span class="sd">        Energy [J] produced in the given length of time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;seconds must be of type int or float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+
+    <span class="c1"># Calculate Histogram of power</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># Create a distribution</span>
+    <span class="n">hist_dist</span> <span class="o">=</span> <span class="n">_rv_histogram</span><span class="p">([</span><span class="n">H</span><span class="p">,</span> <span class="n">edges</span><span class="p">])</span>
+    <span class="c1"># Sample range for pdf</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">edges</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="c1"># Calculate the expected value of Power</span>
+    <span class="n">expected_val_of_power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">hist_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Note: Built-in Expected Value method often throws warning</span>
+    <span class="c1"># EV = hist_dist.expect(lb=edges.min(), ub=edges.max())</span>
+    <span class="c1"># Energy</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">*</span> <span class="n">expected_val_of_power</span>
+
+    <span class="k">return</span> <span class="n">E</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

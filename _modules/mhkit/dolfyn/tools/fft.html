@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.tools.fft &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.tools.fft</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.tools.fft</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">detrend_array</span>
+
+<span class="n">fft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span>
+
+
+<div class="viewcode-block" id="fft_frequency">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.tools.fft.fft_frequency">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fft_frequency</span><span class="p">(</span><span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the frequency vector for a given `nfft` and `fs`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fs : float</span>
+<span class="sd">      The sampling frequency (e.g. samples/sec)</span>
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of samples in a window.</span>
+<span class="sd">    full : bool</span>
+<span class="sd">      Whether to return half frequencies (positive), or the full frequencies.</span>
+<span class="sd">      Default = False</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    freq : numpy.ndarray</span>
+<span class="sd">      The frequency vector, in same units as &#39;fs&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="p">),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">fs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_getwindow</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">nfft</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">window</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;hann&quot;</span> <span class="ow">in</span> <span class="n">window</span><span class="p">:</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;hamm&quot;</span> <span class="ow">in</span> <span class="n">window</span><span class="p">:</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hamming</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported window type: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">window</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">window</span><span class="p">)</span> <span class="o">!=</span> <span class="n">nfft</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Custom window length must be equal to nfft&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid window parameter&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">window</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the fft-step size for a length *l* array.</span>
+
+<span class="sd">    If nens is None, the step size is chosen to maximize data use,</span>
+<span class="sd">    minimize nens and have a minimum of 50% overlap.</span>
+
+<span class="sd">    If nens is specified, the step-size is computed directly.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    l       : The length of the array.</span>
+<span class="sd">    nfft    : The number of points in the fft.</span>
+<span class="sd">    nens : The number of nens to perform (default compute this).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    step    : The step size.</span>
+<span class="sd">    nens    : The number of ensemble ffts to average together.</span>
+<span class="sd">    nfft    : The number of points in the fft (set to l if nfft&gt;l).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">nfft</span><span class="p">:</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="k">if</span> <span class="n">nens</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="n">nfft</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+        <span class="n">nens</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">l</span> <span class="o">/</span> <span class="n">nfft</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">nens</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">nens</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">step</span><span class="p">),</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="n">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nens</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">nens</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cpsd_quasisync_1D">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.tools.fft.cpsd_quasisync_1D">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cpsd_quasisync_1D</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the cross power spectral density (CPSD) of the signals `a` and `b`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : numpy.ndarray</span>
+<span class="sd">      The first signal.</span>
+<span class="sd">    b : numpy.ndarray</span>
+<span class="sd">      The second signal.</span>
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of points in the fft.</span>
+<span class="sd">    fs : float</span>
+<span class="sd">      The sample rate (e.g. sample/second).</span>
+<span class="sd">    window : {None, 1, &#39;hann&#39;, numpy.ndarray}</span>
+<span class="sd">      The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">      - None,1               : uses a &#39;boxcar&#39; or ones window.</span>
+<span class="sd">      - &#39;hann&#39;               : hanning window.</span>
+<span class="sd">      - a length(nfft) array : use this as the window directly.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cpsd : numpy.ndarray</span>
+<span class="sd">      The cross-spectral density of `a` and `b`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    ---------</span>
+<span class="sd">    :func:`psd`,</span>
+<span class="sd">    :func:`coherence_1D`,</span>
+<span class="sd">    :func:`cpsd_1D`,</span>
+<span class="sd">    numpy.fft</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    `a` and `b` do not need to be &#39;tightly&#39; synchronized, and can even</span>
+<span class="sd">    be different lengths, but the first- and last-index of both series</span>
+<span class="sd">    should be synchronized (to whatever degree you want unbiased</span>
+<span class="sd">    phases).</span>
+
+<span class="sd">    This performs:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        fft(a)*conj(fft(b))</span>
+
+<span class="sd">    Note that this is consistent with :func:`numpy.correlate`.</span>
+
+<span class="sd">    It detrends the data and uses a minimum of 50% overlap for the</span>
+<span class="sd">    shorter of `a` and `b`. For the longer, the overlap depends on the</span>
+<span class="sd">    difference in size.  1-(l_short/l_long) data will be underutilized</span>
+<span class="sd">    (where l_short and l_long are the length of the shorter and longer</span>
+<span class="sd">    series, respectively).</span>
+
+<span class="sd">    The units of the spectra is the product of the units of `a` and</span>
+<span class="sd">    `b`, divided by the units of fs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Velocity cannot be complex&quot;</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">cpsd_1D</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nfft</span><span class="p">)</span>
+    <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">nens</span><span class="o">=</span><span class="n">nens</span><span class="p">)</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">_getwindow</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span>
+    <span class="n">fft_inds</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">wght</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">window</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">pwr</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span>
+        <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">nfft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">nfft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="p">):</span>
+            <span class="n">pwr</span> <span class="o">+=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i1</span> <span class="p">:</span> <span class="p">(</span><span class="n">i1</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span>
+                <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i2</span> <span class="p">:</span> <span class="p">(</span><span class="n">i2</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+            <span class="p">)</span>
+    <span class="n">pwr</span> <span class="o">*=</span> <span class="n">wght</span> <span class="o">/</span> <span class="n">nens</span> <span class="o">/</span> <span class="n">fs</span>
+    <span class="k">return</span> <span class="n">pwr</span></div>
+
+
+
+<div class="viewcode-block" id="cpsd_1D">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.tools.fft.cpsd_1D">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cpsd_1D</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the cross power spectral density (CPSD) of the signals `a` and `b`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : numpy.ndarray</span>
+<span class="sd">      The first signal.</span>
+<span class="sd">    b : numpy.ndarray</span>
+<span class="sd">      The second signal.</span>
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of points in the fft.</span>
+<span class="sd">    fs : float</span>
+<span class="sd">      The sample rate (e.g. sample/second).</span>
+<span class="sd">    window : {None, 1, &#39;hann&#39;, numpy.ndarray}</span>
+<span class="sd">      The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">      - None,1               : uses a &#39;boxcar&#39; or ones window.</span>
+<span class="sd">      - &#39;hann&#39;               : hanning window.</span>
+<span class="sd">      - a length(nfft) array : use this as the window directly.</span>
+<span class="sd">    step : int</span>
+<span class="sd">      Use this to specify the overlap.  For example:</span>
+<span class="sd">      - step : nfft/2 specifies a 50% overlap.</span>
+<span class="sd">      - step : nfft specifies no overlap.</span>
+<span class="sd">      - step=2*nfft means that half the data will be skipped.</span>
+<span class="sd">      By default, `step` is calculated to maximize data use, have</span>
+<span class="sd">      at least 50% overlap and minimize the number of ensembles.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cpsd : numpy.ndarray</span>
+<span class="sd">      The cross-spectral density of `a` and `b`.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`psd`</span>
+<span class="sd">    :func:`coherence_1D`</span>
+<span class="sd">    `numpy.fft`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    cpsd removes a linear trend from the signals.</span>
+
+<span class="sd">    The two signals should be the same length, and should both be real.</span>
+
+<span class="sd">    This performs:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        fft(a)*conj(fft(b))</span>
+
+<span class="sd">    This implementation is consistent with the numpy.correlate</span>
+<span class="sd">    definition of correlation.  (The conjugate of D.B. Chelton&#39;s</span>
+<span class="sd">    definition of correlation.)</span>
+
+<span class="sd">    The units of the spectra is the product of the units of `a` and</span>
+<span class="sd">    `b`, divided by the units of fs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Velocity cannot be complex&quot;</span><span class="p">)</span>
+    <span class="n">auto_psd</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">:</span>
+        <span class="n">auto_psd</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">step</span><span class="p">,</span> <span class="n">nens</span><span class="p">,</span> <span class="n">nfft</span> <span class="o">=</span> <span class="n">_stepsize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">_getwindow</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span>
+    <span class="n">fft_inds</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">wght</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">window</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">auto_psd</span><span class="p">:</span>
+        <span class="n">pwr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pwr</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">nfft</span><span class="p">])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">nens</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span> <span class="n">nfft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+            <span class="n">s1</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">auto_psd</span><span class="p">:</span>
+                <span class="n">pwr</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pwr</span> <span class="o">+=</span> <span class="n">s1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span>
+                    <span class="n">fft</span><span class="p">(</span><span class="n">detrend_array</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">nfft</span><span class="p">)])</span> <span class="o">*</span> <span class="n">window</span><span class="p">)[</span><span class="n">fft_inds</span><span class="p">]</span>
+                <span class="p">)</span>
+    <span class="n">pwr</span> <span class="o">*=</span> <span class="n">wght</span> <span class="o">/</span> <span class="n">nens</span> <span class="o">/</span> <span class="n">fs</span>
+    <span class="k">return</span> <span class="n">pwr</span></div>
+
+
+
+<div class="viewcode-block" id="psd_1D">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.tools.fft.psd_1D">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">psd_1D</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the power spectral density (PSD).</span>
+
+<span class="sd">    This function computes the one-dimensional `n`-point PSD.</span>
+
+<span class="sd">    The units of the spectra is the product of the units of `a` and</span>
+<span class="sd">    `b`, divided by the units of fs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : numpy.ndarray</span>
+<span class="sd">      The first signal, as a 1D vector</span>
+<span class="sd">    nfft : int</span>
+<span class="sd">      The number of points in the fft.</span>
+<span class="sd">    fs : float</span>
+<span class="sd">      The sample rate (e.g. sample/second).</span>
+<span class="sd">    window : {None, 1, &#39;hann&#39;, numpy.ndarray}</span>
+<span class="sd">      The window to use (default: &#39;hann&#39;). Valid entries are:</span>
+<span class="sd">      - None,1               : uses a &#39;boxcar&#39; or ones window.</span>
+<span class="sd">      - &#39;hann&#39;               : hanning window.</span>
+<span class="sd">      - a length(nfft) array : use this as the window directly.</span>
+<span class="sd">    step : int</span>
+<span class="sd">      Use this to specify the overlap.  For example:</span>
+<span class="sd">      - step : nfft/2 specifies a 50% overlap.</span>
+<span class="sd">      - step : nfft specifies no overlap.</span>
+<span class="sd">      - step=2*nfft means that half the data will be skipped.</span>
+<span class="sd">      By default, `step` is calculated to maximize data use, have</span>
+<span class="sd">      at least 50% overlap and minimize the number of ensembles.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cpsd : numpy.ndarray</span>
+<span class="sd">      The cross-spectral density of `a` and `b`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Credit: This function&#39;s line of code was copied from JN&#39;s fast_psd.m</span>
+<span class="sd">    routine.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`cpsd_1D`</span>
+<span class="sd">    :func:`coherence_1D`</span>
+<span class="sd">    `numpy.fft`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cpsd_1D</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

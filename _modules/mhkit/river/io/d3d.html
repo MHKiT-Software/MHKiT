@@ -1,0 +1,956 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.river.io.d3d &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.river.io.d3d</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.river.io.d3d</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">unorm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">interp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">netCDF4</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+
+<div class="viewcode-block" id="get_all_time">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.get_all_time">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_all_time</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns all of the time stamps from a D3D simulation passed to the function</span>
+<span class="sd">    as a NetCDF object (data)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress generated by running a Delft3D model.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    seconds_run: array</span>
+<span class="sd">        Returns an array of integers representing the number of seconds after</span>
+<span class="sd">        the simulation started and that the data object contains a snapshot of</span>
+<span class="sd">        simulation conditions at that time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data must be a NetCDF4 object&quot;</span><span class="p">)</span>
+
+    <span class="n">seconds_run</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][:],</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">seconds_run</span></div>
+
+
+
+<div class="viewcode-block" id="index_to_seconds">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.index_to_seconds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">index_to_seconds</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time_index</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function will return &#39;seconds_run&#39; if passed a &#39;time_index&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress, generated by running a Delft3D model.</span>
+<span class="sd">    time_index: int</span>
+<span class="sd">        A positive integer to pull the time index from the dataset. 0 being closest</span>
+<span class="sd">        to time 0. Default is last time index -1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    seconds_run: int, float</span>
+<span class="sd">        The &#39;seconds_run&#39; is the seconds corresponding to the &#39;time_index&#39; increments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_convert_time</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=</span><span class="n">time_index</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="seconds_to_index">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.seconds_to_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">seconds_to_index</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">seconds_run</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function will return the nearest &#39;time_index&#39; in the data if passed an</span>
+<span class="sd">    integer number of &#39;seconds_run&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">        A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">        stress, generated by running a Delft3D model.</span>
+<span class="sd">    seconds_run: int, float</span>
+<span class="sd">        A positive integer or float that represents the amount of time in seconds</span>
+<span class="sd">        passed since starting the simulation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    time_index: int</span>
+<span class="sd">        The &#39;time_index&#39; is a positive integer starting from 0</span>
+<span class="sd">        and incrementing until in simulation is complete.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_convert_time</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">seconds_run</span><span class="o">=</span><span class="n">seconds_run</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_convert_time</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seconds_run</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a time index to seconds or seconds to a time index. The user</span>
+<span class="sd">    must specify &#39;time_index&#39; or &#39;seconds_run&#39; (Not both). The function</span>
+<span class="sd">    will returns &#39;seconds_run&#39; if passed a &#39;time_index&#39; or will return the</span>
+<span class="sd">    closest &#39;time_index&#39; if passed a number of &#39;seconds_run&#39;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress, generated by running a Delft3D model.</span>
+<span class="sd">    time_index: int</span>
+<span class="sd">        An integer to pull the time index from the dataset. 0 being closest</span>
+<span class="sd">        to the start time.</span>
+<span class="sd">    seconds_run: int, float</span>
+<span class="sd">        An integer or float that represents the amount of time in seconds</span>
+<span class="sd">        passed since starting the simulation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    QoI: int, float</span>
+<span class="sd">        The quantity of interest is the unknown value either the &#39;time_index&#39;</span>
+<span class="sd">        or the &#39;seconds_run&#39;. The &#39;time_index&#39; is an integer starting from 0</span>
+<span class="sd">        and incrementing until in simulation is complete. The &#39;seconds_run&#39; is</span>
+<span class="sd">        the seconds corresponding to the &#39;time_index&#39; increments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data must be NetCDF4 object&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">time_index</span> <span class="ow">or</span> <span class="n">seconds_run</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input of time_index or seconds_run needed&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">time_index</span> <span class="ow">and</span> <span class="n">seconds_run</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only one of time_index or seconds_run should be provided&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seconds_run</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;time_index or seconds_run input must be an int or float&quot;</span><span class="p">)</span>
+
+    <span class="n">times</span> <span class="o">=</span> <span class="n">get_all_time</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">time_index</span><span class="p">:</span>
+        <span class="n">QoI</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">time_index</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">seconds_run</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">times</span> <span class="o">==</span> <span class="n">seconds_run</span><span class="p">)</span>
+            <span class="n">QoI</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">times</span> <span class="o">-</span> <span class="n">seconds_run</span><span class="p">))</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+            <span class="n">QoI</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Warning: seconds_run not found. Closest time stamp&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;found </span><span class="si">{</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">QoI</span>
+
+
+<div class="viewcode-block" id="get_layer_data">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.get_layer_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_layer_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">layer_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get variable data from the NetCDF4 object at a specified layer and timestep.</span>
+<span class="sd">    If the data is 2D the layer_index is ignored.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress, generated by running a Delft3D model.</span>
+<span class="sd">    variable: string</span>
+<span class="sd">        Delft3D outputs many vairables. The full list can be</span>
+<span class="sd">        found using &quot;data.variables.keys()&quot; in the console.</span>
+<span class="sd">    layer_index: int</span>
+<span class="sd">         An integer to pull out a layer from the dataset. 0 being closest</span>
+<span class="sd">         to the surface. Default is the bottom layer, found with input -1.</span>
+<span class="sd">    time_index: int</span>
+<span class="sd">        An integer to pull the time index from the dataset. 0 being closest</span>
+<span class="sd">        to the start time. Default is last time index, found with input -1.</span>
+<span class="sd">    to_pandas : bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    layer_data: pd.DataFrame or xr.Dataset</span>
+<span class="sd">        Dataset with columns of &quot;x&quot;, &quot;y&quot;, &quot;waterdepth&quot;, and &quot;waterlevel&quot; location</span>
+<span class="sd">        of the specified layer, variable values &quot;v&quot;, and the &quot;time&quot; the</span>
+<span class="sd">        simulation has run. The waterdepth is measured from the water surface and the</span>
+<span class="sd">        &quot;waterlevel&quot; is the water level diffrencein meters from the zero water level.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;time_index must be an int&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;layer_index must be an int&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data must be NetCDF4 object&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;variable not recognized&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">][:]</span>
+    <span class="n">max_time_index</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># to account for zero index</span>
+
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_time_index</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;time_index must be less than the absolute value of the max time index </span><span class="si">{</span><span class="n">max_time_index</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">:</span>
+        <span class="n">max_layer</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">layer_index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_layer</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;layer_index must be less than the max layer </span><span class="si">{</span><span class="n">max_layer</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:,</span> <span class="n">layer_index</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data not recognized&quot;</span><span class="p">)</span>
+
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># waterdepth</span>
+    <span class="k">if</span> <span class="s2">&quot;mesh2d&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;mesh2d_face_x mesh2d_face_y&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mesh2d_nLayers&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mesh2d_layer_sigma&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;mesh2d_edge_x mesh2d_edge_y&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mesh2d_nInterfaces&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mesh2d_interface_sigma&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="n">bottom_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mesh2d_waterdepth&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">waterlevel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mesh2d_s1&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;FlowElem_xcc FlowElem_ycc&quot;</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;FlowElem_xcc FlowElem_ycc&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;laydim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_cc&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wdim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_w&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="n">bottom_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">waterlevel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;FlowElem_xcc FlowElem_ycc LayCoord_cc LayCoord_cc&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;laydim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_cc&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wdim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_w&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="n">bottom_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">waterlevel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">,</span> <span class="p">:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="n">layer_dim</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+
+    <span class="n">cord_sys</span> <span class="o">=</span> <span class="n">cords_to_layers</span><span class="p">[</span><span class="n">layer_dim</span><span class="p">][</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span>
+    <span class="n">layer_percentages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">cord_sys</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># accumulative</span>
+
+    <span class="k">if</span> <span class="n">layer_dim</span> <span class="o">==</span> <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span>
+        <span class="c1"># interpolate</span>
+        <span class="n">x_laydim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">y_laydim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">points_laydim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_laydim</span><span class="p">,</span> <span class="n">y_laydim</span><span class="p">)])</span>
+
+        <span class="n">coords_request</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">x_wdim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords_request</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">y_wdim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">coords_request</span><span class="p">[</span><span class="mi">1</span><span class="p">]][:],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">points_wdim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_wdim</span><span class="p">,</span> <span class="n">y_wdim</span><span class="p">)])</span>
+
+        <span class="n">bottom_depth_wdim</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points_laydim</span><span class="p">,</span> <span class="n">bottom_depth</span><span class="p">,</span> <span class="n">points_wdim</span><span class="p">)</span>
+        <span class="n">water_level_wdim</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points_laydim</span><span class="p">,</span> <span class="n">waterlevel</span><span class="p">,</span> <span class="n">points_wdim</span><span class="p">)</span>
+
+        <span class="n">idx_bd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">bottom_depth_wdim</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx_bd</span><span class="p">:</span>
+            <span class="n">bottom_depth_wdim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+                <span class="n">points_laydim</span><span class="p">,</span> <span class="n">bottom_depth</span><span class="p">,</span> <span class="n">points_wdim</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+            <span class="p">)</span>
+            <span class="n">water_level_wdim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+                <span class="n">points_laydim</span><span class="p">,</span> <span class="n">waterlevel</span><span class="p">,</span> <span class="n">points_wdim</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">waterdepth</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">dimensions</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">layer_dim</span> <span class="o">==</span> <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">bottom_depth_wdim</span><span class="p">]</span>
+            <span class="n">waterlevel</span> <span class="o">=</span> <span class="n">water_level_wdim</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">bottom_depth</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">layer_dim</span> <span class="o">==</span> <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">bottom_depth_wdim</span> <span class="o">*</span> <span class="n">layer_percentages</span><span class="p">[</span><span class="n">layer_index</span><span class="p">]]</span>
+            <span class="n">waterlevel</span> <span class="o">=</span> <span class="n">water_level_wdim</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">bottom_depth</span> <span class="o">*</span> <span class="n">layer_percentages</span><span class="p">[</span><span class="n">layer_index</span><span class="p">]]</span>
+    <span class="n">waterdepth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">waterdepth</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">time_index</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+    <span class="n">layer_data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">),</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">y</span><span class="p">),</span>
+            <span class="s2">&quot;waterdepth&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">waterdepth</span><span class="p">),</span>
+            <span class="s2">&quot;waterlevel&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">waterlevel</span><span class="p">),</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">v</span><span class="p">),</span>
+            <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">time</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">layer_data</span> <span class="o">=</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">layer_data</span></div>
+
+
+
+<div class="viewcode-block" id="create_points">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.create_points">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_points</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">waterdepth</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a Dataset of points from combinations of input coordinates.</span>
+
+<span class="sd">    This function accepts three inputs and combines them to generate a</span>
+<span class="sd">    Dataset of points. The inputs can be:</span>
+<span class="sd">    - 3 points</span>
+<span class="sd">    - 2 points and 1 array</span>
+<span class="sd">    - 1 point and 2 arrays</span>
+<span class="sd">    - 3 arrays (x and y must have the same size)</span>
+
+<span class="sd">    For 3 points or less, every combination will be in the output.</span>
+<span class="sd">    For 3 arrays, x and y are treated as coordinate pairs and combined</span>
+<span class="sd">    with each value from the waterdepth array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : int, float, array-like</span>
+<span class="sd">        X values (longitude) for the points.</span>
+<span class="sd">    y : int, float, array-like</span>
+<span class="sd">        Y values (latitude) for the points.</span>
+<span class="sd">    waterdepth : int, float, array-like</span>
+<span class="sd">        Waterdepth values for the points.</span>
+<span class="sd">    to_pandas : bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    points : xr.Dataset or pd.DataFrame</span>
+<span class="sd">        A Dataset with columns &#39;x&#39;, &#39;y&#39;, and &#39;waterdepth&#39; representing the generated points.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    2 arrays and 1 point:</span>
+<span class="sd">    &gt;&gt;&gt; x = np.array([1, 2])</span>
+<span class="sd">    &gt;&gt;&gt; y = np.array([3, 4, 5])</span>
+<span class="sd">    &gt;&gt;&gt; waterdepth = 6</span>
+<span class="sd">    &gt;&gt;&gt; create_points(x, y, waterdepth)</span>
+
+<span class="sd">       x    y    waterdepth</span>
+<span class="sd">    0  1.0  3.0  6.0</span>
+<span class="sd">    1  2.0  3.0  6.0</span>
+<span class="sd">    2  1.0  4.0  6.0</span>
+<span class="sd">    3  2.0  4.0  6.0</span>
+<span class="sd">    4  1.0  5.0  6.0</span>
+<span class="sd">    5  2.0  5.0  6.0</span>
+
+<span class="sd">    3 arrays (x and y must have the same length):</span>
+<span class="sd">    &gt;&gt;&gt; x = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; y = np.array([4, 5, 6])</span>
+<span class="sd">    &gt;&gt;&gt; waterdepth = np.array([1, 2])</span>
+<span class="sd">    &gt;&gt;&gt; create_points(x, y, waterdepth)</span>
+
+<span class="sd">       x    y    waterdepth</span>
+<span class="sd">    0  1.0  4.0  1.0</span>
+<span class="sd">    1  2.0  5.0  1.0</span>
+<span class="sd">    2  3.0  6.0  1.0</span>
+<span class="sd">    3  1.0  4.0  2.0</span>
+<span class="sd">    4  2.0  5.0  2.0</span>
+<span class="sd">    5  4.0  6.0  2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check input types</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">:</span> <span class="n">waterdepth</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Convert lists to numpy arrays</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">inputs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># Update the value in the dictionary</span>
+
+        <span class="c1"># Check data type</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be an int, float, np.ndarray, pd.Series, or xr.DataArray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Check for empty arrays</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> should not be an empty array&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">x_array_like</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+    <span class="n">y_array_like</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+    <span class="n">waterdepth_array_like</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">waterdepth</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">x_array_like</span> <span class="ow">and</span> <span class="n">y_array_like</span> <span class="ow">and</span> <span class="n">waterdepth_array_like</span><span class="p">:</span>
+        <span class="c1"># if all inputs are arrays, grid the coordinate and waterdepth</span>
+        <span class="n">y_grid</span><span class="p">,</span> <span class="n">waterdepth_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">waterdepth</span><span class="p">)</span>
+        <span class="n">y_grid</span> <span class="o">=</span> <span class="n">y_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">waterdepth_grid</span> <span class="o">=</span> <span class="n">waterdepth_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+        <span class="n">x_grid</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">waterdepth</span><span class="p">)</span>
+        <span class="n">x_grid</span> <span class="o">=</span> <span class="n">x_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># if at least one input is a point, grid all inputs</span>
+        <span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">,</span> <span class="n">waterdepth_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">waterdepth</span><span class="p">)</span>
+        <span class="n">x_grid</span> <span class="o">=</span> <span class="n">x_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">y_grid</span> <span class="o">=</span> <span class="n">y_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">waterdepth_grid</span> <span class="o">=</span> <span class="n">waterdepth_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_grid</span><span class="p">))</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">x_grid</span><span class="p">),</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">y_grid</span><span class="p">),</span>
+            <span class="s2">&quot;waterdepth&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">waterdepth_grid</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">points</span></div>
+
+
+
+<div class="viewcode-block" id="variable_interpolation">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.variable_interpolation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">variable_interpolation</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">variables</span><span class="p">,</span>
+    <span class="n">points</span><span class="o">=</span><span class="s2">&quot;cells&quot;</span><span class="p">,</span>
+    <span class="n">edges</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">x_max_lim</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span>
+    <span class="n">x_min_lim</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span>
+    <span class="n">y_max_lim</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span>
+    <span class="n">y_min_lim</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span>
+    <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolate multiple variables from the Delft3D onto the same points.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress generated by running a Delft3D model.</span>
+<span class="sd">    variables: array of strings</span>
+<span class="sd">        Name of variables to interpolate, e.g. &#39;turkin1&#39;, &#39;ucx&#39;, &#39;ucy&#39; and &#39;ucz&#39;.</span>
+<span class="sd">        The full list can be found using &quot;data.variables.keys()&quot; in the console.</span>
+<span class="sd">    points: string, pd.DataFrame, or xr.Dataset</span>
+<span class="sd">        The points to interpolate data onto.</span>
+<span class="sd">          &#39;cells&#39;- interpolates all data onto the Delft3D cell coordinate system (Default)</span>
+<span class="sd">          &#39;faces&#39;- interpolates all dada onto the Delft3D face coordinate system</span>
+<span class="sd">          Dataset of x, y, and waterdepth coordinates - Interpolates data onto user</span>
+<span class="sd">          povided points. Can be created with `create_points` function.</span>
+<span class="sd">    edges: string: &#39;nearest&#39;</span>
+<span class="sd">        If edges is set to &#39;nearest&#39; the code will fill in nan values with nearest</span>
+<span class="sd">        interpolation. Otherwise only linear interpolarion will be used.</span>
+<span class="sd">    to_pandas : bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    transformed_data: pd.DataFrame or xr.Dataset</span>
+<span class="sd">        Variables on specified grid points saved under the input variable names</span>
+<span class="sd">        and the x, y, and waterdepth coordinates of those points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;points must be a string, pd.DataFrame, or xr.Dataset. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;cells&quot;</span> <span class="ow">or</span> <span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;faces&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;If a string, points must be cells or faces. Got </span><span class="si">{</span><span class="n">points</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be netCDF4 object. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">data_raw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">get_all_data_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">var_data_df</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_data_df</span><span class="o">.</span><span class="n">waterdepth</span> <span class="o">-</span> <span class="n">var_data_df</span><span class="o">.</span><span class="n">waterlevel</span>  <span class="c1"># added</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">var_data_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="o">~</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">)]</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">var_data_df</span><span class="p">[</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">x_min_lim</span><span class="p">]</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">var_data_df</span><span class="p">[</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">x_max_lim</span><span class="p">]</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">var_data_df</span><span class="p">[</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">y_min_lim</span><span class="p">]</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">var_data_df</span><span class="p">[</span><span class="n">var_data_df</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">y_max_lim</span><span class="p">]</span>
+        <span class="n">data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_data_df</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;points provided&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;faces&quot;</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">data_raw</span><span class="p">[</span><span class="s2">&quot;ucx&quot;</span><span class="p">][[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]]</span>
+    <span class="k">elif</span> <span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;cells&quot;</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">data_raw</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">][[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]]</span>
+
+    <span class="n">transformed_data</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">transformed_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+            <span class="n">data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]],</span>  <span class="c1"># waterdepth to depth</span>
+            <span class="n">data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">points</span><span class="p">[[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]],</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">edges</span> <span class="o">==</span> <span class="s2">&quot;nearest&quot;</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">transformed_data</span><span class="p">[</span><span class="n">var</span><span class="p">]))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">transformed_data</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+                        <span class="n">data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]],</span>
+                        <span class="n">data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
+                        <span class="p">[</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]],</span>
+                        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">transformed_data</span> <span class="o">=</span> <span class="n">transformed_data</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">transformed_data</span></div>
+
+
+
+<div class="viewcode-block" id="get_all_data_points">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.get_all_data_points">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_all_data_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get data points for a passed variable for all layers at a specified time from</span>
+<span class="sd">    the Delft3D NetCDF4 object by iterating over the `get_layer_data` function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: Netcdf4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress, generated by running a Delft3D model.</span>
+<span class="sd">    variable: string</span>
+<span class="sd">        Delft3D variable. The full list can be of variables can be</span>
+<span class="sd">        found using &quot;data.variables.keys()&quot; in the console.</span>
+<span class="sd">    time_index: int</span>
+<span class="sd">        An integer to pull the time step from the dataset.</span>
+<span class="sd">        Default is last time step, found with the input -1.</span>
+<span class="sd">    to_pandas : bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    all_data: xr.Dataset or pd.Dataframe</span>
+<span class="sd">        Dataframe with columns x, y, waterdepth, waterlevel, variable, and time.</span>
+<span class="sd">        The waterdepth is measured from the water surface and the &quot;waterlevel&quot; is</span>
+<span class="sd">        the water level diffrence in meters from the zero water level.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;time_index must be an int&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data must be NetCDF4 object&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;variable not recognized&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">max_time_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">][:])</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_time_index</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;time_index must be less than the max time index </span><span class="si">{</span><span class="n">max_time_index</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;mesh2d&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;mesh2d_face_x mesh2d_face_y&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mesh2d_nLayers&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mesh2d_layer_sigma&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;mesh2d_edge_x mesh2d_edge_y&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;mesh2d_nInterfaces&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mesh2d_interface_sigma&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;FlowElem_xcc FlowElem_ycc&quot;</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;FlowElem_xcc FlowElem_ycc&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;laydim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_cc&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wdim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_w&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cords_to_layers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;FlowElem_xcc FlowElem_ycc LayCoord_cc LayCoord_cc&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;laydim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_cc&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;FlowLink_xu FlowLink_yu&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wdim&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;LayCoord_w&quot;</span><span class="p">][:],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="n">layer_dim</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cord_sys</span> <span class="o">=</span> <span class="n">cords_to_layers</span><span class="p">[</span><span class="n">layer_dim</span><span class="p">][</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Coordinates not recognized.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">layer_percentages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">cord_sys</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">x_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">y_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">depth_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">water_level_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">v_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">time_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">layers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layer_percentages</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+        <span class="n">layer_data</span> <span class="o">=</span> <span class="n">get_layer_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">time_index</span><span class="p">)</span>
+
+        <span class="n">x_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_all</span><span class="p">,</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">y_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_all</span><span class="p">,</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">depth_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">depth_all</span><span class="p">,</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">waterdepth</span><span class="p">)</span>
+        <span class="n">water_level_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">water_level_all</span><span class="p">,</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">waterlevel</span><span class="p">)</span>
+        <span class="n">v_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v_all</span><span class="p">,</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">time_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_all</span><span class="p">,</span> <span class="n">layer_data</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_all</span><span class="p">))</span>
+    <span class="n">all_data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">x_all</span><span class="p">),</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">y_all</span><span class="p">),</span>
+            <span class="s2">&quot;waterdepth&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">depth_all</span><span class="p">),</span>
+            <span class="s2">&quot;waterlevel&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">water_level_all</span><span class="p">),</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">v_all</span><span class="p">),</span>
+            <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">time_all</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">index</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">all_data</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">all_data</span></div>
+
+
+
+<div class="viewcode-block" id="turbulent_intensity">
+<a class="viewcode-back" href="../../../../mhkit-python/api.river.html#mhkit.river.io.d3d.turbulent_intensity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">turbulent_intensity</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="s2">&quot;cells&quot;</span><span class="p">,</span> <span class="n">time_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">intermediate_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">to_pandas</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the turbulent intensity percentage for a given data set for the</span>
+<span class="sd">    specified points. Assumes variable names: ucx, ucy, ucz and turkin1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: NetCDF4 object</span>
+<span class="sd">       A NetCDF4 object that contains spatial data, e.g. velocity or shear</span>
+<span class="sd">       stress, generated by running a Delft3D model.</span>
+<span class="sd">    points: string, pd.DataFrame, xr.Dataset</span>
+<span class="sd">        Points to interpolate data onto.</span>
+<span class="sd">          &#39;cells&#39;: interpolates all data onto velocity coordinate system (Default).</span>
+<span class="sd">          &#39;faces&#39;: interpolates all data onto the TKE coordinate system.</span>
+<span class="sd">          DataFrame of x, y, and z coordinates: Interpolates data onto user</span>
+<span class="sd">          provided points.</span>
+<span class="sd">    time_index: int</span>
+<span class="sd">        An integer to pull the time step from the dataset. Default is</span>
+<span class="sd">        late time step -1.</span>
+<span class="sd">    intermediate_values: boolean (optional)</span>
+<span class="sd">        If false the function will return position and turbulent intensity values.</span>
+<span class="sd">        If true the function will return position(x,y,z) and values need to calculate</span>
+<span class="sd">        turbulent intensity (ucx, uxy, uxz and turkin1) in a Dataframe.  Default False.</span>
+<span class="sd">    to_pandas : bool (optional)</span>
+<span class="sd">        Flag to output pandas instead of xarray. Default = True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">      TI_data: xr.Dataset or pd.DataFrame</span>
+<span class="sd">        If intermediate_values is true all values are output.</span>
+<span class="sd">        If intermediate_values is equal to false only turbulent_intesity and</span>
+<span class="sd">        x, y, and z variables are output.</span>
+<span class="sd">            x- position in the x direction</span>
+<span class="sd">            y- position in the y direction</span>
+<span class="sd">            waterdepth- position in the vertical direction</span>
+<span class="sd">            turbulet_intesity- turbulent kinetic energy divided by the root</span>
+<span class="sd">                                mean squared velocity</span>
+<span class="sd">            turkin1- turbulent kinetic energy</span>
+<span class="sd">            ucx- velocity in the x direction</span>
+<span class="sd">            ucy- velocity in the y direction</span>
+<span class="sd">            ucz- velocity in the vertical direction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;points must be a string, pd.DataFrame, xr.Dataset&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;cells&quot;</span> <span class="ow">or</span> <span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;faces&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points must be cells or faces&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;time_index must be an int&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;to_pandas must be of type bool. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">to_pandas</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+    <span class="n">max_time_index</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># to account for zero index</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_time_index</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;time_index must be less than the absolute value of the max time index </span><span class="si">{</span><span class="n">max_time_index</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data must be netCDF4 object&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">,</span> <span class="s2">&quot;ucx&quot;</span><span class="p">,</span> <span class="s2">&quot;ucy&quot;</span><span class="p">,</span> <span class="s2">&quot;ucz&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2"> not present in Data&quot;</span><span class="p">)</span>
+
+    <span class="n">TI_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">,</span> <span class="s2">&quot;ucx&quot;</span><span class="p">,</span> <span class="s2">&quot;ucy&quot;</span><span class="p">,</span> <span class="s2">&quot;ucz&quot;</span><span class="p">]</span>
+    <span class="n">TI_data_raw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">TI_vars</span><span class="p">:</span>
+        <span class="n">var_data_df</span> <span class="o">=</span> <span class="n">get_all_data_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">time_index</span><span class="p">)</span>
+        <span class="n">TI_data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_data_df</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;points provided&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;faces&quot;</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">TI_data_raw</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;waterlevel&quot;</span><span class="p">,</span> <span class="s2">&quot;turkin1&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">points</span> <span class="o">==</span> <span class="s2">&quot;cells&quot;</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">TI_data_raw</span><span class="p">[</span><span class="s2">&quot;ucx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;waterlevel&quot;</span><span class="p">,</span> <span class="s2">&quot;ucx&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">TI_data</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">TI_vars</span><span class="p">:</span>
+        <span class="n">TI_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+            <span class="n">TI_data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]],</span>
+            <span class="n">TI_data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">points</span><span class="p">[[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]],</span>
+        <span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">TI_data</span><span class="p">[</span><span class="n">var</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">TI_data</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span>
+                    <span class="n">TI_data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;waterdepth&quot;</span><span class="p">]],</span>
+                    <span class="n">TI_data_raw</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="s2">&quot;waterdepth&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]],</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+    <span class="n">u_mag</span> <span class="o">=</span> <span class="n">unorm</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;ucx&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;ucy&quot;</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;ucz&quot;</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="n">neg_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">zero_bool</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+        <span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">][</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">][</span><span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">)),</span>
+        <span class="n">atol</span><span class="o">=</span><span class="mf">1.0e-4</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">zero_ind</span> <span class="o">=</span> <span class="n">neg_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">zero_bool</span><span class="p">]</span>
+    <span class="n">non_zero_ind</span> <span class="o">=</span> <span class="n">neg_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">~</span><span class="n">zero_bool</span><span class="p">]</span>
+    <span class="n">TI_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">zero_ind</span><span class="p">,</span> <span class="s2">&quot;turkin1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">zero_ind</span><span class="p">))</span>
+    <span class="n">TI_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">non_zero_ind</span><span class="p">,</span> <span class="s2">&quot;turkin1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_zero_ind</span><span class="p">)</span>
+
+    <span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turbulent_intensity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">TI_data</span><span class="p">[</span><span class="s2">&quot;turkin1&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">u_mag</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="p">)</span>  <span class="c1"># %</span>
+
+    <span class="k">if</span> <span class="n">intermediate_values</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">TI_data</span> <span class="o">=</span> <span class="n">TI_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">TI_vars</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">to_pandas</span><span class="p">:</span>
+        <span class="n">TI_data</span> <span class="o">=</span> <span class="n">TI_data</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">TI_data</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

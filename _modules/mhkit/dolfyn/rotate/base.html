@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.dolfyn.rotate.base &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.dolfyn.rotate.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.dolfyn.rotate.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">det</span><span class="p">,</span> <span class="n">inv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span> <span class="k">as</span> <span class="n">R</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_model</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The make and model of the instrument that collected the data</span>
+<span class="sd">    in this data object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;inst_make&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;inst_model&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_rotmat_det</span><span class="p">(</span><span class="n">rotmat</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the absolute error of the determinant is small.</span>
+
+<span class="sd">          abs(det(rotmat) - 1) &lt; thresh</span>
+
+<span class="sd">    Returns a boolean array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">rotmat</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">rotmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">rotmat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">det</span><span class="p">(</span><span class="n">rotmat</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thresh</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_rotate_vars</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">rotate_vars</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">rotate_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;rotate_vars&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="n">rotate_vars</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rotate_vars</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;    &#39;rotate_vars&#39; attribute not found.&quot;</span> <span class="s2">&quot;Rotating `vel`.&quot;</span><span class="p">)</span>
+            <span class="n">rotate_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">rotate_vars</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_set_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ref_frame</span><span class="p">,</span> <span class="n">forced</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks the current reference frame and adjusts xarray coords/dims</span>
+<span class="sd">    as necessary.</span>
+<span class="sd">    Makes sure assigned dataarray coordinates match what DOLfYN is reading in.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">make</span> <span class="o">=</span> <span class="n">_make_model</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="n">XYZ</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]</span>
+    <span class="n">ENU</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">]</span>
+    <span class="n">beam</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">principal</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;streamwise&quot;</span><span class="p">,</span> <span class="s2">&quot;x-stream&quot;</span><span class="p">,</span> <span class="s2">&quot;vert&quot;</span><span class="p">]</span>
+
+    <span class="c1"># check make/model</span>
+    <span class="k">if</span> <span class="s2">&quot;rdi&quot;</span> <span class="ow">in</span> <span class="n">make</span><span class="p">:</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;err&quot;</span><span class="p">]</span>
+        <span class="n">earth</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="s2">&quot;err&quot;</span><span class="p">]</span>
+        <span class="n">princ</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;streamwise&quot;</span><span class="p">,</span> <span class="s2">&quot;x-stream&quot;</span><span class="p">,</span> <span class="s2">&quot;vert&quot;</span><span class="p">,</span> <span class="s2">&quot;err&quot;</span><span class="p">]</span>
+
+    <span class="k">elif</span> <span class="s2">&quot;nortek&quot;</span> <span class="ow">in</span> <span class="n">make</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;signature&quot;</span> <span class="ow">in</span> <span class="n">make</span> <span class="ow">or</span> <span class="s2">&quot;ad2cp&quot;</span> <span class="ow">in</span> <span class="n">make</span><span class="p">:</span>
+            <span class="n">inst</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z1&quot;</span><span class="p">,</span> <span class="s2">&quot;Z2&quot;</span><span class="p">]</span>
+            <span class="n">earth</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;U1&quot;</span><span class="p">,</span> <span class="s2">&quot;U2&quot;</span><span class="p">]</span>
+            <span class="n">princ</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;streamwise&quot;</span><span class="p">,</span> <span class="s2">&quot;x-stream&quot;</span><span class="p">,</span> <span class="s2">&quot;vert1&quot;</span><span class="p">,</span> <span class="s2">&quot;vert2&quot;</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># AWAC or Vector</span>
+            <span class="n">inst</span> <span class="o">=</span> <span class="n">XYZ</span>
+            <span class="n">earth</span> <span class="o">=</span> <span class="n">ENU</span>
+            <span class="n">princ</span> <span class="o">=</span> <span class="n">principal</span>
+
+    <span class="n">orient</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;beam&quot;</span><span class="p">:</span> <span class="n">beam</span><span class="p">,</span>
+        <span class="s2">&quot;inst&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="p">,</span>
+        <span class="s2">&quot;ship&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="p">,</span>
+        <span class="s2">&quot;earth&quot;</span><span class="p">:</span> <span class="n">earth</span><span class="p">,</span>
+        <span class="s2">&quot;principal&quot;</span><span class="p">:</span> <span class="n">princ</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">orientIMU</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;beam&quot;</span><span class="p">:</span> <span class="n">XYZ</span><span class="p">,</span>
+        <span class="s2">&quot;inst&quot;</span><span class="p">:</span> <span class="n">XYZ</span><span class="p">,</span>
+        <span class="s2">&quot;ship&quot;</span><span class="p">:</span> <span class="n">XYZ</span><span class="p">,</span>
+        <span class="s2">&quot;earth&quot;</span><span class="p">:</span> <span class="n">ENU</span><span class="p">,</span>
+        <span class="s2">&quot;principal&quot;</span><span class="p">:</span> <span class="n">principal</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">forced</span><span class="p">:</span>
+        <span class="n">ref_frame</span> <span class="o">+=</span> <span class="s2">&quot;-forced&quot;</span>
+
+    <span class="c1"># Update &#39;dir&#39; and &#39;dirIMU&#39; dimensions</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;dir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+    <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;ref_frame&quot;</span><span class="p">:</span> <span class="n">ref_frame</span><span class="p">})</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orient</span><span class="p">[</span><span class="n">ref_frame</span><span class="p">]</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;dir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;dirIMU&quot;</span><span class="p">):</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;dirIMU&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orientIMU</span><span class="p">[</span><span class="n">ref_frame</span><span class="p">]</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;dirIMU&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;coord_sys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_frame</span>
+
+    <span class="c1"># These are essentially one extra line to scroll through</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;_echo&quot;</span><span class="p">,</span> <span class="s2">&quot;_bt&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">tg</span> <span class="ow">in</span> <span class="n">tag</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;coord_sys_axes&quot;</span> <span class="o">+</span> <span class="n">tg</span><span class="p">):</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;coord_sys_axes&quot;</span> <span class="o">+</span> <span class="n">tg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_beam2inst</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate velocities from beam to instrument coordinates.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dat : xarray.Dataset</span>
+<span class="sd">      The ADCP dataset</span>
+<span class="sd">    reverse : bool</span>
+<span class="sd">      If True, this function performs the inverse rotation (inst-&gt;beam).</span>
+<span class="sd">      Default = False</span>
+<span class="sd">    force : bool, list</span>
+<span class="sd">      When true do not check which coordinate system the data is in</span>
+<span class="sd">      prior to performing this rotation. When forced-rotations are</span>
+<span class="sd">      applied, the string &#39;-forced!&#39; is appended to the</span>
+<span class="sd">      dat.props[&#39;coord_sys&#39;] string. If force is a list, it contains</span>
+<span class="sd">      a list of variables that should be rotated (rather than the</span>
+<span class="sd">      default values in adpo.rotate_vars).</span>
+<span class="sd">      Default = False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">force</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reverse</span> <span class="ow">and</span> <span class="n">dat</span><span class="o">.</span><span class="n">coord_sys</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;beam&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input must be in beam coordinates.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reverse</span> <span class="ow">and</span> <span class="n">dat</span><span class="o">.</span><span class="n">coord_sys</span> <span class="o">!=</span> <span class="s2">&quot;inst&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input must be in inst coordinates.&quot;</span><span class="p">)</span>
+
+    <span class="n">rotmat</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;beam2inst_orientmat&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">force</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="c1"># You can force a distinct set of variables to be rotated by</span>
+        <span class="c1"># specifying it here.</span>
+        <span class="n">rotate_vars</span> <span class="o">=</span> <span class="n">force</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rotate_vars</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">ky</span> <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">dat</span><span class="o">.</span><span class="n">rotate_vars</span> <span class="k">if</span> <span class="n">dat</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">rotmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">]</span>
+
+    <span class="n">cs</span> <span class="o">=</span> <span class="s2">&quot;inst&quot;</span>
+    <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+        <span class="c1"># Can&#39;t use transpose because rotation is not between</span>
+        <span class="c1"># orthogonal coordinate systems</span>
+        <span class="n">rotmat</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">rotmat</span><span class="p">)</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="s2">&quot;beam&quot;</span>
+    <span class="k">for</span> <span class="n">ky</span> <span class="ow">in</span> <span class="n">rotate_vars</span><span class="p">:</span>
+        <span class="n">dat</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,j...-&gt;i...&quot;</span><span class="p">,</span> <span class="n">rotmat</span><span class="p">,</span> <span class="n">dat</span><span class="p">[</span><span class="n">ky</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">force</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">_set_coords</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="n">forced</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">_set_coords</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">cs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dat</span>
+
+
+<div class="viewcode-block" id="euler2orient">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.base.euler2orient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">euler2orient</span><span class="p">(</span><span class="n">heading</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">roll</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;degree&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the orientation matrix from DOLfYN-defined euler angles.</span>
+
+<span class="sd">    This function is not likely to be called during data processing since it requires</span>
+<span class="sd">    DOLfYN-defined euler angles. It is intended for testing DOLfYN.</span>
+
+<span class="sd">    The matrices H, P, R are the transpose of the matrices for rotation about z, y, x</span>
+<span class="sd">    as shown here https://en.wikipedia.org/wiki/Rotation_matrix. The transpose is used</span>
+<span class="sd">    because in DOLfYN the orientation matrix is organized for</span>
+<span class="sd">    rotation from EARTH --&gt; INST, while the wiki&#39;s matrices are organized for</span>
+<span class="sd">    rotation from INST --&gt; EARTH.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    heading : numpy.ndarray</span>
+<span class="sd">      The heading angle.</span>
+<span class="sd">    pitch : numpy.ndarray</span>
+<span class="sd">      The pitch angle.</span>
+<span class="sd">    roll : numpy.ndarray</span>
+<span class="sd">      The roll angle.</span>
+<span class="sd">    units : str</span>
+<span class="sd">      Units in degrees or radians.  is &#39;degrees&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    =======</span>
+<span class="sd">    omat : numpy.ndarray (3x3xtime)</span>
+<span class="sd">      The orientation matrix of the data. The returned orientation</span>
+<span class="sd">      matrix obeys the following conventions:</span>
+
+<span class="sd">       - a &quot;ZYX&quot; rotation order. That is, these variables are computed</span>
+<span class="sd">         assuming that rotation from the earth -&gt; instrument frame happens</span>
+<span class="sd">         by rotating around the z-axis first (heading), then rotating</span>
+<span class="sd">         around the y-axis (pitch), then rotating around the x-axis (roll).</span>
+<span class="sd">         Note this requires matrix multiplication in the reverse order.</span>
+
+<span class="sd">       - heading is defined as the direction the x-axis points, positive</span>
+<span class="sd">         clockwise from North (this is *opposite* the right-hand-rule</span>
+<span class="sd">         around the Z-axis), range 0-360 degrees.</span>
+
+<span class="sd">       - pitch is positive when the x-axis pitches up (this is *opposite* the</span>
+<span class="sd">         right-hand-rule around the Y-axis)</span>
+
+<span class="sd">       - roll is positive according to the right-hand-rule around the</span>
+<span class="sd">         instrument&#39;s x-axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;deg&quot;</span> <span class="ow">in</span> <span class="n">units</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
+        <span class="n">roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">roll</span><span class="p">)</span>
+        <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">heading</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s2">&quot;rad&quot;</span> <span class="ow">in</span> <span class="n">units</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid units&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Converts the DOLfYN-defined heading to one that follows the right-hand-rule</span>
+    <span class="c1"># reports heading as rotation of the y-axis positive counterclockwise from North</span>
+    <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">heading</span>
+
+    <span class="c1"># Converts the DOLfYN-defined pitch to one that follows the right-hand-rule.</span>
+    <span class="n">pitch</span> <span class="o">=</span> <span class="o">-</span><span class="n">pitch</span>
+
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">heading</span><span class="p">)</span>
+    <span class="n">sh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">heading</span><span class="p">)</span>
+    <span class="n">cp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
+    <span class="n">cr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">roll</span><span class="p">)</span>
+    <span class="n">sr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">roll</span><span class="p">)</span>
+    <span class="n">zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span>
+    <span class="n">one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">ch</span><span class="p">,</span> <span class="n">sh</span><span class="p">,</span> <span class="n">zero</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="n">sh</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">zero</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">zero</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">one</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">cp</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="o">-</span><span class="n">sp</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">zero</span><span class="p">,</span> <span class="n">one</span><span class="p">,</span> <span class="n">zero</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sp</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">cp</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">one</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">zero</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">zero</span><span class="p">,</span> <span class="n">cr</span><span class="p">,</span> <span class="n">sr</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">zero</span><span class="p">,</span> <span class="o">-</span><span class="n">sr</span><span class="p">,</span> <span class="n">cr</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij...,jk...,kl...-&gt;il...&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="orient2euler">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.base.orient2euler">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">orient2euler</span><span class="p">(</span><span class="n">omat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate DOLfYN-defined euler angles from the orientation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    omat : numpy.ndarray</span>
+<span class="sd">      The orientation matrix</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    heading : numpy.ndarray</span>
+<span class="sd">      The heading angle. Heading is defined as the direction the x-axis points,</span>
+<span class="sd">      positive clockwise from North (this is *opposite* the right-hand-rule</span>
+<span class="sd">      around the Z-axis), range 0-360 degrees.</span>
+<span class="sd">    pitch : np.ndarray</span>
+<span class="sd">      The pitch angle (degrees). Pitch is positive when the x-axis</span>
+<span class="sd">      pitches up (this is *opposite* the right-hand-rule around the Y-axis).</span>
+<span class="sd">    roll : np.ndarray</span>
+<span class="sd">      The roll angle (degrees). Roll is positive according to the</span>
+<span class="sd">      right-hand-rule around the instrument&#39;s x-axis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">omat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">omat</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">omat</span><span class="p">,</span> <span class="s2">&quot;orientmat&quot;</span><span class="p">):</span>
+        <span class="n">omat</span> <span class="o">=</span> <span class="n">omat</span><span class="p">[</span><span class="s2">&quot;orientmat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="c1"># Note: orientation matrix is earth-&gt;inst unless supplied by an external IMU</span>
+    <span class="n">hh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">omat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">omat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="n">hh</span> <span class="o">%=</span> <span class="mi">360</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="c1"># heading</span>
+        <span class="n">hh</span><span class="p">,</span>
+        <span class="c1"># pitch</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">omat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])),</span>
+        <span class="c1"># roll</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">omat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">omat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="quaternion2orient">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.base.quaternion2orient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quaternion2orient</span><span class="p">(</span><span class="n">quaternions</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate orientation from Nortek AHRS quaternions, where q = [W, X, Y, Z]</span>
+<span class="sd">    instead of the standard q = [X, Y, Z, W] = [q1, q2, q3, q4]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    quaternions : xarray.DataArray</span>
+<span class="sd">      Quaternion dataArray from the raw dataset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    orientmat : numpy.ndarray</span>
+<span class="sd">      The earth2inst rotation maxtrix as calculated from the quaternions</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.spatial.transform.Rotation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">omat</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">quaternions</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">quaternions</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">size</span><span class="p">)))</span>
+    <span class="n">omat</span> <span class="o">=</span> <span class="n">omat</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;dim_0&quot;</span><span class="p">:</span> <span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">:</span> <span class="s2">&quot;inst&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_2&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">quaternions</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">from_quat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">quaternions</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">i</span><span class="p">),</span>
+                <span class="n">quaternions</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">i</span><span class="p">),</span>
+                <span class="n">quaternions</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">i</span><span class="p">),</span>
+                <span class="n">quaternions</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">i</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">omat</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+
+    <span class="c1"># quaternions in inst2earth reference frame, need to rotate to earth2inst</span>
+    <span class="n">omat</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">omat</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">earth</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">],</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;earth&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;earth&quot;</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Earth Reference Frame&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">inst</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">],</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;inst&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inst&quot;</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Instrument Reference Frame&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;coordinate&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">omat</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;earth&quot;</span><span class="p">:</span> <span class="n">earth</span><span class="p">,</span> <span class="s2">&quot;inst&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">quaternions</span><span class="o">.</span><span class="n">time</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="calc_tilt">
+<a class="viewcode-back" href="../../../../mhkit-python/api.dolfyn.html#mhkit.dolfyn.rotate.base.calc_tilt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_tilt</span><span class="p">(</span><span class="n">pitch</span><span class="p">,</span> <span class="n">roll</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;degree&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate &quot;tilt&quot;, the vertical inclination, from pitch and roll.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    roll : numpy.ndarray or xarray.DataArray</span>
+<span class="sd">      Instrument roll in degrees</span>
+<span class="sd">    pitch : numpy.ndarray or xarray.DataArray</span>
+<span class="sd">      Instrument pitch in degrees</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tilt : numpy.ndarray</span>
+<span class="sd">      Vertical inclination of the instrument in degrees</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;deg&quot;</span> <span class="ow">in</span> <span class="n">units</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
+        <span class="n">roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">roll</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s2">&quot;rad&quot;</span> <span class="ow">in</span> <span class="n">units</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid units&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+        <span class="n">pitch</span> <span class="o">=</span> <span class="n">pitch</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="n">roll</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="p">:</span>
+        <span class="n">roll</span> <span class="o">=</span> <span class="n">roll</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">tilt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">roll</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">pitch</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">tilt</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.river.graphics &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.river.graphics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.river.graphics</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_dataarray</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_xy_plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base function to plot any x vs y data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: array-like</span>
+<span class="sd">        Data for the x axis of plot</span>
+<span class="sd">    y: array-like</span>
+<span class="sd">        Data for y axis of plot</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : matplotlib.pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;legend.fontsize&quot;</span><span class="p">:</span> <span class="s2">&quot;x-large&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;axes.labelsize&quot;</span><span class="p">:</span> <span class="s2">&quot;x-large&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;axes.titlesize&quot;</span><span class="p">:</span> <span class="s2">&quot;x-large&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xtick.labelsize&quot;</span><span class="p">:</span> <span class="s2">&quot;x-large&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ytick.labelsize&quot;</span><span class="p">:</span> <span class="s2">&quot;x-large&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">xlabel</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylabel</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">ax</span>
+
+
+<div class="viewcode-block" id="plot_flow_duration_curve">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.graphics.plot_flow_duration_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_flow_duration_curve</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots discharge vs exceedance probability as a Flow Duration Curve (FDC)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    D: array-like</span>
+<span class="sd">        Discharge [m/s] indexed by time</span>
+
+<span class="sd">    F: array-like</span>
+<span class="sd">         Exceedance probability [unitless] indexed by time</span>
+
+<span class="sd">    label: string</span>
+<span class="sd">       Label to use in the legend</span>
+
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Sort by F</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="n">D</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="n">F</span><span class="p">})</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">],</span>
+        <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">],</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Discharge [$m^3/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Exceedance Probability&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_velocity_duration_curve">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.graphics.plot_velocity_duration_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_velocity_duration_curve</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots velocity vs exceedance probability as a Velocity Duration Curve (VDC)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    V: array-like</span>
+<span class="sd">        Velocity [m/s] indexed by time</span>
+
+<span class="sd">    F: array-like</span>
+<span class="sd">        Exceedance probability [unitless] indexed by time</span>
+
+<span class="sd">    label: string</span>
+<span class="sd">       Label to use in the legend</span>
+
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Sort by F</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="n">V</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="n">F</span><span class="p">})</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;V&quot;</span><span class="p">],</span>
+        <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">],</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Velocity [$m/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Exceedance Probability&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_power_duration_curve">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.graphics.plot_power_duration_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_power_duration_curve</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots power vs exceedance probability as a Power Duration Curve (PDC)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    P: array-like</span>
+<span class="sd">        Power [W] indexed by time</span>
+
+<span class="sd">    F: array-like</span>
+<span class="sd">        Exceedance probability [unitless] indexed by time</span>
+
+<span class="sd">    label: string</span>
+<span class="sd">       Label to use in the legend</span>
+
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Sort by F</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="n">P</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="n">F</span><span class="p">})</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">],</span>
+        <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">],</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Power [W]&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Exceedance Probability&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_discharge_timeseries">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.graphics.plot_discharge_timeseries">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_discharge_timeseries</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">time_dimension</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots discharge time-series</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    Q: array-like</span>
+<span class="sd">        Discharge [m3/s] indexed by time</span>
+
+<span class="sd">    time_dimension: string (optional)</span>
+<span class="sd">        Name of the xarray dimension corresponding to time. If not supplied,</span>
+<span class="sd">        defaults to the first dimension.</span>
+
+<span class="sd">    label: string</span>
+<span class="sd">       Label to use in the legend</span>
+
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">convert_to_dataarray</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">time_dimension</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">time_dimension</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">coords</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">Q</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">Q</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Discharge [$m^3/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_discharge_vs_velocity">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.graphics.plot_discharge_vs_velocity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_discharge_vs_velocity</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots discharge vs velocity data along with the polynomial fit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    D : array-like</span>
+<span class="sd">        Discharge [m/s] indexed by time</span>
+
+<span class="sd">    V : array-like</span>
+<span class="sd">        Velocity [m/s] indexed by time</span>
+
+<span class="sd">    polynomial_coeff: numpy polynomial</span>
+<span class="sd">        Polynomial coefficients, which can be computed using</span>
+<span class="sd">        `river.resource.polynomial_fit`.  If None, then the polynomial fit is</span>
+<span class="sd">        not included int the plot.</span>
+
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">D</span><span class="p">,</span>
+        <span class="n">V</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Discharge [$m^3/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Velocity [$m/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">polynomial_coeff</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">D</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">polynomial_coeff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Polynomial fit&quot;</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Discharge [$m^3/s$]&quot;</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Velocity [$m/s$]&quot;</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="plot_velocity_vs_power">
+<a class="viewcode-back" href="../../../mhkit-python/api.river.html#mhkit.river.graphics.plot_velocity_vs_power">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_velocity_vs_power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">polynomial_coeff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots velocity vs power data along with the polynomial fit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ------------</span>
+<span class="sd">    V : array-like</span>
+<span class="sd">        Velocity [m/s] indexed by time</span>
+
+<span class="sd">    P: array-like</span>
+<span class="sd">        Power [W] indexed by time</span>
+
+<span class="sd">    polynomial_coeff: numpy polynomial</span>
+<span class="sd">        Polynomial coefficients, which can be computed using</span>
+<span class="sd">        `river.resource.polynomial_fit`.  If None, then the polynomial fit is</span>
+<span class="sd">        not included int the plot.</span>
+
+<span class="sd">    ax : matplotlib axes object</span>
+<span class="sd">        Axes for plotting.  If None, then a new figure with a single</span>
+<span class="sd">        axes is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ax : matplotlib pyplot axes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+        <span class="n">V</span><span class="p">,</span>
+        <span class="n">P</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Velocity [$m/s$]&quot;</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Power [$W$]&quot;</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">polynomial_coeff</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">V</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">_xy_plot</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">polynomial_coeff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Polynomial fit&quot;</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Velocity [$m/s$]&quot;</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Power [$W$]&quot;</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

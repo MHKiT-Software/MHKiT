@@ -1,0 +1,622 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.loads.extreme.peaks &mdash; MHKiT v0.9.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=5b801204" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=5ea31d45" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/mhkit.css?v=20290a2c" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=c20ff342"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.loads.extreme.peaks</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.loads.extreme.peaks</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides utilities for analyzing wave data, specifically</span>
+<span class="sd">for identifying significant wave heights and estimating wave peak</span>
+<span class="sd">distributions using statistical methods. </span>
+
+<span class="sd">Functions:</span>
+<span class="sd">- _calculate_window_size: Calculates the window size for peak </span>
+<span class="sd">  independence using the auto-correlation function of wave peaks.</span>
+<span class="sd">- _peaks_over_threshold: Identifies peaks over a specified </span>
+<span class="sd">  threshold and returns independent storm peak values adjusted by</span>
+<span class="sd">  the threshold.</span>
+<span class="sd">- global_peaks: Identifies global peaks in a zero-centered </span>
+<span class="sd">  response time-series based on consecutive zero up-crossings.</span>
+<span class="sd">- number_of_short_term_peaks: Estimates the number of peaks within a</span>
+<span class="sd"> specified short-term period.</span>
+<span class="sd">- peaks_distribution_weibull: Estimates the peaks distribution by</span>
+<span class="sd"> fitting a Weibull distribution to the peaks of the response.</span>
+<span class="sd">- peaks_distribution_weibull_tail_fit: Estimates the peaks distribution</span>
+<span class="sd"> using the Weibull tail fit method.</span>
+<span class="sd">- automatic_hs_threshold: Determines the best significant wave height</span>
+<span class="sd"> threshold for the peaks-over-threshold method.</span>
+<span class="sd">- peaks_distribution_peaks_over_threshold: Estimates the peaks</span>
+<span class="sd"> distribution using the peaks over threshold method by fitting a </span>
+<span class="sd"> generalized Pareto distribution.</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Neary, V. S., S. Ahn, B. E. Seng, M. N. Allahdadi, T. Wang, Z. Yang, </span>
+<span class="sd"> and R. He (2020). &quot;Characterization of Extreme Wave Conditions for </span>
+<span class="sd"> Wave Energy Converter Design and Project Risk Assessment.” J. Mar. </span>
+<span class="sd"> Sci. Eng. 2020, 8(4), 289; https://doi.org/10.3390/jmse8040289.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span><span class="p">,</span> <span class="n">optimize</span><span class="p">,</span> <span class="n">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">rv_continuous</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">upcrossing</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_calculate_window_size</span><span class="p">(</span><span class="n">peaks</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the window size for independence based on the auto-correlation function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">        A NumPy array of peak values from a time series.</span>
+<span class="sd">    sampling_rate : float</span>
+<span class="sd">        The sampling rate of the time series in Hz (samples per second).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The window size determined by the auto-correlation function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_lags</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">14</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">/</span> <span class="n">sampling_rate</span><span class="p">)</span>
+    <span class="n">deviations_from_mean</span> <span class="o">=</span> <span class="n">peaks</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
+    <span class="n">acf</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">deviations_from_mean</span><span class="p">,</span> <span class="n">deviations_from_mean</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span>
+    <span class="n">lag</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">correlation_lags</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span>
+    <span class="n">idx_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">lag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">positive_lag</span> <span class="o">=</span> <span class="n">lag</span><span class="p">[</span><span class="n">idx_zero</span> <span class="p">:</span> <span class="n">idx_zero</span> <span class="o">+</span> <span class="n">n_lags</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">acf_positive</span> <span class="o">=</span> <span class="n">acf</span><span class="p">[</span><span class="n">idx_zero</span> <span class="p">:</span> <span class="n">idx_zero</span> <span class="o">+</span> <span class="n">n_lags</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">acf</span><span class="p">[</span><span class="n">idx_zero</span><span class="p">]</span>
+
+    <span class="n">window_size</span> <span class="o">=</span> <span class="n">sampling_rate</span> <span class="o">*</span> <span class="n">positive_lag</span><span class="p">[</span><span class="n">acf_positive</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">window_size</span> <span class="o">/</span> <span class="n">sampling_rate</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_peaks_over_threshold</span><span class="p">(</span>
+    <span class="n">peaks</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identifies peaks in a time series that are over a specified threshold and</span>
+<span class="sd">    returns a list of independent storm peak values adjusted by the threshold.</span>
+<span class="sd">    Independence is determined by a window size calculated from the auto-correlation</span>
+<span class="sd">    function to ensure that peaks are separated by at least the duration</span>
+<span class="sd">    corresponding to the first significant drop in auto-correlation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">        A NumPy array of peak values from a time series.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        The percentile threshold (0-1) to identify significant peaks.</span>
+<span class="sd">        For example, 0.95 for the 95th percentile.</span>
+<span class="sd">    sampling_rate : float</span>
+<span class="sd">        The sampling rate of the time series in Hz (samples per second).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[float]</span>
+<span class="sd">        A list of peak values exceeding the specified threshold, adjusted</span>
+<span class="sd">        for independence based on the calculated window size.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function requires the global_peaks function to identify the</span>
+<span class="sd">    maxima between consecutive zero up-crossings and uses the signal processing</span>
+<span class="sd">    capabilities from scipy.signal for calculating the auto-correlation function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">threshold_unit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;hazen&quot;</span><span class="p">)</span>
+    <span class="n">idx_peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">))</span>
+    <span class="n">idx_storm_peaks</span><span class="p">,</span> <span class="n">storm_peaks</span> <span class="o">=</span> <span class="n">global_peaks</span><span class="p">(</span><span class="n">idx_peaks</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">-</span> <span class="n">threshold_unit</span><span class="p">)</span>
+    <span class="n">idx_storm_peaks</span> <span class="o">=</span> <span class="n">idx_storm_peaks</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">independent_storm_peaks</span> <span class="o">=</span> <span class="p">[</span><span class="n">storm_peaks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">idx_independent_storm_peaks</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx_storm_peaks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="n">window</span> <span class="o">=</span> <span class="n">_calculate_window_size</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idx_storm_peaks</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">-</span> <span class="n">idx_independent_storm_peaks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">window</span><span class="p">:</span>
+            <span class="n">idx_independent_storm_peaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">independent_storm_peaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peaks</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">threshold_unit</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">peaks</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">independent_storm_peaks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">idx_independent_storm_peaks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="n">independent_storm_peaks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">peaks</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">threshold_unit</span>
+
+    <span class="k">return</span> <span class="n">independent_storm_peaks</span>
+
+
+<div class="viewcode-block" id="global_peaks">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.global_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">global_peaks</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the global peaks of a zero-centered response time-series.</span>
+
+<span class="sd">    The global peaks are the maxima between consecutive zero</span>
+<span class="sd">    up-crossings.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time: np.array</span>
+<span class="sd">        Time array.</span>
+<span class="sd">    data: np.array</span>
+<span class="sd">        Response time-series.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    time_peaks: np.array</span>
+<span class="sd">        Time array for peaks</span>
+<span class="sd">    peaks: np.array</span>
+<span class="sd">        Peak values of the response time-series</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Find zero up-crossings</span>
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">upcrossing</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># We also include the final point in the dataset</span>
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inds</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># As we want to return both the time and peak</span>
+    <span class="c1"># values, look for the index at the peak.</span>
+    <span class="c1"># The call to argmax gives us the index within the</span>
+    <span class="c1"># upcrossing period. Therefore to get the index in the</span>
+    <span class="c1"># original array we need to add on the index that</span>
+    <span class="c1"># starts the zero crossing period, ind1.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_peak_index</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ind1</span><span class="p">:</span><span class="n">ind2</span><span class="p">])</span> <span class="o">+</span> <span class="n">ind1</span>
+
+    <span class="n">peak_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">find_peak_index</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">inds</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ind1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])],</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">time</span><span class="p">[</span><span class="n">peak_inds</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">peak_inds</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="number_of_short_term_peaks">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.number_of_short_term_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">number_of_short_term_peaks</span><span class="p">(</span><span class="n">n_peaks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">time_st</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the number of peaks in a specified period.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_peaks : int</span>
+<span class="sd">        Number of peaks in analyzed timeseries.</span>
+<span class="sd">    time : float</span>
+<span class="sd">        Length of time of analyzed timeseries.</span>
+<span class="sd">    time_st: float</span>
+<span class="sd">        Short-term period for which to estimate the number of peaks.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    n_st : float</span>
+<span class="sd">        Number of peaks in short term period.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_peaks</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_peaks must be of type int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">n_peaks</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time must be of type float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_st</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time_st must be of type float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time_st</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">n_peaks</span> <span class="o">*</span> <span class="n">time_st</span> <span class="o">/</span> <span class="n">time</span></div>
+
+
+
+<div class="viewcode-block" id="peaks_distribution_weibull">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.peaks_distribution_weibull">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">peaks_distribution_weibull</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">rv_continuous</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the peaks distribution by fitting a Weibull</span>
+<span class="sd">    distribution to the peaks of the response.</span>
+
+<span class="sd">    The fitted parameters can be accessed through the `params` field of</span>
+<span class="sd">    the returned distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks_data : NDArray[np.float64]</span>
+<span class="sd">        Global peaks.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    peaks: scipy.stats.rv_frozen</span>
+<span class="sd">        Probability distribution of the peaks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;peaks_data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># peaks distribution</span>
+    <span class="n">peaks_params</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">exponweib</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+    <span class="n">peaks_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">peaks_params</span><span class="p">))</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">exponweib</span><span class="p">(</span><span class="o">**</span><span class="n">peaks_params</span><span class="p">)</span>
+    <span class="c1"># save the parameter info</span>
+    <span class="n">peaks</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">peaks_params</span>
+    <span class="k">return</span> <span class="n">peaks</span></div>
+
+
+
+<span class="c1"># pylint: disable=R0914</span>
+<div class="viewcode-block" id="peaks_distribution_weibull_tail_fit">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.peaks_distribution_weibull_tail_fit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">peaks_distribution_weibull_tail_fit</span><span class="p">(</span>
+    <span class="n">peaks_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rv_continuous</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the peaks distribution using the Weibull tail fit</span>
+<span class="sd">    method.</span>
+
+<span class="sd">    The fitted parameters can be accessed through the `params` field of</span>
+<span class="sd">    the returned distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks_data : np.array</span>
+<span class="sd">        Global peaks.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    peaks: scipy.stats.rv_frozen</span>
+<span class="sd">        Probability distribution of the peaks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;peaks_data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Initial guess for Weibull parameters</span>
+    <span class="n">p_0</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">exponweib</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">p_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p_0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p_0</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
+    <span class="c1"># Approximate CDF</span>
+    <span class="n">peaks_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span>
+    <span class="n">n_peaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span>
+    <span class="n">cdf_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_peaks</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_peaks</span><span class="p">):</span>
+        <span class="n">cdf_positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_peaks</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="c1"># Divide into seven sets &amp; fit Weibull</span>
+    <span class="n">subset_shape_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">subset_scale_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">set_lim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.60</span><span class="p">,</span> <span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">weibull_cdf</span><span class="p">(</span><span class="n">data_points</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">exponweib</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">data_points</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">local_set</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+        <span class="n">global_peaks_set</span> <span class="o">=</span> <span class="n">peaks_data</span><span class="p">[(</span><span class="n">cdf_positions</span> <span class="o">&gt;</span> <span class="n">set_lim</span><span class="p">[</span><span class="n">local_set</span><span class="p">])]</span>
+        <span class="n">cdf_positions_set</span> <span class="o">=</span> <span class="n">cdf_positions</span><span class="p">[(</span><span class="n">cdf_positions</span> <span class="o">&gt;</span> <span class="n">set_lim</span><span class="p">[</span><span class="n">local_set</span><span class="p">])]</span>
+        <span class="c1"># pylint: disable=W0632</span>
+        <span class="n">p_opt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">curve_fit</span><span class="p">(</span>
+            <span class="n">weibull_cdf</span><span class="p">,</span> <span class="n">global_peaks_set</span><span class="p">,</span> <span class="n">cdf_positions_set</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="n">p_0</span>
+        <span class="p">)</span>
+        <span class="n">subset_shape_params</span><span class="p">[</span><span class="n">local_set</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">subset_scale_params</span><span class="p">[</span><span class="n">local_set</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_opt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># peaks distribution</span>
+    <span class="n">peaks_params</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">subset_shape_params</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">subset_scale_params</span><span class="p">)]</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+    <span class="n">peaks_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">peaks_params</span><span class="p">))</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">exponweib</span><span class="p">(</span><span class="o">**</span><span class="n">peaks_params</span><span class="p">)</span>
+    <span class="c1"># save the parameter info</span>
+    <span class="n">peaks</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">peaks_params</span>
+    <span class="n">peaks</span><span class="o">.</span><span class="n">subset_shape_params</span> <span class="o">=</span> <span class="n">subset_shape_params</span>
+    <span class="n">peaks</span><span class="o">.</span><span class="n">subset_scale_params</span> <span class="o">=</span> <span class="n">subset_scale_params</span>
+    <span class="k">return</span> <span class="n">peaks</span></div>
+
+
+
+<span class="c1"># pylint: disable=R0914</span>
+<div class="viewcode-block" id="automatic_hs_threshold">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.automatic_hs_threshold">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">automatic_hs_threshold</span><span class="p">(</span>
+    <span class="n">peaks</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">sampling_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">initial_threshold_range</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.990</span><span class="p">,</span> <span class="mf">0.995</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">),</span>
+    <span class="n">max_refinement</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the best significant wave height threshold for the</span>
+<span class="sd">    peaks-over-threshold method.</span>
+
+<span class="sd">    This method was developed by:</span>
+
+<span class="sd">    &gt; Neary, V. S., S. Ahn, B. E. Seng, M. N. Allahdadi, T. Wang, Z. Yang and R. He (2020).</span>
+<span class="sd">    &gt; &quot;Characterization of Extreme Wave Conditions for Wave Energy Converter Design and</span>
+<span class="sd">    &gt;   Project Risk Assessment.”</span>
+<span class="sd">    &gt; J. Mar. Sci. Eng. 2020, 8(4), 289; https://doi.org/10.3390/jmse8040289.</span>
+
+<span class="sd">    Please cite this paper if using this method.</span>
+
+<span class="sd">    After all thresholds in the initial range are evaluated, the search</span>
+<span class="sd">    range is refined around the optimal point until either (i) there</span>
+<span class="sd">    is minimal change from the previous refinement results, (ii) the</span>
+<span class="sd">    number of data points become smaller than about 1 per year, or (iii)</span>
+<span class="sd">    the maximum number of iterations is reached.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks: NDArray[np.float64]</span>
+<span class="sd">        Peak values of the response time-series.</span>
+<span class="sd">    sampling_rate: float</span>
+<span class="sd">        Sampling rate in hours.</span>
+<span class="sd">    initial_threshold_range: Tuple[float, float, float]</span>
+<span class="sd">        Initial range of thresholds to search. Described as</span>
+<span class="sd">        (min, max, step).</span>
+<span class="sd">    max_refinement: int</span>
+<span class="sd">        Maximum number of times to refine the search range.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Tuple[float, float]</span>
+<span class="sd">        The best threshold and its corresponding unit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sampling_rate</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;sampling_rate must be of type float or int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">sampling_rate</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;peaks must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">initial_threshold_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;initial_threshold_range must be length 3. Got: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">initial_threshold_range</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_refinement</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;max_refinement must be of type int. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">max_refinement</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">range_min</span><span class="p">,</span> <span class="n">range_max</span><span class="p">,</span> <span class="n">range_step</span> <span class="o">=</span> <span class="n">initial_threshold_range</span>
+    <span class="n">best_threshold</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">365.25</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">/</span> <span class="n">sampling_rate</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_refinement</span><span class="p">):</span>
+        <span class="n">thresholds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">range_min</span><span class="p">,</span> <span class="n">range_max</span><span class="p">,</span> <span class="n">range_step</span><span class="p">)</span>
+        <span class="n">correlations</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">:</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">genpareto</span>
+            <span class="n">over_threshold</span> <span class="o">=</span> <span class="n">_peaks_over_threshold</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">)</span>
+            <span class="n">rate_per_year</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">over_threshold</span><span class="p">)</span> <span class="o">/</span> <span class="n">years</span>
+            <span class="k">if</span> <span class="n">rate_per_year</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">distributions_parameters</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">over_threshold</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">correlation</span><span class="p">)</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span>
+                <span class="n">peaks</span><span class="p">,</span> <span class="n">distributions_parameters</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+            <span class="n">correlations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correlation</span><span class="p">)</span>
+
+        <span class="n">max_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">correlations</span><span class="p">)</span>
+        <span class="n">minimal_change</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">best_threshold</span> <span class="o">-</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.0005</span>
+        <span class="n">best_threshold</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">minimal_change</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">max_refinement</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">range_step</span> <span class="o">/=</span> <span class="mi">10</span>
+        <span class="k">if</span> <span class="n">max_i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">thresholds</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">range_min</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">range_max</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">range_step</span>
+        <span class="k">elif</span> <span class="n">max_i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">range_min</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">9</span> <span class="o">*</span> <span class="n">range_step</span>
+            <span class="n">range_max</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">range_min</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">range_max</span> <span class="o">=</span> <span class="n">thresholds</span><span class="p">[</span><span class="n">max_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">best_threshold_unit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">best_threshold</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;hazen&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">best_threshold</span><span class="p">,</span> <span class="n">best_threshold_unit</span></div>
+
+
+
+<div class="viewcode-block" id="peaks_distribution_peaks_over_threshold">
+<a class="viewcode-back" href="../../../../mhkit-python/api.loads.html#mhkit.loads.extreme.peaks_distribution_peaks_over_threshold">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">peaks_distribution_peaks_over_threshold</span><span class="p">(</span>
+    <span class="n">peaks_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rv_continuous</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the peaks distribution using the peaks over threshold</span>
+<span class="sd">    method.</span>
+
+<span class="sd">    This fits a generalized Pareto distribution to all the peaks above</span>
+<span class="sd">    the specified threshold. The distribution is only defined for values</span>
+<span class="sd">    above the threshold and therefore cannot be used to obtain integral</span>
+<span class="sd">    metrics such as the expected value. A typical choice of threshold is</span>
+<span class="sd">    1.4 standard deviations above the mean. The peaks over threshold</span>
+<span class="sd">    distribution can be accessed through the `pot` field of the returned</span>
+<span class="sd">    peaks distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    peaks_data : NDArray[np.float64]</span>
+<span class="sd">        Global peaks.</span>
+<span class="sd">    threshold : Optional[float]</span>
+<span class="sd">        Threshold value. Only peaks above this value will be used.</span>
+<span class="sd">        Default value calculated as: `np.mean(x) + 1.4 * np.std(x)`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    peaks: rv_continuous</span>
+<span class="sd">        Probability distribution of the peaks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;peaks_data must be of type np.ndarray. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;If specified, threshold must be of type float. Got: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># peaks over threshold</span>
+    <span class="n">peaks_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span>
+    <span class="n">pot</span> <span class="o">=</span> <span class="n">peaks_data</span><span class="p">[</span><span class="n">peaks_data</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">-</span> <span class="n">threshold</span>
+    <span class="n">npeaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks_data</span><span class="p">)</span>
+    <span class="n">npot</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>
+    <span class="c1"># Fit a generalized Pareto</span>
+    <span class="n">pot_params</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">genpareto</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">pot</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+    <span class="n">pot_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">pot_params</span><span class="p">))</span>
+    <span class="n">pot</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">genpareto</span><span class="p">(</span><span class="o">**</span><span class="n">pot_params</span><span class="p">)</span>
+    <span class="c1"># save the parameter info</span>
+    <span class="n">pot</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">pot_params</span>
+
+    <span class="c1"># peaks</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">_Peaks</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">pot_distribution</span><span class="p">:</span> <span class="n">rv_continuous</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pot</span> <span class="o">=</span> <span class="n">pot_distribution</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># pylint: disable=arguments-differ</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_points</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+            <span class="c1"># Convert data_points to a NumPy array if it&#39;s not already</span>
+            <span class="n">data_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">data_points</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">data_points</span><span class="p">)</span>
+
+            <span class="c1"># Use the instance&#39;s threshold attribute instead of passing as a parameter</span>
+            <span class="n">below_threshold</span> <span class="o">=</span> <span class="n">data_points</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">below_threshold</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+            <span class="n">above_threshold_indices</span> <span class="o">=</span> <span class="o">~</span><span class="n">below_threshold</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">above_threshold_indices</span><span class="p">):</span>
+                <span class="n">points_above_threshold</span> <span class="o">=</span> <span class="n">data_points</span><span class="p">[</span><span class="n">above_threshold_indices</span><span class="p">]</span>
+                <span class="n">pot_ccdf</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pot</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span>
+                    <span class="n">points_above_threshold</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span>
+                <span class="p">)</span>
+                <span class="n">prop_pot</span> <span class="o">=</span> <span class="n">npot</span> <span class="o">/</span> <span class="n">npeaks</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">above_threshold_indices</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">prop_pot</span> <span class="o">*</span> <span class="n">pot_ccdf</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">_Peaks</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">,</span> <span class="n">pot_distribution</span><span class="o">=</span><span class="n">pot</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
+    <span class="n">peaks</span><span class="o">.</span><span class="n">pot</span> <span class="o">=</span> <span class="n">pot</span>
+    <span class="k">return</span> <span class="n">peaks</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
