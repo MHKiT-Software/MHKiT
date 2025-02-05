@@ -15,6 +15,8 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Setup Conda Environment
         uses: conda-incubator/setup-miniconda@v2
@@ -28,11 +30,12 @@ jobs:
         run: |
           cd docs
           rm -rf _build/*
+          cp -r ../MHKiT-Python/examples/* source/
           sphinx-build -b html source _build/html
-          # Create .nojekyll file to prevent GitHub Pages from ignoring files that begin with an underscore
+          cp ../MHKiT-MATLAB/examples/*.html ./_build/html/mhkit-matlab 
           touch _build/html/.nojekyll
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (Main Branch)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -41,3 +44,14 @@ jobs:
           force_orphan: true
           enable_jekyll: false
           full_commit_message: ${{ github.event.head_commit.message }}
+
+      - name: Deploy Preview for PRs
+        if: github.event_name == 'pull_request'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.GH_PAGES_DEPLOY_KEY }}
+          publish_dir: ./docs/_build/html
+          destination_dir: pr-previews/${{ github.event.number }}
+          external_repository: MHKiT-Software/MHKiT
+          keep_files: true
+          enable_jekyll: false
