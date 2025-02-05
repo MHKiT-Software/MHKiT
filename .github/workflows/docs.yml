@@ -45,6 +45,14 @@ jobs:
           enable_jekyll: false
           full_commit_message: ${{ github.event.head_commit.message }}
 
+      - name: Setup SSH
+        if: github.event_name == 'pull_request'
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GH_PAGES_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - name: Deploy Preview for PRs
         if: github.event_name == 'pull_request'
         uses: peaceiris/actions-gh-pages@v3
