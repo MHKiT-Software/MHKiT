@@ -7,6 +7,8 @@ Passive Acoustics Module
     :members:
     :no-undoc-members:
     :show-inheritance:
+    :imported-members:
+    :exclude-members: VelBinner, epoch2dt64, dt642epoch
 
     .. automodule:: mhkit.acoustics.analysis
 

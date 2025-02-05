@@ -78,7 +78,7 @@ if "%1" == "html" (
 	%SPHINXBUILD% -b html %ALLSPHINXOPTS% %BUILDDIR%/html
 	if errorlevel 1 exit /b 1
 	echo.
-	Copy "..\MHKiT-MATLAB\examples\*.html" ".\mhkit-matlab\" 	
+	Copy "..\MHKiT-MATLAB\examples\*.html" ".\_build\html\mhkit-matlab\" 	
 	echo.Build finished. The HTML pages are in %BUILDDIR%/html
 	goto end
 )
