@@ -68,6 +68,11 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Acoustic Doppler Current Profiler (ADCP) analysis workflow
      - current, resource
+   * - ADCP Discharge Example
+     - `Notebook <adcp_discharge_example.ipynb>`__
+     - Coming soon
+     - Acoustic Doppler Current Profiler (ADCP) discharge workflow
+     - current, resource
    * - ADV Example
      - `Notebook <adv_example.ipynb>`__
      - Coming soon
@@ -113,6 +118,11 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/wecsim_example.html>`__
      - Visualize output from WEC-Sim
      - wave
+   * - WEC-Sim Power Performance
+     - `Notebook <wecsim_power_performance_example.ipynb>`__
+     - `Live Script <mhkit-matlab/wecsim_power_performance_example.html>`__
+     - Visualize output from WEC-Sim
+     - wave, resource
    * - SWAN
      - `Notebook <SWAN_example.ipynb>`__
      - `Live Script <mhkit-matlab/SWAN_example.html>`__
@@ -158,16 +168,16 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/short_term_extremes_example.html>`__
      - Visualize probability distribution of short-term time series data
      - loads, wave
-   * - Electrical Power Analysis
-     - `Notebook <power_example.ipynb>`__
-     - `Live Script <mhkit-matlab/power_example.html>`__
-     - Compute 3-phase power quantities of interest
-     - power, iec
    * - Mooring
      - `Notebook <mooring_example.ipynb>`__
      - Coming soon
      - Visualize and analyze output from MoorDyn
      - mooring, wave
+   * - Electrical Power Analysis
+     - `Notebook <power_example.ipynb>`__
+     - `Live Script <mhkit-matlab/power_example.html>`__
+     - Compute 3-phase power quantities of interest
+     - power, iec
    * - Acoustics
      - `Notebook <acoustics_example.ipynb>`__
      - Coming soon
