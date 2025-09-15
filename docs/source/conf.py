@@ -43,9 +43,11 @@ autosectionlabel_prefix_document = True
 
 #
 #
-import sphinx_rtd_theme
 import os
 import sys
+import re
+from pathlib import Path
+
 #
 #Specify MHKiT-MATLAB path for API documentation by pointing to MHKiT-MATLAB submodule
 this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -53,7 +55,15 @@ matlab_src_dir = os.path.abspath( '../../MHKiT-MATLAB/')
 sys.path.insert(0, matlab_src_dir)
 
 #
-from mhkit import __version__ 
+# Get version from MHKiT-Python __init__.py to avoid circular import issues
+mhkit_init_path = Path(this_dir) / "../../MHKiT-Python/mhkit/__init__.py"
+with open(mhkit_init_path, "r") as f:
+    version_file = f.read()
+    version_match = re.search(r'^__version__ = [\'"](.*?)[\'"$]', version_file, re.M)
+    if version_match:
+        __version__ = version_match.group(1)
+    else:
+        raise ValueError("Version information not found in MHKiT-Python __init__.py")
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
