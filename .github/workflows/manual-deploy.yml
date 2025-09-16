@@ -38,6 +38,23 @@ jobs:
           cd MHKiT-Python
           pip install -e .
 
+      - name: Verify MHKiT Version
+        shell: bash -l {0}
+        run: |
+          conda activate mhkit-docs
+          python -c "import mhkit; print('MHKiT version:', mhkit.__version__)"
+
+      - name: Test MHKiT Functionality
+        shell: bash -l {0}
+        run: |
+          conda activate mhkit-docs
+          python -c "
+          import mhkit
+          ED, AP = mhkit.river.performance.circular(30)
+          print('ED =', ED)
+          print('AP =', AP)
+          "
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
