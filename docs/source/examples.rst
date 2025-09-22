@@ -180,7 +180,7 @@ Search for the following tags to identify relevant examples:
      - power, iec
    * - Acoustics
      - `Notebook <acoustics_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/acoustics_example.html>`__
      - Ingest, analyze and visualize passive acoustic output
      - acoustics, iec
    * - Strain Gauge Processing
