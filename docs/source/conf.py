@@ -47,6 +47,9 @@ import sphinx_rtd_theme
 import os
 import sys
 #
+# Import MHKiT version before adding MATLAB path to avoid conflicts
+from mhkit import __version__
+
 #Specify MHKiT-MATLAB path for API documentation by pointing to MHKiT-MATLAB submodule
 this_dir = os.path.dirname(os.path.abspath(__file__))
 matlab_src_dir = os.path.abspath( '../../MHKiT-MATLAB/')
