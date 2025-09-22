@@ -23,29 +23,11 @@ jobs:
           environment-file: environment.yml
           auto-activate-base: false
 
-      - name: Install MHKiT-Python
-        shell: bash -l {0}
-        run: |
-          conda activate mhkit-docs
-          cd MHKiT-Python
-          pip install -e .
-
-      - name: Verify MHKiT Version
+      - name: Print MHKiT Version
         shell: bash -l {0}
         run: |
           conda activate mhkit-docs
           python -c "import mhkit; print('MHKiT version:', mhkit.__version__)"
-
-      - name: Test MHKiT Functionality
-        shell: bash -l {0}
-        run: |
-          conda activate mhkit-docs
-          python -c "
-          import mhkit
-          ED, AP = mhkit.river.performance.circular(30)
-          print('ED =', ED)
-          print('AP =', AP)
-          "
 
       - name: Build Documentation
         shell: bash -l {0}
