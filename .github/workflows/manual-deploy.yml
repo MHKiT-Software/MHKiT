@@ -31,6 +31,12 @@ jobs:
           environment-file: environment.yml
           auto-activate-base: false
 
+      - name: Print MHKiT Version
+        shell: bash -l {0}
+        run: |
+          conda activate mhkit-docs
+          python -c "import mhkit; print('MHKiT version:', mhkit.__version__)"
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -45,7 +51,7 @@ jobs:
           rm -rf _build/*
           cp -r ../MHKiT-Python/examples/* source/
           sphinx-build -b html source _build/html
-          cp ../MHKiT-MATLAB/examples/*.html ./_build/html/mhkit-matlab 
+          cp ../MHKiT-MATLAB/examples/*.html ./_build/html/mhkit-matlab
           touch _build/html/.nojekyll
 
       - name: Deploy PR Preview
