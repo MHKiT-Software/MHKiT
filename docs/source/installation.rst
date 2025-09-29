@@ -9,7 +9,9 @@ Requirements
 ^^^^^^^^^^^^^^^
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_.
-It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies:
+It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ (a fully featured Python installer with a GUI) 
+or `Miniconda <https://docs.anaconda.com/miniconda/#quick-command-line-install>`_ (a lightweight installer with the ``conda`` command line utility).  
+Both will include most of MHKiT-Python's package dependencies:
 
 * `Xarray <https://docs.xarray.dev/en/stable/>`_: used for data storage and analysis
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
@@ -17,7 +19,7 @@ It is recommended to use the `Anaconda Python Distribution <https://www.anaconda
 * `SciPy <https://docs.scipy.org>`_: used for numerical methods, statistics, and signal processing
 * `Matplotlib <http://matplotlib.org>`_: used to produce figures
 * `Requests <https://requests.readthedocs.io/>`_: used to get data from websites
-* `Pecos v0.1.9 <https://pecos.readthedocs.io/>`_: used for quality control analysis
+* `Pecos <https://pecos.readthedocs.io/>`_: used for quality control analysis
 
 
 Install MHKiT-Python
@@ -26,16 +28,17 @@ Install MHKiT-Python
 Option 1: Install from Python
 """"""""""""""""""""""""""""""""""""
 
-This option is recommended for MHKiT-Python users.
-To install MHKiT-Python using using `conda`::
+This option is recommended as a fast installation for MHKiT-Python users.
+To install MHKiT-Python using ``conda``, in an Anaconda Prompt::
 
 	conda install -c conda-forge mhkit
 
 Option 2: Clone Repository from GitHub
 """"""""""""""""""""""""""""""""""""""""""
 
-This option is recommended for MHKiT-Python developers.
-To clone MHKiT-Python using `git <https://git-scm.com/>`_::
+This option is recommended for MHKiT-Python users who want access to example notebooks and developers.
+Download and install your preferred version of `git <https://git-scm.com/>`_.
+To clone MHKiT-Python::
 
 	git clone https://github.com/MHKiT-Software/MHKiT-Python
 	cd MHKiT-Python
@@ -44,7 +47,7 @@ To install a local, editable version of MHKiT-Python using `pip <https://pip.pyp
 
 	pip install -e .["all"]
 
-An `environment YAML file <https://github.com/MHKiT-Software/MHKiT-Python/blob/main/environment.yml>_` is also provided that can create the base environment required by MHKiT. 
+An `environment YAML file <https://github.com/MHKiT-Software/MHKiT-Python/blob/main/environment.yml>`_ is also provided that can create the base environment required by MHKiT. 
 MHKiT can then be installed into that environment using any of the provided methods.
 
 Option 3: Module-specific Install from Python
@@ -56,7 +59,7 @@ To install a single MHKiT module, e.g. the wave module, and its dependencies, us
 	pip install mhkit["wave"]
 
 Note that ``pip install mhkit`` only installs the base MHKiT dependencies and not the entire software.
-To install all MHKiT dependencies use ::
+To install all MHKiT dependencies use::
 
 	pip install mhkit["all"]
 
