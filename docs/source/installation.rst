@@ -29,11 +29,7 @@ Option 1: Install from Python
 """"""""""""""""""""""""""""""""""""
 
 This option is recommended for MHKiT-Python users.
-To install MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
-
-	pip install mhkit["all"]
-
-Or, to install MHKiT-Python using `conda`::
+To install MHKiT-Python using using `conda`::
 
 	conda install -c conda-forge mhkit
 
@@ -46,7 +42,7 @@ To clone MHKiT-Python using `git <https://git-scm.com/>`_::
 	git clone https://github.com/MHKiT-Software/MHKiT-Python
 	cd MHKiT-Python
 
-To install MHKiT-Python, use a local, editable pip installation::
+To install a local, editable version of MHKiT-Python using `pip <https://pip.pypa.io/en/stable/>`_::
 
 	pip install -e .["all"]
 
@@ -62,7 +58,9 @@ To install a single MHKiT module, e.g. the wave module, and its dependencies, us
 	pip install mhkit["wave"]
 
 Note that `pip install mhkit` only installs the base MHKiT dependencies and not the entire software.
-To install all MHKiT dependencies use `pip install mhkit["all"]`.
+To install all MHKiT dependencies use ::
+
+	pip install mhkit["all"]
 
 
 .. Note::
