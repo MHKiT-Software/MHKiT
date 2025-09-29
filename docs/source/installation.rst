@@ -5,13 +5,11 @@ MHKiT-Python Installation
 
 The following sections includes installation instructions for `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_.
 
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has several Python package dependencies.
-It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies.
-
-
 Requirements
 ^^^^^^^^^^^^^^^
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_  and has the following Python packages dependencies:
+
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_.
+It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ to install Python since it includes most of MHKiT-Python's package dependencies:
 
 * `Xarray <https://docs.xarray.dev/en/stable/>`_: used for data storage and analysis
 * `Pandas <http://pandas.pydata.org>`_: used for data storage and analysis
@@ -46,7 +44,7 @@ To install a local, editable version of MHKiT-Python using `pip <https://pip.pyp
 
 	pip install -e .["all"]
 
-An `environment YAML file <https://github.com/MHKiT-Software/MHKiT-Python/blob/main/environment.yml>` is also provided that can create the base environment required by MHKiT. 
+An `environment YAML file <https://github.com/MHKiT-Software/MHKiT-Python/blob/main/environment.yml>_` is also provided that can create the base environment required by MHKiT. 
 MHKiT can then be installed into that environment using any of the provided methods.
 
 Option 3: Module-specific Install from Python
@@ -57,7 +55,7 @@ To install a single MHKiT module, e.g. the wave module, and its dependencies, us
 
 	pip install mhkit["wave"]
 
-Note that `pip install mhkit` only installs the base MHKiT dependencies and not the entire software.
+Note that ``pip install mhkit`` only installs the base MHKiT dependencies and not the entire software.
 To install all MHKiT dependencies use ::
 
 	pip install mhkit["all"]
