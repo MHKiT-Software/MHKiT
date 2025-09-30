@@ -8,7 +8,7 @@ The following sections includes installation instructions for `MHKiT-Python <htt
 Requirements
 ^^^^^^^^^^^^^^^
 
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.8-3.11) <https://www.python.org/>`_.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ requires `Python (3.10-3.12) <https://www.python.org/>`_.
 It is recommended to use the `Anaconda Python Distribution <https://www.anaconda.com/distribution/>`_ (a fully featured Python installer with a GUI) 
 or `Miniconda <https://docs.anaconda.com/miniconda/#quick-command-line-install>`_ (a lightweight installer with the ``conda`` command line utility).  
 Both will include most of MHKiT-Python's package dependencies:
