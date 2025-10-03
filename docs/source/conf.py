@@ -47,13 +47,13 @@ import sphinx_rtd_theme
 import os
 import sys
 #
+# Import MHKiT version before adding MATLAB path to avoid conflicts
+from mhkit import __version__
+
 #Specify MHKiT-MATLAB path for API documentation by pointing to MHKiT-MATLAB submodule
 this_dir = os.path.dirname(os.path.abspath(__file__))
 matlab_src_dir = os.path.abspath( '../../MHKiT-MATLAB/')
-sys.path.insert(0, matlab_src_dir)
-
-#
-from mhkit import __version__ 
+sys.path.insert(0, matlab_src_dir) 
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -156,6 +156,19 @@ html_theme = 'sphinx_rtd_theme'
 # Added Google Analytics to theme based on https://github.com/readthedocs/sphinx_rtd_theme/pull/411
 googleanalytics_id = 'UA-164358105-1'
 googleanalytics_enabled = True
+
+# Configure RTD theme to display version
+# https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html
+html_theme_options = {
+    # Show the version of the python package in the top right under the project name
+    # Per the documentation this is deprecated, but this is working and the deprecation suggestion
+    # does not work for us since we are not hosted on Read the Docs:
+    # Deprecated since version 3.0.0: Removed in favor of version_selector and language_selector.
+    # But version_selector required the documentation to be "served on Read the Docs"
+    # version_selector
+    #    Display a version selector below the title. This feature makes usage of Read the Docs Addons for this, so it’s required the documentation to be hosted on Read the Docs. It only appears when there are more than 1 active version.
+    "display_version": True,
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
