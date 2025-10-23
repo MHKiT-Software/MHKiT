@@ -55,7 +55,7 @@ Search for the following tags to identify relevant examples:
      - current, resource, iec
    * - Tidal Example
      - `Notebook <tidal_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/tidal_example.html>`__
      - Visualize velocity duration curve from NOAA tidal data
      - current, resource, iec
    * - Tidal Power Performance Example
@@ -65,12 +65,17 @@ Search for the following tags to identify relevant examples:
      - current, iec
    * - ADCP Example
      - `Notebook <adcp_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/adcp_example.html>`__
      - Acoustic Doppler Current Profiler (ADCP) analysis workflow
+     - current, resource
+   * - ADCP Discharge Example
+     - `Notebook <adcp_discharge_example.ipynb>`__
+     - Coming soon
+     - Acoustic Doppler Current Profiler (ADCP) discharge workflow
      - current, resource
    * - ADV Example
      - `Notebook <adv_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/adv_example.html>`__
      - Acoustic Doppler Velocimetry (ADV) analysis workflow
      - current, resource
    * - Tanana River Resource Characterization
@@ -113,6 +118,11 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/wecsim_example.html>`__
      - Visualize output from WEC-Sim
      - wave
+   * - WEC-Sim Power Performance
+     - `Notebook <wecsim_power_performance_example.ipynb>`__
+     - `Live Script <mhkit-matlab/wecsim_power_performance_example.html>`__
+     - Visualize output from WEC-Sim
+     - wave, resource
    * - SWAN
      - `Notebook <SWAN_example.ipynb>`__
      - `Live Script <mhkit-matlab/SWAN_example.html>`__
@@ -130,7 +140,7 @@ Search for the following tags to identify relevant examples:
      - wave, resource
    * - Upcrossing Analysis
      - `Notebook <upcrossing_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/upcrossing_example.html>`__
      - Analyze the surface elevation of a wave
      - wave
    * - Loads Analysis
@@ -158,24 +168,24 @@ Search for the following tags to identify relevant examples:
      - `Live Script <mhkit-matlab/short_term_extremes_example.html>`__
      - Visualize probability distribution of short-term time series data
      - loads, wave
+   * - Mooring
+     - `Notebook <mooring_example.ipynb>`__
+     - `Live Script <mhkit-matlab/mooring_example.html>`__
+     - Visualize and analyze output from MoorDyn
+     - mooring, wave
    * - Electrical Power Analysis
      - `Notebook <power_example.ipynb>`__
      - `Live Script <mhkit-matlab/power_example.html>`__
      - Compute 3-phase power quantities of interest
      - power, iec
-   * - Mooring
-     - `Notebook <mooring_example.ipynb>`__
-     - Coming soon
-     - Visualize and analyze output from MoorDyn
-     - mooring, wave
    * - Acoustics
      - `Notebook <acoustics_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/acoustics_example.html>`__
      - Ingest, analyze and visualize passive acoustic output
      - acoustics, iec
    * - Strain Gauge Processing
      - `Notebook <strain_measurement_example.ipynb>`__
-     - Coming soon
+     - `Live Script <mhkit-matlab/strain_measurement_example.html>`__
      - Ingest, analyze and visualize strain gauge measurements
      - strain
 
