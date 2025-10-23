@@ -3,6 +3,20 @@
 Release Notes
 =============
 
+MHKiT-Python v1.0.1
+-------------------
+This bug fix resolves a faulty build on Linux that was automatically uploaded to pypi in the v1.0.0 release.
+Several tests are added to catch and prevent similar issues in the future.
+
+Bug fixes
+* Fix pip module package building by @simmsa in #421
+* Fix failing pip tests by @simmsa in #422
+* Fix pip module tests by @simmsa in #423
+* Actions: Remove --no-index from Wheel test build command by @simmsa in #424
+* Fix wheel build test by @akeeste in #426
+
+**Full Changelog**: https://github.com/MHKiT-Software/MHKiT-Python/compare/v1.0.0...v1.0.1
+
 MHKiT-Python v1.0.0
 -------------------
 New Features
