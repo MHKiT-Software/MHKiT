@@ -14,8 +14,7 @@ The tidal module uses timeseries data of velocity and direction.
     
 IO
 """"""""""""
-The io submodule contains the following functions to
-load NOAA velocity/ direction data.
+The io submodule contains functions to load NOAA and Delft3D data.
 
 .. automodule:: mhkit.tidal.io
    :members:
@@ -27,11 +26,21 @@ load NOAA velocity/ direction data.
             
       ~noaa.request_noaa_data
       ~noaa.read_noaa_json
+      ~d3d.get_all_time
+      ~d3d.index_to_seconds
+      ~d3d.seconds_to_index
+      ~d3d.get_layer_data
+      ~d3d.create_points
+      ~d3d.variable_interpolation
+      ~d3d.get_all_data_points
+      ~d3d.turbulent_intensity
     
 Resource
 """"""""""""
-The resource module allows the user to calculate the ebb and flood directions
-of the tidal resource given a timeseries of directional data. 
+This module provides utility functions for analyzing river and tidal
+flow directions and velocities. It includes tools for determining
+principal flow directions, classifying ebb and flood cycles, and
+computing probability distributions of flow velocities.
 
 .. automodule:: mhkit.tidal.resource
    :members:
@@ -42,18 +51,15 @@ of the tidal resource given a timeseries of directional data.
        :nosignatures:
 
        ~principal_flow_directions
-       ~Froude_number
+       ~froude_number
        ~exceedance_probability
 
 Performance
 """"""""""""
-The performance submodule contains functions to compute equivalent diameter
-and capture area for circular, ducted, rectangular, adn multiple circular devices.
-A circular device is a vertical axis water turbine (VAWT). A
-rectangular device is a horizontal axis water turbine (HAWT). A ducted device
-is an enclosed VAWT. A multiple-circular devices is a device with
-multiple VAWTs per device. This submodule also contains functions for computing 
-the tip speed ratio and power coefficient from a blade/rotor type device.
+This module provides functions for analyzing the performance of tidal energy
+devices using Acoustic Doppler Current Profiler (ADCP) data. It includes
+methods for calculating power curves, efficiency, velocity profiles, and
+other metrics relevant to marine energy devices.
 
 .. automodule:: mhkit.tidal.performance
    :members:
@@ -75,8 +81,9 @@ the tip speed ratio and power coefficient from a blade/rotor type device.
 	
 Graphics
 """"""""""""
-The graphics submodule contains functions to plot tidal resource data 
-and related metrics.
+This module provides functions for visualizing tidal resource and performance data.
+It includes tools for creating polar plots, velocity distributions, exceedance
+probability charts, and current time-series plots.
 
 .. automodule:: mhkit.tidal.graphics
    :members:
