@@ -9,6 +9,11 @@ The mooring module contains a set of functions to read MoorDyn output files and 
    :no-undoc-members:
    :show-inheritance:
 
+   .. autosummary::
+      :nosignatures:
+         
+      ~lay_length
+
 IO
 """"""""""""
 
