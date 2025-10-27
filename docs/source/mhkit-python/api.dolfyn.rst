@@ -59,6 +59,7 @@ ADP/ADCP data and is imported using
 	  ~api.clean
 	  ~api.VelBinner
 	  ~api.ADPBinner
+	  ~api.discharge
 
 ADV Submodule
 """""""""""""
