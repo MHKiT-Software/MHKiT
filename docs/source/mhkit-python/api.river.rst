@@ -52,6 +52,7 @@ D3D
       ~variable_interpolation
       ~get_all_data_points
       ~turbulent_intensity
+      ~list_variables
 
 Resource
 """"""""""""
@@ -69,7 +70,7 @@ or velocity and power at an individual turbine.
    .. autosummary::
       :nosignatures:
 
-      ~Froude_number
+      ~froude_number
       ~exceedance_probability
       ~polynomial_fit
       ~discharge_to_velocity

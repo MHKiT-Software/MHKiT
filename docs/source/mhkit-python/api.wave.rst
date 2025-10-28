@@ -175,17 +175,14 @@ statistics, performance matrices, and mean annual energy production.
    .. autosummary::
       :nosignatures:
 
-      ~capture_length
+      ~capture_width
       ~statistics
-      ~capture_length_matrix
+      ~capture_width_matrix
       ~wave_energy_flux_matrix
       ~power_matrix
       ~mean_annual_energy_production_timeseries
       ~mean_annual_energy_production_matrix
       ~power_performance_workflow
-
-.. TODO Add Response amplitude operator
-.. TODO Add Watch circle
 
 Graphics
 --------
