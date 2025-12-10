@@ -71,7 +71,7 @@ master_doc = 'index'
 # -- Project information -----------------------------------------------------
 # General information about the project.
 project = 'MHKiT'
-copyright = '2019, National Renewable Energy Laboratory, Pacific Northwest National Laboratory, and Sandia National Laboratories'
+copyright = '2019, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories'
 author = 'MHKiT Developers'
 
 # The version info for the project you're documenting, acts as replacement for

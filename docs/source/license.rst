@@ -2,7 +2,7 @@
 
 License
 =======
-MHKiT is copyright through the National Renewable Energy Laboratory, 
+MHKiT is copyright through the National Laboratory of the Rockies, 
 Pacific Northwest National Laboratory, and Sandia National Laboratories.
 The software is distributed under the Revised BSD License.
 
@@ -10,7 +10,7 @@ Copyright
 ------------
 .. code-block:: none 
 
-   Copyright 2019, Alliance for Sustainable Energy, LLC under the terms of 
+   Copyright 2019, Alliance for Energy Innovation, LLC under the terms of 
    Contract DE-AC36-08GO28308, Battelle Memorial Institute under the terms of 
    Contract DE-AC05-76RL01830, and National Technology & Engineering Solutions of 
    Sandia, LLC under the terms of Contract DE-NA0003525. The U.S. Government 
@@ -29,8 +29,8 @@ Revised BSD License
    * Redistributions in binary form must reproduce the above copyright notice, 
      this list of conditions and the following disclaimer in the documentation 
      and/or other materials provided with the distribution.
-   * Neither the name of Alliance for Sustainable Energy, Battelle Memorial 
-     Institute, National Renewable Energy Laboratory, National Technology & 
+   * Neither the name of Alliance for Energy Innovation, Battelle Memorial 
+     Institute, National Laboratory of the Rockies, National Technology & 
      Engineering Solutions of Sandia, Pacific Northwest National Laboratory, 
      Sandia National Laboratories, nor the names of its contributors may be 
      used to endorse or promote products derived from this software without 

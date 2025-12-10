@@ -45,27 +45,27 @@ MHKiT is open-source marine renewable energy (MRE) software, developed in Python
 
 Developers
 ================
-MHKiT is developed as a collaboration between the National Renewable Energy Laboratory (NREL), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (Sandia, SNL). 
+MHKiT is developed as a collaboration between the National Laboratory of the Rockies (NLR), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (Sandia, SNL). 
 
 Current members of the core development team include:
 
-- Rebecca Fao (NREL - PI)
+- Rebecca Fao (NLR - PI)
 - Sterling Olson (Sandia)
 - James McVey (PNNL)
-- Hristo Ivanov (NREL)
+- Hristo Ivanov (NLR)
 - Emily Browning (Sandia)
 - Adam Keester (Sandia)
 - Budi Gunawan (Sandia - PI)
-- Andrew Simms (NREL)
+- Andrew Simms (NLR)
 
 Former members of the core development team include:
 
 - Carlos Michelen (Sandia)
-- Matthew Boyd (NREL)
-- Alex McVey (NREL)
+- Matthew Boyd (NLR)
+- Alex McVey (NLR)
 - Katherine Klise (Sandia)
 - Kelley Ruehl (Sandia)
-- Frederick Driscoll (NREL)
+- Frederick Driscoll (NLR)
 
 
 .. Note: here we could call out specific external (or lab-internal) staff that have contributed significantly
@@ -78,11 +78,11 @@ MHKiT has had many additional contributors. An extensive list of contributors ca
 Funding
 ================
 The development of MHKiT is funded by the U.S. Department of Energy's Water Power Technologies Office.
-The copyright of MHKiT is held by the National Renewable Energy Laboratory,
+The copyright of MHKiT is held by the National Laboratory of the Rockies,
 Pacific Northwest National Laboratory, and Sandia National Laboratories.
 The software is distributed under the :ref:`License:Revised BSD License`.
 
-The `National Renewable Energy Laboratory <https://www.nrel.gov/>`_ is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Sustainable Energy, LLC. under contract No. DE-AC36-08GO28308.
+The `National Laboratory of the Rockies <https://www.nrel.gov/>`_ is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Energy Innovation, LLC. under contract No. DE-AC36-08GO28308.
 
 `Pacific Northwest National Laboratory <https://www.pnnl.gov/>`_ is operated by Battelle for the United States Department of Energy under Contract DE-AC05-76RL01830.
 
