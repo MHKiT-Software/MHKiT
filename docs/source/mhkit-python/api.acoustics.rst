@@ -24,6 +24,8 @@ Passive Acoustics Module
            ~sound_pressure_level
            ~third_octave_sound_pressure_level
            ~decidecade_sound_pressure_level
+           ~nmfs_auditory_weighting
+           ~sound_exposure_level
 
 IO
 """"

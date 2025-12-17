@@ -96,11 +96,11 @@ Developers should run software tests locally before submitting a pull request, u
 A summary pdf will be created after running the tests 
 summarizing the test results. 
 
-MHKiT-Python tests using the Python package pytest::
+Run MHKiT-Python tests using the Python package pytest::
 
    pytest
 
-MHKiT-MATLAB tests using the MATLAB API::
+Run MHKiT-MATLAB tests using the MATLAB API::
 
    mhkit/tests/runTests.m
 
