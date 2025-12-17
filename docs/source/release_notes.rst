@@ -357,7 +357,7 @@ Testing and Continuous Integration Updates:
  * Wind Toolkit Tests Optimization
     - Optimized the Wind Toolkit tests, reducing test runtime from over 3.5 hours to approximately 2 hours by modifying the test data and aligning it with cached data used in the notebooks.
     - Replaced test data with smaller, representative datasets, improving efficiency without sacrificing robustness.
-    - Ensured consistent use of cached data between hindcast tests and notebooks to minimize redundant API requests and reduce reliance on live NREL server calls.
+    - Ensured consistent use of cached data between hindcast tests and notebooks to minimize redundant API requests and reduce reliance on live NLR server calls.
  * MacOS Tests Fix
     - Adjusted test tolerances to fix failing tests on MacOS systems.
  * Updated Examples and Notebooks
