@@ -3,63 +3,95 @@
 Release Notes
 =============
 
+MHKiT-MATLAB v1.0.1
+-------------------
+Bug fixes and documentation improvements
+
+Bug Fixes
+- Issue #171 - Failing Loads: bin_statistics test
+  - Fixed by @hivanov-nrel in PR #188
+- MHKiT-Documentation build errors: MHKiT-Software/MHKiT#92 (comment) - Fixed by @simmsa in PR #187
+Documentation Improvements
+- Added GitHub Action to check docstring formatting
+  - Verifies docstrings use a format that is compatible with MHKiT-Documentation build system
+  - https://github.com/MHKiT-Software/MHKiT-MATLAB/actions/workflows/check_docstrings.yml
+  - Implemented by @simmsa in PR #187
+- Added CONTRIBUTING.md
+  - Details guidelines for developers contributing to MHKiT-MATLAB
+  - Implemented by @simmsa in PR #187
+- Added INSTALL.md
+  - Provides developer installation instructions for MHKiT-MATLAB
+  - Implemented by @simmsa in PR #187
+- Updated National Laboratory of the Rockies (NLR) branding
+  - Implemented by @simmsa in PR #189
+
+**Full Changelog**: https://github.com/MHKiT-Software/MHKiT-MATLAB/compare/v1.0.0...v1.0.1
+
+
 MHKiT-Python v1.0.1
 -------------------
 This bug fix resolves a faulty build on Linux that was automatically uploaded to pypi in the v1.0.0 release.
 Several tests are added to catch and prevent similar issues in the future.
 
 Bug fixes
-* Fix pip module package building by @simmsa in #421
-* Fix failing pip tests by @simmsa in #422
-* Fix pip module tests by @simmsa in #423
-* Actions: Remove --no-index from Wheel test build command by @simmsa in #424
-* Fix wheel build test by @akeeste in #426
+
+- Fix pip module package building by @simmsa in #421
+- Fix failing pip tests by @simmsa in #422
+- Fix pip module tests by @simmsa in #423
+- Actions: Remove --no-index from Wheel test build command by @simmsa in #424
+- Fix wheel build test by @akeeste in #426
 
 **Full Changelog**: https://github.com/MHKiT-Software/MHKiT-Python/compare/v1.0.0...v1.0.1
 
 MHKiT-Python v1.0.0
 -------------------
 New Features
-* Sound Exposure Level by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/388
-* Add discharge function to MHKiT by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/385
+
+- Sound Exposure Level by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/388
+- Add discharge function to MHKiT by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/385
 
 Functionality enhancements
-* Fix for corrupted Nortek files by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/372
-* Update integral length scale function by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/376
-* Fix ever-changing RDI RiverPro depth bin ranges by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/378
-* Allow clean functions to handle _avg variables by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/377
-* IEC TS 62600 updates by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/382
-* MLER explanation updates/corrections by @rgcoe in https://github.com/MHKiT-Software/MHKiT-Python/pull/393
-* Improve Nortek2 index file creator functions by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/397
-* Read Sentinel V specific data packets by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/396
-* Short list of VMDAS updates by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/405
-* Allow user to specify universal Kolmogorov constant for TKE dissipation rate function by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/406
-* Nortek Dual Profile Dataset Rotation by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/414
+
+- Fix for corrupted Nortek files by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/372
+- Update integral length scale function by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/376
+- Fix ever-changing RDI RiverPro depth bin ranges by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/378
+- Allow clean functions to handle _avg variables by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/377
+- IEC TS 62600 updates by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/382
+- MLER explanation updates/corrections by @rgcoe in https://github.com/MHKiT-Software/MHKiT-Python/pull/393
+- Improve Nortek2 index file creator functions by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/397
+- Read Sentinel V specific data packets by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/396
+- Short list of VMDAS updates by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/405
+- Allow user to specify universal Kolmogorov constant for TKE dissipation rate function by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/406
+- Nortek Dual Profile Dataset Rotation by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/414
 
 Source code improvements
-* Lint Tidal by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/386
-* Lint river module by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/389
-* Lint hindcast by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/398
-* Modernize Package Configuration by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/400
-* Configure specific warnings by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/401
+
+- Lint Tidal by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/386
+- Lint river module by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/389
+- Lint hindcast by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/398
+- Modernize Package Configuration by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/400
+- Configure specific warnings by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/401
 
 Bug fixes
-* Avoid failing to scan very large files by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/371
-* Acoustics SPL bugfix by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/379
-* DOLfYN/RDI: Set  `fs` to NaN when typical calculation methods yield error (#408) by @simmsa in https://github.com/MHKiT-Software/MHKiT-Python/pull/409
+
+- Avoid failing to scan very large files by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/371
+- Acoustics SPL bugfix by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/379
+- DOLfYN/RDI: Set  `fs` to NaN when typical calculation methods yield error (#408) by @simmsa in https://github.com/MHKiT-Software/MHKiT-Python/pull/409
 
 Testing and Continuous Integration Updates
-* Fix Jupyter Notebook tests running Python 3.13 by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/380
-* CI Test Clean Up: Mock USGS, Acoustic Tolerances by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/404
-* Speed up tests with concurrency checks to prevent duplicate workflows on PRs from develop into main or from main into develop by @akeeste
-* Define MPLBACKEND to decrease intermittent matplotlib errors in tests by @akeeste
+
+- Fix Jupyter Notebook tests running Python 3.13 by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/380
+- CI Test Clean Up: Mock USGS, Acoustic Tolerances by @ssolson in https://github.com/MHKiT-Software/MHKiT-Python/pull/404
+- Speed up tests with concurrency checks to prevent duplicate workflows on PRs from develop into main or from main into develop by @akeeste
+- Define MPLBACKEND to decrease intermittent matplotlib errors in tests by @akeeste
 
 Documentation and Examples
-* Add WEC-Sim power performance example  by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/395
-* Update dolfyn function docstrings and associated notebooks by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/412
-* Update examples by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/417
-* Update installation instructions in README.md by @akeeste
-* Adjust acoustics test tolerances by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/420
+
+- Add WEC-Sim power performance example  by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/395
+- Update dolfyn function docstrings and associated notebooks by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/412
+- Update examples by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/417
+- Update installation instructions in README.md by @akeeste
+- Adjust acoustics test tolerances by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/420
 
 **Full Changelog**: https://github.com/MHKiT-Software/MHKiT-Python/compare/v0.9.0...v1.0.0
 
