@@ -1,0 +1,1255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading ADV Data with MHKiT &mdash; MHKiT v1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d29a5c0e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MHKiT CDIP IO" href="cdip_example.html" />
+    <link rel="prev" title="Analyzing ADCP Data with MHKiT" href="adcp_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module.html">Module Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html#all-python-notebooks">All Python Notebooks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWAN_example.html">MHKiT SWAN Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="acoustics_example.html">Analyzing Passive Acoustic Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_discharge_example.html">ADCP Discharge Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Analyzing ADCP Data with MHKiT</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Reading ADV Data with MHKiT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Read-Raw-Instrument-Data">Read Raw Instrument Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Set-rotation-for-cabled-ADV-head">Set rotation for cabled ADV head</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Quality-Control">Quality Control</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Coordinate-Rotations">Coordinate Rotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Averaging-Data">Averaging Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Saving-and-Loading-DOLfYN-datasets">Saving and Loading DOLfYN datasets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Visualization">Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environmental_contours_example.html">MHKiT Environmental Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_full_sea_state_example.html">Extreme Conditions Modeling - Full Sea State Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads_example.html">MHKiT Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mooring_example.html">Mooring Module Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_example.html">MHKiT Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qc_example.html">MHKiT Quality Control Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="river_example.html">MHKiT River Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="short_term_extremes_example.html">MHKit Short-term Extreme Loads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strain_measurement_example.html">Strain Measurement Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_example.html">MHKiT Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_performance_example.html">Tidal Power Performance Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="upcrossing_example.html">MHKit Upcrossing Analysis Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wave_example.html">MHKiT Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_power_performance_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Reading ADV Data with MHKiT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/adv_example.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Reading-ADV-Data-with-MHKiT">
+<h1>Reading ADV Data with MHKiT<a class="headerlink" href="#Reading-ADV-Data-with-MHKiT" title="Link to this heading"></a></h1>
+<p>This example presents a simplified workflow for analyzing Acoustic Doppler Velocimetry (ADV) data using MHKiT. MHKiT incorporates the DOLfYN codebase as a module to handle ADV and Acoustic Doppler Current Profiler (ADCP) data.</p>
+<p>This particular dataset is an excerpt from a cabled ADV mounted to a Sea Spider tripod, where the ADV was sampling on a duty cycle where 5 minutes of data was recorded every 20 minutes. All of the steps for a non-cabled ADV still apply, excepting the probe-inst rotation step.</p>
+<p>A standard ADV data analysis workflow can be segmented into the following steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Raw Data Review</strong>: Evaluate the original data by verifying timestamps and assessing the quality of velocity data, specifically looking for any data spikes.</p></li>
+<li><p><strong>Data Cleaning</strong>: Identify and eliminate any spurious data points. If needed, bad data points can be replaced with interpolated values.</p></li>
+<li><p><strong>Data Rotation</strong>: Transform the data into the principal flow coordinates, which are the streamwise, cross-stream, and vertical directions.</p></li>
+<li><p><strong>Data Averaging</strong>: Aggregate the data into bins or ensembles, each of which spans a predefined time length, typically between 5 and 10 minutes.</p></li>
+<li><p><strong>Statistical Analysis</strong>: Compute turbulence statistics such as turbulence intensity, Turbulent Kinetic Energy (TKE), and Reynolds stresses for the observed flow field.</p></li>
+</ol>
+<p>Start your analysis by importing the necessary tools:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mhkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">dolfyn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.dolfyn.adv</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
+</pre></div>
+</div>
+</div>
+<section id="Read-Raw-Instrument-Data">
+<h2>Read Raw Instrument Data<a class="headerlink" href="#Read-Raw-Instrument-Data" title="Link to this heading"></a></h2>
+<p>DOLfYN currently only carries support for the Nortek Vector ADV. The example loaded here is a short clip of data from a test deployment to show DOLfYN’s capabilities.</p>
+<p>Start by reading in the raw datafile downloaded from the instrument. The <code class="docutils literal notranslate"><span class="pre">dolfyn.read</span></code> function reads the raw file and dumps the information into an xarray Dataset, which contains three groups of variables:</p>
+<ol class="arabic simple">
+<li><p>Velocity, amplitude, and correlation of the Doppler velocimetry</p></li>
+<li><p>Measurements of the instrument’s bearing and environment</p></li>
+<li><p>Orientation matrices DOLfYN uses for rotating through coordinate frames.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;data/dolfyn/vector_cabled_imu01.VEC&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reading file data/dolfyn/vector_cabled_imu01.VEC ...
+</pre></div></div>
+</div>
+<p>There are two ways to see what’s in a Dataset. The first is to simply type the dataset’s name to see the standard xarray output. To access a particular variable in a dataset, use dict-style (<code class="docutils literal notranslate"><span class="pre">ds['vel']</span></code>) or attribute-style syntax (<code class="docutils literal notranslate"><span class="pre">ds.vel</span></code>). See the <a class="reference external" href="http://xarray.pydata.org/en/stable/getting-started-guide/quick-overview.html">xarray docs</a> for more details on how to use the xarray format.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print the dataset</span>
+<span class="n">ds</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 25MB
+Dimensions:              (time: 216039, beam: 3, dir: 3, x1: 3, x2: 3,
+                          earth: 3, inst: 3)
+Coordinates:
+  * time                 (time) datetime64[ns] 2MB 2025-02-25T10:00:03.587208...
+  * beam                 (beam) int32 12B 1 2 3
+  * dir                  (dir) &lt;U1 12B &#x27;X&#x27; &#x27;Y&#x27; &#x27;Z&#x27;
+  * x1                   (x1) int32 12B 1 2 3
+  * x2                   (x2) int32 12B 1 2 3
+  * earth                (earth) &lt;U1 12B &#x27;E&#x27; &#x27;N&#x27; &#x27;U&#x27;
+  * inst                 (inst) &lt;U1 12B &#x27;X&#x27; &#x27;Y&#x27; &#x27;Z&#x27;
+Data variables: (12/17)
+    beam2inst_orientmat  (x1, x2) float64 72B 2.575 -1.305 ... 0.3582 0.3455
+    batt                 (time) float32 864kB 13.4 13.4 13.4 ... nan nan nan
+    c_sound              (time) float32 864kB 1.477e+03 1.477e+03 ... nan nan
+    heading              (time) float32 864kB 0.0 0.0 0.0 0.0 ... nan nan nan
+    pitch                (time) float32 864kB 0.0 0.0 0.0 0.0 ... nan nan nan
+    roll                 (time) float32 864kB 0.0 0.0 0.0 0.0 ... nan nan nan
+    ...                   ...
+    amp                  (beam, time) uint8 648kB 84 93 104 103 ... 106 106 95
+    corr                 (beam, time) uint8 648kB 94 98 98 97 99 ... 95 97 97 92
+    accel                (dir, time) float32 3MB 9.53 9.536 ... -1.229 -1.219
+    angrt                (dir, time) float32 3MB 0.000111 ... -0.0005012
+    orientmat            (earth, inst, time) float32 8MB 0.1533 ... -0.1279
+    pressure             (time) float32 864kB 8.865 8.869 8.86 ... 7.073 7.073
+Attributes: (12/42)
+    inst_make:                   Nortek
+    inst_model:                  Vector
+    inst_type:                   ADV
+    rotate_vars:                 [&#x27;vel&#x27;, &#x27;accel&#x27;, &#x27;angrt&#x27;]
+    n_beams:                     3
+    profile_mode:                continuous
+    ...                          ...
+    duty_cycle_n_burst:          9600
+    duty_cycle_interval:         1200
+    duty_cycle_description:      300.0 second bursts collected at 32.0 Hz, wi...
+    fs:                          32.0
+    coord_sys:                   inst
+    has_imu:                     1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-9186d64b-b865-42cc-a908-89f87d0ed3ef' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-9186d64b-b865-42cc-a908-89f87d0ed3ef' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 216039</li><li><span class='xr-has-index'>beam</span>: 3</li><li><span class='xr-has-index'>dir</span>: 3</li><li><span class='xr-has-index'>x1</span>: 3</li><li><span class='xr-has-index'>x2</span>: 3</li><li><span class='xr-has-index'>earth</span>: 3</li><li><span class='xr-has-index'>inst</span>: 3</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-49402275-9697-459b-9c64-9097a1e809b9' class='xr-section-summary-in' type='checkbox'  checked><label for='section-49402275-9697-459b-9c64-9097a1e809b9' class='xr-section-summary' >Coordinates: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2025-02-25T10:00:03.587208032 .....</div><input id='attrs-eff3ac2f-0af3-46e6-9a1b-00994e1407c3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-eff3ac2f-0af3-46e6-9a1b-00994e1407c3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1b5504c7-f21e-44cf-9ac4-59343399fd1c' class='xr-var-data-in' type='checkbox'><label for='data-1b5504c7-f21e-44cf-9ac4-59343399fd1c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>seconds since 1970-01-01 00:00:00</dd><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2025-02-25T10:00:03.587208032&#x27;, &#x27;2025-02-25T10:00:03.618207931&#x27;,
+       &#x27;2025-02-25T10:00:03.649207830&#x27;, ..., &#x27;2025-02-25T17:22:33.502970933&#x27;,
+       &#x27;2025-02-25T17:22:33.533971071&#x27;, &#x27;2025-02-25T17:22:33.564970970&#x27;],
+      shape=(216039,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>beam</span></div><div class='xr-var-dims'>(beam)</div><div class='xr-var-dtype'>int32</div><div class='xr-var-preview xr-preview'>1 2 3</div><input id='attrs-d3769759-8b33-4440-b664-424be3f6a136' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d3769759-8b33-4440-b664-424be3f6a136' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3aad9ef2-f664-46a9-9b09-9cfbe244cf29' class='xr-var-data-in' type='checkbox'><label for='data-3aad9ef2-f664-46a9-9b09-9cfbe244cf29' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Beam Reference Frame</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd></dl></div><div class='xr-var-data'><pre>array([1, 2, 3], dtype=int32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>dir</span></div><div class='xr-var-dims'>(dir)</div><div class='xr-var-dtype'>&lt;U1</div><div class='xr-var-preview xr-preview'>&#x27;X&#x27; &#x27;Y&#x27; &#x27;Z&#x27;</div><input id='attrs-c20bd223-457c-4725-a7e2-7907937bf51e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c20bd223-457c-4725-a7e2-7907937bf51e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-18a77b6f-a9fa-464c-a931-a3d42d9c4096' class='xr-var-data-in' type='checkbox'><label for='data-18a77b6f-a9fa-464c-a931-a3d42d9c4096' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Reference Frame</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>ref_frame :</span></dt><dd>inst</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;X&#x27;, &#x27;Y&#x27;, &#x27;Z&#x27;], dtype=&#x27;&lt;U1&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x1</span></div><div class='xr-var-dims'>(x1)</div><div class='xr-var-dtype'>int32</div><div class='xr-var-preview xr-preview'>1 2 3</div><input id='attrs-9531ef32-2f78-4994-a414-b5145b8b8a70' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9531ef32-2f78-4994-a414-b5145b8b8a70' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-962d69db-4cd8-4348-b7ab-828e64130f02' class='xr-var-data-in' type='checkbox'><label for='data-962d69db-4cd8-4348-b7ab-828e64130f02' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd></dl></div><div class='xr-var-data'><pre>array([1, 2, 3], dtype=int32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x2</span></div><div class='xr-var-dims'>(x2)</div><div class='xr-var-dtype'>int32</div><div class='xr-var-preview xr-preview'>1 2 3</div><input id='attrs-462cc399-321e-41a0-bcd1-3e434618547a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-462cc399-321e-41a0-bcd1-3e434618547a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-50dbbc40-296a-45b6-9f34-9aa5280be69a' class='xr-var-data-in' type='checkbox'><label for='data-50dbbc40-296a-45b6-9f34-9aa5280be69a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd></dl></div><div class='xr-var-data'><pre>array([1, 2, 3], dtype=int32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>earth</span></div><div class='xr-var-dims'>(earth)</div><div class='xr-var-dtype'>&lt;U1</div><div class='xr-var-preview xr-preview'>&#x27;E&#x27; &#x27;N&#x27; &#x27;U&#x27;</div><input id='attrs-3ba1208a-637f-4084-ab52-a62e69715ec4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3ba1208a-637f-4084-ab52-a62e69715ec4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c0f634a5-5d0e-4a42-af6d-c0c6b18721e9' class='xr-var-data-in' type='checkbox'><label for='data-c0f634a5-5d0e-4a42-af6d-c0c6b18721e9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Earth Reference Frame</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;E&#x27;, &#x27;N&#x27;, &#x27;U&#x27;], dtype=&#x27;&lt;U1&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>inst</span></div><div class='xr-var-dims'>(inst)</div><div class='xr-var-dtype'>&lt;U1</div><div class='xr-var-preview xr-preview'>&#x27;X&#x27; &#x27;Y&#x27; &#x27;Z&#x27;</div><input id='attrs-accda159-01c2-47bc-9b9a-961b6bd24148' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-accda159-01c2-47bc-9b9a-961b6bd24148' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b8fd4399-07bf-41a2-a616-3ba9294c8d46' class='xr-var-data-in' type='checkbox'><label for='data-b8fd4399-07bf-41a2-a616-3ba9294c8d46' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Instrument Reference Frame</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;X&#x27;, &#x27;Y&#x27;, &#x27;Z&#x27;], dtype=&#x27;&lt;U1&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-8dff74e9-7f8c-4938-b311-3d75825c109e' class='xr-section-summary-in' type='checkbox'  ><label for='section-8dff74e9-7f8c-4938-b311-3d75825c109e' class='xr-section-summary' >Data variables: <span>(17)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>beam2inst_orientmat</span></div><div class='xr-var-dims'>(x1, x2)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.575 -1.305 ... 0.3582 0.3455</div><input id='attrs-703132a7-060e-40d7-80ea-9c1c194b616e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-703132a7-060e-40d7-80ea-9c1c194b616e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c98e53b5-781b-4e70-a978-374e6337b474' class='xr-var-data-in' type='checkbox'><label for='data-c98e53b5-781b-4e70-a978-374e6337b474' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Rotation Matrix</dd></dl></div><div class='xr-var-data'><pre>array([[ 2.57543945, -1.3046875 , -1.25878906],
+       [-0.02807617,  2.33764648, -2.31494141],
+       [ 0.32958984,  0.3581543 ,  0.34545898]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>batt</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>13.4 13.4 13.4 13.4 ... nan nan nan</div><input id='attrs-9fbc3a68-a119-428a-b5e0-4884f07aed8a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9fbc3a68-a119-428a-b5e0-4884f07aed8a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-91211106-919d-4fb9-8526-aa0c9624b0c2' class='xr-var-data-in' type='checkbox'><label for='data-91211106-919d-4fb9-8526-aa0c9624b0c2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>V</dd><dt><span>long_name :</span></dt><dd>Battery Voltage</dd></dl></div><div class='xr-var-data'><pre>array([13.400001, 13.400001, 13.400001, ...,       nan,       nan,
+             nan], shape=(216039,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>c_sound</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.477e+03 1.477e+03 ... nan nan</div><input id='attrs-08f5c789-30e6-4957-a092-0111aab90a02' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-08f5c789-30e6-4957-a092-0111aab90a02' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2e40162e-fc57-4ab4-ba56-4741fe6b2a87' class='xr-var-data-in' type='checkbox'><label for='data-2e40162e-fc57-4ab4-ba56-4741fe6b2a87' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m s-1</dd><dt><span>long_name :</span></dt><dd>Speed of Sound</dd><dt><span>standard_name :</span></dt><dd>speed_of_sound_in_sea_water</dd></dl></div><div class='xr-var-data'><pre>array([1476.8, 1476.8, 1476.8, ...,    nan,    nan,    nan],
+      shape=(216039,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>heading</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... nan nan nan nan</div><input id='attrs-696a27c2-0b75-4e07-aad9-d514c4d988df' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-696a27c2-0b75-4e07-aad9-d514c4d988df' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f507ce9f-f2a9-4bf8-9e7d-a8f7f0e0d8ae' class='xr-var-data-in' type='checkbox'><label for='data-f507ce9f-f2a9-4bf8-9e7d-a8f7f0e0d8ae' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degree</dd><dt><span>long_name :</span></dt><dd>Heading</dd><dt><span>standard_name :</span></dt><dd>platform_orientation</dd></dl></div><div class='xr-var-data'><pre>array([ 0.,  0.,  0., ..., nan, nan, nan], shape=(216039,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>pitch</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... nan nan nan nan</div><input id='attrs-6d793d89-3908-4e9c-93fb-b463fc26b963' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6d793d89-3908-4e9c-93fb-b463fc26b963' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e1e564d3-b960-4bb9-ab01-df67b4f075fe' class='xr-var-data-in' type='checkbox'><label for='data-e1e564d3-b960-4bb9-ab01-df67b4f075fe' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degree</dd><dt><span>long_name :</span></dt><dd>Pitch</dd><dt><span>standard_name :</span></dt><dd>platform_pitch</dd></dl></div><div class='xr-var-data'><pre>array([ 0.,  0.,  0., ..., nan, nan, nan], shape=(216039,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>roll</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... nan nan nan nan</div><input id='attrs-2714a71d-7966-4693-bc13-3e7177d1606f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2714a71d-7966-4693-bc13-3e7177d1606f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7f29a596-9898-4616-a54f-d16f41ffd7c4' class='xr-var-data-in' type='checkbox'><label for='data-7f29a596-9898-4616-a54f-d16f41ffd7c4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degree</dd><dt><span>long_name :</span></dt><dd>Roll</dd><dt><span>standard_name :</span></dt><dd>platform_roll</dd></dl></div><div class='xr-var-data'><pre>array([ 0.,  0.,  0., ..., nan, nan, nan], shape=(216039,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>temp</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>7.51 7.51 7.51 7.51 ... nan nan nan</div><input id='attrs-7f1c6a3b-3cbf-4764-9478-b56c84c25ca6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7f1c6a3b-3cbf-4764-9478-b56c84c25ca6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f96a993e-4d5f-4406-b138-052df6351aa9' class='xr-var-data-in' type='checkbox'><label for='data-f96a993e-4d5f-4406-b138-052df6351aa9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degree_C</dd><dt><span>long_name :</span></dt><dd>Temperature</dd><dt><span>standard_name :</span></dt><dd>sea_water_temperature</dd></dl></div><div class='xr-var-data'><pre>array([7.5099998, 7.5099998, 7.5099998, ...,       nan,       nan,
+             nan], shape=(216039,), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>error</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-51161105-e083-4022-b1b1-b28cc6a38d38' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-51161105-e083-4022-b1b1-b28cc6a38d38' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-bbfc8b23-634a-4037-8159-796637a6920c' class='xr-var-data-in' type='checkbox'><label for='data-bbfc8b23-634a-4037-8159-796637a6920c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Error Code</dd></dl></div><div class='xr-var-data'><pre>array([0, 0, 0, ..., 0, 0, 0], shape=(216039,), dtype=uint8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>status</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>112 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0</div><input id='attrs-e3db266f-7865-4291-9bb5-7ffa423e1d35' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e3db266f-7865-4291-9bb5-7ffa423e1d35' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-262740b5-afdc-49da-baa8-481ebd33832d' class='xr-var-data-in' type='checkbox'><label for='data-262740b5-afdc-49da-baa8-481ebd33832d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Status Code</dd></dl></div><div class='xr-var-data'><pre>array([112,   0,   0, ...,   0,   0,   0], shape=(216039,), dtype=uint8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>orientation_down</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>bool</div><div class='xr-var-preview xr-preview'>False False False ... False False</div><input id='attrs-db0c387e-c000-407c-969b-4f529c88dbd4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-db0c387e-c000-407c-969b-4f529c88dbd4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a813a6fa-6ab8-4084-8054-d73a7c7201c0' class='xr-var-data-in' type='checkbox'><label for='data-a813a6fa-6ab8-4084-8054-d73a7c7201c0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Orientation of ADV Communication Cable</dd></dl></div><div class='xr-var-data'><pre>array([False, False, False, ..., False, False, False], shape=(216039,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>vel</span></div><div class='xr-var-dims'>(dir, time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-0.034 -0.043 ... 0.075 0.082</div><input id='attrs-94a03591-2a9b-4716-8679-a01998138cc3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-94a03591-2a9b-4716-8679-a01998138cc3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d33f4988-79d8-4631-a2c4-e058057fb41b' class='xr-var-data-in' type='checkbox'><label for='data-d33f4988-79d8-4631-a2c4-e058057fb41b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m s-1</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Water Velocity</dd></dl></div><div class='xr-var-data'><pre>array([[-3.4000002e-02, -4.3000001e-02, -3.3000000e-02, ...,
+         1.1380000e+00,  1.0910001e+00,  1.0620000e+00],
+       [ 2.0000001e-03,  0.0000000e+00,  0.0000000e+00, ...,
+         2.5100002e-01,  1.9200000e-01,  1.5800001e-01],
+       [-1.0000000e-03, -6.0000001e-03, -7.0000002e-03, ...,
+         8.4000006e-02,  7.5000003e-02,  8.2000002e-02]],
+      shape=(3, 216039), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>amp</span></div><div class='xr-var-dims'>(beam, time)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>84 93 104 103 ... 106 106 106 95</div><input id='attrs-32e26ac8-431b-4585-95a0-032f9bbbc32d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-32e26ac8-431b-4585-95a0-032f9bbbc32d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0363d896-6753-43b4-ad17-793eae97a1ad' class='xr-var-data-in' type='checkbox'><label for='data-0363d896-6753-43b4-ad17-793eae97a1ad' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Acoustic Signal Amplitude</dd><dt><span>standard_name :</span></dt><dd>signal_intensity_from_multibeam_acoustic_doppler_velocity_sensor_in_sea_water</dd></dl></div><div class='xr-var-data'><pre>array([[ 84,  93, 104, ..., 110,  99, 102],
+       [ 89,  93,  93, ..., 101,  98,  92],
+       [ 96, 101,  99, ..., 106, 106,  95]],
+      shape=(3, 216039), dtype=uint8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>corr</span></div><div class='xr-var-dims'>(beam, time)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>94 98 98 97 99 ... 95 95 97 97 92</div><input id='attrs-f4c10bea-8188-4239-9107-6ae1e469d080' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f4c10bea-8188-4239-9107-6ae1e469d080' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-81c68f19-1008-4f72-83d1-feeb6f7b0714' class='xr-var-data-in' type='checkbox'><label for='data-81c68f19-1008-4f72-83d1-feeb6f7b0714' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>%</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Acoustic Signal Correlation</dd></dl></div><div class='xr-var-data'><pre>array([[94, 98, 98, ..., 94, 98, 97],
+       [99, 99, 99, ..., 98, 93, 96],
+       [98, 99, 99, ..., 97, 97, 92]], shape=(3, 216039), dtype=uint8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>accel</span></div><div class='xr-var-dims'>(dir, time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>9.53 9.536 9.526 ... -1.229 -1.219</div><input id='attrs-8313f6d6-55fe-49c2-84ca-3da6a337db35' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8313f6d6-55fe-49c2-84ca-3da6a337db35' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-75f65cb0-8618-419f-8738-e63a7604c3e9' class='xr-var-data-in' type='checkbox'><label for='data-75f65cb0-8618-419f-8738-e63a7604c3e9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m s-2</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Acceleration</dd></dl></div><div class='xr-var-data'><pre>array([[ 9.530013  ,  9.536455  ,  9.525976  , ...,  9.601015  ,
+         9.597994  ,  9.593181  ],
+       [ 1.0119547 ,  1.0139961 ,  1.0076023 , ...,  0.996303  ,
+         0.9979168 ,  0.99355274],
+       [-1.1934966 , -1.1835487 , -1.1902841 , ..., -1.2235923 ,
+        -1.2292643 , -1.2193956 ]], shape=(3, 216039), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>angrt</span></div><div class='xr-var-dims'>(dir, time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.000111 0.0004271 ... -0.0005012</div><input id='attrs-eff92a37-a78c-4330-86d8-1c72202f9aa1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-eff92a37-a78c-4330-86d8-1c72202f9aa1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-10fcd485-cfac-40d7-ad84-95d75ab86cdf' class='xr-var-data-in' type='checkbox'><label for='data-10fcd485-cfac-40d7-ad84-95d75ab86cdf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>rad s-1</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Angular Velocity</dd></dl></div><div class='xr-var-data'><pre>array([[ 0.00011099,  0.00042707, -0.00056194, ..., -0.00380341,
+        -0.00334683, -0.00371215],
+       [-0.00019397, -0.00023042, -0.00117751, ..., -0.00171529,
+        -0.00122215, -0.00037502],
+       [-0.00022086, -0.00021133,  0.0006542 , ..., -0.00037107,
+        -0.00060423, -0.00050117]], shape=(3, 216039), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>orientmat</span></div><div class='xr-var-dims'>(earth, inst, time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.1533 0.1533 ... -0.128 -0.1279</div><input id='attrs-81336e5e-38b8-4c77-b35f-05167ea062ed' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-81336e5e-38b8-4c77-b35f-05167ea062ed' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-968c5f71-43ce-4b01-9678-a579235367ee' class='xr-var-data-in' type='checkbox'><label for='data-968c5f71-43ce-4b01-9678-a579235367ee' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>coverage_content_type :</span></dt><dd>physicalMeasurement</dd><dt><span>long_name :</span></dt><dd>Orientation Matrix</dd></dl></div><div class='xr-var-data'><pre>array([[[ 0.15330946,  0.15328561,  0.1532521 , ...,  0.16398108,
+          0.164008  ,  0.16400433],
+        [-0.06399706, -0.06394877, -0.06394862, ..., -0.0096143 ,
+         -0.00960174, -0.00956409],
+        [ 0.9861038 ,  0.98611057,  0.98611575, ...,  0.98641664,
+          0.9864123 ,  0.98641324]],
+
+       [[-0.88366276, -0.8835737 , -0.88350034, ..., -0.66311234,
+         -0.663116  , -0.66309273],
+        [-0.45553848, -0.4557169 , -0.45587146, ..., -0.7413981 ,
+         -0.74139094, -0.7414087 ],
+        [ 0.10781901,  0.10779381,  0.10774183, ...,  0.10300907,
+          0.10303773,  0.1030594 ]],
+
+       [[ 0.44230807,  0.44249398,  0.44265214, ...,  0.730337  ,
+          0.7303278 ,  0.7303497 ],
+        [-0.88791287, -0.8878246 , -0.88774526, ..., -0.6709966 ,
+         -0.6710047 , -0.67098564],
+        [-0.12639016, -0.12635832, -0.12636189, ..., -0.12795062,
+         -0.12796111, -0.1279361 ]]], shape=(3, 3, 216039), dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>pressure</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>8.865 8.869 8.86 ... 7.073 7.073</div><input id='attrs-0ed78f99-057c-4dc3-9d4c-526b9acce917' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0ed78f99-057c-4dc3-9d4c-526b9acce917' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eb3f29c5-3399-43e9-bb40-4b10c57fee12' class='xr-var-data-in' type='checkbox'><label for='data-eb3f29c5-3399-43e9-bb40-4b10c57fee12' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>dbar</dd><dt><span>long_name :</span></dt><dd>Pressure</dd><dt><span>standard_name :</span></dt><dd>sea_water_pressure</dd></dl></div><div class='xr-var-data'><pre>array([8.865, 8.869, 8.86 , ..., 7.068, 7.073, 7.073],
+      shape=(216039,), dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1c5324d0-dedb-4b2d-8a50-30fa86a36c6a' class='xr-section-summary-in' type='checkbox'  ><label for='section-1c5324d0-dedb-4b2d-8a50-30fa86a36c6a' class='xr-section-summary' >Indexes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-b4658096-4005-4418-9701-61d9d31fd850' class='xr-index-data-in' type='checkbox'/><label for='index-b4658096-4005-4418-9701-61d9d31fd850' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;2025-02-25 10:00:03.587208032&#x27;,
+               &#x27;2025-02-25 10:00:03.618207931&#x27;,
+               &#x27;2025-02-25 10:00:03.649207830&#x27;,
+               &#x27;2025-02-25 10:00:03.680207967&#x27;,
+               &#x27;2025-02-25 10:00:03.711207866&#x27;,
+               &#x27;2025-02-25 10:00:03.742207765&#x27;,
+               &#x27;2025-02-25 10:00:03.773207664&#x27;,
+               &#x27;2025-02-25 10:00:03.804207563&#x27;,
+               &#x27;2025-02-25 10:00:03.835207462&#x27;,
+               &#x27;2025-02-25 10:00:03.866207599&#x27;,
+               ...
+               &#x27;2025-02-25 17:22:33.285971164&#x27;,
+               &#x27;2025-02-25 17:22:33.316971302&#x27;,
+               &#x27;2025-02-25 17:22:33.347971200&#x27;,
+               &#x27;2025-02-25 17:22:33.378971099&#x27;,
+               &#x27;2025-02-25 17:22:33.409970998&#x27;,
+               &#x27;2025-02-25 17:22:33.440971136&#x27;,
+               &#x27;2025-02-25 17:22:33.471971035&#x27;,
+               &#x27;2025-02-25 17:22:33.502970933&#x27;,
+               &#x27;2025-02-25 17:22:33.533971071&#x27;,
+               &#x27;2025-02-25 17:22:33.564970970&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=216039, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>beam</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-efd01a09-807d-4e7d-bbe0-727eef21bdc6' class='xr-index-data-in' type='checkbox'/><label for='index-efd01a09-807d-4e7d-bbe0-727eef21bdc6' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([1, 2, 3], dtype=&#x27;int32&#x27;, name=&#x27;beam&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>dir</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-51013bab-9732-4ef4-a4be-0535f1430381' class='xr-index-data-in' type='checkbox'/><label for='index-51013bab-9732-4ef4-a4be-0535f1430381' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;X&#x27;, &#x27;Y&#x27;, &#x27;Z&#x27;], dtype=&#x27;object&#x27;, name=&#x27;dir&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>x1</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-e769141e-b98e-44fd-8b97-9174a4b58f02' class='xr-index-data-in' type='checkbox'/><label for='index-e769141e-b98e-44fd-8b97-9174a4b58f02' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([1, 2, 3], dtype=&#x27;int32&#x27;, name=&#x27;x1&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>x2</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-b1f2b53a-f25b-4fb5-9424-fbc0addb8094' class='xr-index-data-in' type='checkbox'/><label for='index-b1f2b53a-f25b-4fb5-9424-fbc0addb8094' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([1, 2, 3], dtype=&#x27;int32&#x27;, name=&#x27;x2&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>earth</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-ddb448d1-2a7c-4fe0-8f27-a1c3a494b559' class='xr-index-data-in' type='checkbox'/><label for='index-ddb448d1-2a7c-4fe0-8f27-a1c3a494b559' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;E&#x27;, &#x27;N&#x27;, &#x27;U&#x27;], dtype=&#x27;object&#x27;, name=&#x27;earth&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>inst</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-f1d010a6-4a8f-48f2-a0ac-8922cc64b60f' class='xr-index-data-in' type='checkbox'/><label for='index-f1d010a6-4a8f-48f2-a0ac-8922cc64b60f' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;X&#x27;, &#x27;Y&#x27;, &#x27;Z&#x27;], dtype=&#x27;object&#x27;, name=&#x27;inst&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-44785129-9e06-4e10-8633-4f6a2e5448af' class='xr-section-summary-in' type='checkbox'  ><label for='section-44785129-9e06-4e10-8633-4f6a2e5448af' class='xr-section-summary' >Attributes: <span>(42)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>inst_make :</span></dt><dd>Nortek</dd><dt><span>inst_model :</span></dt><dd>Vector</dd><dt><span>inst_type :</span></dt><dd>ADV</dd><dt><span>rotate_vars :</span></dt><dd>[&#x27;vel&#x27;, &#x27;accel&#x27;, &#x27;angrt&#x27;]</dd><dt><span>n_beams :</span></dt><dd>3</dd><dt><span>profile_mode :</span></dt><dd>continuous</dd><dt><span>burst_mode :</span></dt><dd>True</dd><dt><span>power_level :</span></dt><dd>1</dd><dt><span>sync_out_pos :</span></dt><dd>end</dd><dt><span>sample_on_sync :</span></dt><dd>False</dd><dt><span>start_on_sync :</span></dt><dd>False</dd><dt><span>compass_update_rate :</span></dt><dd>1</dd><dt><span>n_bins :</span></dt><dd>1</dd><dt><span>deployment_name :</span></dt><dd>VIV</dd><dt><span>wrap_mode :</span></dt><dd>False</dd><dt><span>analog_in :</span></dt><dd>0</dd><dt><span>software_version :</span></dt><dd>2.00.02</dd><dt><span>salinity :</span></dt><dd>32.0</dd><dt><span>comments :</span></dt><dd>VIV deployment Feb2025 Time in PST </dd><dt><span>user_specified_sound_speed :</span></dt><dd>False</dd><dt><span>analog_output :</span></dt><dd>False</dd><dt><span>output_format :</span></dt><dd>Vector</dd><dt><span>serial_output :</span></dt><dd>False</dd><dt><span>power_output_analog :</span></dt><dd>False</dd><dt><span>n_pings_per_burst :</span></dt><dd>1</dd><dt><span>pressure_sensor :</span></dt><dd>yes</dd><dt><span>compass :</span></dt><dd>no</dd><dt><span>tilt_sensor :</span></dt><dd>no</dd><dt><span>carrier_freq_kHz :</span></dt><dd>6000</dd><dt><span>serial_number :</span></dt><dd>VEC14837</dd><dt><span>ProLogFWver :</span></dt><dd>4.13</dd><dt><span>PIC_version :</span></dt><dd>0</dd><dt><span>hardware_rev :</span></dt><dd>4</dd><dt><span>recorder_size_bytes :</span></dt><dd>3037724672</dd><dt><span>vel_range :</span></dt><dd>normal</dd><dt><span>firmware_version :</span></dt><dd>3.43</dd><dt><span>duty_cycle_n_burst :</span></dt><dd>9600</dd><dt><span>duty_cycle_interval :</span></dt><dd>1200</dd><dt><span>duty_cycle_description :</span></dt><dd>300.0 second bursts collected at 32.0 Hz, with bursts taken every 20.0 minutes</dd><dt><span>fs :</span></dt><dd>32.0</dd><dt><span>coord_sys :</span></dt><dd>inst</dd><dt><span>has_imu :</span></dt><dd>1</dd></dl></div></li></ul></div></div></div>
+</div>
+<p>A second way provided to look at data is through the <em>DOLfYN view</em>. This view has several convenience methods, shortcuts, and functions built-in. It includes an alternate – and somewhat more informative/compact – description of the data object when in interactive mode. This can be accessed using</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_dolfyn</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">velds</span>
+<span class="n">ds_dolfyn</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ADV data object&gt;:  Nortek Vector
+  . 7.37 hours (started: Feb 25, 2025 10:00)
+  . inst-frame
+  . (216039 pings @ 32.0Hz)
+  Variables:
+  - time (&#39;time&#39;,)
+  - vel (&#39;dir&#39;, &#39;time&#39;)
+  - orientmat (&#39;earth&#39;, &#39;inst&#39;, &#39;time&#39;)
+  - heading (&#39;time&#39;,)
+  - pitch (&#39;time&#39;,)
+  - roll (&#39;time&#39;,)
+  - temp (&#39;time&#39;,)
+  - pressure (&#39;time&#39;,)
+  - amp (&#39;beam&#39;, &#39;time&#39;)
+  - corr (&#39;beam&#39;, &#39;time&#39;)
+  - accel (&#39;dir&#39;, &#39;time&#39;)
+  - angrt (&#39;dir&#39;, &#39;time&#39;)
+  ... and others (see `&lt;obj&gt;.variables`)
+</pre></div></div>
+</div>
+</section>
+<section id="Set-rotation-for-cabled-ADV-head">
+<h2>Set rotation for cabled ADV head<a class="headerlink" href="#Set-rotation-for-cabled-ADV-head" title="Link to this heading"></a></h2>
+<p>For cable-head ADVs, be sure to record the position and orientation of the ADV head relative to the ADV pressure case ‘inst’ coordinate system. This ADV was set up in the same orientation as the one shown in Figure 1 <a class="reference external" href="https://dolfyn.readthedocs.io/en/stable/motion-correction.html">here</a>; the rotation matrix for this setup is written below. Per the Nortek documentation, in this orientation, the probe “X” direction is the IMU’s “-Z” direction.</p>
+<p>If utilizing a non-cabled ADV (the standard version), skip this step.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is the rotation matrix per Figure 1: https://dolfyn.readthedocs.io/en/stable/motion-correction.html</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">set_inst2head_rotmat</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Quality-Control">
+<h2>Quality Control<a class="headerlink" href="#Quality-Control" title="Link to this heading"></a></h2>
+<p>ADV velocity data tends to have spikes due to Doppler noise. There are multiple approaches to removing bad values, including trimming beyond a maximum range, removing values with low acoustic correlation values, and finally another is to “despike” the data is by using the phase-space algorithm by Goring and Nikora (2002). DOLfYN integrates QC functions using a 2-step approach: create a logical mask where True corresponds to a spike detection, and then remove and/or interpolate those values.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove low correlation values and noisy beam measurements</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="s2">&quot;beam&quot;</span><span class="p">)</span>
+<span class="c1"># Start a mask by copying the velocity data-array</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">*</span> <span class="mi">0</span>
+<span class="c1"># Now we&#39;ll remove values with correlation &lt; 80% and velocity outside of +/- 0.7 m/s</span>
+<span class="c1"># We decide this +/- 0.7 m/s threshold by looking at plots of the along-beam velocity</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">+</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;corr&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="c1"># Set the mask to boolean</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="c1"># Replace bad datapoints using the ensemble mean over a 5-minute window</span>
+<span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">adv</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">fill_nan_ensemble_mean</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">mask</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="p">),</span> <span class="n">window</span><span class="o">=</span><span class="mi">300</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Percent of data containing spikes: </span><span class="si">{0:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">mask</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+
+<span class="c1"># How to use the Goring+Nikora method to clean spikes in ADV data:</span>
+<span class="n">ds_ex</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Clean the file using the Goring+Nikora method:</span>
+<span class="n">mask_ex</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">GN2002</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">vel</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="c1"># Replace bad datapoints via cubic spline interpolation</span>
+<span class="n">ds_ex</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">clean_fill</span><span class="p">(</span><span class="n">ds_ex</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">mask</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">maxgap</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># If interpolation isn&#39;t desired:</span>
+<span class="n">ds_nan</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_nan</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span> <span class="o">~</span><span class="n">mask_ex</span><span class="p">)</span>
+<span class="n">ds_nan</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_nan</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds_nan</span><span class="p">[</span><span class="s2">&quot;mask&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Percent of data containing spikes: 0.12%
+</pre></div></div>
+</div>
+</section>
+<section id="Coordinate-Rotations">
+<h2>Coordinate Rotations<a class="headerlink" href="#Coordinate-Rotations" title="Link to this heading"></a></h2>
+<p>Now that the data has been cleaned, the next step is to rotate the velocity data into true East, North, Up (ENU) coordinates.</p>
+<p>ADVs use an internal compass or magnetometer to determine magnetic ENU directions. The <code class="docutils literal notranslate"><span class="pre">set_declination</span></code> function takes the user supplied magnetic declination (which can be looked up online for specific coordinates) and adjusts the orientation matrix saved within the dataset.</p>
+<p>Instruments save vector data in the coordinate system specified in the deployment configuration file. To make the data useful, it must be rotated through coordinate systems (“beam”&lt;-&gt;”inst”&lt;-&gt;”earth”&lt;-&gt;”principal”), done through the <code class="docutils literal notranslate"><span class="pre">rotate2</span></code> function. If the “earth” (ENU) coordinate system is specified, DOLfYN will automatically rotate the dataset through the necessary coordinate systems to get there. The <code class="docutils literal notranslate"><span class="pre">inplace</span></code> set as true will alter the input dataset “in place”, i.e., it not create a
+new dataset.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First set the magnetic declination</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">set_declination</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">declin</span><span class="o">=</span><span class="mf">15.3</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>  <span class="c1"># declination points 15.3 degrees East</span>
+
+<span class="c1"># Rotate that data from the instrument to earth frame (ENU):</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;earth&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Once in the true ENU frame of reference, we can calculate the principal flow direction for the velocity data and rotate it into the principal frame of reference (streamwise, cross-stream, vertical). Principal flow directions are aligned with and orthogonal to the flow streamlines at the measurement location.</p>
+<p>First, the principal flow direction must be calculated through <code class="docutils literal notranslate"><span class="pre">calc_principal_heading</span></code>. As a standard for DOLfYN functions, those that begin with “calc_*” require the velocity data for input. This function is different from others in DOLfYN in that it requires placing the output in an attribute called “principal_heading”, as shown below.</p>
+<p>Again we use <code class="docutils literal notranslate"><span class="pre">rotate2</span></code> to change coordinate systems.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;principal_heading&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dolfyn</span><span class="o">.</span><span class="n">calc_principal_heading</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">])</span>
+<span class="n">dolfyn</span><span class="o">.</span><span class="n">rotate2</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;principal&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Once we’ve done quality control and coordinate rotations (not necessarily in that order), we can plot the velocity vector to see how it looks:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;streamwise&quot;</span><span class="p">)</span>
+<span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;cross-stream&quot;</span><span class="p">)</span>
+<span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.0, &#39;&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/adv_example_20_1.png" src="_images/adv_example_20_1.png" />
+</div>
+</div>
+</section>
+<section id="Averaging-Data">
+<h2>Averaging Data<a class="headerlink" href="#Averaging-Data" title="Link to this heading"></a></h2>
+<p>The next step in ADV analysis is to average the velocity data into time bins (ensembles) and calculate turbulence statistics. These averaged values are then used to calculate turbulence statistics. There are two distinct methods for performing this operation, both of which utilize the same variable inputs and produce identical datasets.</p>
+<ol class="arabic simple">
+<li><p><strong>Object-Oriented Approach</strong> (standard): Define an ‘averaging object’, create a dataset binned in time, and calculate basic turbulence statistics. This is accomplished by initiating an object from the ADVBinner class and then feeding that object with our dataset.</p></li>
+<li><p><strong>Functional Approach</strong> (simple): The same operations can be performed using the functional counterpart of ADVBinner, turbulence_statistics.</p></li>
+</ol>
+<p>Function inputs shown here are the dataset itself: - <code class="docutils literal notranslate"><span class="pre">n_bin</span></code>: the number of elements in each bin; - <code class="docutils literal notranslate"><span class="pre">fs</span></code>: the ADV’s sampling frequency in Hz; - <code class="docutils literal notranslate"><span class="pre">n_fft</span></code>: optional, the number of elements per FFT for spectral analysis; - <code class="docutils literal notranslate"><span class="pre">freq_units</span></code>: optional, either in Hz or rad/s, of the calculated spectral frequency vector.</p>
+<p>All of the variables in the returned dataset have been bin-averaged, where each average is computed using the number of elements specified in <code class="docutils literal notranslate"><span class="pre">n_bins</span></code>. Additional variables in this dataset include the turbulent kinetic energy (TKE) vector (“ds_binned.tke_vec”), the Reynold’s stresses (“ds_binned.stress”), and the power spectral densities (“ds_binned.psd”), calculated for each bin.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Option 1 (standard)</span>
+<span class="n">binner</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">ADVBinner</span><span class="p">(</span><span class="n">n_bin</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span> <span class="o">*</span> <span class="mi">600</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span> <span class="o">*</span> <span class="mi">600</span><span class="p">)</span>
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">bin_average</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+<span class="c1"># Option 2 (simple)</span>
+<span class="c1"># ds_binned = api.calc_turbulence(ds, n_bin=ds.fs*600, fs=ds.fs, n_fft=ds.fs*600, freq_units=&quot;Hz&quot;)</span>
+</pre></div>
+</div>
+</div>
+<p>The benefit to using <code class="docutils literal notranslate"><span class="pre">ADVBinner</span></code> is that one has access to all of the velocity and turbulence analysis functions that DOLfYN contains. If basic analysis will suffice, the <code class="docutils literal notranslate"><span class="pre">turbulence_statistics</span></code> function is the most convienent. Either option can still utilize DOLfYN’s shortcuts.</p>
+<p>See the <a class="reference external" href="https://dolfyn.readthedocs.io/en/latest/apidoc/dolfyn.binners.html">DOLfYN API</a> for the full list of functions and shortcuts. A few examples are shown below.</p>
+<p>Some things to know: - All functions operate bin-by-bin. - Some functions will fail if there are NaN’s in the data stream (Notably the PSD functions) - “Shortcuts”, as referred to in DOLfYN, are functions accessible by the xarray accessor <code class="docutils literal notranslate"><span class="pre">velds</span></code>, as shown below. The list of “shortcuts” available through <code class="docutils literal notranslate"><span class="pre">velds</span></code> are listed <a class="reference external" href="https://dolfyn.readthedocs.io/en/latest/apidoc/dolfyn.shortcuts.html">here</a>. Some shortcut variables require the raw dataset, some an averaged dataset.</p>
+<p>For instance, - <code class="docutils literal notranslate"><span class="pre">bin_variance</span></code> calculates the binned-variance of each variable in the raw dataset, the complementary to <code class="docutils literal notranslate"><span class="pre">bin_average</span></code>. Variables returned by this function contain a “_var” suffix to their name. - <code class="docutils literal notranslate"><span class="pre">power_spectral_density</span></code> calculates the power spectral density (velocity spectra) of the velocity vector - <code class="docutils literal notranslate"><span class="pre">cross_spectral_density</span></code> calculates the cross spectral density between each direction of the supplied DataArray. Note that inputs specified in creating the <code class="docutils literal notranslate"><span class="pre">ADVBinner</span></code>
+object can be overridden or additionally specified for a particular function call. - <code class="docutils literal notranslate"><span class="pre">turbulence_intensity</span></code> is calculated from the ratio of the standard deviation of the horizontal velocity magnitude (equivalent to the RMS of turbulent velocity fluctuations) to the mean of the horizontal velocity magnitude - <code class="docutils literal notranslate"><span class="pre">integral_length_scales</span></code> estimates the integral length scale in the streamwise, transverse, and vertical directions from the first crossing of the autocorrelation function -
+<code class="docutils literal notranslate"><span class="pre">turbulent_kinetic_energy</span></code> calculates the TKE (Reynolds normal stress) components - <code class="docutils literal notranslate"><span class="pre">reynolds_stress</span></code> calculates the Reynolds shear stress components - <code class="docutils literal notranslate"><span class="pre">dissipation_rate_LT83</span></code> uses the Lumley and Terray 1983 algorithm to estimate the TKE dissipation rate from the isoropic turbulence cascade seen in the spectral. This requires the frequency range of the cascade as input.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the variance of each variable in the dataset and add to the averaged dataset</span>
+<span class="n">ds_binned</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">bin_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">out_ds</span><span class="o">=</span><span class="n">ds_binned</span><span class="p">)</span>
+
+<span class="c1"># Calculate the power spectral density</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">power_spectral_density</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calculate the cross power spectral densities</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;cross_spectra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">cross_spectral_density</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">],</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">,</span> <span class="n">n_fft_coh</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">fs</span> <span class="o">*</span> <span class="mi">200</span>
+<span class="p">)</span>
+
+<span class="c1"># Water speed and direction</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;U_mag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_binned</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_mag</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;U_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_binned</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_dir</span>
+
+<span class="c1"># Calculate the Doppler noise level from the white noise floor of the auto-spectra</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;noise&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">doppler_noise_level</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">],</span> <span class="n">pct_fN</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="c1"># Calculate the turbulence intensity and subtract the average horizontal velocity noise level</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;TI&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">turbulence_intensity</span><span class="p">(</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">velds</span><span class="o">.</span><span class="n">U_mag</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;noise&quot;</span><span class="p">][:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Calculate the auto-covariance to find the integral length scales</span>
+<span class="n">autocov</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">autocovariance</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">])</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;length_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">integral_length_scales</span><span class="p">(</span><span class="n">autocov</span><span class="p">,</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;U_mag&quot;</span><span class="p">])</span>
+
+<span class="c1"># Calculate the TKE components and Reynolds shear stresses</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s1">&#39;tke_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">turbulent_kinetic_energy</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">])</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s1">&#39;stress_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">reynolds_stress</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;vel&quot;</span><span class="p">])</span>
+
+<span class="c1"># Calculate dissipation rate from isotropic turbulence cascade</span>
+<span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;dissipation_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">dissipation_rate_LT83</span><span class="p">(</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">],</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;U_mag&quot;</span><span class="p">],</span> <span class="n">noise</span><span class="o">=</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;noise&quot;</span><span class="p">],</span> <span class="n">freq_range</span><span class="o">=</span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Saving-and-Loading-DOLfYN-datasets">
+<h2>Saving and Loading DOLfYN datasets<a class="headerlink" href="#Saving-and-Loading-DOLfYN-datasets" title="Link to this heading"></a></h2>
+<p>Datasets can be saved and reloaded using the <code class="docutils literal notranslate"><span class="pre">save</span></code> and <code class="docutils literal notranslate"><span class="pre">load</span></code> functions. Xarray is saved natively in netCDF format, hence the “.nc” extension.</p>
+<p>Note: DOLfYN datasets cannot be saved using xarray’s native <code class="docutils literal notranslate"><span class="pre">ds.to_netcdf</span></code>; however, DOLfYN datasets can be opened using <code class="docutils literal notranslate"><span class="pre">xarray.open_dataset</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment these lines to save and load to your current working directory</span>
+<span class="c1"># dolfyn.save(ds, &#39;your_data.nc&#39;)</span>
+<span class="c1"># ds_saved = dolfyn.load(&#39;your_data.nc&#39;)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualization">
+<h2>Visualization<a class="headerlink" href="#Visualization" title="Link to this heading"></a></h2>
+<p>Plotting can be performed using matplotlib. As an example, the mean spectrum in the streamwise direction is plotted here. This spectrum shows the mean energy density in the flow at a particular flow frequency.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span>
+        <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span>
+        <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;auto_spectra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">),</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="mf">4e-5</span> <span class="o">*</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;f$^{-5/3}$ slope&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Frequency [Hz]&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Spectra [m$^2$/s$^2$/Hz]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x1b22a9eec90&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/adv_example_28_1.png" src="_images/adv_example_28_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Turbulence intensity</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="nb">abs</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;U_mag&quot;</span><span class="p">]),</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;TI&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Velocity [m/s]&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Turbulence Intensity [%]&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># set grid below data</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/adv_example_29_0.png" src="_images/adv_example_29_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TKE Dissipation rate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">x_ticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">y_ticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span>
+<span class="n">y_labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;10$^{-5}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-4}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-3}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-2}$&quot;</span><span class="p">]</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;xscale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="s2">&quot;yscale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">},</span>
+    <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="nb">abs</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;U_mag&quot;</span><span class="p">]),</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;dissipation_rate&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">U</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;U$^3$ slope&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set axis labels</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Velocity [m/s]&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Dissipation Rate [m$^2$/s$^3$]&quot;</span><span class="p">,</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">y_ticks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_ticks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="n">yticks</span><span class="o">=</span><span class="n">y_ticks</span><span class="p">,</span>
+    <span class="n">yticklabels</span><span class="o">=</span><span class="n">y_labels</span><span class="p">,</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">x_ticks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_ticks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="n">xticks</span><span class="o">=</span><span class="n">x_ticks</span><span class="p">,</span>
+    <span class="n">xticklabels</span><span class="o">=</span><span class="n">x_ticks</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># set grid below data</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/adv_example_30_0.png" src="_images/adv_example_30_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Length scales</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;yscale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">},</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;length_scale&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;length_scale&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;length_scale&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Length Scale [m]&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="p">(</span><span class="s2">&quot;Streamwise&quot;</span><span class="p">,</span> <span class="s2">&quot;Transverse&quot;</span><span class="p">,</span> <span class="s2">&quot;Vertical&quot;</span><span class="p">),</span>
+    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.102</span><span class="p">),</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">handlelength</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x1b2336a9af0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/adv_example_31_1.png" src="_images/adv_example_31_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reynolds stresses</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># u&#39;w&#39; bar</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])),</span>
+    <span class="s2">&quot;o-&quot;</span>
+<span class="p">)</span>
+<span class="c1"># v&#39;w&#39; bar</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ds_binned</span><span class="p">[</span><span class="s2">&quot;stress_vec&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">])),</span>
+    <span class="s2">&quot;s-&quot;</span>
+<span class="p">)</span>
+
+<span class="n">y_labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;10$^{-5}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-4}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-3}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-2}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;10$^{-1}$&quot;</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\overline</span><span class="si">{u_iu_j}</span><span class="s2">$ &quot;</span> <span class="o">+</span> <span class="s2">&quot;[m$^2$/s$^2$]&quot;</span><span class="p">,</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">yticks</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">yticklabels</span><span class="o">=</span><span class="n">y_labels</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\overline{u&#39;w&#39;}$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\overline{v&#39;w&#39;}$&quot;</span><span class="p">),</span>
+    <span class="c1"># (r&quot;$\overline{u&#39;v&#39;}$&quot;, r&quot;$\overline{u&#39;w&#39;}$&quot;, r&quot;$\overline{v&#39;w&#39;}$&quot;),</span>
+    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.102</span><span class="p">),</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">handlelength</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">columnspacing</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">handletextpad</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x1b234258c20&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/adv_example_32_1.png" src="_images/adv_example_32_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adcp_example.html" class="btn btn-neutral float-left" title="Analyzing ADCP Data with MHKiT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cdip_example.html" class="btn btn-neutral float-right" title="MHKiT CDIP IO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

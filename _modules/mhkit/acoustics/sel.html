@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.acoustics.sel &mdash; MHKiT v1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d29a5c0e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.acoustics.sel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.acoustics.sel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains key functions related to calculating sound exposure levels</span>
+<span class="sd">from sound pressure data.</span>
+
+<span class="sd">1. **Sound Exposure Level Calculation**:</span>
+
+<span class="sd">   - `nmfs_auditory_weighting`: Computes the auditory weighting and exposure functions</span>
+<span class="sd">     for marine mammals based on the National Marine Fisheries Service (NMFS) guidelines.</span>
+<span class="sd">   - `sound_exposure_level`: Computes the sound exposure level from within a</span>
+<span class="sd">     specified time range.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.spl</span><span class="w"> </span><span class="kn">import</span> <span class="n">_argument_check</span>
+
+
+<div class="viewcode-block" id="nmfs_auditory_weighting">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.nmfs_auditory_weighting">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nmfs_auditory_weighting</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the auditory weighting and exposure functions for marine mammals</span>
+<span class="sd">    based on the National Marine Fisheries Service (NMFS) guidelines.</span>
+
+<span class="sd">    The weighting function is applied to sound exposure level to determine the</span>
+<span class="sd">    auditory impact on marine mammals. The exposure function is the inverse of the</span>
+<span class="sd">    weighting function and illustrates how the weighting function relates to marine</span>
+<span class="sd">    mammal hearing thresholds.</span>
+<span class="sd">    Both function are returned in their log10-transform, in units of dB. To transform</span>
+<span class="sd">    back to linear units, use 10**(weighting_func/10).</span>
+
+<span class="sd">    https://www.fisheries.noaa.gov/national/marine-mammal-protection/marine-mammal-acoustic-technical-guidance-other-acoustic-tools</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    frequency: xarray.DataArray (freq)</span>
+<span class="sd">        Frequency vector in [Hz].</span>
+<span class="sd">    group: str</span>
+<span class="sd">        Marine mammal group for which the auditory weighting function is applied.</span>
+<span class="sd">        Options: &#39;LF&#39; (low frequency cetaceans), &#39;HF&#39; (high frequency cetaceans),</span>
+<span class="sd">        &#39;VHF&#39; (very high frequency cetaceans), &#39;PW&#39; (phocid pinnepeds),</span>
+<span class="sd">        &#39;OW&#39; (otariid pinnepeds)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weighting_func: xarray.DataArray (freq)</span>
+<span class="sd">        Auditory weighting function [unitless] indexed by frequency</span>
+<span class="sd">    exposure_func: xarray.DataArray (freq)</span>
+<span class="sd">        Log-transformed auditory exposure function [dB] indexed by frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">group</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">&quot;lf&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hf&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vhf&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pw&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ow&quot;</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Group must be one of: LF, HF, VHF, PW, OW&quot;</span><span class="p">)</span>
+
+    <span class="n">group_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;lf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">0.168</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">:</span> <span class="mf">26.6</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.12</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="mi">177</span><span class="p">},</span>
+        <span class="s2">&quot;hf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">1.55</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">1.73</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">:</span> <span class="mi">129</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.32</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="mi">181</span><span class="p">},</span>
+        <span class="s2">&quot;vhf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">2.23</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">5.93</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">:</span> <span class="mi">186</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.91</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="mi">160</span><span class="p">},</span>
+        <span class="s2">&quot;pw&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">1.63</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">0.81</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">:</span> <span class="mf">68.3</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.29</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="mi">175</span><span class="p">},</span>
+        <span class="s2">&quot;ow&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">1.58</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mf">2.53</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">:</span> <span class="mf">43.8</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">1.37</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="mi">178</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">group_params</span><span class="p">[</span><span class="n">group</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span> <span class="o">/</span> <span class="mi">1000</span>  <span class="c1"># Convert to kHz</span>
+    <span class="n">ratio_a</span> <span class="o">=</span> <span class="n">frequency</span> <span class="o">/</span> <span class="n">f1</span>
+    <span class="n">ratio_b</span> <span class="o">=</span> <span class="n">frequency</span> <span class="o">/</span> <span class="n">f2</span>
+    <span class="n">band_filter</span> <span class="o">=</span> <span class="n">ratio_a</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">ratio_a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">ratio_b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="n">b</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">weighting_func</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">band_filter</span><span class="p">)</span>  <span class="c1"># dB</span>
+    <span class="n">exposure_func</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">band_filter</span><span class="p">)</span>  <span class="c1"># dB</span>
+
+    <span class="k">return</span> <span class="n">weighting_func</span><span class="p">,</span> <span class="n">exposure_func</span></div>
+
+
+
+<div class="viewcode-block" id="sound_exposure_level">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.sound_exposure_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sound_exposure_level</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fmin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the sound exposure level (SEL) across a specified frequency band</span>
+<span class="sd">    from the sound pressure spectral density (SPSD). If a marine mammal group is</span>
+<span class="sd">    provided, the resulting SEL is weighted according to the U.S. National Marine</span>
+<span class="sd">    Fisheries Service (NMFS) guidelines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time, freq)</span>
+<span class="sd">        Sound pressure spectral density in [Pa^2/Hz] with a bin length</span>
+<span class="sd">        equal to the time over which sound exposure should be computed.</span>
+<span class="sd">    group: str</span>
+<span class="sd">        Marine mammal group for which the auditory weighting function is applied.</span>
+<span class="sd">        Options: &#39;LF&#39; (low frequency cetaceans), &#39;HF&#39; (high frequency cetaceans),</span>
+<span class="sd">        &#39;VHF&#39; (very high frequency cetaceans), &#39;PW&#39; (phocid pinnepeds),</span>
+<span class="sd">        &#39;OW&#39; (otariid pinnepeds). Default: None</span>
+<span class="sd">    fmin: int</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone).</span>
+<span class="sd">        Default: 10 Hz</span>
+<span class="sd">    fmax: int</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency). Default:</span>
+<span class="sd">        100000 Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sel: xarray.DataArray (time)</span>
+<span class="sd">        Sound exposure level [dB re 1 uPa^2 s] indexed by time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Argument checks</span>
+    <span class="n">fmax</span> <span class="o">=</span> <span class="n">_argument_check</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">nmfs_auditory_weighting</span><span class="p">(</span><span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="n">group</span><span class="p">)</span>
+        <span class="c1"># convert from dB back to unitless</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Weighted Sound Exposure Level&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">])</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;Sound Exposure Level&quot;</span>
+
+    <span class="c1"># Reference value of sound pressure</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="mf">1e-12</span> <span class="o">*</span> <span class="mi">1</span>  <span class="c1"># Pa^2 s, = 1 uPa^2 s</span>
+
+    <span class="c1"># Mean square sound pressure in a specified frequency band</span>
+    <span class="c1"># from weighted mean square values</span>
+    <span class="n">band</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">))</span>
+    <span class="n">exposure</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">band</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Sound exposure level (L_{E,p}) = (L_{p,rms} + 10log10(t))</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">exposure</span> <span class="o">/</span> <span class="n">reference</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span>
+        <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;nfft&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;fs&quot;</span><span class="p">]</span>  <span class="c1"># n_points / (n_points/s)</span>
+    <span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">sel</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;dB re 1 uPa^2 s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">long_name</span><span class="p">,</span>
+            <span class="s2">&quot;weighting_group&quot;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
+            <span class="s2">&quot;integration_time&quot;</span><span class="p">:</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;nbin&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;freq_band_min&quot;</span><span class="p">:</span> <span class="n">fmin</span><span class="p">,</span>
+            <span class="s2">&quot;freq_band_max&quot;</span><span class="p">:</span> <span class="n">fmax</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

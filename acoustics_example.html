@@ -1,0 +1,1052 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analyzing Passive Acoustic Data with MHKiT &mdash; MHKiT v1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d29a5c0e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ADCP Discharge Example" href="adcp_discharge_example.html" />
+    <link rel="prev" title="MHKiT WPTO Hindcast Example" href="WPTO_hindcast_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module.html">Module Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html#all-python-notebooks">All Python Notebooks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWAN_example.html">MHKiT SWAN Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Analyzing Passive Acoustic Data with MHKiT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Read-Hydrophone-Data">Read Hydrophone Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Mean-Square-Sound-Pressure-Spectral-Density">Mean Square Sound Pressure Spectral Density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Applying-Calibration-Curves">Applying Calibration Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Mean-Square-Sound-Pressure-Spectral-Density-Level">Mean Square Sound Pressure Spectral Density Level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#IEC-40-Stats">IEC-40 Stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Window-Aggregating">Window Aggregating</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Frequency-Band-Analysis">Frequency Band Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Sound-Pressure-Level">Sound Pressure Level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Decidecade-Sound-Pressure-Levels">Decidecade Sound Pressure Levels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Third-Octave-Sound-Pressure-Level">Third Octave Sound Pressure Level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Sound-Exposure-Level-and-Marine-Mammal-Weightings">Sound Exposure Level and Marine Mammal Weightings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_discharge_example.html">ADCP Discharge Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Analyzing ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environmental_contours_example.html">MHKiT Environmental Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_full_sea_state_example.html">Extreme Conditions Modeling - Full Sea State Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads_example.html">MHKiT Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mooring_example.html">Mooring Module Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_example.html">MHKiT Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qc_example.html">MHKiT Quality Control Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="river_example.html">MHKiT River Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="short_term_extremes_example.html">MHKit Short-term Extreme Loads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strain_measurement_example.html">Strain Measurement Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_example.html">MHKiT Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_performance_example.html">Tidal Power Performance Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="upcrossing_example.html">MHKit Upcrossing Analysis Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wave_example.html">MHKiT Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_power_performance_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directional_waves.html">Directional Wave Spectrum from NDBC Buoys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Analyzing Passive Acoustic Data with MHKiT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/acoustics_example.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Analyzing-Passive-Acoustic-Data-with-MHKiT">
+<h1>Analyzing Passive Acoustic Data with MHKiT<a class="headerlink" href="#Analyzing-Passive-Acoustic-Data-with-MHKiT" title="Link to this heading"></a></h1>
+<p>The following example illustrates how to read and analyze passive acoustics data collected by a hydrophone. This functionality has been primarily integrated into MHKiT to support analysis based on the IEC-TS 62600-40 technical standard for marine energy devices.</p>
+<p>The standard workflow for passive acoustics analysis is as follows:</p>
+<ol class="arabic simple">
+<li><p>Import a .wav file</p></li>
+<li><p>Calibrate pressure sensitivity</p></li>
+<li><p>Calculate spectral density</p></li>
+<li><p>Calculate other parameters</p></li>
+<li><p>Create plots</p></li>
+</ol>
+<p>We’ll import a couple plotting tools and the acoustics module:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">acoustics</span>
+</pre></div>
+</div>
+</div>
+<section id="Read-Hydrophone-Data">
+<h2>Read Hydrophone Data<a class="headerlink" href="#Read-Hydrophone-Data" title="Link to this heading"></a></h2>
+<p>Hydrophones typically output a .wav file, which can be read in MHKiT using a base function called <code class="docutils literal notranslate"><span class="pre">read_hydrophone</span></code> from the acoustics.io submodule. Because a hydrophone’s sampling frequency is so fast, measurements are stored in the lowest memory format possible and need to be scaled and transformed to return the measurements in physical units of voltage or pressure.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">read_hydrophone</span></code> function scales and transforms raw measurements given a few input parameters. Most parameters needed to convert the raw data are stored in the native .wav format header blocks, but two, the peak voltage (“peak_voltage”) of the sensor’s analog-to-digital converter (ADC) and file “start_time” (usually stored in the filename) are required.</p>
+<p>Two other inputs, the hydrophone sensitivity (“sensitivity”) and an amplifier gain (“gain”) can also be input. If a sensitivity value is provided, the function will convert voltage to pressure; otherwise the sensitivity(ies) can be provided later using a calibration curve. Gain should be provided if the instrument utilizes an amplifier gain (typically for custom hydrophone builds), which is then added to the sensitivity.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_hydrophone</span><span class="p">(</span>
+    <span class="s2">&quot;data/acoustics/RBW_6661_20240601_053114.wav&quot;</span><span class="p">,</span>
+    <span class="n">peak_voltage</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">sensitivity</span><span class="o">=-</span><span class="mi">177</span><span class="p">,</span>
+    <span class="n">gain</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">start_time</span><span class="o">=</span><span class="s2">&quot;2024-06-01T05:31:14&quot;</span>
+<span class="p">)</span>
+<span class="c1"># `P` is returned as an xarray DataArray, which allows easy handling of labeled multi-dimensional arrays.</span>
+<span class="c1"># In this case, the array represents sound pressure in Pascals (Pa) over time because the calibrated sensitivity was passed.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.DataArray (time: 30720000)&gt; Size: 246MB
+array([0.31546374, 0.30229832, 0.32229963, ..., 0.08506887, 0.07291618,
+       0.06278893])
+Coordinates:
+  * time     (time) datetime64[ns] 246MB 2024-06-01T05:31:14 ... 2024-06-01T0...
+Attributes:
+    units:        Pa
+    sensitivity:  1.413e-09
+    resolution:   9.89e-07
+    valid_min:    -2123.837353
+    valid_max:    2123.837353
+    fs:           512000
+    filename:     RBW_6661_20240601_053114
+</pre></div></div>
+</div>
+<p>“Smart” hydrophones are those where the hydrophone element, pre-amplifier board, analog-to-digital converter (ADC), motherboard and memory card are sold in a single package. Companies that sell these often store metadata in the .wav file header.</p>
+<p>MHKiT has wrapper functions for OceanSonics icListen and OceanInstruments Soundtrap hydrophones, with examples as follows.</p>
+<p>For icListen datafiles, only the filename is necessary to provide to return file contents in units of pressure. The stored sensitivity calibration value can be overridden by setting the “sensitivity” input to a predetermined value. If sensitivity calibration data is on hand, return measurements in units of voltage by setting <code class="docutils literal notranslate"><span class="pre">sensitivity</span></code> to None and <code class="docutils literal notranslate"><span class="pre">use_metadata</span></code> to False.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pressure output</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_iclisten</span><span class="p">(</span><span class="s2">&quot;data/acoustics/RBW_6661_20240601_053114.wav&quot;</span><span class="p">)</span>
+<span class="c1"># Voltage output</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_iclisten</span><span class="p">(</span>
+    <span class="s2">&quot;data/acoustics/RBW_6661_20240601_053114.wav&quot;</span><span class="p">,</span>
+    <span class="n">sensitivity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">use_metadata</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>For Ocean Instruments Soundtrap datafiles, the filename and sensitivity should be provided to return the measurements in units of pressure. Again, if the hydrophone has been calibrated, set the sensitivity to None to return the measurements in units of voltage.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_soundtrap</span><span class="p">(</span><span class="s2">&quot;data/acoustics/6247.230204150508.wav&quot;</span><span class="p">,</span> <span class="n">sensitivity</span><span class="o">=-</span><span class="mi">177</span><span class="p">)</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_soundtrap</span><span class="p">(</span><span class="s2">&quot;data/acoustics/6247.230204150508.wav&quot;</span><span class="p">,</span> <span class="n">sensitivity</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Mean-Square-Sound-Pressure-Spectral-Density">
+<h2>Mean Square Sound Pressure Spectral Density<a class="headerlink" href="#Mean-Square-Sound-Pressure-Spectral-Density" title="Link to this heading"></a></h2>
+<p>After the .wav file is read, either in units of pressure or voltage, we calculate the mean square sound pressure spectral density (SPSD) of the time-series using <code class="docutils literal notranslate"><span class="pre">sound_pressure_spectral_density</span></code>. This splits the timeseries into windows and uses fast Fourier transforms to convert the raw measurements into the frequency domain, with units of <span class="math notranslate nohighlight">\(Pa^2/Hz\)</span> or <span class="math notranslate nohighlight">\(V^2/Hz\)</span>, depending on the input. The function takes the original datafile, the hydrophone’s sampling rate (“fs”), which is stored
+as an attribute of the measurement timeseries, and a window size (“bin_length”) in seconds as input.</p>
+<p>The IEC-40 considers an acoustic sample to have a length of 1 second, so we’ll set the bin length as such here.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create mean square spectral densities using 1 s bins.</span>
+<span class="n">spsd</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_pressure_spectral_density</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">V</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">bin_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Applying-Calibration-Curves">
+<h2>Applying Calibration Curves<a class="headerlink" href="#Applying-Calibration-Curves" title="Link to this heading"></a></h2>
+<p>For conducting scientific-grade analysis, it is critical to use calibration curves to correct the SPSD calculations. Hydrophones should be calibrated (i.e., a sensitivity calibration curve should be generated for a hydrophone) every few years. The IEC-40 asks that a hydrophone be calibrated both before and after the test deployment.</p>
+<p>A calibration curve consists of the hydrophone’s sensitivity (in units of <span class="math notranslate nohighlight">\(dB\)</span> <span class="math notranslate nohighlight">\(rel\)</span> <span class="math notranslate nohighlight">\(1\)</span> <span class="math notranslate nohighlight">\(V^2/uPa^2\)</span>) vs frequency and should be applied to the spectral density we just calculated.</p>
+<p>The easiest way to apply a sensitivity calibration curve in MHKiT is to first copy the calibration data into a CSV file, where the left column contains the calibrated frequencies and the right column contains the sensitivity values. Here we use the function in the following codeblock to read in a CSV file created with the column headers “Frequency” and “Analog Sensitivity”.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_calibration_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">calibration</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">calibration</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">calibration</span><span class="p">[</span><span class="s2">&quot;Frequency&quot;</span><span class="p">]</span>
+    <span class="n">calibration</span> <span class="o">=</span> <span class="n">calibration</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">calibration</span><span class="p">[</span><span class="s2">&quot;Analog Sensitivity&quot;</span><span class="p">]</span>
+
+<span class="n">sensitivity_curve</span> <span class="o">=</span> <span class="n">read_calibration_file</span><span class="p">(</span><span class="s2">&quot;data/acoustics/6247_calibration.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sensitivity_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.DataArray &#39;Analog Sensitivity&#39; (Frequency: 40)&gt; Size: 320B
+array([-223.49, -220.8 , -218.13, -215.41, -212.68, -209.91, -207.12,
+       -204.29, -201.45, -198.58, -195.69, -192.79, -189.85, -186.9 ,
+       -183.93, -180.93, -177.92, -174.97, -172.16, -169.61, -167.69,
+       -166.52, -165.96, -165.81, -165.85, -165.95, -166.05, -166.13,
+       -166.2 , -166.25, -166.28, -166.29, -166.29, -166.27, -166.24,
+       -166.17, -166.03, -165.79, -165.47, -164.87])
+Coordinates:
+  * Frequency  (Frequency) float64 320B 1.0 1.183 1.399 ... 500.3 591.8 700.0
+</pre></div></div>
+</div>
+<p>Once we have the calibration data in an xarray DataArray, we can apply that to the SPSD using the <code class="docutils literal notranslate"><span class="pre">apply_calibration</span></code> function. Calibration curves typically do not cover the entire range of the hydrophone, so this function will linearly interpolate the missing values. A fill_value can be provided to extrapolate outside of the calibrated frequencies.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use last value in calibration curve for higher frequencies</span>
+<span class="n">fill_Sf</span> <span class="o">=</span> <span class="n">sensitivity_curve</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">spsd</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">apply_calibration</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">sensitivity_curve</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_Sf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Mean-Square-Sound-Pressure-Spectral-Density-Level">
+<h2>Mean Square Sound Pressure Spectral Density Level<a class="headerlink" href="#Mean-Square-Sound-Pressure-Spectral-Density-Level" title="Link to this heading"></a></h2>
+<p>We can use the function <code class="docutils literal notranslate"><span class="pre">sound_pressure_spectral_density_level</span></code> to calculate the mean square sound pressure spectral density levels (SPSDLs) from the calibrated SPSD. This function converts absolute pressure into relative pressure in log-space, the traditional means with which we measure sound, in units of decibels relative to 1 uPa [dB rel 1 uPa], the standard for underwater sound.</p>
+<p>Sidenote: Sound in air is measured in decibels relative to 20 uPa, the minimum sound pressure humans can hear. To convert between [dB rel 1 uPa] and [dB rel 20 uPa], one simply needs to subtract 26 dB from the [dB rel 1 uPa] value.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spsdl</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_pressure_spectral_density_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now that the SPSDL is calculated, we can create spectrograms, or waterfall plots, using the <code class="docutils literal notranslate"><span class="pre">plot_spectrogram</span></code> function in the graphics submodule. While spectrograms aren’t required by the IEC-40, they are useful to do quality control so we can avoid using contaminated soundbytes in further analysis (i.e., we’d remove the boat noise shown here from further analysis of a marine energy device).</p>
+<p>To do this, we’ll give the function the minimum and maximum frequencies to plot, as well as keyword arguments supplied to the matplotlib <code class="docutils literal notranslate"><span class="pre">pcolormesh</span></code> function. For these measurements, we’re setting fmin = 10 Hz, the minimum specified by the IEC-40, and fmax = 48,000 Hz, the Nyquist frequency for these data.</p>
+<p>Note, the IEC-40 requires a maximum frequency of 100,000 Hz, so a hydrophone capable of sampling faster than 200,000 Hz should be used for IEC testing.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show Nyquist frequency (maximum in frequency vector)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">spsdl</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.DataArray &#39;freq&#39; ()&gt; Size: 8B
+array(48000.)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmin</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">fmax</span> <span class="o">=</span> <span class="mi">48000</span>
+
+<span class="c1"># Create high resolution spectrogram</span>
+<span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="s2">&quot;inferno&quot;</span><span class="p">,</span> <span class="s2">&quot;vmin&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;vmax&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectrogram</span><span class="p">(</span>
+    <span class="n">spsdl</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MinuteLocator</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MinuteLocator</span><span class="p">())</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_18_0.png" src="_images/acoustics_example_18_0.png" />
+</div>
+</div>
+<p>If you see something interesting in the spectrogram, the next step you should do is listen to the .wav file. This can tell you a lot about what you’re looking at. If you listen to this file, you’ll hear the boat cruising by around 3 minutes in.</p>
+<p>Some audio players aren’t able to play some hydrophone recodings (i.e., icListens), so be sure to try different players if you can’t hear anything in one particular player. Higher-end hydrophones tend to user higher ADC peak voltages, which will translate to quieter audio tracks. You can use the <code class="docutils literal notranslate"><span class="pre">export_audio</span></code> file in the io submodule to rescale these audio tracks and increase the gain if need be.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment to save new file</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;sound1.wav&quot;</span>
+<span class="c1">#acoustics.io.export_audio(filename, P, gain=1)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="IEC-40-Stats">
+<h2>IEC-40 Stats<a class="headerlink" href="#IEC-40-Stats" title="Link to this heading"></a></h2>
+<p>The IEC-40 requires a few aggregate statistics for characterizing the sound of marine energy devices. For the first, the IEC-40 asks for plots showing the 25%, 50%, and 75% quantiles of the SPSDL during specific marine energy device states. For current energy devices, the IEC-40 requires 10 SPSDL samples at a series of turbine states (braked, freewheel, 25% power, 50% power, 75% power, 100% power). For wave energy devices, the spec requires 30 SPSDL samples in each wave height and period bin
+observed.</p>
+<p>For this example notebook we’ll keep it simple and use a random set of 30 samples and collate them together. Typically, one will pick and choose which 1 second samples to collate together and analyze. Then we can find the median and quantiles of those 30 samples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">spsdl</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">spsdl_clip</span> <span class="o">=</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="n">spsdl_median</span> <span class="o">=</span> <span class="n">spsdl_clip</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">spsdl_q25</span> <span class="o">=</span> <span class="n">spsdl_clip</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">spsdl_q75</span> <span class="o">=</span> <span class="n">spsdl_clip</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot medians and quantiles</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">spsdl_median</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">spsdl_clip</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span>
+    <span class="n">spsdl_q25</span><span class="p">,</span>
+    <span class="n">spsdl_q75</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Quantiles&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Sound Pressure Spectral Density Level</span><span class="se">\n</span><span class="s2">[dB rel 1 uPa$^2$/Hz]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(20.0, 80.0),
+ Text(0, 0.5, &#39;Sound Pressure Spectral Density Level\n[dB rel 1 uPa$^2$/Hz]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_22_1.png" src="_images/acoustics_example_22_1.png" />
+</div>
+</div>
+</section>
+<section id="Window-Aggregating">
+<h2>Window Aggregating<a class="headerlink" href="#Window-Aggregating" title="Link to this heading"></a></h2>
+<p>If desired, one can group a series of measurements into blocks of time, though this isn’t required by the IEC-40. In the following block, we’ll take our 5 minutes of measurements, <code class="docutils literal notranslate"><span class="pre">time_aggregate</span></code> them into 30 second intervals, and find the median, 25% and 75% quantiles of each interval. We then plot the stats of the median parameters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time average into 30 s windows and take the median parameter value</span>
+<span class="n">window</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">spsdl_time</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">time_aggregate</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can then using the <code class="docutils literal notranslate"><span class="pre">plot_spectra</span></code> function in the graphics submodule to plot the median and quantiles of the first 30 s window.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot medians and quantiles</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">spsdl_time</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">&quot;time_bins&quot;</span><span class="p">),</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">spsdl_time</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span>
+    <span class="n">spsdl_time</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;time_bins&quot;</span><span class="p">),</span>
+    <span class="n">spsdl_time</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;time_bins&quot;</span><span class="p">),</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Quantiles&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Sound Pressure Spectral Density Level</span><span class="se">\n</span><span class="s2">[dB rel 1 uPa$^2$/Hz]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(20.0, 80.0),
+ Text(0, 0.5, &#39;Sound Pressure Spectral Density Level\n[dB rel 1 uPa$^2$/Hz]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_26_1.png" src="_images/acoustics_example_26_1.png" />
+</div>
+</div>
+</section>
+<section id="Frequency-Band-Analysis">
+<h2>Frequency Band Analysis<a class="headerlink" href="#Frequency-Band-Analysis" title="Link to this heading"></a></h2>
+<p>Frequency band analysis can be completed by grouping the data into specific frequency bands, called “band aggregating” here. In other words, instead of aggregating by the time dimension, we aggregate by the frequency dimension. The <code class="docutils literal notranslate"><span class="pre">band_aggregate</span></code> function operates by taking the SPSDL and grouping it based on a specified octave and octave base.</p>
+<p>In the following codeblock, we use the same plotting function as above, but do so by creating the decidecade frequency bands (10th octave, octave base 10 =&gt; <span class="math notranslate nohighlight">\(10^{1/10}\)</span>). We’ll calculate the median and quantiles of each sample, then take the median of each of those parameters. For the IEC-40, one will calculate these parameters for each device operating state (current energy converters) or wave state matrix (wave energy converters).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">octave</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>  <span class="c1"># [octave, octave base]</span>
+<span class="n">spsdl10</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">band_aggregate</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">octave</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot medians and quantiles</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">spsdl10</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">),</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">spsdl10</span><span class="p">[</span><span class="s2">&quot;freq_bins&quot;</span><span class="p">],</span>
+    <span class="n">spsdl10</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
+    <span class="n">spsdl10</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Quantiles&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Decidecade SPSDL [dB rel 1 uPa$^2$/Hz]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(20.0, 80.0), Text(0, 0.5, &#39;Decidecade SPSDL [dB rel 1 uPa$^2$/Hz]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_28_1.png" src="_images/acoustics_example_28_1.png" />
+</div>
+</div>
+<p>The plot above shows significant spread in sound measurements at higher frequency due to the vessel noise, but less so at lower frequency. This mirrors what we can see in the sound pressure density level figure we first plotted.</p>
+<p>Boxplots for each frequency band can also be created instead of simple line plots. We can use the aggregate methods to apply plotting functions, like matplotlib’s native boxplot. In this case, we’ll supply the “map” function and an iterable of the custom function inputs (the figure axes we want to use to plot).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">boxplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="c1"># Use the median of the coordinate we&#39;re grouped in</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">)</span>
+    <span class="c1"># Create boxplots</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">whis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">),</span>
+        <span class="n">showfliers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">positions</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">freq</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
+        <span class="n">widths</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span>
+        <span class="n">flierprops</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;markersize&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">acoustics</span><span class="o">.</span><span class="n">band_aggregate</span><span class="p">(</span>
+    <span class="n">spsdl</span><span class="p">,</span> <span class="n">octave</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">boxplot</span><span class="p">,</span> <span class="p">[</span><span class="n">ax</span><span class="p">])}</span>
+<span class="p">)</span>
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+    <span class="n">xticks</span><span class="o">=</span><span class="n">xticks</span><span class="p">,</span>
+    <span class="n">xticklabels</span><span class="o">=</span><span class="n">xticks</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">),</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;log(Frequency) [Hz]&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Decidecade SPSDL [dB re 1 uPa$^2$/Hz]&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[&lt;matplotlib.axis.XTick at 0x24648eb2b50&gt;,
+  &lt;matplotlib.axis.XTick at 0x246000ac350&gt;,
+  &lt;matplotlib.axis.XTick at 0x246000752d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x24601842f90&gt;,
+  &lt;matplotlib.axis.XTick at 0x24601ce0e10&gt;,
+  &lt;matplotlib.axis.XTick at 0x24606034f90&gt;],
+ [Text(0.0, 0, &#39;0&#39;),
+  Text(1.0, 0, &#39;1&#39;),
+  Text(2.0, 0, &#39;2&#39;),
+  Text(3.0, 0, &#39;3&#39;),
+  Text(4.0, 0, &#39;4&#39;),
+  Text(5.0, 0, &#39;5&#39;)],
+ (1.0, 4.8),
+ (20.0, 100.0),
+ Text(0.5, 0, &#39;log(Frequency) [Hz]&#39;),
+ Text(0, 0.5, &#39;Decidecade SPSDL [dB re 1 uPa$^2$/Hz]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_30_1.png" src="_images/acoustics_example_30_1.png" />
+</div>
+</div>
+<p>The “map” function will also allow one to conduct further frequency band analysis than the simple statistical methods that xarray offers. In the following block of code, we find the empirical quantile function (the empirical version of the cumulative distribution function, CDF) of each decidecade frequency band and plot the decidecade band centered nearest to 160 Hz.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">quantile_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Empirical CDF/Quantile Function/Exceedance Probability</span>
+    <span class="c1"># Use the median of the coordinate we&#39;re grouped in</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">)</span>
+    <span class="c1"># Squeeze to remove frequency dimension</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="c1"># calculate the proportional values of samples</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># recreate dataarray</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">})</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;probability&quot;</span><span class="p">})</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_sorted</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">octave</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>  <span class="c1"># 1/10th octave at base 10</span>
+<span class="n">cdfs</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">band_aggregate</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">octave</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="n">quantile_function</span><span class="p">})</span>
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cdfs</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq_bins</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cdfs</span><span class="p">[</span><span class="s2">&quot;probability&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">cdfs</span><span class="p">[</span><span class="s1">&#39;freq_bins&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq_bins</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Exceedance Probability&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;SPSDL [dB re 1 uPa$^2$/Hz]&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[Text(0.5, 1.0, &#39;158.49 Hz&#39;),
+ Text(0, 0.5, &#39;Exceedance Probability&#39;),
+ Text(0.5, 0, &#39;SPSDL [dB re 1 uPa$^2$/Hz]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_32_1.png" src="_images/acoustics_example_32_1.png" />
+</div>
+</div>
+</section>
+<section id="Sound-Pressure-Level">
+<h2>Sound Pressure Level<a class="headerlink" href="#Sound-Pressure-Level" title="Link to this heading"></a></h2>
+<p>The IEC-40 has two requirements considering calculations of sound pressure level (SPL). We’ll first calculate the SPL over the full frequency range of the turbine and/or hydrophone using the function <code class="docutils literal notranslate"><span class="pre">sound_pressure_level</span></code>. First, however, note that the IEC-40 asks that the range be set from 10 to 100,000 Hz. The lower limit can be increased due to flow noise or low frequency signal loss due to shallow water.</p>
+<section id="Shallow-water-cutoff-frequency">
+<h3>Shallow water cutoff frequency<a class="headerlink" href="#Shallow-water-cutoff-frequency" title="Link to this heading"></a></h3>
+<p>Low frequency sound is absorbed into the seabed in shallow water depths. We can use the function <code class="docutils literal notranslate"><span class="pre">minimum_frequency</span></code> to get an approximation of what our minimum frequency should be. This approximation uses the water depth, estimates of the in-water sound speed, and sea/riverbed sound speed to determine what the cutoff frequency will be. The difficult part with this approximation is figuring out the speed of sound in the bed material, which generally ranges from 1450-1800 m/s.</p>
+<p>This function should only be used as a rough approximation and sanity check if significant attenuation is seen at various low frequencies and harmonics.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">depths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">])</span>
+<span class="n">fmin</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">minimum_frequency</span><span class="p">(</span><span class="n">water_depth</span><span class="o">=</span><span class="n">depths</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">c_seabed</span><span class="o">=</span><span class="mi">1700</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Depth [m], Freq [Hz]&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">depths</span><span class="p">,</span> <span class="n">fmin</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">f</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Depth [m], Freq [Hz]
+1, 796.9
+5, 159.4
+10, 79.7
+20, 39.8
+40, 19.9
+80, 10.0
+</pre></div></div>
+</div>
+<p>Though the IEC-40 says we should default to a minimum frequency of 10 Hz, as you can see above, unless we’re measuring from a depth of around 80 +/- 10 m, our minimum frequency should be higher. One can play around with the bed soundspeed to see how these change with varying bed densities/compositions.</p>
+</section>
+<section id="Flow-Noise">
+<h3>Flow Noise<a class="headerlink" href="#Flow-Noise" title="Link to this heading"></a></h3>
+<p>Flow noise, or psuedo-sound, is the other reason to increase the minimum frequency of our SPL measurements. Flow noise is caused by one of three things: turbulence advected past the hydrophone element, turbulence caused by the hydrophone element, and the sensitivity of the hydrophone element to temperature inhomogeneities in the advected flow. Flow noise is most noticeably apparent when flow speeds increase above 0.5 m/s, seen in spectrograms as a logarithmic increase in pressure with decreasing
+frequency.</p>
+<p>The particular data shown here was measured in around 8-10 m of water, and a mix of mild flow noise below 20 Hz and low frequency attenutation below ~50 Hz can be seen in the spectrogram. We’ll again use the Nyquist frequency of 48,000 Hz.</p>
+</section>
+<section id="Cumulative-SPL">
+<h3>Cumulative SPL<a class="headerlink" href="#Cumulative-SPL" title="Link to this heading"></a></h3>
+<p>Running the code block below, we can see our cumulative SPL start out at 86 dB and then peak at 125 dB as the boat drives by. If you haven’t listened to the audio track, this peak SPL of 125 dB rel 1 uPa (underwater) is equivalent to 99 dB rel 20 uPa (air). For reference, the OSHA time limit for workers experiencing 100 dB rel 20 uPa of sound is 2 hours. Vessel traffic can be quite loud and is one of the largest contributors to noise in the marine environment.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sound pressure level</span>
+<span class="n">fmin</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">fmax</span> <span class="o">=</span> <span class="mi">48000</span>
+
+<span class="n">spl</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_pressure_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+<span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x24601c66a90&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_37_1.png" src="_images/acoustics_example_37_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Decidecade-Sound-Pressure-Levels">
+<h2>Decidecade Sound Pressure Levels<a class="headerlink" href="#Decidecade-Sound-Pressure-Levels" title="Link to this heading"></a></h2>
+<p>The last stat that IEC-40 requests are the decidecade SPLs, where the SPL is calculated for each decidecade frequency band. Note that the IEC-40 labels these as synonymous the third-octave SPLs; while for some applications this may be true, mathematically they have different definitions.</p>
+<p>To explain, a true octave is a frequency band where the upper frequency is double (i.e., base 2) that of the lower frequency. Third octaves are often measured because mammals to have evolved to interpret sound at this bandwidth. The true one-third octave is a frequency band where the upper frequency is 2^(1/3) = 1.25992 times the lower frequency. The decidecade band referenced by the IEC-40 refers to the one-tenth octave of base 10, where the upper frequency is 10 times that of the lower
+frequency. Mathematically this means the decidecade band has a bandwidth of 10^(1/10) = 1.25892. So, when reporting frequency analysis, it is important to note both the octave and its bandwidth.</p>
+<p>We can calculate the SPL in each decidecade band using the function <code class="docutils literal notranslate"><span class="pre">decidecade_sound_pressure_level</span></code>. This function uses the same calculation as <code class="docutils literal notranslate"><span class="pre">sound_pressure_level</span></code> above and runs it on each tenth octave band. It returns 1 SPL in each frequency band every timestamp, so our boxplots show 5 minutes worth of SPL measurements in each decidecade band. You’ll notice a similar spread as in the SPSDL boxplots, especially in the upper quantile. Boats are loud.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decidecade octave sound pressure level (also interquartile)</span>
+<span class="n">spl10</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">decidecade_sound_pressure_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+<span class="c1"># Plot the decidecade sound pressure level</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">spl10</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">),</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">spl10</span><span class="p">[</span><span class="s2">&quot;freq_bins&quot;</span><span class="p">],</span>
+    <span class="n">spl10</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
+    <span class="n">spl10</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Quantiles&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Decidecade SPL [dB rel 1 uPa]&quot;</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+<span class="c1"># Boxplots</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="n">spl10</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">whis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">),</span>
+    <span class="n">showfliers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">positions</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">spl10</span><span class="p">[</span><span class="s2">&quot;freq_bins&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+    <span class="n">widths</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span>
+    <span class="n">flierprops</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;markersize&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+    <span class="n">xticks</span><span class="o">=</span><span class="n">xticks</span><span class="p">,</span>
+    <span class="n">xticklabels</span><span class="o">=</span><span class="n">xticks</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">45</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">52000</span><span class="p">)),</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;log(Frequency) [Hz]&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Decidecade SPL [dB re 1 uPa]&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[&lt;matplotlib.axis.XTick at 0x24600155790&gt;,
+  &lt;matplotlib.axis.XTick at 0x246001a3c90&gt;,
+  &lt;matplotlib.axis.XTick at 0x24603434350&gt;,
+  &lt;matplotlib.axis.XTick at 0x246001d7290&gt;,
+  &lt;matplotlib.axis.XTick at 0x24602e809d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x24602e81b10&gt;],
+ [Text(0.0, 0, &#39;0&#39;),
+  Text(1.0, 0, &#39;1&#39;),
+  Text(2.0, 0, &#39;2&#39;),
+  Text(3.0, 0, &#39;3&#39;),
+  Text(4.0, 0, &#39;4&#39;),
+  Text(5.0, 0, &#39;5&#39;)],
+ (1.6532125137753437, 4.7160033436347994),
+ (50.0, 120.0),
+ Text(0.5, 0, &#39;log(Frequency) [Hz]&#39;),
+ Text(0, 0.5, &#39;Decidecade SPL [dB re 1 uPa]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_39_1.png" src="_images/acoustics_example_39_1.png" />
+</div>
+</div>
+</section>
+<section id="Third-Octave-Sound-Pressure-Level">
+<h2>Third Octave Sound Pressure Level<a class="headerlink" href="#Third-Octave-Sound-Pressure-Level" title="Link to this heading"></a></h2>
+<p>One can also calculate the true 1/3 octave SPLs using <code class="docutils literal notranslate"><span class="pre">third_octave_sound_pressure_level</span></code> if desired. Note the results are quite similar to <code class="docutils literal notranslate"><span class="pre">decidecade_sound_pressure_level</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Median third octave sound pressure level</span>
+<span class="n">spl3</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">third_octave_sound_pressure_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+<span class="c1"># Plot the decidecade sound pressure level</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">spl3</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">),</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">spl3</span><span class="p">[</span><span class="s2">&quot;freq_bins&quot;</span><span class="p">],</span>
+    <span class="n">spl3</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
+    <span class="n">spl3</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Quantiles&quot;</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Third Octave SPL [dB rel 1 uPa]&quot;</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+<span class="c1"># Boxplots</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="n">spl3</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">whis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">),</span>
+    <span class="n">showfliers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">positions</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">spl3</span><span class="p">[</span><span class="s2">&quot;freq_bins&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+    <span class="n">widths</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span>
+    <span class="n">flierprops</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;markersize&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+    <span class="n">xticks</span><span class="o">=</span><span class="n">xticks</span><span class="p">,</span>
+    <span class="n">xticklabels</span><span class="o">=</span><span class="n">xticks</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">45</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">52000</span><span class="p">)),</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">120</span><span class="p">),</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;log(Frequency) [kHz]&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Third Octave SPL [dB re 1 uPa]&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[&lt;matplotlib.axis.XTick at 0x246064476d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x24606434350&gt;,
+  &lt;matplotlib.axis.XTick at 0x24606421e50&gt;,
+  &lt;matplotlib.axis.XTick at 0x246061d4350&gt;,
+  &lt;matplotlib.axis.XTick at 0x24606460e10&gt;,
+  &lt;matplotlib.axis.XTick at 0x24606462ed0&gt;],
+ [Text(0.0, 0, &#39;0&#39;),
+  Text(1.0, 0, &#39;1&#39;),
+  Text(2.0, 0, &#39;2&#39;),
+  Text(3.0, 0, &#39;3&#39;),
+  Text(4.0, 0, &#39;4&#39;),
+  Text(5.0, 0, &#39;5&#39;)],
+ (1.6532125137753437, 4.7160033436347994),
+ (50.0, 120.0),
+ Text(0.5, 0, &#39;log(Frequency) [kHz]&#39;),
+ Text(0, 0.5, &#39;Third Octave SPL [dB re 1 uPa]&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_41_1.png" src="_images/acoustics_example_41_1.png" />
+</div>
+</div>
+</section>
+<section id="Sound-Exposure-Level-and-Marine-Mammal-Weightings">
+<h2>Sound Exposure Level and Marine Mammal Weightings<a class="headerlink" href="#Sound-Exposure-Level-and-Marine-Mammal-Weightings" title="Link to this heading"></a></h2>
+<p>While the IEC-40 does not have recommendations for sound exposure level (SEL), it is a better parameter for quantifying auditory stress/injury to organisms. Sound exposure level is a metric that quantifies sound pressure level relative to exposure duration, based on the idea that that the effects on an organism’s hearing are the same for equivalent totals sound energy received - even if that energy was received at different rates. Numerically, an SPL of 190 dB re 1 uPa over a 1 second interval
+and an SPL 160 dB re 1 uPa for 1000 seconds both have a SEL of 190 dB re 1 uPa^2 s.</p>
+<p>The National Marine Fisheries Service (NMFS) publishes auditory weighting functions for five groups of marine mammals. These weighting functions are designed to try to emulate the auditory sensitivity of each group to better predict auditory injury thresholds. They are mathematically equivalent to band-pass filters. A link to the latest recommendations from NMFS is
+<a class="reference external" href="https://www.fisheries.noaa.gov/national/marine-mammal-protection/marine-mammal-acoustic-technical-guidance-other-acoustic-tools">here</a>.</p>
+<p>The SEL function <code class="docutils literal notranslate"><span class="pre">sound_exposure_level</span></code> has a few inputs. One is the pressure spectral density (PSD) in Pa^2/Hz, found from <code class="docutils literal notranslate"><span class="pre">sound_pressure_spectral_density</span></code>. The ‘n_bin’ input to that function should be the same length of time as you want to calculate SEL for. If you would like to calculate the 24 hr SEL, you need 24 hours worth of data - the best way to do this and save computer RAM would be to calculate the PSD from each 1-5 minute individual file and then concatenate the PSD from each
+file together. Set “group=None” to calculate the standard SEL. Set “group” to “LF” for ‘low frequency’ cetaceans; “HF” for ‘high frequency’ cetaceans; “VHF” for ‘very high frequency’ cetaceans; “PW” for phocid pinnepeds; and “OW” for otariid pinnepeds.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="c1"># Five minute SEL</span>
+<span class="n">spsd_300s</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_pressure_spectral_density</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">V</span><span class="o">.</span><span class="n">fs</span><span class="p">,</span> <span class="n">bin_length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1"># Calibrate PSD</span>
+<span class="n">fill_Sf</span> <span class="o">=</span> <span class="n">sensitivity_curve</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">spsd_300s</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">apply_calibration</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">,</span> <span class="n">sensitivity_curve</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_Sf</span><span class="p">)</span>
+
+<span class="n">ds_sel</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+<span class="n">ds_sel</span><span class="p">[</span><span class="s2">&quot;sel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_exposure_level</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LF&quot;</span><span class="p">,</span> <span class="s2">&quot;HF&quot;</span><span class="p">,</span> <span class="s2">&quot;VHF&quot;</span><span class="p">,</span> <span class="s2">&quot;PW&quot;</span><span class="p">,</span> <span class="s2">&quot;OW&quot;</span><span class="p">]:</span>
+    <span class="n">ds_sel</span><span class="p">[</span><span class="s2">&quot;sel_&quot;</span> <span class="o">+</span> <span class="n">group</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_exposure_level</span><span class="p">(</span>
+        <span class="n">spsd_300s</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ds_sel</span><span class="p">[</span><span class="s2">&quot;sel&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds_sel</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.DataArray &#39;sel&#39; (time: 1)&gt; Size: 4B
+array([136.9158], dtype=float32)
+Coordinates:
+  * time     (time) datetime64[ns] 8B 2023-02-04T15:07:37.996493339
+Attributes:
+    units:             dB re 1 uPa^2 s
+    long_name:         Sound Exposure Level
+    weighting_group:   None
+    integration_time:  300 s
+    freq_band_min:     50
+    freq_band_max:     48000
+
+
+Data variables:
+    sel      (time) float32 4B 136.9
+    sel_lf   (time) float32 4B 136.1
+    sel_hf   (time) float32 4B 133.6
+    sel_vhf  (time) float32 4B 128.5
+    sel_pw   (time) float32 4B 135.1
+    sel_ow   (time) float32 4B 132.7
+</pre></div></div>
+</div>
+<p>Compare this to the 5 minute SPL:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spl_300s</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">sound_pressure_level</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">spl_300s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.DataArray (time: 1)&gt; Size: 4B
+array([112.14459], dtype=float32)
+Coordinates:
+  * time     (time) datetime64[ns] 8B 2023-02-04T15:07:37.996493339
+Attributes:
+    units:          dB re 1 uPa
+    long_name:      Sound Pressure Level
+    freq_band_min:  50
+    freq_band_max:  48000
+</pre></div></div>
+</div>
+<p>We can look at the specific marine mammal auditory weighting and noise exposure functions as well using <code class="docutils literal notranslate"><span class="pre">nmfs_auditory_weighting</span></code>, given a frequency vector and one of the mammal groups. It outputs the weighting function and the exposure function (the inverse of the former) in units of dB. To convert back to a unitless magnitude, use <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">**</span> <span class="pre">(&lt;func&gt;</span> <span class="pre">/</span> <span class="pre">10)</span></code>. The exposure function shows the SEL in dB at and above which temporary or permanent hearing damage can occur to an individual in the
+specified group. The minimum value in the exposure function is the known or estimated injury level for a given group.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate weighting and exposure functions</span>
+<span class="n">weight_func</span><span class="p">,</span> <span class="n">exp_func</span> <span class="o">=</span> <span class="n">acoustics</span><span class="o">.</span><span class="n">nmfs_auditory_weighting</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;LF&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;xscale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">},</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="n">weight_func</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Weighting Function&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Highest Sensitivity&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Transmission [dB]&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="n">exp_func</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exposure Function&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">exp_func</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Highest Sensitivity&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">spsd_300s</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">],</span> <span class="n">exp_func</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">exp_func</span><span class="p">)</span><span class="o">*</span><span class="mi">300</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Injury Region&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Exposure Level [dB]&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">exp_func</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">exp_func</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">+</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Frequency [Hz]&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">48000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/acoustics_example_47_0.png" src="_images/acoustics_example_47_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="WPTO_hindcast_example.html" class="btn btn-neutral float-left" title="MHKiT WPTO Hindcast Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adcp_discharge_example.html" class="btn btn-neutral float-right" title="ADCP Discharge Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

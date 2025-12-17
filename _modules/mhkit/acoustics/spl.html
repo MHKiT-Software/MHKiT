@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.acoustics.spl &mdash; MHKiT v1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d29a5c0e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.acoustics.spl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.acoustics.spl</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains key functions related to calculating sound pressure levels</span>
+<span class="sd">from sound pressure data.</span>
+
+<span class="sd">1. **Sound Pressure Level Calculation**:</span>
+
+<span class="sd">   - `sound_pressure_level`: Computes the overall sound pressure level within a frequency band</span>
+<span class="sd">     from mean square spectral density.</span>
+
+<span class="sd">2. **Frequency-Banded Sound Pressure Level**:</span>
+
+<span class="sd">   - `_band_sound_pressure_level`: Helper function for calculating sound pressure levels</span>
+<span class="sd">     over specified frequency bandwidths.</span>
+
+<span class="sd">   - `third_octave_sound_pressure_level` and `decidecade_sound_pressure_level`:</span>
+<span class="sd">     Compute sound pressure levels across third-octave and decidecade bands, respectively.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">_fmax_warning</span><span class="p">,</span> <span class="n">_create_frequency_bands</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_argument_check</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validates input types, values, and dimensions for SPSD data and adjusts</span>
+<span class="sd">    fmax to the Nyquist frequency if needed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd : xarray.DataArray</span>
+<span class="sd">        Spectral data with &#39;time&#39; and &#39;freq&#39; dimensions and a &#39;fs&#39; attribute.</span>
+<span class="sd">    fmin : int</span>
+<span class="sd">        Minimum frequency (Hz), must be &gt; 0.</span>
+<span class="sd">    fmax : int</span>
+<span class="sd">        Maximum frequency (Hz), must be &gt; fmin.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fmax : int</span>
+<span class="sd">        Frequency limited to below the Nyquist limit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Type checks</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;spsd&#39; must be an xarray.DataArray.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;fmin&#39; must be an integer.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;fmax&#39; must be an integer.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Ensure &#39;freq&#39; and &#39;time&#39; dimensions are present</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;freq&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;spsd&#39; must have &#39;time&#39; and &#39;freq&#39; as dimensions.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check that &#39;fs&#39; (sampling frequency) is available in attributes</span>
+    <span class="k">if</span> <span class="s2">&quot;fs&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;spsd&#39; must have &#39;fs&#39; (sampling frequency) in its attributes.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;nfft&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;spsd&#39; must have &#39;nfft&#39; (sampling frequency) in its attributes.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Value checks</span>
+    <span class="k">if</span> <span class="n">fmin</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;fmin&#39; must be a positive integer.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fmax</span> <span class="o">&lt;=</span> <span class="n">fmin</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;fmax&#39; must be greater than &#39;fmin&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check fmax</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;fs&quot;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">fmax</span> <span class="o">=</span> <span class="n">_fmax_warning</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fmax</span>
+
+
+<div class="viewcode-block" id="sound_pressure_level">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.sound_pressure_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sound_pressure_level</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">fmin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the sound pressure level (SPL) in a specified frequency band</span>
+<span class="sd">    from the mean square sound pressure spectral density (SPSD).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density in [Pa^2/Hz]</span>
+<span class="sd">    fmin: int</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone). Default: 10 Hz</span>
+<span class="sd">    fmax: int</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency). Default: 100000 Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spl: xarray.DataArray (time)</span>
+<span class="sd">        Sound pressure level [dB re 1 uPa] indexed by time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Argument checks</span>
+    <span class="n">fmax</span> <span class="o">=</span> <span class="n">_argument_check</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="c1"># Reference value of sound pressure</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="mf">1e-12</span>  <span class="c1"># Pa^2, = 1 uPa^2</span>
+
+    <span class="c1"># Mean square sound pressure in a specified frequency band from mean square values</span>
+    <span class="n">band</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">))</span>
+    <span class="n">freqs</span> <span class="o">=</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span>
+    <span class="n">pressure_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">freqs</span><span class="p">)</span>
+
+    <span class="c1"># Mean square sound pressure level</span>
+    <span class="n">mspl</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">pressure_squared</span> <span class="o">/</span> <span class="n">reference</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">mspl</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;dB re 1 uPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sound Pressure Level&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;freq_band_min&quot;</span><span class="p">:</span> <span class="n">fmin</span><span class="p">,</span>
+            <span class="s2">&quot;freq_band_max&quot;</span><span class="p">:</span> <span class="n">fmax</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_band_sound_pressure_level</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">octave</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">base</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">fmin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">fmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates band-averaged sound pressure levels from the</span>
+<span class="sd">    mean square sound pressure spectral density (SPSD).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density in [Pa^2/Hz]</span>
+<span class="sd">    octave: int</span>
+<span class="sd">        Octave subdivision (1 = full octave, 3 = third-octave, etc.)</span>
+<span class="sd">    base: int</span>
+<span class="sd">        Octave base subdivision (2 = true octave, 10 = decade octave, etc.)</span>
+<span class="sd">    fmin : int, optional</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone).</span>
+<span class="sd">        Default is 10 Hz.</span>
+<span class="sd">    fmax : int, optional</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency).</span>
+<span class="sd">        Default is 100,000 Hz.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: xarray.DataArray (time, freq_bins)</span>
+<span class="sd">        Sound pressure level [dB re 1 uPa] indexed by time and frequency of specified bandwidth</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Type checks</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">octave</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">octave</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;octave&#39; must be a positive integer.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Argument checks</span>
+    <span class="n">fmax</span> <span class="o">=</span> <span class="n">_argument_check</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="c1"># Reference value of sound pressure</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="mf">1e-12</span>  <span class="c1"># Pa^2, = 1 uPa^2</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">band</span> <span class="o">=</span> <span class="n">_create_frequency_bands</span><span class="p">(</span><span class="n">octave</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="c1"># Manual trapezoidal rule to get Pa^2</span>
+    <span class="n">pressure_squared</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="s2">&quot;freq_bins&quot;</span><span class="p">:</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]},</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;freq_bins&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">band</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]):</span>
+        <span class="c1"># Min and max band limits</span>
+        <span class="n">band_range</span> <span class="o">=</span> <span class="p">[</span><span class="n">band</span><span class="p">[</span><span class="s2">&quot;lower_limit&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;upper_limit&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+
+        <span class="c1"># Integrate spectral density by frequency</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="n">band_range</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Interpolate between band frequencies if width is narrow</span>
+            <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">band_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">band_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Use smaller set of dataset to speed up interpolation</span>
+            <span class="n">spsd_slc</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+                <span class="n">freq</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span>
+                    <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Only happens at low frequency</span>
+                    <span class="n">band_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">bandwidth</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">spsd_slc</span> <span class="o">=</span> <span class="n">spsd_slc</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">band_range</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">band_range</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spsd_slc</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="n">band_range</span><span class="p">))</span>
+
+        <span class="n">pressure_squared</span><span class="o">.</span><span class="n">loc</span><span class="p">[{</span><span class="s2">&quot;freq_bins&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">}]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">spsd_slc</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Mean square sound pressure level in dB rel 1 uPa</span>
+    <span class="n">mspl</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">pressure_squared</span> <span class="o">/</span> <span class="n">reference</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mspl</span>
+
+
+<div class="viewcode-block" id="third_octave_sound_pressure_level">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.third_octave_sound_pressure_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">third_octave_sound_pressure_level</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">fmin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the sound pressure level in third octave bands directly</span>
+<span class="sd">    from the mean square sound pressure spectral density (SPSD).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time, freq)</span>
+<span class="sd">        Mean square sound pressure spectral in [Pa^2/Hz].</span>
+<span class="sd">    fmin: int</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone).</span>
+<span class="sd">        Default: 10 Hz</span>
+<span class="sd">    fmax: int</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency).</span>
+<span class="sd">        Default: 100000 Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mspl: xarray.DataArray (time, freq_bins)</span>
+<span class="sd">        Sound pressure level [dB re 1 uPa] indexed by time and third octave bands</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">octave</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">mspl</span> <span class="o">=</span> <span class="n">_band_sound_pressure_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">octave</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+    <span class="n">mspl</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;dB re 1 uPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Third Octave Sound Pressure Level&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mspl</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="decidecade_sound_pressure_level">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.decidecade_sound_pressure_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decidecade_sound_pressure_level</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">fmin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">fmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the sound pressure level in decidecade bands directly</span>
+<span class="sd">    from the mean square sound pressure spectral density (SPSD).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density in [Pa^2/Hz].</span>
+<span class="sd">    fmin: int</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone).</span>
+<span class="sd">        Default: 10 Hz</span>
+<span class="sd">    fmax: int</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency).</span>
+<span class="sd">        Default: 100000 Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mspl : xarray.DataArray (time, freq_bins)</span>
+<span class="sd">        Sound pressure level [dB re 1 uPa] indexed by time and decidecade bands</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">octave</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">mspl</span> <span class="o">=</span> <span class="n">_band_sound_pressure_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">octave</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+    <span class="n">mspl</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;dB re 1 uPa&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Decidecade Sound Pressure Level&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mspl</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1391 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Directional Wave Spectrum from NDBC Buoys &mdash; MHKiT v1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d29a5c0e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Documentation" href="api.html" />
+    <link rel="prev" title="MHKiT WEC-Sim Example" href="wecsim_power_performance_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module.html">Module Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html#all-python-notebooks">All Python Notebooks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ADCP_Delft3D_TRTS_example.html">Comparing Transect Data at the Tanana River Test Site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Delft3D_example.html">Delft3D IO Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PacWave_resource_characterization_example.html">PacWave Resource Assessment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SWAN_example.html">MHKiT SWAN Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="WPTO_hindcast_example.html">MHKiT WPTO Hindcast Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="acoustics_example.html">Analyzing Passive Acoustic Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_discharge_example.html">ADCP Discharge Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adcp_example.html">Analyzing ADCP Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adv_example.html">Reading ADV Data with MHKiT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cdip_example.html">MHKiT CDIP IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environmental_contours_example.html">MHKiT Environmental Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_MLER_example.html">MLER example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_contour_example.html">Extreme Conditions Modeling - Contour Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extreme_response_full_sea_state_example.html">Extreme Conditions Modeling - Full Sea State Approach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loads_example.html">MHKiT Loads Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metocean_example.html">MHKiT Metocean Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mooring_example.html">Mooring Module Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_example.html">MHKiT Power Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qc_example.html">MHKiT Quality Control Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="river_example.html">MHKiT River Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="short_term_extremes_example.html">MHKit Short-term Extreme Loads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="strain_measurement_example.html">Strain Measurement Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_example.html">MHKiT Tidal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tidal_performance_example.html">Tidal Power Performance Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="upcrossing_example.html">MHKit Upcrossing Analysis Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wave_example.html">MHKiT Wave Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wecsim_power_performance_example.html">MHKiT WEC-Sim Example</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Directional Wave Spectrum from NDBC Buoys</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Request-Data">Request Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Elevation-Variance-Spectrum">Elevation Variance Spectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Components">Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Energy-Spectrum">Energy Spectrum</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Directional Wave Spectrum from NDBC Buoys</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/directional_waves.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Directional-Wave-Spectrum-from-NDBC-Buoys">
+<h1>Directional Wave Spectrum from NDBC Buoys<a class="headerlink" href="#Directional-Wave-Spectrum-from-NDBC-Buoys" title="Link to this heading"></a></h1>
+<p>Some NDBC buoys measure the full directional wave spectrum. A directional wave spectrum <span class="math notranslate nohighlight">\(S(f,\theta)\)</span> contains the sea elevation information over all different directions. This can be used, for instance, to (1) reconstruct a sea surface elevation time-history over some area (as opposed to at just one point), or (2) to calculate the effect of wave loads on a non-axissymetric structure. It is constructed from the omnidirectional spectrum <span class="math notranslate nohighlight">\(S(f)\)</span> and a spread function
+<span class="math notranslate nohighlight">\(D(f, \theta)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[S(f, \theta) = S(f)D(f, \theta).\]</div>
+<p>NDBC stores this information in 5 parameters, each stored in a different file. One parameter (<code class="docutils literal notranslate"><span class="pre">swden</span></code>) is simply the omnidirectional spectrum, while the other 4 (<code class="docutils literal notranslate"><span class="pre">swdir</span></code>, <code class="docutils literal notranslate"><span class="pre">swdir2</span></code>, <code class="docutils literal notranslate"><span class="pre">swr1</span></code>, <code class="docutils literal notranslate"><span class="pre">swr2</span></code>) are used to reconstruct the spread function. For more information on the the parameters and reconstruction see the <em>Spectral Wave Data</em> section in <a class="reference external" href="https://www.ndbc.noaa.gov/measdes.shtml">this NDBC site</a>.</p>
+<p>In this example we will: * check if a specific buoy has directional information and request that data * reconstruct and plot the directional wave spectrum <span class="math notranslate nohighlight">\(S(f, \theta)\)</span> * take a deeper look at the omnidirectional spectrum <span class="math notranslate nohighlight">\(S(f)\)</span> and spread function <span class="math notranslate nohighlight">\(D(f, \theta)\)</span> separately * calculate and plot the energy spectrum</p>
+<p>We use functions from both the <code class="docutils literal notranslate"><span class="pre">wave.io.ndbc</span></code> and <code class="docutils literal notranslate"><span class="pre">wave.graphics</span></code> submodules. We start by importing <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and MHKiT’s <code class="docutils literal notranslate"><span class="pre">wave</span></code> module.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">wave</span>
+</pre></div>
+</div>
+</div>
+<section id="Request-Data">
+<h2>Request Data<a class="headerlink" href="#Request-Data" title="Link to this heading"></a></h2>
+<p>First, we will check if the buoy we’re interested in–42012—has directional data. To do this we use the <code class="docutils literal notranslate"><span class="pre">wave.io.ndbc.available_data</span></code> function with any one of the 4 parameters used for the spread function. We can see that this buoy does have directional data for the years 2009-2021.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buoy</span> <span class="o">=</span> <span class="s2">&quot;42012&quot;</span>
+<span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ndbc</span><span class="o">.</span><span class="n">available_data</span><span class="p">(</span><span class="s2">&quot;swdir&quot;</span><span class="p">,</span> <span class="n">buoy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>year</th>
+      <th>filename</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>346</th>
+      <td>42012</td>
+      <td>2009</td>
+      <td>42012d2009.txt.gz</td>
+    </tr>
+    <tr>
+      <th>347</th>
+      <td>42012</td>
+      <td>2010</td>
+      <td>42012d2010.txt.gz</td>
+    </tr>
+    <tr>
+      <th>348</th>
+      <td>42012</td>
+      <td>2011</td>
+      <td>42012d2011.txt.gz</td>
+    </tr>
+    <tr>
+      <th>349</th>
+      <td>42012</td>
+      <td>2012</td>
+      <td>42012d2012.txt.gz</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>42012</td>
+      <td>2013</td>
+      <td>42012d2013.txt.gz</td>
+    </tr>
+    <tr>
+      <th>351</th>
+      <td>42012</td>
+      <td>2014</td>
+      <td>42012d2014.txt.gz</td>
+    </tr>
+    <tr>
+      <th>352</th>
+      <td>42012</td>
+      <td>2015</td>
+      <td>42012d2015.txt.gz</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>42012</td>
+      <td>2016</td>
+      <td>42012d2016.txt.gz</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>42012</td>
+      <td>2017</td>
+      <td>42012d2017.txt.gz</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>42012</td>
+      <td>2018</td>
+      <td>42012d2018.txt.gz</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>42012</td>
+      <td>2019</td>
+      <td>42012d2019.txt.gz</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>42012</td>
+      <td>2020</td>
+      <td>42012d2020.txt.gz</td>
+    </tr>
+    <tr>
+      <th>358</th>
+      <td>42012</td>
+      <td>2021</td>
+      <td>42012d2021.txt.gz</td>
+    </tr>
+    <tr>
+      <th>359</th>
+      <td>42012</td>
+      <td>2022</td>
+      <td>42012d2022.txt.gz</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>42012</td>
+      <td>2023</td>
+      <td>42012d2023.txt.gz</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We will ask for the data for 2021. To do this we use the <code class="docutils literal notranslate"><span class="pre">wave.io.ndbc.request_directional_data</span></code> function. We see that the spectrum is calculated over ~1hour which results in 8572 different timestamps. We also see there are 47 frequency bins.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year</span> <span class="o">=</span> <span class="mi">2021</span>
+<span class="n">data_all</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ndbc</span><span class="o">.</span><span class="n">request_directional_data</span><span class="p">(</span><span class="n">buoy</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span>
+<span class="n">data_all</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+html[data-theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 16MB
+Dimensions:    (date: 8572, frequency: 47)
+Coordinates:
+  * date       (date) datetime64[ns] 69kB 2021-01-01T00:40:00 ... 2021-12-31T...
+  * frequency  (frequency) float64 376B 0.02 0.0325 0.0375 ... 0.445 0.465 0.485
+Data variables:
+    swden      (date, frequency) float64 3MB 0.0 0.0 0.0 0.0 ... 0.01 0.02 0.0
+    swdir      (date, frequency) float64 3MB 194.0 13.0 6.0 ... 167.0 159.0
+    swdir2     (date, frequency) float64 3MB 191.0 11.0 9.0 ... 169.0 106.0
+    swr1       (date, frequency) float64 3MB 0.16 0.26 0.21 ... 0.76 0.87 0.63
+    swr2       (date, frequency) float64 3MB 0.99 0.93 0.9 ... 0.28 0.67 0.1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-a570ad58-2fe6-4c75-9054-8b4e5179aa77' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-a570ad58-2fe6-4c75-9054-8b4e5179aa77' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>date</span>: 8572</li><li><span class='xr-has-index'>frequency</span>: 47</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-9a5d80a8-3471-434e-8b89-0ef65c32ebda' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9a5d80a8-3471-434e-8b89-0ef65c32ebda' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>date</span></div><div class='xr-var-dims'>(date)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2021-01-01T00:40:00 ... 2021-12-...</div><input id='attrs-313cb012-7088-4776-b6b4-6087799bb91c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-313cb012-7088-4776-b6b4-6087799bb91c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ec2ff83b-baef-43de-9f45-011bc4dcc930' class='xr-var-data-in' type='checkbox'><label for='data-ec2ff83b-baef-43de-9f45-011bc4dcc930' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd></dd><dt><span>long_name :</span></dt><dd>datetime</dd><dt><span>standard_name :</span></dt><dd>t</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2021-01-01T00:40:00.000000000&#x27;, &#x27;2021-01-01T01:40:00.000000000&#x27;,
+       &#x27;2021-01-01T02:40:00.000000000&#x27;, ..., &#x27;2021-12-31T21:40:00.000000000&#x27;,
+       &#x27;2021-12-31T22:40:00.000000000&#x27;, &#x27;2021-12-31T23:40:00.000000000&#x27;],
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>frequency</span></div><div class='xr-var-dims'>(frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.02 0.0325 0.0375 ... 0.465 0.485</div><input id='attrs-113d9e44-9203-40de-a87a-ce9b96db0295' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-113d9e44-9203-40de-a87a-ce9b96db0295' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b38a32a2-2487-46a8-bac8-44dd586859d2' class='xr-var-data-in' type='checkbox'><label for='data-b38a32a2-2487-46a8-bac8-44dd586859d2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>Hz</dd><dt><span>long_name :</span></dt><dd>frequency</dd><dt><span>standard_name :</span></dt><dd>f</dd></dl></div><div class='xr-var-data'><pre>array([0.02  , 0.0325, 0.0375, 0.0425, 0.0475, 0.0525, 0.0575, 0.0625, 0.0675,
+       0.0725, 0.0775, 0.0825, 0.0875, 0.0925, 0.1   , 0.11  , 0.12  , 0.13  ,
+       0.14  , 0.15  , 0.16  , 0.17  , 0.18  , 0.19  , 0.2   , 0.21  , 0.22  ,
+       0.23  , 0.24  , 0.25  , 0.26  , 0.27  , 0.28  , 0.29  , 0.3   , 0.31  ,
+       0.32  , 0.33  , 0.34  , 0.35  , 0.365 , 0.385 , 0.405 , 0.425 , 0.445 ,
+       0.465 , 0.485 ])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f5ed5387-ddaa-483c-926e-bad809afd09b' class='xr-section-summary-in' type='checkbox'  checked><label for='section-f5ed5387-ddaa-483c-926e-bad809afd09b' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>swden</span></div><div class='xr-var-dims'>(date, frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.01 0.02 0.0</div><input id='attrs-18ec67a8-483c-47c7-a495-f3a124169895' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-18ec67a8-483c-47c7-a495-f3a124169895' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1cd658d3-400a-4135-8196-3865ad6f61d2' class='xr-var-data-in' type='checkbox'><label for='data-1cd658d3-400a-4135-8196-3865ad6f61d2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m^2/Hz</dd><dt><span>long_name :</span></dt><dd>omnidirecational spectrum</dd><dt><span>standard_name :</span></dt><dd>S</dd><dt><span>description :</span></dt><dd>Omnidirectional *sea surface elevation variance (m^2)* spectrum (/Hz).</dd></dl></div><div class='xr-var-data'><pre>array([[0.  , 0.  , 0.  , ..., 0.03, 0.02, 0.02],
+       [0.  , 0.  , 0.  , ..., 0.03, 0.02, 0.01],
+       [0.  , 0.  , 0.  , ..., 0.02, 0.02, 0.01],
+       ...,
+       [0.  , 0.  , 0.  , ..., 0.01, 0.01, 0.02],
+       [0.  , 0.  , 0.  , ..., 0.01, 0.01, 0.01],
+       [0.  , 0.  , 0.  , ..., 0.01, 0.02, 0.  ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>swdir</span></div><div class='xr-var-dims'>(date, frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>194.0 13.0 6.0 ... 167.0 159.0</div><input id='attrs-f3871019-520c-4696-827d-8487b1f723ea' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f3871019-520c-4696-827d-8487b1f723ea' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8b7070e3-81a5-40b8-acf1-ee1fdbb1a268' class='xr-var-data-in' type='checkbox'><label for='data-8b7070e3-81a5-40b8-acf1-ee1fdbb1a268' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>deg</dd><dt><span>long_name :</span></dt><dd>mean wave direction</dd><dt><span>standard_name :</span></dt><dd>α1</dd><dt><span>description :</span></dt><dd>Mean wave direction.</dd></dl></div><div class='xr-var-data'><pre>array([[194.,  13.,   6., ..., 127., 125., 129.],
+       [179., 192., 205., ..., 134., 122., 138.],
+       [193., 356., 177., ..., 141., 128., 123.],
+       ...,
+       [ 26., 213.,  21., ..., 177., 179., 181.],
+       [194.,   7., 345., ..., 150., 176., 181.],
+       [198., 199.,  29., ..., 173., 167., 159.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>swdir2</span></div><div class='xr-var-dims'>(date, frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>191.0 11.0 9.0 ... 169.0 106.0</div><input id='attrs-96dcc3af-fcaf-4ed8-ad71-fd9375426a5b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-96dcc3af-fcaf-4ed8-ad71-fd9375426a5b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-42fbc38a-2e11-43a1-870e-69a07eceae29' class='xr-var-data-in' type='checkbox'><label for='data-42fbc38a-2e11-43a1-870e-69a07eceae29' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>deg</dd><dt><span>long_name :</span></dt><dd>principal wave direction</dd><dt><span>standard_name :</span></dt><dd>α2</dd><dt><span>description :</span></dt><dd>Principal wave direction.</dd></dl></div><div class='xr-var-data'><pre>array([[191.,  11.,   9., ..., 132., 118., 120.],
+       [197., 200., 197., ..., 106., 106., 117.],
+       [187.,   7., 188., ..., 147.,  75.,  53.],
+       ...,
+       [ 26., 200.,  22., ..., 179., 201., 184.],
+       [202.,  25.,  24., ..., 129., 178., 184.],
+       [207., 204.,  26., ..., 178., 169., 106.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>swr1</span></div><div class='xr-var-dims'>(date, frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.16 0.26 0.21 ... 0.76 0.87 0.63</div><input id='attrs-74bb48ff-8fe0-4f87-8df9-5a1a99541fe6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-74bb48ff-8fe0-4f87-8df9-5a1a99541fe6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-258e0fa1-c211-46f6-9202-a318bf0792be' class='xr-var-data-in' type='checkbox'><label for='data-258e0fa1-c211-46f6-9202-a318bf0792be' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd></dd><dt><span>long_name :</span></dt><dd>coordinate r1</dd><dt><span>standard_name :</span></dt><dd>r1</dd><dt><span>description :</span></dt><dd>First normalized polar coordinate of the Fourier coefficients (nondimensional).</dd></dl></div><div class='xr-var-data'><pre>array([[0.16, 0.26, 0.21, ..., 0.74, 0.72, 0.72],
+       [0.07, 0.41, 0.08, ..., 0.67, 0.71, 0.68],
+       [0.23, 0.27, 0.34, ..., 0.65, 0.6 , 0.41],
+       ...,
+       [0.34, 0.18, 0.25, ..., 0.69, 0.7 , 0.84],
+       [0.17, 0.36, 0.29, ..., 0.69, 0.87, 0.82],
+       [0.34, 0.44, 0.69, ..., 0.76, 0.87, 0.63]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>swr2</span></div><div class='xr-var-dims'>(date, frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.99 0.93 0.9 ... 0.28 0.67 0.1</div><input id='attrs-8079fd66-9243-4863-b45e-9643d7e24e0d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8079fd66-9243-4863-b45e-9643d7e24e0d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3ea5b4ed-9f0a-4b61-bfdb-b6670c13a075' class='xr-var-data-in' type='checkbox'><label for='data-3ea5b4ed-9f0a-4b61-bfdb-b6670c13a075' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd></dd><dt><span>long_name :</span></dt><dd>coordinate r2</dd><dt><span>standard_name :</span></dt><dd>r2</dd><dt><span>description :</span></dt><dd>Second normalized polar coordinate of the Fourier coefficients (nondimensional).</dd></dl></div><div class='xr-var-data'><pre>array([[0.99, 0.93, 0.9 , ..., 0.21, 0.21, 0.29],
+       [0.98, 0.93, 0.88, ..., 0.12, 0.27, 0.13],
+       [0.99, 0.9 , 0.87, ..., 0.1 , 0.17, 0.32],
+       ...,
+       [0.94, 0.94, 0.92, ..., 0.19, 0.2 , 0.51],
+       [0.91, 0.87, 0.85, ..., 0.3 , 0.65, 0.5 ],
+       [0.92, 0.91, 0.83, ..., 0.28, 0.67, 0.1 ]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-ea045dee-7b8b-4aae-9060-f4acccdec2e1' class='xr-section-summary-in' type='checkbox'  ><label for='section-ea045dee-7b8b-4aae-9060-f4acccdec2e1' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>date</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-1c14c4d2-8726-40da-9d7b-a0526c5a2744' class='xr-index-data-in' type='checkbox'/><label for='index-1c14c4d2-8726-40da-9d7b-a0526c5a2744' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;2021-01-01 00:40:00&#x27;, &#x27;2021-01-01 01:40:00&#x27;,
+               &#x27;2021-01-01 02:40:00&#x27;, &#x27;2021-01-01 03:40:00&#x27;,
+               &#x27;2021-01-01 04:40:00&#x27;, &#x27;2021-01-01 05:40:00&#x27;,
+               &#x27;2021-01-01 06:40:00&#x27;, &#x27;2021-01-01 07:40:00&#x27;,
+               &#x27;2021-01-01 08:40:00&#x27;, &#x27;2021-01-01 09:40:00&#x27;,
+               ...
+               &#x27;2021-12-31 14:40:00&#x27;, &#x27;2021-12-31 15:40:00&#x27;,
+               &#x27;2021-12-31 16:40:00&#x27;, &#x27;2021-12-31 17:40:00&#x27;,
+               &#x27;2021-12-31 18:40:00&#x27;, &#x27;2021-12-31 19:40:00&#x27;,
+               &#x27;2021-12-31 20:40:00&#x27;, &#x27;2021-12-31 21:40:00&#x27;,
+               &#x27;2021-12-31 22:40:00&#x27;, &#x27;2021-12-31 23:40:00&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;date&#x27;, length=8572, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>frequency</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-3a8c8ea4-7c2d-4f15-ac86-3b6f3af6ae28' class='xr-index-data-in' type='checkbox'/><label for='index-3a8c8ea4-7c2d-4f15-ac86-3b6f3af6ae28' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.02, 0.0325, 0.0375, 0.0425, 0.0475, 0.0525, 0.0575, 0.0625, 0.0675,
+       0.0725, 0.0775, 0.0825, 0.0875, 0.0925,    0.1,   0.11,   0.12,   0.13,
+         0.14,   0.15,   0.16,   0.17,   0.18,   0.19,    0.2,   0.21,   0.22,
+         0.23,   0.24,   0.25,   0.26,   0.27,   0.28,   0.29,    0.3,   0.31,
+         0.32,   0.33,   0.34,   0.35,  0.365,  0.385,  0.405,  0.425,  0.445,
+        0.465,  0.485],
+      dtype=&#x27;float64&#x27;, name=&#x27;frequency&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-bbf14af5-cc5d-4b71-abb7-f95a7015f03a' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-bbf14af5-cc5d-4b71-abb7-f95a7015f03a' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+</div>
+</section>
+<section id="Elevation-Variance-Spectrum">
+<h2>Elevation Variance Spectrum<a class="headerlink" href="#Elevation-Variance-Spectrum" title="Link to this heading"></a></h2>
+<p>We now use the data we requested and reconstruct the directional elevation variance spectrum. The first step is to decide on the resolution of wave direction. Here we calculate the spectrum every 2 degrees. For the reconstruction we use the <code class="docutils literal notranslate"><span class="pre">wave.io.ndbc.create_directional_spectrum</span></code> function. You can see the spectrum has the correct shape of 47 frequencies x 180 directions, and the units are indicated in the attributes.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s2">&quot;2021-02-21T12:40:00&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data_all</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">)</span>
+<span class="n">directions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="n">spectrum</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ndbc</span><span class="o">.</span><span class="n">create_directional_spectrum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">directions</span><span class="p">)</span>
+<span class="n">spectrum</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+html[data-theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray (frequency: 47, direction: 180)&gt; Size: 68kB
+array([[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       ...,
+       [2.21512935e-04, 3.00007246e-04, 3.89537948e-04, ...,
+        4.78972678e-05, 9.59294370e-05, 1.53638415e-04],
+       [5.05171904e-04, 5.68137407e-04, 6.34119449e-04, ...,
+        3.34637188e-04, 3.88407564e-04, 4.45255232e-04],
+       [2.26590428e-04, 2.84552135e-04, 3.45964024e-04, ...,
+        7.35307830e-05, 1.21080223e-04, 1.72097824e-04]])
+Coordinates:
+  * frequency  (frequency) float64 376B 0.02 0.0325 0.0375 ... 0.445 0.465 0.485
+  * direction  (direction) float64 1kB 0.0 2.0 4.0 6.0 ... 354.0 356.0 358.0
+Attributes:
+    units:          m^2/Hz/deg
+    long_name:      Elevation variance spectrum
+    standard_name:  spectrum
+    description:    *Elevation variance (m^2)* spectrum (/Hz/deg).</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'></div><ul class='xr-dim-list'><li><span class='xr-has-index'>frequency</span>: 47</li><li><span class='xr-has-index'>direction</span>: 180</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-93cccdeb-4324-42c0-b7ff-0e8989f778ee' class='xr-array-in' type='checkbox' checked><label for='section-93cccdeb-4324-42c0-b7ff-0e8989f778ee' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>0.0 0.0 0.0 0.0 0.0 ... 2.943e-05 7.353e-05 0.0001211 0.0001721</span></div><div class='xr-array-data'><pre>array([[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       ...,
+       [2.21512935e-04, 3.00007246e-04, 3.89537948e-04, ...,
+        4.78972678e-05, 9.59294370e-05, 1.53638415e-04],
+       [5.05171904e-04, 5.68137407e-04, 6.34119449e-04, ...,
+        3.34637188e-04, 3.88407564e-04, 4.45255232e-04],
+       [2.26590428e-04, 2.84552135e-04, 3.45964024e-04, ...,
+        7.35307830e-05, 1.21080223e-04, 1.72097824e-04]])</pre></div></div></li><li class='xr-section-item'><input id='section-941b7b31-c0db-4199-a45a-ee03a450b677' class='xr-section-summary-in' type='checkbox'  checked><label for='section-941b7b31-c0db-4199-a45a-ee03a450b677' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>frequency</span></div><div class='xr-var-dims'>(frequency)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.02 0.0325 0.0375 ... 0.465 0.485</div><input id='attrs-fb644fc7-7c8b-494e-ac1a-9d6ff4cd9b8d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fb644fc7-7c8b-494e-ac1a-9d6ff4cd9b8d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5c6f6461-9147-47f9-b233-fa073ea29238' class='xr-var-data-in' type='checkbox'><label for='data-5c6f6461-9147-47f9-b233-fa073ea29238' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>Hz</dd><dt><span>long_name :</span></dt><dd>frequency</dd><dt><span>standard_name :</span></dt><dd>f</dd></dl></div><div class='xr-var-data'><pre>array([0.02  , 0.0325, 0.0375, 0.0425, 0.0475, 0.0525, 0.0575, 0.0625, 0.0675,
+       0.0725, 0.0775, 0.0825, 0.0875, 0.0925, 0.1   , 0.11  , 0.12  , 0.13  ,
+       0.14  , 0.15  , 0.16  , 0.17  , 0.18  , 0.19  , 0.2   , 0.21  , 0.22  ,
+       0.23  , 0.24  , 0.25  , 0.26  , 0.27  , 0.28  , 0.29  , 0.3   , 0.31  ,
+       0.32  , 0.33  , 0.34  , 0.35  , 0.365 , 0.385 , 0.405 , 0.425 , 0.445 ,
+       0.465 , 0.485 ])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>direction</span></div><div class='xr-var-dims'>(direction)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 2.0 4.0 ... 354.0 356.0 358.0</div><input id='attrs-bc44332d-cc02-4629-aaa7-411b4c52cc1d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bc44332d-cc02-4629-aaa7-411b4c52cc1d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f8d7f712-ec94-409c-8820-6a1bd3bd12d5' class='xr-var-data-in' type='checkbox'><label for='data-f8d7f712-ec94-409c-8820-6a1bd3bd12d5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>deg</dd><dt><span>long_name :</span></dt><dd>wave direction</dd><dt><span>standard_name :</span></dt><dd>direction</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   2.,   4.,   6.,   8.,  10.,  12.,  14.,  16.,  18.,  20.,  22.,
+        24.,  26.,  28.,  30.,  32.,  34.,  36.,  38.,  40.,  42.,  44.,  46.,
+        48.,  50.,  52.,  54.,  56.,  58.,  60.,  62.,  64.,  66.,  68.,  70.,
+        72.,  74.,  76.,  78.,  80.,  82.,  84.,  86.,  88.,  90.,  92.,  94.,
+        96.,  98., 100., 102., 104., 106., 108., 110., 112., 114., 116., 118.,
+       120., 122., 124., 126., 128., 130., 132., 134., 136., 138., 140., 142.,
+       144., 146., 148., 150., 152., 154., 156., 158., 160., 162., 164., 166.,
+       168., 170., 172., 174., 176., 178., 180., 182., 184., 186., 188., 190.,
+       192., 194., 196., 198., 200., 202., 204., 206., 208., 210., 212., 214.,
+       216., 218., 220., 222., 224., 226., 228., 230., 232., 234., 236., 238.,
+       240., 242., 244., 246., 248., 250., 252., 254., 256., 258., 260., 262.,
+       264., 266., 268., 270., 272., 274., 276., 278., 280., 282., 284., 286.,
+       288., 290., 292., 294., 296., 298., 300., 302., 304., 306., 308., 310.,
+       312., 314., 316., 318., 320., 322., 324., 326., 328., 330., 332., 334.,
+       336., 338., 340., 342., 344., 346., 348., 350., 352., 354., 356., 358.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-36041b6d-0acb-4ce7-8ceb-ef6debbe4390' class='xr-section-summary-in' type='checkbox'  ><label for='section-36041b6d-0acb-4ce7-8ceb-ef6debbe4390' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>frequency</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-7c2fa4e1-9918-44c7-a18e-d54ef083e985' class='xr-index-data-in' type='checkbox'/><label for='index-7c2fa4e1-9918-44c7-a18e-d54ef083e985' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.02, 0.0325, 0.0375, 0.0425, 0.0475, 0.0525, 0.0575, 0.0625, 0.0675,
+       0.0725, 0.0775, 0.0825, 0.0875, 0.0925,    0.1,   0.11,   0.12,   0.13,
+         0.14,   0.15,   0.16,   0.17,   0.18,   0.19,    0.2,   0.21,   0.22,
+         0.23,   0.24,   0.25,   0.26,   0.27,   0.28,   0.29,    0.3,   0.31,
+         0.32,   0.33,   0.34,   0.35,  0.365,  0.385,  0.405,  0.425,  0.445,
+        0.465,  0.485],
+      dtype=&#x27;float64&#x27;, name=&#x27;frequency&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>direction</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-cadb9cab-db81-48e5-96b4-c61d50695c25' class='xr-index-data-in' type='checkbox'/><label for='index-cadb9cab-db81-48e5-96b4-c61d50695c25' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.0,   2.0,   4.0,   6.0,   8.0,  10.0,  12.0,  14.0,  16.0,  18.0,
+       ...
+       340.0, 342.0, 344.0, 346.0, 348.0, 350.0, 352.0, 354.0, 356.0, 358.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;direction&#x27;, length=180))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5113910b-fbd9-468d-a599-890266222daa' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5113910b-fbd9-468d-a599-890266222daa' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m^2/Hz/deg</dd><dt><span>long_name :</span></dt><dd>Elevation variance spectrum</dd><dt><span>standard_name :</span></dt><dd>spectrum</dd><dt><span>description :</span></dt><dd>*Elevation variance (m^2)* spectrum (/Hz/deg).</dd></dl></div></li></ul></div></div></div>
+</div>
+<p>We finally plot the spectrum using the <code class="docutils literal notranslate"><span class="pre">wave.graphics.plot_directional_spectrum</span></code> function. Notice that there are negative values, which is due to NDBC’s analysis approach which results in negative values far from the mean direction. From <a class="reference external" href="https://www.ndbc.noaa.gov/measdes.shtml">this NDBC site</a>: &gt; <span class="math notranslate nohighlight">\(D(f,\theta)\)</span> can take on negative values because of the trigonometric sine and cosine functions. There are several approaches to prevent or deal with the negative values. For more
+information and discussion of some approaches see: Use of advanced directional wave spectra analysis methods, M. D. Earle, K. E. Steele, and D. W. C. Wang, Ocean Engineering, Volume 26, Issue 12, December 1999, Pages 1421-1434.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_directional_spectrum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;PolarAxes: title={&#39;center&#39;: &#39;Elevation Variance Spectrum&#39;}&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/directional_waves_9_1.png" src="_images/directional_waves_9_1.png" />
+</div>
+</div>
+<p>We now show a few other ways of plotting this directional spectra. In the first plot below we set a minimum value of <span class="math notranslate nohighlight">\(0.3m^2/Hz\)</span>. In the second plot, we plot 3 contour lines with no fill.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_directional_spectrum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">color_level_min</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;PolarAxes: title={&#39;center&#39;: &#39;Elevation Variance Spectrum&#39;}&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/directional_waves_11_1.png" src="_images/directional_waves_11_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_directional_spectrum</span><span class="p">(</span>
+    <span class="n">spectrum</span><span class="p">,</span> <span class="n">color_level_min</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nlevels</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;PolarAxes: title={&#39;center&#39;: &#39;Elevation Variance Spectrum&#39;}&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/directional_waves_12_1.png" src="_images/directional_waves_12_1.png" />
+</div>
+</div>
+</section>
+<section id="Components">
+<h2>Components<a class="headerlink" href="#Components" title="Link to this heading"></a></h2>
+<p>In this section we will look plot both the omnidirectional spectrum <span class="math notranslate nohighlight">\(S(f)\)</span> and the spread function <span class="math notranslate nohighlight">\(D(f, \theta)\)</span> separately. Remember that the spectrum above was given by <span class="math notranslate nohighlight">\(S(f)D(f, \theta)\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;swden&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x28112345fd0&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/directional_waves_14_1.png" src="_images/directional_waves_14_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spread</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ndbc</span><span class="o">.</span><span class="n">create_spread_function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">directions</span><span class="p">)</span>
+<span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_directional_spectrum</span><span class="p">(</span><span class="n">spread</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Spread&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;PolarAxes: title={&#39;center&#39;: &#39;Spread Spectrum&#39;}&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/directional_waves_15_1.png" src="_images/directional_waves_15_1.png" />
+</div>
+</div>
+</section>
+<section id="Energy-Spectrum">
+<h2>Energy Spectrum<a class="headerlink" href="#Energy-Spectrum" title="Link to this heading"></a></h2>
+<p>Finally, we show how to calculate and plot other spectra. Here we show the energy spectrum, which is proportional to the elevation variance spectrum with a proportionality constant of <span class="math notranslate nohighlight">\(\rho g\)</span>. That is, <span class="math notranslate nohighlight">\(S_E(f, \theta) = \rho g S(f, \theta)\)</span>. We provide the plotting function additional information so that it displays the correct name and units.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="o">=</span> <span class="mi">1025</span>  <span class="c1"># kg/m^3</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mf">9.81</span>  <span class="c1"># m/s^2</span>
+<span class="n">wave</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_directional_spectrum</span><span class="p">(</span><span class="n">spectrum</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Energy&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;J&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;PolarAxes: title={&#39;center&#39;: &#39;Energy Spectrum&#39;}&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/directional_waves_17_1.png" src="_images/directional_waves_17_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wecsim_power_performance_example.html" class="btn btn-neutral float-left" title="MHKiT WEC-Sim Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
