@@ -10,7 +10,7 @@ Copyright
 ------------
 .. code-block:: none 
 
-   Copyright 2019, Alliance for Energy Innovation, LLC under the terms of 
+   Copyright 2026, Alliance for Energy Innovation, LLC under the terms of 
    Contract DE-AC36-08GO28308, Battelle Memorial Institute under the terms of 
    Contract DE-AC05-76RL01830, and National Technology & Engineering Solutions of 
    Sandia, LLC under the terms of Contract DE-NA0003525. The U.S. Government 

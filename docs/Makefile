@@ -51,8 +51,11 @@ help:
 
 clean:
 	rm -rf *.html doctrees *.js *.inv _sources _static _images
+	rm -f $(SOURCEDIR)/*.ipynb
+	rm -rf $(SOURCEDIR)/data
 
 html:
+	cp -r ../MHKiT-Python/examples/* source/
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html"
