@@ -57,9 +57,9 @@ ADP/ADCP data and is imported using
 	  ~api.rotate2
 	  ~api.calc_principal_heading
 	  ~api.clean
+	  ~api.discharge
 	  ~api.VelBinner
 	  ~api.ADPBinner
-	  ~api.discharge
 
 ADV Submodule
 """""""""""""
@@ -85,7 +85,6 @@ ADV data and is imported using
 		~api.correct_motion
 		~api.VelBinner
 		~api.ADVBinner
-		~api.turbulence_statistics
 
 IO Submodule
 """"""""""""
@@ -321,30 +320,11 @@ via the `ADPBinner` class.
 
 Tools
 """""
-Spectral analysis and miscellaneous DOLfYN functions are 
+Miscellaneous DOLfYN functions are 
 stored here. These functions are used throughout DOLfYN's 
 core code and may also be helpful to users in general.
 
-FFT-based Functions
-+++++++++++++++++++
-
-.. automodule:: mhkit.dolfyn.tools.fft
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-	.. autosummary::
-		:nosignatures:
-
-		~fft_frequency
-		~psd_1D
-		~cpsd_1D
-		~cpsd_quasisync_1D
-
-Other Functions
-+++++++++++++++
-
-.. automodule:: mhkit.dolfyn.tools.misc
+.. automodule:: mhkit.dolfyn.tools
     :members:
     :undoc-members:
     :show-inheritance:

@@ -19,7 +19,7 @@ Submodules
 --------------
 The acoustics module contains the following submodules:
 
-* ``io``: Contains functions to read and output *.wav* files
+* ``io``: Contains functions to read and output hydrophone files
 * ``analysis``: Contains functions to process, clean and analyze passive acoustics data. 
   Calculations are based on `IEC TS 62600-40:2019 ED1 <https://webstore.iec.ch/publication/31031>`_.
 * ``graphics``: Contains functions to plot spectral data

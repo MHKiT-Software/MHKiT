@@ -15,6 +15,7 @@ Examples
 - `ADCP Example <adcp_example.ipynb>`_
 - `ADV Example <adv_example.ipynb>`_
 - `Python Tanana River Resource Characterization <ADCP_Delft3D_TRTS_example.ipynb>`_
+- `PacWave ADCP Waves Example <adcp_waves_example.ipynb>`
 
 Submodules
 --------------
