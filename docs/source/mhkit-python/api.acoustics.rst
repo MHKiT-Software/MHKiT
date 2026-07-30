@@ -30,8 +30,10 @@ Passive Acoustics Module
            :nosignatures:
 
            ~sound_pressure_spectral_density_level
-           ~time_average
+           ~band_aggregate
+           ~time_aggregate
            ~time_summation
+           ~time_average
 
     .. automodule:: mhkit.acoustics.spl
 
