@@ -282,7 +282,6 @@ beyond those described in `VelBinner`.
 		:nosignatures:
 
 		~ADVBinner
-		~turbulence_statistics
 		~ADVBinner.reynolds_stress
 		~ADVBinner.cross_spectral_density
 		~ADVBinner.doppler_noise_level
