@@ -248,7 +248,7 @@ Testing and Continuous Integration Updates
 
 Documentation and Examples
 
-- Add WEC-Sim power performance example  by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/395
+- Add WEC-Sim power performance example by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/395
 - Update dolfyn function docstrings and associated notebooks by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/412
 - Update examples by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/417
 - Update installation instructions in README.md by @akeeste

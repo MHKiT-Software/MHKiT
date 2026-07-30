@@ -39,7 +39,7 @@ MHKiT Modules
 These modules provide functionality for calculating metrics needed by the marine energy community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that map directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented.
 
 To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB.
-As such, **MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language**.
+As such, **MHKiT-Python and MHKiT-MATLAB provide identical functions in each language**.
 
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ |python_image|

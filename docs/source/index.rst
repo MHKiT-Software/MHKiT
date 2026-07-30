@@ -28,7 +28,7 @@
 ######################################################
 MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
-MHKiT is open-source marine energy  software, developed in Python and MATLAB, that includes modules for ingesting, quality controlling, processing, visualizing, and managing data.
+MHKiT is open-source marine energy software, developed in Python and MATLAB, that includes modules for ingesting, quality controlling, processing, visualizing, and managing data.
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the marine energy community to standardize data processing. Calculations and visualizations adhere to International Electrotechnical Commission (IEC) technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications.
 
 |python_image|   |matlab_image|

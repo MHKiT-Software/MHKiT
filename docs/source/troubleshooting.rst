@@ -18,7 +18,7 @@ WPTO Hindcast Issues
 ---------------------------
 In some Python package configurations, the WPTO hindcast functions will 
 not be installed with MHKiT due to an issue with the h5py package. 
-In this case, the error "WARNING: Wave WPTO hindcast functions not imported  from MHKiT-Python." will print to the screen when trying to run any MHKiT 
+In this case, the error "WARNING: Wave WPTO hindcast functions not imported from MHKiT-Python." will print to the screen when trying to run any MHKiT
 function. This is often caused by the h5py package being installed via 
 Anaconda instead of pip. Note: this particular issue only relates to 
 MHKiT-Python users.  
