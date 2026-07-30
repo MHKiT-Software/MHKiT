@@ -66,6 +66,8 @@ Former members of the core development team include:
 - Katherine Klise (Sandia)
 - Kelley Ruehl (Sandia)
 - Frederick Driscoll (NLR)
+- Mohamed A. Shabara (NLR)
+- Sterling Olson (Sandia)
 
 
 .. Note: here we could call out specific external (or lab-internal) staff that have contributed significantly
