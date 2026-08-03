@@ -386,7 +386,7 @@ Advanced Installation
 
    In the MHKiT-MATLAB folder, double click on ``mhkit.mltbx``
 
-   `Verify  Add-On installed nominally. <#step-7-install-mhkit-matlab-add-on>`_
+   `Verify Add-On installed nominally. <#step-7-install-mhkit-matlab-add-on>`_
 
 10. Verify the MHKiT-MATLAB Add-On functionality:
 

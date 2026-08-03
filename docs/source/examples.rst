@@ -73,6 +73,11 @@ Search for the following tags to identify relevant examples:
      - Coming soon
      - Acoustic Doppler Current Profiler (ADCP) discharge workflow
      - current, resource
+   * - ADCP Waves Example
+     - `Notebook <adcp_waves_example.ipynb>`__
+     - Coming soon
+     - Analyze wave statistics from ADCP altimeter data
+     - current, resource, wave
    * - ADV Example
      - `Notebook <adv_example.ipynb>`__
      - `Live Script <mhkit-matlab/adv_example.html>`__

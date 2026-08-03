@@ -9,7 +9,7 @@
 Overview
 ========
 
-MHKiT is open-source software, developed in Python and MATLAB, that provides the international marine renewable energy (MRE) community with tools for:
+MHKiT is open-source software, developed in Python and MATLAB, that provides the international marine energy community with tools for:
 
 * Data processing
 * Data visualization
@@ -19,8 +19,8 @@ MHKiT is open-source software, developed in Python and MATLAB, that provides the
 * Device loads
 
 
-The software is developed for MRE data, including measurements from field and laboratory environments, and datasets produced by numerical simulations (e.g. WEC-Sim).
-MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the MRE community and that is not otherwise available. Calculations in MHKiT adhere to the `International Electrotechnical Committee's Technical Committee's, IEC TC 114 <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications (TS) and recommendations, as well as follow best practices within the MRE and other fields.
+The software is developed for marine energy data, including measurements from field and laboratory environments, and datasets produced by numerical simulations (e.g. WEC-Sim).
+MHKiT is intended to supplement analysis using functions readily available within software languages (e.g MATLAB, Python) and public repositories (e.g. WAFO, Pecos) by providing functions that are needed by the marine energy community and that is not otherwise available. Calculations in MHKiT adhere to the `International Electrotechnical Committee's Technical Committee's, IEC TC 114 <https://www.iec.ch/dyn/www/f?p=103:7:1500307576397::::FSP_ORG_ID,FSP_LANG_ID:1316,25>`_ technical specifications (TS) and recommendations, as well as follow best practices within the marine energy and other fields.
 
 MHKiT Modules
 --------------
@@ -36,10 +36,10 @@ MHKiT Modules
 * :ref:`mooring`: Calculate quantities of interest for mooring systems
 * :ref:`utils`: Includes helper functions
 
-These modules provide functionality for calculating metrics needed by the MRE community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that map directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented.
+These modules provide functionality for calculating metrics needed by the marine energy community as well as those required for conformity with IEC TS and recommendations. MHKiT was intentionally divided into modules that map directly to each IEC TS, such as power performance, resource assessment and characterization, and mechanical load measurements, for ease of use. Each module contains a set of functions that have been rigorously tested and well documented.
 
 To ensure consistent results between `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  and reduce version control issues, all functions are written in Python and housed in the MHKiT-Python repository.  MHKiT-MATLAB then wraps these functions so they can be called from MATLAB.
-As such, **MHKiT-Python and MHKiT-MATLAB  provide identical functions in each language**.
+As such, **MHKiT-Python and MHKiT-MATLAB provide identical functions in each language**.
 
 
 `MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ |python_image|

@@ -28,8 +28,8 @@
 ######################################################
 MHKiT (Marine and Hydrokinetic Toolkit)
 ######################################################
-MHKiT is open-source marine renewable energy (MRE) software, developed in Python and MATLAB, that includes modules for ingesting, quality controlling, processing, visualizing, and managing data.
-`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the MRE community to standardize data processing. Calculations and visualizations adhere to International Electrotechnical Commission (IEC) technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications.
+MHKiT is open-source marine energy software, developed in Python and MATLAB, that includes modules for ingesting, quality controlling, processing, visualizing, and managing data.
+`MHKiT-Python <https://github.com/MHKiT-Software/MHKiT-Python>`_ and `MHKiT-MATLAB <https://github.com/MHKiT-Software/MHKiT-MATLAB>`_  provide robust and verified functions in both Python and MATLAB that are needed by the marine energy community to standardize data processing. Calculations and visualizations adhere to International Electrotechnical Commission (IEC) technical specifications and other guidelines. Current functionality includes power performance, power quality, mechanical loads, resource tools, and data quality control for wave, tidal, and river applications.
 
 |python_image|   |matlab_image|
 
@@ -45,12 +45,11 @@ MHKiT is open-source marine renewable energy (MRE) software, developed in Python
 
 Developers
 ================
-MHKiT is developed as a collaboration between the National Laboratory of the Rockies (NLR), Pacific Northwest National Laboratory (PNNL), and Sandia National Laboratories (Sandia, SNL). 
+MHKiT is developed as a collaboration between the Sandia National Laboratories (Sandia, SNL), Pacific Northwest National Laboratory (PNNL), and National Laboratory of the Rockies (NLR) . 
 
 Current members of the core development team include:
 
 - Rebecca Fao (NLR - PI)
-- Sterling Olson (Sandia)
 - James McVey (PNNL)
 - Hristo Ivanov (NLR)
 - Emily Browning (Sandia)
@@ -66,6 +65,8 @@ Former members of the core development team include:
 - Katherine Klise (Sandia)
 - Kelley Ruehl (Sandia)
 - Frederick Driscoll (NLR)
+- Mohamed A. Shabara (NLR)
+- Sterling Olson (Sandia)
 
 
 .. Note: here we could call out specific external (or lab-internal) staff that have contributed significantly
@@ -77,18 +78,20 @@ MHKiT has had many additional contributors. An extensive list of contributors ca
 
 Funding
 ================
-The development of MHKiT is funded by the U.S. Department of Energy's Water Power Technologies Office.
+The development of MHKiT is funded by the U.S. Department of Energy's `Hydropower and Hydrokinetic Office (H2O) <https://www.energy.gov/cmei/water/hydropower-and-hydrokinetic-office>`_.
 The copyright of MHKiT is held by the National Laboratory of the Rockies,
 Pacific Northwest National Laboratory, and Sandia National Laboratories.
 The software is distributed under the :ref:`License:Revised BSD License`.
 
-The `National Laboratory of the Rockies <https://www.nrel.gov/>`_ is a national laboratory of the U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, operated by the Alliance for Energy Innovation, LLC. under contract No. DE-AC36-08GO28308.
 
-`Pacific Northwest National Laboratory <https://www.pnnl.gov/>`_ is operated by Battelle for the United States Department of Energy under Contract DE-AC05-76RL01830.
 
 `Sandia National Laboratories <http://www.sandia.gov/>`_ is a multi-mission laboratory managed and operated by National Technology
 and Engineering Solutions of Sandia, LLC., a wholly-owned subsidiary of Honeywell International, Inc., for the U.S. Department of Energy's National
 Nuclear Security Administration under contract DE-NA0003525.
+
+`Pacific Northwest National Laboratory <https://www.pnnl.gov/>`_ is operated by Battelle for the United States Department of Energy under Contract DE-AC05-76RL01830.
+
+`National Laboratory of the Rockies <https://www.nlr.gov/>`_ is a national laboratory of the U.S. Department of Energy, Office of Critical Minerals and Energy Innovation, operated by the Alliance for Energy Innovation, LLC. under contract No. DE-AC36-08GO28308.
 
 .. Indices and tables
 .. ========================

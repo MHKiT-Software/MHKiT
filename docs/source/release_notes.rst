@@ -3,6 +3,167 @@
 Release Notes
 =============
 
+MHKiT-Python v1.1.0
+-------------------
+
+Additions
+^^^^^^^^^
+
+* Acoustics: Add millicdecade and WISPR instrument support
+
+  * Added millidecade spectral conversion
+  * Added a WISPR hydrophone reader
+  * Added a voltage-based ``export_audio`` resampling option
+  * Refactored band-averaging to avoid losing information at frequency-band boundaries
+  * `#447 <https://github.com/MHKiT-Software/MHKiT-Python/pull/447>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@simmsa <https://github.com/simmsa>`_
+
+* DOLfYN: Add `Nortek Aquadopp <https://www.nortekgroup.com/oceanography/aquadopp-series>`_ ADCP support
+
+  * Added DOLfYN support for reading Aquadopp instruments
+  * Cleaned Nortek parsing code
+  * Simplified handling of the non-cabled ADV orientation flag
+  * `#434 <https://github.com/MHKiT-Software/MHKiT-Python/pull/434>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+* Examples: Add ADCP waves example: ``example/adcp_waves_example.ipynb``
+
+  * Added an example notebook showing how to ingest and analyze wave measurements from a dual-profile Nortek Signature 250 deployment at PacWave.
+  * `#430 <https://github.com/MHKiT-Software/MHKiT-Python/pull/430>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+Improvements
+^^^^^^^^^^^^
+
+Acoustics
+
+* Improved flexibility and robustness of the Acoustics module
+
+  * Added a configurable FFT length for sound pressure PSDs
+  * Renamed bin/windowing attributes for clarity
+  * Fixed an incorrectly signed gain correction
+  * `#433 <https://github.com/MHKiT-Software/MHKiT-Python/pull/433>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+DOLfYN
+
+* Refactored PSD calculations to use ``scipy.signal.welch``
+
+  * Replaced DOLfYN's custom Welch-like PSD implementation (built each segment from bin slices, could not overlap FFT segments) with ``scipy.signal.welch``
+  * Removed the bin-based segment structure and added a ``step`` argument to control overlap
+  * Dropped float32 casts in some functions in favor of float64
+  * Removed ``fft.py`` and renamed ``tools/misc.py`` to ``tools.py``
+  * Breaking Changes:
+
+    * NaNs are no longer tolerated in PSD calculations
+    * DOLfYN defaults to 0% overlap to preserve existing array shapes
+    * Acoustics defaults to 50% overlap
+    * PSD output time dimension renamed to ``time_psd``
+
+  * `#452 <https://github.com/MHKiT-Software/MHKiT-Python/pull/452>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_, `@simmsa <https://github.com/simmsa>`_
+
+* Improved handling of "averaged" profiles
+
+  * Fixed handling of Nortek Signature dual-profile ADCP data by defaulting to "_avg" velocity variables when untagged ones are absent.
+  * `#430 <https://github.com/MHKiT-Software/MHKiT-Python/pull/430>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+* Critical PSD bugfix
+
+  * Fixed a bug where individual FFTs received a 50% overlap twice, which corrupted the first and last spectrum of a timeseries.
+  * `#430 <https://github.com/MHKiT-Software/MHKiT-Python/pull/430>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+Examples
+
+* Added histograms to ADCP example
+
+  * `#448 <https://github.com/MHKiT-Software/MHKiT-Python/pull/448>`_
+  * Author: `@browniea <https://github.com/browniea>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+River/IO
+
+* Fixed Qhull interpolation and D3D coordinate-system errors
+
+  * `#448 <https://github.com/MHKiT-Software/MHKiT-Python/pull/448>`_
+  * Author: `@browniea <https://github.com/browniea>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+  * Fixes: `#442 <https://github.com/MHKiT-Software/MHKiT-Python/issues/442>`_, `#444 <https://github.com/MHKiT-Software/MHKiT-Python/issues/444>`_
+
+* Delft3D module updates
+
+  * Added new Delft3D coordinate names
+  * Added a new grid-convergence-index calculation function
+  * Added support for xarray/netCDF4 input in the D3D module
+  * `#428 <https://github.com/MHKiT-Software/MHKiT-Python/pull/428>`_
+  * Author: `@browniea <https://github.com/browniea>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+Wave
+
+* NDBC Directional Wave Units
+
+  * Fixed NDBC directional wave spectrum output to return degrees instead of radians
+  * Updated polar plots so 0 deg is at the top and increases clockwise
+  * `#437 <https://github.com/MHKiT-Software/MHKiT-Python/pull/437>`_
+  * Author: `@jmcvey3 <https://github.com/jmcvey3>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+  * Fixes: `#427 <https://github.com/MHKiT-Software/MHKiT-Python/issues/427>`_
+
+Wave/Hindcast
+
+* Added a ``hindcast_guard`` exception-handling decorator (``hindcast_exceptions.py``) that surfaces a clear error on HSDS request failures, distinguishing the known NLR HSDS outage (`#450 <https://github.com/MHKiT-Software/MHKiT-Python/issues/450>`_) from other failures
+
+  * `#449 <https://github.com/MHKiT-Software/MHKiT-Python/pull/449>`_
+  * Author: `@simmsa <https://github.com/simmsa>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+Maintenance
+^^^^^^^^^^^
+
+* Added Python 3.13 support
+
+  * `#445 <https://github.com/MHKiT-Software/MHKiT-Python/pull/445>`_
+  * Author: `@simmsa <https://github.com/simmsa>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+  * Fixes: `#441 <https://github.com/MHKiT-Software/MHKiT-Python/issues/441>`_
+
+* Added `pandas 3 <https://pandas.pydata.org/community/blog/pandas-3.0.html>`_ Support
+
+  * Updated the pandas dependency to allow pandas 3.x
+  * Added a compatibility shim for NDBC missing-value handling related to pandas 3 object to String dtype api changes
+  * Fixed a deprecated period alias in tests
+  * `#443 <https://github.com/MHKiT-Software/MHKiT-Python/pull/443>`_
+  * Author: `@simmsa <https://github.com/simmsa>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+  * Fixes: `#440 <https://github.com/MHKiT-Software/MHKiT-Python/issues/440>`_
+
+* Updated GitHub Actions CI, expanded installation/developer documentation, refreshed dev environment, and trimmed dependencies
+
+  * Refactored optional dependencies
+  * Standardized conda/conda-forge environment builds
+  * Scoped black linting to changed files
+  * `#436 <https://github.com/MHKiT-Software/MHKiT-Python/pull/436>`_
+  * Author: `@simmsa <https://github.com/simmsa>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+* Update ``rex`` dependency to target pypi package to `NLR-rex[hsds]>=0.5.0 <https://pypi.org/project/NLR-rex/>`_
+
+  * `#449 <https://github.com/MHKiT-Software/MHKiT-Python/pull/449>`_
+  * Author: `@simmsa <https://github.com/simmsa>`_
+  * Reviewer: `@akeeste <https://github.com/akeeste>`_
+
+**Full Changelog**: https://github.com/MHKiT-Software/MHKiT-Python/compare/v1.0.1...v1.1.0
+
 MHKiT-MATLAB v1.0.1
 -------------------
 Bug fixes and documentation improvements
@@ -87,7 +248,7 @@ Testing and Continuous Integration Updates
 
 Documentation and Examples
 
-- Add WEC-Sim power performance example  by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/395
+- Add WEC-Sim power performance example by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/395
 - Update dolfyn function docstrings and associated notebooks by @jmcvey3 in https://github.com/MHKiT-Software/MHKiT-Python/pull/412
 - Update examples by @akeeste in https://github.com/MHKiT-Software/MHKiT-Python/pull/417
 - Update installation instructions in README.md by @akeeste
