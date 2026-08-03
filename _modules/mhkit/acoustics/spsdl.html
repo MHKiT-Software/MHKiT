@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.acoustics.spsdl &mdash; MHKiT v1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=0737924e"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.acoustics.spsdl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.acoustics.spsdl</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">1. **Spectral Density Level Calculation**:</span>
+
+<span class="sd">   - `sound_pressure_spectral_density_level`: Converts mean square spectral density values to</span>
+<span class="sd">     sound pressure spectral density levels in dB.</span>
+
+<span class="sd">2. **Spectral Density Aggregation**:</span>
+
+<span class="sd">   - `band_aggregate`: Aggregates spectral density levels into fractional octave bands using</span>
+<span class="sd">     specified statistical methods (e.g., median, mean).</span>
+
+<span class="sd">   - `time_aggregate`: Aggregates spectral density levels into specified time windows using</span>
+<span class="sd">     similar statistical methods.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.dolfyn.time</span><span class="w"> </span><span class="kn">import</span> <span class="n">epoch2dt64</span><span class="p">,</span> <span class="n">dt642epoch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">_check_numeric</span><span class="p">,</span> <span class="n">_fmax_warning</span><span class="p">,</span> <span class="n">create_frequency_bands</span>
+
+
+<div class="viewcode-block" id="sound_pressure_spectral_density_level">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.sound_pressure_spectral_density_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sound_pressure_spectral_density_level</span><span class="p">(</span><span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the sound pressure spectral density level from</span>
+<span class="sd">    the mean square sound pressure spectral density.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time_psd, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density in Pa^2/Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spsdl: xarray.DataArray (time, freq)</span>
+<span class="sd">        Sound pressure spectral density level [dB re 1 uPa^2/Hz]</span>
+<span class="sd">        indexed by time and frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Reference value of sound pressure</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="mf">1e-12</span>  <span class="c1"># Pa^2 to 1 uPa^2</span>
+
+    <span class="c1"># Sound pressure spectral density level from mean square values</span>
+    <span class="n">lpf</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">spsd</span><span class="o">.</span><span class="n">values</span> <span class="o">/</span> <span class="n">reference</span><span class="p">)</span>
+
+    <span class="n">spsdl</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">lpf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+        <span class="n">coords</span><span class="o">=</span><span class="n">spsd</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;dB re 1 uPa^2/Hz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sound Pressure Spectral Density Level&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_resolution&quot;</span><span class="p">:</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;bin_length&quot;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">spsdl</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_method</span><span class="p">(</span>
+    <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validates the &#39;method&#39; parameter and returns the method name and its argument (if any)</span>
+<span class="sd">    for an xarray.core.groupby.DataArrayGroupBy method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    method : str or dict</span>
+<span class="sd">        The aggregation method to validate. It can be either:</span>
+<span class="sd">          - A string representing one of the supported methods without additional arguments,</span>
+<span class="sd">            e.g., &#39;mean&#39;, &#39;sum&#39;.</span>
+<span class="sd">          - A dictionary with a single key-value pair where the key is the method name and</span>
+<span class="sd">            the value is its argument, e.g., {&#39;quantile&#39;: 0.25}.</span>
+
+<span class="sd">        Supported methods are:</span>
+<span class="sd">          - &#39;all&#39;</span>
+<span class="sd">          - &#39;any&#39;</span>
+<span class="sd">          - &#39;assign_coords&#39; (requires coordinate argument)</span>
+<span class="sd">          - &#39;count&#39;</span>
+<span class="sd">          - &#39;cumprod&#39;</span>
+<span class="sd">          - &#39;fillna&#39;</span>
+<span class="sd">          - &#39;first&#39;</span>
+<span class="sd">          - &#39;last&#39;</span>
+<span class="sd">          - &#39;map&#39; (requires custom function argument)</span>
+<span class="sd">          - &#39;max&#39;</span>
+<span class="sd">          - &#39;mean&#39;</span>
+<span class="sd">          - &#39;median&#39;</span>
+<span class="sd">          - &#39;min&#39;</span>
+<span class="sd">          - &#39;prod&#39;</span>
+<span class="sd">          - &#39;quantile&#39; (requires a quantile between 0 and 1)</span>
+<span class="sd">          - &#39;reduce&#39; (requires custom function argument)</span>
+<span class="sd">          - &#39;std&#39;</span>
+<span class="sd">          - &#39;sum&#39;</span>
+<span class="sd">          - &#39;var&#39;</span>
+<span class="sd">          - &#39;where&#39; (requires condition argument)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    method_name : str</span>
+<span class="sd">        The validated method name in lowercase.</span>
+<span class="sd">    method_arg : float, int, or None</span>
+<span class="sd">        The argument associated with the method, if applicableotherwise, None.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        - If the method name is not supported.</span>
+<span class="sd">        - If the &#39;quantile&#39; method is provided without an argument or with an invalid argument.</span>
+<span class="sd">        - If the &#39;method&#39; dictionary does not contain exactly one key-value pair.</span>
+<span class="sd">        - If &#39;method&#39; is of an unsupported type.</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        - If the key in the &#39;method&#39; dictionary is not a string.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; _validate_method(&#39;mean&#39;)</span>
+<span class="sd">    (&#39;mean&#39;, None)</span>
+
+<span class="sd">    &gt;&gt;&gt; _validate_method({&#39;quantile&#39;: 0.75})</span>
+<span class="sd">    (&#39;quantile&#39;, 0.75)</span>
+
+<span class="sd">    &gt;&gt;&gt; _validate_method(&#39;quantile&#39;)</span>
+<span class="sd">    ValueError: The &#39;quantile&#39; method must be provided as a dictionary with the quantile value,</span>
+<span class="sd">        e.g., {&#39;quantile&#39;: 0.25}.</span>
+
+<span class="sd">    &gt;&gt;&gt; _validate_method({&#39;quantile&#39;: 1.5})</span>
+<span class="sd">    ValueError: The &#39;quantile&#39; method must have a float between 0 and 1 as an argument.</span>
+
+<span class="sd">    &gt;&gt;&gt; _validate_method({&#39;unsupported_method&#39;: None})</span>
+<span class="sd">    ValueError: Method &#39;unsupported_method&#39; is not supported.</span>
+<span class="sd">        Supported methods are:</span>
+<span class="sd">        [&#39;median&#39;, &#39;mean&#39;, &#39;min&#39;, &#39;max&#39;, &#39;sum&#39;, &#39;quantile&#39;, &#39;std&#39;, &#39;var&#39;, &#39;count&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">allowed_methods</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;any&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;assign_coords&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cumsum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fillna&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;first&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;last&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;median&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prod&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;quantile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;reduce&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;var&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;where&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;method&#39; must be a string or a dictionary.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">method_name</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">method_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_methods</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Method &#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&#39; is not supported. Supported methods are: </span><span class="si">{</span><span class="n">allowed_methods</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">method_name</span> <span class="o">==</span> <span class="s2">&quot;quantile&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The &#39;quantile&#39; method must be provided as a dictionary with &quot;</span>
+                <span class="s2">&quot;the quantile value, e.g., {&#39;quantile&#39;: 0.25}.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">method_arg</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;method&#39; dictionary must contain exactly one key-value pair.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">method_name</span><span class="p">,</span> <span class="n">method_arg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">method</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Key in &#39;method&#39; dictionary must be a string.&quot;</span><span class="p">)</span>
+        <span class="n">method_name</span> <span class="o">=</span> <span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">method_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_methods</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Method &#39;</span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">&#39; is not supported. Supported methods are: </span><span class="si">{</span><span class="n">allowed_methods</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">method_name</span> <span class="o">==</span> <span class="s2">&quot;quantile&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method_arg</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">method_arg</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The &#39;quantile&#39; method must have a float between 0 and 1 as an argument.&quot;</span>
+                <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unsupported method type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="si">}</span><span class="s2">. Must be a string or dictionary.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">method_arg</span>
+
+
+<div class="viewcode-block" id="band_aggregate">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.band_aggregate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">band_aggregate</span><span class="p">(</span>
+    <span class="n">spsdl</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">octave</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fmin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">fmax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deprecated. Reorganizes spectral density level frequency tensor into</span>
+<span class="sd">    fractional octave bands and applies a function to them.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsdl: xarray.DataArray (time, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density level in dB rel 1 uPa^2/Hz</span>
+<span class="sd">    octave: [int, int]</span>
+<span class="sd">        Octave and octave base to subdivide spectral density level by. Set to</span>
+<span class="sd">        octave base to 2 for the true octave band; set to base 10 for</span>
+<span class="sd">        the decidecade octave band.</span>
+<span class="sd">        Default = [3, 2] (true third octave)</span>
+<span class="sd">    fmin: int</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone). Default: 10 Hz</span>
+<span class="sd">    fmax: int</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency). Default: 100000 Hz</span>
+<span class="sd">    method: str or dict</span>
+<span class="sd">        Method to run on the binned data. Can be a string (e.g., &quot;median&quot;) or a dict</span>
+<span class="sd">        where the key is the method and the value is its argument (e.g., {&quot;quantile&quot;: 0.25}).</span>
+<span class="sd">        Options: [median, mean, min, max, sum, quantile, std, var, count]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: xarray.DataArray (time, freq_bins)</span>
+<span class="sd">        Frequency band-averaged sound pressure spectral density level [dB re 1 uPa^2/Hz]</span>
+<span class="sd">        indexed by time and frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;The &#39;band_aggregate&#39; function is deprecated and will be removed in a future release. &quot;</span>
+        <span class="s2">&quot;Please use one of the following alternatives instead to convert the SPSD to the &quot;</span>
+        <span class="s2">&quot;appropriate band before calculating the SPSDL using &quot;</span>
+        <span class="s2">&quot;&#39;sound_pressure_spectral_density_level&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;- For third octaves, use &#39;mhkit.acoustics.convert_to_third_octave&#39; function.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;- For decidecades, use &#39;mhkit.acoustics.convert_to_decidecade&#39; function.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;- For millidecades, use &#39;mhkit.acoustics.convert_to_millidecade&#39; function.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;- For custom band aggregation, use &#39;mhkit.acoustics.convert_to_custom_bands.&#39;&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Type checks</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;spsdl&#39; must be an xarray.DataArray.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">octave</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">octave</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">octave</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">octave</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;octave&#39; must be a list or tuple of two integers.&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">octave</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;octave&#39; must contain positive integers.&quot;</span><span class="p">)</span>
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="s2">&quot;fmin&quot;</span><span class="p">)</span>
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">fmax</span><span class="p">,</span> <span class="s2">&quot;fmax&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fmax</span> <span class="o">&lt;=</span> <span class="n">fmin</span><span class="p">:</span>  <span class="c1"># also checks that fmax is positive</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;fmax&#39; must be greater than &#39;fmin&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Value checks</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;freq&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;spsdl&#39; must have &#39;time&#39; and &#39;freq&#39; as dimensions.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Validate method and get method_name and method_arg</span>
+    <span class="n">method_name</span><span class="p">,</span> <span class="n">method_arg</span> <span class="o">=</span> <span class="n">_validate_method</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+
+    <span class="c1"># Check fmax</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">spsdl</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">fmax</span> <span class="o">=</span> <span class="n">_fmax_warning</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="n">octave_bins</span><span class="p">,</span> <span class="n">band</span> <span class="o">=</span> <span class="n">create_frequency_bands</span><span class="p">(</span><span class="n">octave</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">octave</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
+
+    <span class="c1"># Use xarray binning methods</span>
+    <span class="n">spsdl_group</span> <span class="o">=</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">,</span> <span class="n">octave_bins</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">band</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Handle method being a string or a dict</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spsdl_group</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">method_name</span><span class="p">,</span> <span class="n">method_arg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">method</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spsdl_group</span><span class="p">,</span> <span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method_arg</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">method_arg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">method_arg</span><span class="p">)</span>
+
+    <span class="c1"># Update attributes</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">units</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="time_aggregate">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.time_aggregate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_aggregate</span><span class="p">(</span>
+    <span class="n">spsdl</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="s2">&quot;median&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deprecated. Reorganizes spectral density level frequency tensor into</span>
+<span class="sd">    time windows and applies a function to them.</span>
+
+<span class="sd">    If the window length is equivalent to the size of spsdl[&quot;time&quot;],</span>
+<span class="sd">    this function is equivalent to spsdl.&lt;method&gt;(&quot;time&quot;)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsdl: xarray.DataArray (time_psd, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density level in dB rel 1 uPa^2/Hz</span>
+<span class="sd">    window: int</span>
+<span class="sd">        Time in seconds to subdivide spectral density level into. Default: 60 s.</span>
+<span class="sd">    method: str or dict</span>
+<span class="sd">        Method to run on the binned data. Can be a string (e.g., &quot;median&quot;) or a dict</span>
+<span class="sd">        where the key is the method and the value is its argument (e.g., {&quot;quantile&quot;: 0.25}).</span>
+<span class="sd">        Options: [median, mean, min, max, sum, quantile, std, var, count]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: xarray.DataArray (time_bins, freq)</span>
+<span class="sd">        Time-averaged sound pressure spectral density level [dB re 1 uPa^2/Hz]</span>
+<span class="sd">        indexed by time and frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Type checks</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;spsdl&#39; must be an xarray.DataArray.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;window&#39; must be an integer.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;method&#39; must be a string or dictionary.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;spsdl&#39; must have &#39;time&#39; dimension.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Value checks</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;window&#39; must be a positive integer.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Ensure &#39;time&#39; coordinate is of datetime64 dtype</span>
+    <span class="n">time_dim</span> <span class="o">=</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">spsdl</span><span class="p">[</span><span class="n">time_dim</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;spsdl &#39;time&#39; must be of dtype &#39;datetime64&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Validate method and get method_name and method_arg</span>
+    <span class="n">method_name</span><span class="p">,</span> <span class="n">method_arg</span> <span class="o">=</span> <span class="n">_validate_method</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+
+    <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+    <span class="n">time_bins_lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+        <span class="n">spsdl</span><span class="p">[</span><span class="n">time_dim</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">spsdl</span><span class="p">[</span><span class="n">time_dim</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">window</span>
+    <span class="p">)</span>
+    <span class="n">time_bins_upper</span> <span class="o">=</span> <span class="n">time_bins_lower</span> <span class="o">+</span> <span class="n">window</span>
+    <span class="n">time_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_bins_lower</span><span class="p">,</span> <span class="n">time_bins_upper</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">center_time</span> <span class="o">=</span> <span class="n">epoch2dt64</span><span class="p">(</span>
+        <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt642epoch</span><span class="p">(</span><span class="n">time_bins_lower</span><span class="p">)</span> <span class="o">+</span> <span class="n">dt642epoch</span><span class="p">(</span><span class="n">time_bins_upper</span><span class="p">))</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Use xarray binning methods</span>
+    <span class="n">spsdl_group</span> <span class="o">=</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">groupby_bins</span><span class="p">(</span><span class="n">time_dim</span><span class="p">,</span> <span class="n">time_bins</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">center_time</span><span class="p">)</span>
+
+    <span class="c1"># Handle method being a string or a dict</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spsdl_group</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">method_name</span><span class="p">,</span> <span class="n">method_arg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">method</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">spsdl_group</span><span class="p">,</span> <span class="n">method_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method_arg</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">method_arg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">method_arg</span><span class="p">)</span>
+
+    <span class="c1"># Update attributes</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spsdl</span><span class="o">.</span><span class="n">units</span>
+
+    <span class="c1"># Remove &#39;quantile&#39; coordinate if present</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;quantile&quot;</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;quantile&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;time_psd_bins&quot;</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>  <span class="c1"># if this dim has not already been changed</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time_psd_bins&quot;</span><span class="p">:</span> <span class="s2">&quot;time_bins&quot;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="time_average">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.time_average">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_average</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reorganizes spectral density level frequency tensor into time windows and computes</span>
+<span class="sd">    the energy-averaged SPSDL for each window. Values are converted from dB to linear</span>
+<span class="sd">    power, averaged across the window, then converted back to dB. This is equivalent</span>
+<span class="sd">    to Welch&#39;s method: it produces the same result as recomputing the SPSD from the</span>
+<span class="sd">    original time series using &#39;bin_length=window&#39;.</span>
+<span class="sd">    Note: &#39;window&#39; must be larger than the original &#39;bin_length&#39; of the SPSD.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsdl: xarray.DataArray</span>
+<span class="sd">        Sound pressure spectral density level with dimensions (time_psd, freq)</span>
+<span class="sd">    window: int</span>
+<span class="sd">        Time in seconds to group spectral density level into.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataArray</span>
+<span class="sd">        Time-averaged sound pressure spectral density level [dB re 1 uPa^2/Hz] indexed</span>
+<span class="sd">        by time and frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_average</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1"># time dimension name</span>
+        <span class="n">time_dim</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Convert value in decibels to absolute magnitude, still relevant to original units</span>
+        <span class="n">magnitude</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="c1"># Sum energy in each time bin</span>
+        <span class="n">summed_magnitude</span> <span class="o">=</span> <span class="n">magnitude</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">time_dim</span><span class="p">)</span>
+        <span class="c1"># Take average</span>
+        <span class="n">average_magnitude</span> <span class="o">=</span> <span class="n">summed_magnitude</span> <span class="o">/</span> <span class="n">magnitude</span><span class="p">[</span><span class="n">time_dim</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+        <span class="c1"># Convert back to decibels</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">average_magnitude</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">time_aggregate</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="n">spectral_average</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="time_summation">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.time_summation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_summation</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reorganizes spectral density level frequency tensor into time windows and computes</span>
+<span class="sd">    the spectral sum for each window. Values are converted from dB to linear power,</span>
+<span class="sd">    summed across the window, then converted back to dB. This represents the total</span>
+<span class="sd">    accumulated spectral energy within each window and is proportional to N times the</span>
+<span class="sd">    window-averaged SPSDL (where N is the number of input bins per window). It is NOT</span>
+<span class="sd">    equivalent to recomputing the SPSD with a longer &#39;bin_length&#39;; use &#39;time_average&#39;</span>
+<span class="sd">    for that purpose.</span>
+<span class="sd">    Note: &#39;window&#39; must be larger than the original &#39;bin_length&#39; of the SPSD.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsdl: xarray.DataArray</span>
+<span class="sd">        Sound pressure spectral density level with dimensions (time_psd, freq)</span>
+<span class="sd">    window: int</span>
+<span class="sd">        Time in seconds to group spectral density level into.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataArray</span>
+<span class="sd">        Time-summed sound pressure spectral density level [dB re 1 uPa^2/Hz] indexed</span>
+<span class="sd">        by time and frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1"># time dimension name</span>
+        <span class="n">time_dim</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Convert value in decibels to absolute magnitude, still relevant to original units</span>
+        <span class="n">magnitude</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="c1"># Sum energy in each time bin</span>
+        <span class="n">summed_magnitude</span> <span class="o">=</span> <span class="n">magnitude</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">time_dim</span><span class="p">)</span>
+        <span class="c1"># Convert back to decibels</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">summed_magnitude</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">time_aggregate</span><span class="p">(</span><span class="n">spsdl</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="n">spectral_sum</span><span class="p">})</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

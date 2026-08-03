@@ -1,0 +1,936 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164358105-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164358105-1');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mhkit.acoustics.analysis &mdash; MHKiT v1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/mhkit.css?v=70d0d80f" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=0737924e"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MHKiT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">MHKiT-Python Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../matlab_installation.html">MHKiT-MATLAB Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module.html">Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminology.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../webinars.html">Webinars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citeus.html">Cite Us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Online Forum</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MHKiT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mhkit.acoustics.analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mhkit.acoustics.analysis</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains key functions for passive acoustics analysis, designed to process</span>
+<span class="sd">and analyze sound pressure data from .wav files in the frequency and time domains.</span>
+<span class="sd">The functions herein build on each other, with a structured flow that facilitates the</span>
+<span class="sd">calculation of sound pressure spectral densities and banded averages based on</span>
+<span class="sd">input audio data.</span>
+
+<span class="sd">The following functionality is provided:</span>
+
+<span class="sd">1. **Type Validation**:</span>
+
+<span class="sd">   - `_check_numeric`: Validates that a value is of numeric type (int or float).</span>
+
+<span class="sd">2. **Frequency Validation and Warning**:</span>
+
+<span class="sd">   - `_fmax_warning`: Ensures specified maximum frequency does not exceed the Nyquist frequency,</span>
+<span class="sd">     adjusting if necessary to avoid aliasing.</span>
+
+<span class="sd">3. **Shallow Water Cutoff Frequency**:</span>
+
+<span class="sd">   - `minimum_frequency`: Calculates the minimum frequency cutoff based on water depth and the</span>
+<span class="sd">     speed of sound in water and seabed materials.</span>
+
+<span class="sd">4. **Calculation of Frequency Bands**:</span>
+
+<span class="sd">    - `create_frequency_bands`: Generates frequency bands based on specified octave divisions,</span>
+<span class="sd">      minimum and maximum frequency limits, and the chosen base</span>
+<span class="sd">      (e.g., 2 for octaves, 10 for decades).</span>
+
+<span class="sd">5. **Sound Pressure Spectral Density Calculation**:</span>
+
+<span class="sd">    - `sound_pressure_spectral_density`: Computes the mean square sound pressure spectral density</span>
+<span class="sd">      using FFT binning with Hanning windowing and 50% overlap.</span>
+
+<span class="sd">6. **Calibration**:</span>
+
+<span class="sd">   - `apply_calibration`: Applies calibration adjustments to the spectral density data using</span>
+<span class="sd">     a sensitivity curve, filling missing values as specified.</span>
+
+<span class="sd">7. **Band-Averaged Spectral Density**:</span>
+
+<span class="sd">    - `_get_band_table`: Generates a table of frequency bands for logarithmically</span>
+<span class="sd">      spaced divisions with optional linear spacing at lower frequencies.</span>
+<span class="sd">    - `_band_power_spectral_density_v3`: Pre-computes bin indices and weights for band averaging.</span>
+<span class="sd">    - `_band_mean_power_spectral_density_v2`: Computes the mean power spectral density</span>
+<span class="sd">      within specified bands.</span>
+<span class="sd">    - `_convert_to_band_spectral_density`: Generic function to convert spectral density</span>
+<span class="sd">      to custom banded spectral densities.</span>
+<span class="sd">    - `convert_to_millidecade`, `convert_to_decidecade`, `convert_to_third_octave`:</span>
+<span class="sd">      Convenience functions to convert spectral density to millidecade, decidecade,</span>
+<span class="sd">      and third-octave banded spectral densities, respectively.</span>
+<span class="sd">    - `convert_to_custom_bands`: Convert spectral density to custom band spacing with</span>
+<span class="sd">      user-specified parameters.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mhkit.dolfyn</span><span class="w"> </span><span class="kn">import</span> <span class="n">VelBinner</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_numeric</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a numeric type (int or float).&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fmax_warning</span><span class="p">(</span>
+    <span class="n">fn</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">fmax</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks that the maximum frequency limit isn&#39;t greater than the Nyquist frequency.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fn: int, float, or numpy.ndarray</span>
+<span class="sd">        The Nyquist frequency in Hz.</span>
+<span class="sd">    fmax: float</span>
+<span class="sd">        The maximum frequency limit in Hz.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fmax: float</span>
+<span class="sd">        The adjusted maximum frequency limit, ensuring it does not exceed the Nyquist frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">fmax</span> <span class="o">&gt;</span> <span class="n">fn</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;`fmax` = </span><span class="si">{</span><span class="n">fmax</span><span class="si">}</span><span class="s2"> is greater than the Nyquist frequency. Setting&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;fmax = </span><span class="si">{</span><span class="n">fn</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">fmax</span> <span class="o">=</span> <span class="n">fn</span>
+
+    <span class="k">return</span> <span class="n">fmax</span>
+
+
+<div class="viewcode-block" id="create_frequency_bands">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.create_frequency_bands">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_frequency_bands</span><span class="p">(</span><span class="n">octave</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates frequency bands based on the specified octave, minimum and</span>
+<span class="sd">    maximum frequency limits.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    octave: int</span>
+<span class="sd">        Octave to subdivide spectral density level by.</span>
+<span class="sd">    base : int, optional</span>
+<span class="sd">        Octave base. Set to 2 for the true octave band; set to base 10 for</span>
+<span class="sd">        the decidecade octave band. Default: 2</span>
+<span class="sd">    fmin : int, optional</span>
+<span class="sd">        Lower frequency band limit (lower limit of the hydrophone). Default is 10 Hz.</span>
+<span class="sd">    fmax : int, optional</span>
+<span class="sd">        Upper frequency band limit (Nyquist frequency). Default is 100,000 Hz.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    octave_bins: numpy.array</span>
+<span class="sd">        Array of octave bin edges</span>
+<span class="sd">    band: dict(str, numpy.array)</span>
+<span class="sd">        Dictionary containing the frequency band edges and center frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">base</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">octave</span><span class="p">)</span>
+    <span class="n">half_bandwidth</span> <span class="o">=</span> <span class="n">base</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">octave</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">band</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">band</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">fmin</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">fmax</span><span class="p">),</span>
+        <span class="n">step</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">bandwidth</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">band</span><span class="p">[</span><span class="s2">&quot;lower_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">half_bandwidth</span>
+    <span class="n">band</span><span class="p">[</span><span class="s2">&quot;upper_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">half_bandwidth</span>
+    <span class="n">octave_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">band</span><span class="p">[</span><span class="s2">&quot;lower_limit&quot;</span><span class="p">],</span> <span class="n">band</span><span class="p">[</span><span class="s2">&quot;upper_limit&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">octave_bins</span><span class="p">,</span> <span class="n">band</span></div>
+
+
+
+<div class="viewcode-block" id="minimum_frequency">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.minimum_frequency">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">minimum_frequency</span><span class="p">(</span>
+    <span class="n">water_depth</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
+    <span class="n">c</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span>
+    <span class="n">c_seabed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1700</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the shallow water cutoff frequency based on the speed of</span>
+<span class="sd">    sound in the water column and the speed of sound in the seabed</span>
+<span class="sd">    material (generally ranges from 1450 - 1800 m/s)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    water_depth: int, float or array-like</span>
+<span class="sd">        Depth of the water column in meters.</span>
+<span class="sd">    c: float, optional</span>
+<span class="sd">        Speed of sound in the water column in meters per second. Default is 1500 m/s.</span>
+<span class="sd">    c_seabed: float, optional</span>
+<span class="sd">        Speed of sound in the seabed material in meters per second. Default is 1700 m/s.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    f_min: float or numpy.ndarray</span>
+<span class="sd">        The minimum cutoff frequency in Hz.</span>
+
+<span class="sd">    Reference</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Jennings 2011 - Computational Ocean Acoustics, 2nd ed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert water_depth to a NumPy array for vectorized operations</span>
+    <span class="n">water_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">water_depth</span><span class="p">)</span>
+
+    <span class="c1"># Validate water_depth</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">water_depth</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;water_depth&#39; must be a numeric type or array of numerics.&quot;</span><span class="p">)</span>
+
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">c_seabed</span><span class="p">,</span> <span class="s2">&quot;c_seabed&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">water_depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All elements of &#39;water_depth&#39; must be positive numbers.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;c&#39; must be a positive number.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c_seabed</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;c_seabed&#39; must be a positive number.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c_seabed</span> <span class="o">&lt;=</span> <span class="n">c</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;c_seabed&#39; must be greater than &#39;c&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="n">fmin</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">water_depth</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span> <span class="o">/</span> <span class="n">c_seabed</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">fmin</span></div>
+
+
+
+<div class="viewcode-block" id="sound_pressure_spectral_density">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.sound_pressure_spectral_density">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sound_pressure_spectral_density</span><span class="p">(</span>
+    <span class="n">pressure</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">fs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">bin_length</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">fft_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pct_overlap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the sound pressure spectral density (SPSD) from audio</span>
+<span class="sd">    samples split into FFTs with a specified bin length in seconds,</span>
+<span class="sd">    using Hanning windowing with 50% overlap. Uses Welch&#39;s method to</span>
+<span class="sd">    average overlapping FFT windows within each bin.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pressure: xarray.DataArray (time)</span>
+<span class="sd">        Sound pressure in [Pa] or voltage [V]</span>
+<span class="sd">    fs: int or float</span>
+<span class="sd">        Data collection sampling rate [Hz]</span>
+<span class="sd">    bin_length: int or float</span>
+<span class="sd">        Length of time in seconds to create FFTs. Default: 1.</span>
+<span class="sd">    fft_length: int or float, optional</span>
+<span class="sd">        Length of FFT to use. If None, uses bin_length * fs. Default: None.</span>
+<span class="sd">    pct_overlap: float</span>
+<span class="sd">        Percentage of overlap between FFT segments. Default: 0.5 (50%).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spsd: xarray.DataArray (time_psd, freq)</span>
+<span class="sd">        Spectral density [Pa^2/Hz] or [V^2/Hz] indexed by time and frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Type checks</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pressure</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;pressure&#39; must be an xarray.DataArray.&quot;</span><span class="p">)</span>
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="s2">&quot;fs&quot;</span><span class="p">)</span>
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">bin_length</span><span class="p">,</span> <span class="s2">&quot;bin_length&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Ensure that &#39;pressure&#39; has a &#39;time&#39; coordinate</span>
+    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pressure</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;pressure&#39; must be indexed by &#39;time&#39; dimension.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># window length of each time series</span>
+    <span class="n">nbin</span> <span class="o">=</span> <span class="n">bin_length</span> <span class="o">*</span> <span class="n">fs</span>
+    <span class="k">if</span> <span class="n">fft_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_check_numeric</span><span class="p">(</span><span class="n">fft_length</span><span class="p">,</span> <span class="s2">&quot;fft_length&quot;</span><span class="p">)</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="n">fft_length</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nfft</span> <span class="o">=</span> <span class="n">nbin</span>
+
+    <span class="c1"># Use dolfyn PSD functionality</span>
+    <span class="n">binner</span> <span class="o">=</span> <span class="n">VelBinner</span><span class="p">(</span><span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span> <span class="n">n_bin</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">nfft</span><span class="p">)</span>
+    <span class="c1"># Sound pressure spectral densities with 50% overlap between FFT windows</span>
+    <span class="n">psd</span> <span class="o">=</span> <span class="n">binner</span><span class="o">.</span><span class="n">power_spectral_density</span><span class="p">(</span>
+        <span class="n">pressure</span><span class="p">,</span> <span class="n">freq_units</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hann&quot;</span><span class="p">,</span> <span class="n">pct_overlap</span><span class="o">=</span><span class="n">pct_overlap</span>
+    <span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">psd</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time_psd&quot;</span><span class="p">:</span> <span class="n">psd</span><span class="p">[</span><span class="s2">&quot;time_psd&quot;</span><span class="p">],</span> <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="n">psd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">pressure</span><span class="o">.</span><span class="n">units</span> <span class="o">+</span> <span class="s2">&quot;^2/Hz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Mean Square Sound Pressure Spectral Density&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fs&quot;</span><span class="p">:</span> <span class="n">fs</span><span class="p">,</span>
+            <span class="s2">&quot;bin_length&quot;</span><span class="p">:</span> <span class="n">bin_length</span><span class="p">,</span>
+            <span class="s2">&quot;overlap&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pct_overlap</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_fft&quot;</span><span class="p">:</span> <span class="n">nfft</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="apply_calibration">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.apply_calibration">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_calibration</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">sensitivity_curve</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">interp_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies custom calibration to spectral density values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xarray.DataArray (time_psd, freq)</span>
+<span class="sd">        Mean square sound pressure spectral density in V^2/Hz.</span>
+<span class="sd">    sensitivity_curve: xarray.DataArray (freq)</span>
+<span class="sd">        Calibrated sensitivity curve in units of dB rel 1 V^2/uPa^2.</span>
+<span class="sd">        First column should be frequency, second column should be calibration values.</span>
+<span class="sd">    fill_value: float or int</span>
+<span class="sd">        Value with which to fill missing values from the calibration curve,</span>
+<span class="sd">        in units of dB rel 1 V^2/uPa^2.</span>
+<span class="sd">    interp_method: str</span>
+<span class="sd">        Interpolation method to use when interpolating the calibration curve</span>
+<span class="sd">        to the frequencies in &#39;spsd&#39;. Default is &#39;linear&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spsd_calibrated: xarray.DataArray (time, freq)</span>
+<span class="sd">        Spectral density in Pa^2/Hz, indexed by time and frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spsd</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;spsd&#39; must be an xarray.DataArray.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sensitivity_curve</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;sensitivity_curve&#39; must be an xarray.DataArray.&quot;</span><span class="p">)</span>
+    <span class="n">_check_numeric</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="s2">&quot;fill_value&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Ensure &#39;freq&#39; dimension exists in &#39;spsd&#39;</span>
+    <span class="k">if</span> <span class="s2">&quot;freq&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Issue a warning and assign the 2nd dimension as &#39;freq&#39;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;spsd&#39; does not have &#39;freq&#39; as a dimension and has multiple dimensions. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Using the second dimension &#39;</span><span class="si">{</span><span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; as &#39;freq&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># Assign the 2nd dimension as &#39;freq&#39;</span>
+        <span class="n">spsd</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="s2">&quot;freq&quot;</span><span class="p">})</span>
+
+    <span class="c1"># Ensure &#39;freq&#39; dimension exists in &#39;sensitivity_curve&#39;</span>
+    <span class="k">if</span> <span class="s2">&quot;freq&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Issue a warning and assign the 1st dimension as &#39;freq&#39;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;sensitivity_curve&#39; does not have &#39;freq&#39; as a dimension </span><span class="se">\</span>
+<span class="s2">                      and has multiple dimensions. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Using the first dimension &#39;</span><span class="si">{</span><span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; as &#39;freq&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># Assign the 0th dimension as &#39;freq&#39;</span>
+        <span class="n">sensitivity_curve</span> <span class="o">=</span> <span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="s2">&quot;freq&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Create a copy of spsd to avoid in-place modification</span>
+    <span class="n">spsd_calibrated</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span>  <span class="c1"># recover attrs</span>
+
+    <span class="c1"># Read calibration curve</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Interpolate calibration curve to desired value</span>
+    <span class="n">calibration</span> <span class="o">=</span> <span class="n">sensitivity_curve</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
+        <span class="p">{</span><span class="n">freq</span><span class="p">:</span> <span class="n">spsd_calibrated</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]},</span> <span class="n">method</span><span class="o">=</span><span class="n">interp_method</span>
+    <span class="p">)</span>
+    <span class="c1"># Fill missing with provided value</span>
+    <span class="n">calibration</span> <span class="o">=</span> <span class="n">calibration</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">fill_value</span><span class="p">)</span>
+
+    <span class="c1"># Subtract from sound pressure spectral density</span>
+    <span class="n">sensitivity_ratio</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">calibration</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># V^2/uPa^2</span>
+    <span class="n">spsd_calibrated</span> <span class="o">=</span> <span class="n">spsd_calibrated</span> <span class="o">/</span> <span class="n">sensitivity_ratio</span> <span class="o">/</span> <span class="mf">1e12</span>  <span class="c1"># Pa^2/Hz</span>
+    <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Calibrated Sound Pressure Spectral Density&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;Pa^2/Hz&quot;</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">spsd_calibrated</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
+
+    <span class="k">return</span> <span class="n">spsd_calibrated</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_band_table</span><span class="p">(</span>
+    <span class="n">freq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">bands_per_division</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">base</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">use_fft_res_at_bottom</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a three column array with the start, center, stop frequencies for</span>
+<span class="sd">    logarithmically spaced frequency bands such as millidecades, decidecades,</span>
+<span class="sd">    or third octaves base 2. These tables are passed to</span>
+<span class="sd">    `band_squared_sound_pressure` to convert square spectra to band</span>
+<span class="sd">    levels. The squared pressure can be converted to power spectral</span>
+<span class="sd">    density by dividing by the band_widths.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    freq : np.ndarray</span>
+<span class="sd">        Array of frequency values in Hz from the FFT.</span>
+<span class="sd">    bands_per_division : int</span>
+<span class="sd">        The number of bands to divide the spectrum into per increase by</span>
+<span class="sd">        a factor of &#39;base&#39;. A base of 2 and bands_per_division of 3</span>
+<span class="sd">        results in third octaves base 2. Base 10 and bands_per_division</span>
+<span class="sd">        of 1000 results in millidecades.</span>
+<span class="sd">    base : int</span>
+<span class="sd">        Base for the band levels, generally 10 or 2.</span>
+<span class="sd">    use_fft_res_at_bottom : bool</span>
+<span class="sd">        In some cases, like millidecades, we do not want to have</span>
+<span class="sd">        logarithmically spaced frequency bands across the full spectrum.</span>
+<span class="sd">        When True, bands at lower frequencies use linear spacing (equal</span>
+<span class="sd">        to the FFT bin size), and transition to log spacing at the band</span>
+<span class="sd">        where the bandwidth exceeds the FFT bin size and the frequency</span>
+<span class="sd">        space between band center frequencies is at least the FFT bin size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bands : np.ndarray</span>
+<span class="sd">        Three column array where column 1 is the lowest frequency of the</span>
+<span class="sd">        band, column 2 is the center frequency, and column 3 is the highest</span>
+<span class="sd">        frequency.</span>
+
+<span class="sd">    Originally created by Bruce Martin, JASCO Applied Sciences, Feb 2020:</span>
+
+<span class="sd">    Martin, S. Bruce, et al. &quot;Hybrid millidecade spectra: A practical format</span>
+<span class="sd">        for exchange of long-term ambient sound data.&quot; JASA Express Letters</span>
+<span class="sd">        1.1 (2021).</span>
+
+<span class="sd">    Converted to Python and refactored by MHKiT Team, June 2026.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">band_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">linear_bin_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">log_bin_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_linear_bin_hz</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">fft_bin_size</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bin1_center_freq</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">max_freq</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Generate the log-spaced bands</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">band_dict</span> <span class="o">=</span> <span class="n">create_frequency_bands</span><span class="p">(</span>
+        <span class="n">octave</span><span class="o">=</span><span class="n">bands_per_division</span><span class="p">,</span>
+        <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+        <span class="n">fmin</span><span class="o">=</span><span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">fmax</span><span class="o">=</span><span class="n">freq</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="c1"># For millidecades and similar</span>
+    <span class="k">if</span> <span class="n">use_fft_res_at_bottom</span><span class="p">:</span>
+        <span class="c1"># Find the first band where the bandwidth is greater than the FFT bin size</span>
+        <span class="c1"># and the frequency space between band center frequencies is at least the FFT bin size</span>
+        <span class="n">band_count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">fft_bin_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">center_freq</span> <span class="o">=</span> <span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">][</span><span class="n">band_count</span><span class="p">]</span>
+
+        <span class="c1"># Now keep counting until the difference between the log spaced</span>
+        <span class="c1"># center frequency and new frequency is greater than .025</span>
+        <span class="n">max_linear_bin_hz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">center_freq</span> <span class="o">/</span> <span class="n">fft_bin_size</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">max_linear_bin_hz</span> <span class="o">*</span> <span class="n">fft_bin_size</span> <span class="o">-</span> <span class="n">center_freq</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">band_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">max_linear_bin_hz</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">center_freq</span> <span class="o">=</span> <span class="n">bin1_center_freq</span> <span class="o">*</span> <span class="n">base</span> <span class="o">**</span> <span class="p">(</span><span class="n">band_count</span> <span class="o">/</span> <span class="n">bands_per_division</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">fft_bin_size</span> <span class="o">*</span> <span class="n">max_linear_bin_hz</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_freq</span><span class="p">:</span>
+            <span class="n">max_linear_bin_hz</span> <span class="o">=</span> <span class="n">max_freq</span> <span class="o">/</span> <span class="n">fft_bin_size</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">linear_bin_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_linear_bin_hz</span> <span class="o">/</span> <span class="n">fft_bin_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Count the log space frequencies</span>
+    <span class="n">log_bin_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">band_count</span><span class="p">,</span> <span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Generate the linear frequencies</span>
+    <span class="n">bands</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(((</span><span class="n">linear_bin_count</span> <span class="o">+</span> <span class="n">log_bin_count</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">linear_bin_count</span><span class="p">:</span>
+        <span class="n">bands</span><span class="p">[:</span><span class="n">linear_bin_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linear_bin_count</span> <span class="o">*</span> <span class="n">fft_bin_size</span><span class="p">,</span> <span class="n">fft_bin_size</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">bin1_center_freq</span>
+        <span class="p">)</span>
+        <span class="n">bands</span><span class="p">[:</span><span class="n">linear_bin_count</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="o">-</span><span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">linear_bin_count</span> <span class="o">*</span> <span class="n">fft_bin_size</span> <span class="o">-</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">fft_bin_size</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="n">bin1_center_freq</span>
+        <span class="p">)</span>
+        <span class="n">bands</span><span class="p">[:</span><span class="n">linear_bin_count</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">linear_bin_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fft_bin_size</span> <span class="o">-</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">fft_bin_size</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="n">bin1_center_freq</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Trim log spaced bands to start the first band after the linear bands if they exist</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_linear_bin_hz</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bands</span><span class="p">[</span><span class="n">linear_bin_count</span><span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;center_freq&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">bands</span><span class="p">[</span><span class="n">linear_bin_count</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;lower_limit&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">bands</span><span class="p">[</span><span class="n">linear_bin_count</span><span class="p">:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">band_dict</span><span class="p">[</span><span class="s2">&quot;upper_limit&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">log_bin_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">bands</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_freq</span>
+
+    <span class="k">return</span> <span class="n">bands</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_band_power_spectral_density_v3</span><span class="p">(</span><span class="n">freq_fft</span><span class="p">,</span> <span class="n">freq_table</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sums squared sound pressures to determine in-band totals.</span>
+<span class="sd">    The band edges are normally obtained from a call to ``get_band_table``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    freq_fft : np.ndarray</span>
+<span class="sd">        1D array of center frequencies produced by the FFT call [Hz].</span>
+<span class="sd">    freq_table : np.ndarray</span>
+<span class="sd">        Nx3 array of band edges where column 0 is the lower limit [Hz],</span>
+<span class="sd">        column 1 is the center frequency [Hz], and column 2 is the upper</span>
+<span class="sd">        limit [Hz].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    full_pts : dict</span>
+<span class="sd">        Dictionary where keys are band indices and values are arrays of FFT bin</span>
+<span class="sd">        indices that fall fully within the band.</span>
+<span class="sd">    partial_pts : dict</span>
+<span class="sd">        Dictionary where keys are band indices and values are arrays of FFT bin</span>
+<span class="sd">        indices that partially overlap the band.</span>
+<span class="sd">    weights : dict</span>
+<span class="sd">        Dictionary where keys are band indices and values are arrays of weights</span>
+<span class="sd">        for the partial bins, proportional to the fraction of the bin that falls</span>
+<span class="sd">        within the band.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Full bins (entirely within a band) are summed</span>
+<span class="sd">    directly; partial bins (overlapping a band edge) are weighted</span>
+<span class="sd">    proportionally to the fraction of the bin that falls within the band.</span>
+<span class="sd">    The result is then divided by each band&#39;s bandwidth to return mean PSD.</span>
+
+<span class="sd">    Original code by Bruce Martin, JASCO Applied Sciences, Feb 2020:</span>
+
+<span class="sd">    Martin, S. Bruce, et al. &quot;Hybrid millidecade spectra: A practical format</span>
+<span class="sd">        for exchange of long-term ambient sound data.&quot; JASA Express Letters</span>
+<span class="sd">        1.1 (2021).</span>
+
+<span class="sd">    Updated to use FFT-generated frequencies as input to handle time-resolved</span>
+<span class="sd">    spectral processing with a fundamental FFT frequency of 10 Hz by</span>
+<span class="sd">    Brian Polayge, University of Washington, 2025.</span>
+
+<span class="sd">    Converted to Python.</span>
+<span class="sd">    Split into two functions to pre-compute bin indices and weights in</span>
+<span class="sd">    ``_band_power_spectral_density_v3``, then compute band averaged PSD</span>
+<span class="sd">    in ``band_mean_power_spectral_density_v2``.</span>
+<span class="sd">    MHKiT Team, June 2026.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fft_bin_size</span> <span class="o">=</span> <span class="n">freq_fft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">freq_fft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Pre-compute full and partial bin indices for each band.</span>
+    <span class="c1"># This is band-invariant across time windows, so it is done once.</span>
+    <span class="n">full_pts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">partial_pts</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">freq_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">f_lo</span> <span class="o">=</span> <span class="n">freq_table</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">f_hi</span> <span class="o">=</span> <span class="n">freq_table</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># FFT bins whose extent falls entirely within the frequency band</span>
+        <span class="n">full_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">freq_fft</span> <span class="o">-</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">f_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span>
+            <span class="n">freq_fft</span> <span class="o">+</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">f_hi</span>
+        <span class="p">)</span>
+        <span class="n">full_pts</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">full_mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># FFT bins that overlap the frequency band at all (full or partial)</span>
+        <span class="n">overlap_mask</span> <span class="o">=</span> <span class="p">((</span><span class="n">freq_fft</span> <span class="o">&gt;=</span> <span class="n">f_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">freq_fft</span> <span class="o">&lt;=</span> <span class="n">f_hi</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">freq_fft</span> <span class="o">+</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="n">f_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">freq_fft</span> <span class="o">-</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">f_hi</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Partial bins = overlapping minus fully-contained</span>
+        <span class="n">partial_pts</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">overlap_mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">full_pts</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+    <span class="c1"># Compute fractional weights for partial bins</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">freq_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">partial_pts</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">partial_pts</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+            <span class="n">bin_lo</span> <span class="o">=</span> <span class="n">freq_fft</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">bin_hi</span> <span class="o">=</span> <span class="n">freq_fft</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">fft_bin_size</span> <span class="o">/</span> <span class="mi">2</span>
+
+            <span class="k">if</span> <span class="n">bin_lo</span> <span class="o">&lt;</span> <span class="n">freq_table</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+                <span class="c1"># Bin extends below the band&#39;s lower edge</span>
+                <span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">fft_bin_size</span> <span class="o">-</span> <span class="p">(</span><span class="n">freq_table</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">bin_lo</span><span class="p">)</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">fft_bin_size</span>
+
+            <span class="k">elif</span> <span class="n">bin_hi</span> <span class="o">&gt;</span> <span class="n">freq_table</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+                <span class="c1"># Bin extends above the band&#39;s upper edge</span>
+                <span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">fft_bin_size</span> <span class="o">-</span> <span class="p">(</span><span class="n">bin_hi</span> <span class="o">-</span> <span class="n">freq_table</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">fft_bin_size</span>
+
+    <span class="k">return</span> <span class="n">full_pts</span><span class="p">,</span> <span class="n">partial_pts</span><span class="p">,</span> <span class="n">weights</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_band_mean_power_spectral_density_v2</span><span class="p">(</span>
+    <span class="n">input_spsd</span><span class="p">,</span> <span class="n">freq_table</span><span class="p">,</span> <span class="n">full_pts</span><span class="p">,</span> <span class="n">partial_pts</span><span class="p">,</span> <span class="n">weights</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sums squared sound pressures to determine in-band totals, then divides by</span>
+<span class="sd">    the band widths to return mean power spectral density.</span>
+<span class="sd">    The band edges are normally obtained from a call to ``get_band_table`` and</span>
+<span class="sd">    the full and partial bin indices and weights are obtained from a call to</span>
+<span class="sd">    ``band_power_spectral_density_v3``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_spsd : np.ndarray</span>
+<span class="sd">        2D array of sound pressure spectral density values with dimensions (time, freq).</span>
+<span class="sd">    freq_table : np.ndarray</span>
+<span class="sd">        Nx3 array of band edges where column 0 is the lower limit [Hz],</span>
+<span class="sd">        column 1 is the center frequency [Hz], and column 2 is the upper</span>
+<span class="sd">        limit [Hz].</span>
+<span class="sd">    full_pts : dict</span>
+<span class="sd">        Dictionary where keys are band indices and values are arrays of FFT bin</span>
+<span class="sd">        indices that fall fully within the band.</span>
+<span class="sd">    partial_pts : dict</span>
+<span class="sd">        Dictionary where keys are band indices and values are arrays of FFT bin</span>
+<span class="sd">        indices that partially overlap the band.</span>
+<span class="sd">    weights : dict</span>
+<span class="sd">        Dictionary where keys are band indices and values are arrays of weights</span>
+<span class="sd">        for the partial bins, proportional to the fraction of the bin that falls</span>
+<span class="sd">        within the band.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out_spsd : np.ndarray</span>
+<span class="sd">        2D array of band-averaged sound pressure spectral density values with dimensions</span>
+<span class="sd">        (time, band), where &#39;band&#39; corresponds to the center frequencies in &#39;freq_table&#39;.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Full bins (entirely within a band) are summed</span>
+<span class="sd">    directly; partial bins (overlapping a band edge) are weighted</span>
+<span class="sd">    proportionally to the fraction of the bin that falls within the band.</span>
+<span class="sd">    The result is then divided by each band&#39;s bandwidth to return mean PSD.</span>
+
+<span class="sd">    Original code by Bruce Martin, JASCO Applied Sciences, Feb 2020:</span>
+
+<span class="sd">    Martin, S. Bruce, et al. &quot;Hybrid millidecade spectra: A practical format</span>
+<span class="sd">        for exchange of long-term ambient sound data.&quot; JASA Express Letters</span>
+<span class="sd">        1.1 (2021).</span>
+
+<span class="sd">    Updated to use FFT-generated frequencies as input to handle time-resolved</span>
+<span class="sd">    spectral processing with a fundamental FFT frequency of 10 Hz by</span>
+<span class="sd">    Brian Polayge, University of Washington, 2025.</span>
+
+<span class="sd">    Converted to Python.</span>
+<span class="sd">    Split into two functions to pre-compute bin indices and weights in</span>
+<span class="sd">    ``_band_power_spectral_density_v3``, then compute band averaged PSD</span>
+<span class="sd">    in ``band_mean_power_spectral_density_v2``.</span>
+<span class="sd">    MHKiT Team, June 2026.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fft_bin_size</span> <span class="o">=</span> <span class="n">input_spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">input_spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">input_spsd</span> <span class="o">=</span> <span class="n">input_spsd</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">out_spsd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">input_spsd</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">freq_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="c1"># Accumulate band-squared pressure; vectorised over the time (row) axis</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">freq_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="c1"># Contribution from fully-contained FFT bins</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">full_pts</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out_spsd</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">input_spsd</span><span class="p">[:,</span> <span class="n">full_pts</span><span class="p">[</span><span class="n">j</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">fft_bin_size</span>
+
+        <span class="c1"># Contribution from partial FFT bins</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">partial_pts</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out_spsd</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">input_spsd</span><span class="p">[:,</span> <span class="n">partial_pts</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">*</span> <span class="n">weights</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+                <span class="p">)</span>
+                <span class="o">*</span> <span class="n">fft_bin_size</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Take means</span>
+    <span class="n">band_widths</span> <span class="o">=</span> <span class="n">freq_table</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">freq_table</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">out_spsd</span> <span class="o">/=</span> <span class="n">band_widths</span>
+
+    <span class="k">return</span> <span class="n">out_spsd</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_convert_to_band_spectral_density</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">bands_per_division</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_fft_res_at_bottom</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert sound pressure spectral density to banded spectral density based on</span>
+<span class="sd">    the specified base and bands per division.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd: xr.DataArray</span>
+<span class="sd">        DataArray with frequency dimension.</span>
+<span class="sd">    bands_per_division: int</span>
+<span class="sd">        The number of bands to divide the spectrum into per increase by a factor</span>
+<span class="sd">        of &#39;base&#39;. A base of 2 and &quot;bands_per_division&quot; of 3 results in third</span>
+<span class="sd">        octaves base 2. Base 10 and &quot;bands_per_division&quot; of 1000 results in</span>
+<span class="sd">        millidecades.</span>
+<span class="sd">    base: int</span>
+<span class="sd">        Base for the band levels, generally 10 or 2.</span>
+<span class="sd">    use_fft_res_at_bottom: bool</span>
+<span class="sd">        In some cases, like millidecades, we do not want to have logarithmically</span>
+<span class="sd">        spaced frequency bands across the full spectrum, instead we have the option</span>
+<span class="sd">        to have bands that are equal &#39;fft_bin_size&#39;. The switch to log spacing is</span>
+<span class="sd">        made at the band that has a bandwidth greater than &#39;fft_bin_size&#39; and such</span>
+<span class="sd">        that the frequency space between band center frequencies is at least</span>
+<span class="sd">        &#39;fft_bin_size&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.DataArray</span>
+<span class="sd">        DataArray with frequency dimension converted to banded spectral density.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get bands</span>
+    <span class="n">bands</span> <span class="o">=</span> <span class="n">_get_band_table</span><span class="p">(</span>
+        <span class="n">freq</span><span class="o">=</span><span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">bands_per_division</span><span class="o">=</span><span class="n">bands_per_division</span><span class="p">,</span>
+        <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+        <span class="n">use_fft_res_at_bottom</span><span class="o">=</span><span class="n">use_fft_res_at_bottom</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">full_pts</span><span class="p">,</span> <span class="n">partial_pts</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">_band_power_spectral_density_v3</span><span class="p">(</span>
+        <span class="n">freq_fft</span><span class="o">=</span><span class="n">spsd</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">freq_table</span><span class="o">=</span><span class="n">bands</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">band_spsd</span> <span class="o">=</span> <span class="n">_band_mean_power_spectral_density_v2</span><span class="p">(</span>
+        <span class="n">input_spsd</span><span class="o">=</span><span class="n">spsd</span><span class="p">,</span>
+        <span class="n">freq_table</span><span class="o">=</span><span class="n">bands</span><span class="p">,</span>
+        <span class="n">full_pts</span><span class="o">=</span><span class="n">full_pts</span><span class="p">,</span>
+        <span class="n">partial_pts</span><span class="o">=</span><span class="n">partial_pts</span><span class="p">,</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">time_dim</span> <span class="o">=</span> <span class="n">spsd</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">band_spsd</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="n">time_dim</span><span class="p">:</span> <span class="n">spsd</span><span class="p">[</span><span class="n">time_dim</span><span class="p">],</span> <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="n">bands</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]},</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="n">time_dim</span><span class="p">,</span> <span class="s2">&quot;freq&quot;</span><span class="p">],</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="n">spsd</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<div class="viewcode-block" id="convert_to_millidecade">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.convert_to_millidecade">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_millidecade</span><span class="p">(</span><span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert sound pressure spectral density to millidecade spacing.&quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">_convert_to_band_spectral_density</span><span class="p">(</span>
+        <span class="n">spsd</span><span class="o">=</span><span class="n">spsd</span><span class="p">,</span> <span class="n">bands_per_division</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">use_fft_res_at_bottom</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="convert_to_third_octave">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.convert_to_third_octave">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_third_octave</span><span class="p">(</span><span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert sound pressure spectral density to third octave spacing.&quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">_convert_to_band_spectral_density</span><span class="p">(</span>
+        <span class="n">spsd</span><span class="o">=</span><span class="n">spsd</span><span class="p">,</span> <span class="n">bands_per_division</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">use_fft_res_at_bottom</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="convert_to_decidecade">
+<a class="viewcode-back" href="../../../mhkit-python/api.acoustics.html#mhkit.acoustics.convert_to_decidecade">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_decidecade</span><span class="p">(</span><span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert sound pressure spectral density to decidecade spacing.&quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">_convert_to_band_spectral_density</span><span class="p">(</span>
+        <span class="n">spsd</span><span class="o">=</span><span class="n">spsd</span><span class="p">,</span> <span class="n">bands_per_division</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">use_fft_res_at_bottom</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_custom_bands</span><span class="p">(</span>
+    <span class="n">spsd</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">bands_per_division</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">base</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">use_fft_res_at_bottom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert sound pressure spectral density to custom band spacing based on specified</span>
+<span class="sd">    parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spsd (xr.DataArray): DataArray with frequency dimension.</span>
+<span class="sd">    bands_per_division (int): The number of bands to divide the spectrum into</span>
+<span class="sd">        per increase by a factor of &#39;base&#39;. A base of 2 and</span>
+<span class="sd">        &quot;bands_per_division&quot; of 3 results in third octaves. Base 10</span>
+<span class="sd">        and &quot;bands_per_division&quot; of 1000 results in millidecades.</span>
+<span class="sd">    base (int): Base for the band levels, generally 10 or 2.</span>
+<span class="sd">    use_fft_res_at_bottom (bool): In some cases, like millidecades, we do not want</span>
+<span class="sd">        to have logarithmically spaced frequency bands across the full</span>
+<span class="sd">        spectrum, instead we have the option to have bands that are equal</span>
+<span class="sd">        &#39;fft_bin_size&#39;. The switch to log spacing is made at the band that</span>
+<span class="sd">        has a bandwidth greater than &#39;fft_bin_size&#39; and such that the</span>
+<span class="sd">        frequency space between band center frequencies is at least</span>
+<span class="sd">        &#39;fft_bin_size&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.DataArray: DataArray with frequency dimension converted to custom banded spectral</span>
+<span class="sd">        density.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">_convert_to_band_spectral_density</span><span class="p">(</span>
+        <span class="n">spsd</span><span class="o">=</span><span class="n">spsd</span><span class="p">,</span>
+        <span class="n">bands_per_division</span><span class="o">=</span><span class="n">bands_per_division</span><span class="p">,</span>
+        <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+        <span class="n">use_fft_res_at_bottom</span><span class="o">=</span><span class="n">use_fft_res_at_bottom</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, National Laboratory of the Rockies, Pacific Northwest National Laboratory, and Sandia National Laboratories.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
